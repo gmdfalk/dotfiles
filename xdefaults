@@ -1,0 +1,186 @@
+! file: ~/.Xdefaults
+! vim:  nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
+!-------------------------------------------------------------------------------
+! {{{ XFT settings
+!Xft.dpi:       96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintsfull
+Xft.autohint:   0
+Xft.lcdfilter:  lcddefault
+! }}}
+!-------------------------------------------------------------------------------
+! {{{ urxvt
+!*URxvt.imLocale:           en_GB.UTF-8
+*URxvt.font:                xft:DejaVu Sans Mono:pixelsize=10
+*URxvt.geometry:            60x26
+*URxvt.saveLines:           40000
+*URxvt.externalBorder:      0
+*URxvt.internalBorder:      0
+*URxvt.cutchars:            '`",;@&*=|?()<>[]{}'
+
+*URxvt.mouseWheelScrollPage: false
+!*URxvt.secondaryScroll:    true
+*URxvt.scrollTtyKeypress:   true
+*URxvt.scrollWithBuffer:    false
+*URxvt.scrollTtyOutput:     false
+*URxvt.scrollBar:           false
+!*URxvt.scrollstyle:        plain
+!*URxvt.scrollBar_right:    true
+!*URxvt.scrollColor:        #666666
+*URxvt.foreground:          white
+*URxvt.cursorColor:         grey
+*URxvt.highlightColor:      #a6e22e
+*URxvt.highlightTextColor:  black
+*URxvt.cursorColor2:        black
+*URxvt.cursorBlink:         false
+*URxvt.perl-lib:            /mnt/share/Dropbox/linux/lib/urxvt-perl/
+
+*URxvt.perl-ext-common:     default,matcher,osc-xterm-clipboard
+*URxvt.keysym.C-x:          perl:clipboard:copy
+*URxvt.keysym.C-v:          perl:clipboard:paste
+*URxvt.matcher.button:      1
+!*URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]\\.[\\w./?&@#-]*[\\w/-]
+*URxvt.url-launcher:        firefox
+
+! }}}
+!-------------------------------------------------------------------------------
+! {{{ urxvt_drop
+!urxvt_drop*inheritpixmap:  true
+urxvt_drop*depth:           32
+urxvt_drop*background:      rgba:0000/0000/0000/aaaa
+urxvt_drop*shading:         40
+!urxvt_drop*fading:         30
+
+!urxvt_drop_t*inheritpixmap: true
+urxvt_drop_t*depth:         32
+urxvt_drop_t*background:    rgba:0000/0000/0000/aaaa
+urxvt_drop_t*shading:       40
+!urxvt_drop_t*fading:       30
+
+!urxvt_drop_r*inheritpixmap: true
+urxvt_drop_r*depth:         32
+urxvt_drop_r*background:    rgba:0000/0000/0000/aaaa
+urxvt_drop_r*shading:       40
+!urxvt_drop_r*fading:       30
+! }}}
+! {{{ urxvt edit
+! }}}
+! {{{ urxvt term
+! }}}
+!-------------------------------------------------------------------------------
+! {{{ theme
+
+!Theme Twenty-Four
+!*background: [80]rgb:02/02/02
+!*foreground: rgb:C0/C0/C0
+!*color0:  rgb:00/00/00
+!*color1:  rgb:cd/5c/5c
+!*color2:  rgb:8e/ae/71
+!*color3:  rgb:d2/b4/8c
+!*color4:  rgb:5f/7b/8a
+!*color5:  rgb:cd/cd/b4
+!*color6:  rgb:68/68/68
+!*color7:  rgb:ff/ff/ff
+!*color8:  rgb:00/00/00
+!*color9:  rgb:ee/63/63
+!*color10: rgb:95/c7/49
+!*color11: rgb:cd/cd/c1
+!*color12: rgb:6b/7b/8a
+!*color13: rgb:cd/cd/b4
+!*color14: rgb:77/87/98
+!*color15: rgb:ca/ca/ca
+
+
+! redhalo
+! Defaults
+*background:             #262729
+*foreground:             #f8f8f2
+! Black
+*color0:                 #262729
+*color8:                 #554444
+! Red
+*color1:                 #f92671
+*color9:                 #ff669d
+! Green
+*color2:                 #a6e22e
+*color10:                #beed5f
+! Yellow
+*color3:                 #fd971f
+*color11:                #e6db74
+! Blue
+*color4:                 #34bdef
+*color12:                #66d9ef
+! Magenta
+*color5:                 #9e6ffe
+*color13:                #df92f6
+! Cyan
+*color6:                 #5e7175
+*color14:                #a3babf
+! White
+*color7:                 #ccccc6
+*color15:                #f8f8f2
+! Cursor
+*cursorColor:            #b5d2dd
+
+!Theme Two http://phraktured.net/terminal-colors/
+!*background: rgb:00/00/00
+!*foreground: rgb:7f/7f/7f
+!*color0:     rgb:00/00/00
+!*color1:     rgb:9e/18/28
+!*color2:     rgb:ae/ce/92
+!*color3:     rgb:96/8a/38
+!*color4:     rgb:41/41/71
+!*color5:     rgb:96/3c/59
+!*color6:     rgb:41/81/79
+!*color7:     rgb:be/be/be
+!*color8:     rgb:66/66/66
+!*color9:     rgb:cf/61/71
+!*color10:    rgb:c5/f7/79
+!*color11:    rgb:ff/f7/96
+!*color12:    rgb:41/86/be
+!*color13:    rgb:cf/9e/be
+!*color14:    rgb:71/be/be
+!*color15:    rgb:ff/ff/ff
+
+!*background: [85]#1a1a1a
+!*foreground: #acacab
+
+!*color0: #050505
+!*color1: #e9897c
+!*color2: #b6377d
+!*color3: #ecebbe
+!*color4: #a9cdeb
+!*color5: #75507b
+!*color6: #c9caec
+!*color7: #f2f2f2
+!*color8: #141414
+!*color9: #f99286
+!*color10: #c3f786
+!*color11: #fcfbcc
+!*color12: #b6defb
+!*color13: #ad7fa8
+!*color14: #d7d9fc
+!*color15: #e2e2e2
+! }}}
+!-------------------------------------------------------------------------------
+! {{{ xterm
+xterm*geometry:           65x25
+!xterm*font:               xft:monospace:pixelsize=11
+xterm*saveLines:          8192
+xterm*scrollTtyKeypress:  true
+xterm*scrollTtyOutput:    false
+xterm*scrollBar:          false
+xterm*toolBar:            false
+! }}}
+!-------------------------------------------------------------------------------
+! {{{ xpdf
+xpdf*enableFreetype: yes
+xpdf*antialias: yes
+xpdf*foreground: black
+xpdf*background: white
+xpdf*urlCommand: /usr/bin/firefox %s
+xpdf*viKeys: on
+! }}}
+!-------------------------------------------------------------------------------
