@@ -79,23 +79,61 @@ endif
 set scrolloff=3
 
 " Save a file as root (,W)
-let mapleader = ","
-let g:mapleader = ","
 map ,W :w !sudo tee % > /dev/null<CR>
 
-" Visual mode mappings
+" Since { doesn't work on german mac keyboard (move by paragraph), we remap it here"
+map ,j }
+map ,J })
+map ,k {
+map ,K {)
+
+" Repeat last command
+:noremap ,. @:<CR>
+
+" Text
 vmap <C-h> :xccmd shiftLeft<CR>gv
 vmap <C-l> :xccmd shiftRight<CR>gv
+nmap ,c :xccmd commentAndUncommentCurrentLines<CR>
+vmap ,c :xccmd commentAndUncommentCurrentLines<CR>gv
+" These two mappings are set in XCode directly as gv behaves strangely here
 "vmap <C-j> :xccmd moveCurrentLineDown<CR>gv
 "vmap <C-k> :xccmd moveCurrentLineUp<CR>gv
-"nmap 
+nmap ,fm :xccmd foldAllMethods<CR>
+nmap ,fM :xccmd unfoldAllMethods<CR>
+nmap ,fc :xccmd foldAllComments<CR>
+nmap ,fC :xccmd unfoldAllComments<CR>
+nmap ,ff :xccmd fold<CR>
+nmap ,fF :xccmd unfold<CR>
+nmap ,fa :xccmd unfoldAll<CR>
 
-" Normal mode mappings
-nmap gc :xccmd jumpToNextCounterpart<CR>
+" Refactoring
+nmap ,rr :xccmd refactorRename<CR>
+nmap ,rx :xccmd refactorExtract<CR>
+nmap ,re :xccmd refactorEncapsulate<CR>
+nmap ,rm :xccmd refactorMoveUp<CR>
+nmap ,rM :xccmd refactorMoveDown<CR>
+nmap ,rs :xccmd refactorCreateSuperclass<CR>
+
+" Navigation
+nmap gmd :xccmd showDocumentItemsMenu<CR>
+nmap gmh :xccmd showPreviousFilesHistoryMenu<CR>
+nmap gmg :xccmd showGroupFilesMenu<CR>
+nmap gf :xccmd goForwardInHistoryByCommand<CR>
+nmap gF :xccmd goBackwardInHistoryByCommand<CR>
+nmap gn :xccmd jumpToNextCounterpart<CR>
+nmap gN :xccmd jumpToPreviousCounterpart<CR>
 nmap gt :xccmd selectNextTab<CR>
 nmap gT :xccmd selectPreviousTab<CR>
 nmap gi :xccmd jumpToNextIssue<CR>
 nmap gI :xccmd jumpToPreviousIssue<CR>
-nmap ,c :xccmd commentAndUncommentCurrentLines<CR>
-vmap ,c :xccmd commentAndUncommentCurrentLines<CR>gv
-"nmap gp :xccmd
+
+" Find and Replace
+nmap ,ff :xccmd findNext<CR>
+nmap ,fF :xccmd findPrevious<CR>
+nmap ,fr :xccmd replaceAndFindNext<CR>
+nmap ,fR :xccmd replaceAndFindPrevious<CR>
+
+" Debugging
+nmap ,ba :xccmd toggleBreakpoints<CR>
+nmap ,bc :xccmd toggleBreakpointAtCurrentLine<CR>
+nmap ,dc :xccmd clearConsole<CR>
