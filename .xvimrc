@@ -1,3 +1,5 @@
+set nowrap
+set nowrapscan
 " Send input to system first. Might fix issues for non-US keyboard layouts.
 set alwaysuseinputsource
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
@@ -78,6 +80,8 @@ vnoremap <Space>c :xccmd commentAndUncommentCurrentLines<CR>gv
 "vnoremap <C-k> :xccmd moveCurrentLineUp<CR>gv
 vnoremap <C-h> :xccmd shiftLeft<CR>gv
 vnoremap <C-l> :xccmd shiftRight<CR>gv
+" Select text i just pasted
+noremap gV `[v`]
 
 " Folding
 noremap <Space>fm :xccmd foldAllMethods<CR>
@@ -123,6 +127,10 @@ noremap <Space>tl :xccmd toggleUtilitiesVisibility<CR>
 noremap <Space>tk :xccmd toggleToolbarShown<CR>
 noremap <Space>ta :xccmd toggleUtilitiesVisibility<CR> :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
 noremap <Space>tt :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
+noremap <Space>tw :set wrap<CR>
+noremap <Space>tW :set nowrap<CR>
+noremap <Space>tws :set wrapscan<CR>
+noremap <Space>twS :set nowrapscan<CR>
 
 " Find and Replace
 noremap <Space>fn :xccmd findNext<CR>
@@ -138,7 +146,10 @@ noremap <Space>bb :xccmd toggleBreakpointAtCurrentLine<CR>
 noremap <Space>dc :xccmd clearConsole<CR>
 
 " Help
-noremap <Space>hh :xccmd searchDocumentationForSelectedText<CR>
 " The xccommand showQuickHelp is identical to :xhelp
-noremap <Space>hq :xccmd showQuickHelp<CR>
+noremap <Space>hh :xccmd showQuickHelp<CR>
+noremap <Space>hs :xccmd searchDocumentationForSelectedText<CR>
 
+" Search and replace workflow (see http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/)
+"vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR> :<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
+"omap s :normal vs<CR>
