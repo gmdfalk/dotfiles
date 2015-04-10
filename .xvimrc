@@ -1,49 +1,13 @@
-
-" Make Vim more useful
-set nocompatible
+" Send input to system first. Might fix issues for non-US keyboard layouts.
+set alwaysuseinputsource
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
-" Enhance command-line completion
-set wildmenu
-" Allow cursor keys in insert mode
-set esckeys
-" Allow backspace in insert mode
-set backspace=indent,eol,start
-" Optimize for fast terminal connections
-set ttyfast
 " Add the g flag to search/replace by default
 set gdefault
-" Use UTF-8 without BOM
-set encoding=utf-8 nobomb
-" Change mapleader
-let mapleader=","
-" Don’t add empty newlines at the end of files
-set binary
-set noeol
-
-" Respect modeline in files
-set modeline
-set modelines=4
-" Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
-set secure
 " Enable line numbers
 set number
-" Enable syntax highlighting
-syntax on
-" Highlight current line
-set cursorline
 " Highlight cursor periodically
 set blinkcursor
-" Insert space characters whenever the tab key is pressed
-set expandtab
-" Make tabs as wide as two spaces
-set tabstop=4
-" Change the number of space characters inserted for indentation
-set shiftwidth=4
-" Show “invisible” characters
-"set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set list
 " Highlight searches
 set hlsearch
 " Ignore case of searches
@@ -52,88 +16,129 @@ set ignorecase
 set smartcase
 " Highlight dynamically as pattern is typed
 set incsearch
-" Always show status line
+" Always show status line (2 is default)
 set laststatus=2
-" Enable mouse in all modes
-set mouse=a
 " Disable error bells
 set noerrorbells
-" Don’t reset cursor to start of line when moving around.
-set nostartofline
-" Show the cursor position
-set ruler
-" Don’t show the intro message when starting Vim
-set shortmess=atI
-" Show the current mode
-set showmode
-" Show the filename in the window titlebar
-set title
-" Show the (partial) command as it’s being typed
-set showcmd
 " Use relative line numbers
-if exists("&relativenumber")
-	set relativenumber
-	au BufReadPost * set relativenumber
-endif
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
+set relativenumber
 
-" Save a file as root (,W)
-map ,W :w !sudo tee % > /dev/null<CR>
+" Mapleader is currently not supported
+"let mapleader = "\<Space>"
 
-" Since { doesn't work on german mac keyboard (move by paragraph), we remap it here"
-map ,j }
-map ,J })
-map ,k {
-map ,K {)
+" Files
+noremap <Space>W :w !sudo tee % > /dev/null<CR>
+noremap <Space>ss :xccmd createSnapshot<CR>
+noremap <Space>sr :xccmd restoreSnapshot<CR>
 
-" Repeat last command
-:noremap ,. @:<CR>
+" Remap 'Go to last edit location' because backtick doesn't really work well on a german mac keyboard
+:noremap <Space>e `.
+" Repeat last command.
+:noremap <Space>x @:<CR>
+" Quickly replay the q macro.
+:nnoremap <Space>q @q
+" { and } are very inconvient to press on a german mac keyboard.
+noremap <Space>j }
+noremap <Space>J })
+noremap <Space>k {
+noremap <Space>K {)
+
+" Window management
+" Go to window above
+noremap <Space>wj <C-w>j
+" Go left
+noremap <Space>wh <C-w>h
+" Go down
+noremap <Space>wk <C-w>k
+" Go right
+noremap <Space>wl <C-w>l
+" Create new window (with last used layout)
+noremap <Space>wn <C-w>n
+" Close window
+noremap <Space>wq <C-w>q
+" Split window horizontally
+noremap <Space>ws <C-w>s
+" Split window vertically
+noremap <Space>wv <C-w>v
+" Switch back to single editor
+noremap <Space>ww :xccmd changeToStandardEditor<CR>
+" Switch to split window (Standard + Assistant)
+noremap <Space>wg :xccmd changeToGeniusEditor<CR>
+" Version Control views
+noremap <Space>we :xccmd changeToVersionEditor<CR>
+noremap <Space>wc :xccmd changeToVersionEditorComparisonView<CR>
+noremap <Space>wb :xccmd changeToVersionEditorBlameView<CR>
+noremap <Space>wl :xccmd changeToVersionEditorLogView<CR>
 
 " Text
-vmap <C-h> :xccmd shiftLeft<CR>gv
-vmap <C-l> :xccmd shiftRight<CR>gv
-nmap ,c :xccmd commentAndUncommentCurrentLines<CR>
-vmap ,c :xccmd commentAndUncommentCurrentLines<CR>gv
+nnoremap <Space>c :xccmd commentAndUncommentCurrentLines<CR>
+vnoremap <Space>c :xccmd commentAndUncommentCurrentLines<CR>gv
 " These two mappings are set in XCode directly as gv behaves strangely here
-"vmap <C-j> :xccmd moveCurrentLineDown<CR>gv
-"vmap <C-k> :xccmd moveCurrentLineUp<CR>gv
-nmap ,fm :xccmd foldAllMethods<CR>
-nmap ,fM :xccmd unfoldAllMethods<CR>
-nmap ,fc :xccmd foldAllComments<CR>
-nmap ,fC :xccmd unfoldAllComments<CR>
-nmap ,ff :xccmd fold<CR>
-nmap ,fF :xccmd unfold<CR>
-nmap ,fa :xccmd unfoldAll<CR>
+"vnoremap <C-j> :xccmd moveCurrentLineDown<CR>gv
+"vnoremap <C-k> :xccmd moveCurrentLineUp<CR>gv
+vnoremap <C-h> :xccmd shiftLeft<CR>gv
+vnoremap <C-l> :xccmd shiftRight<CR>gv
+
+" Folding
+noremap <Space>fm :xccmd foldAllMethods<CR>
+noremap <Space>fM :xccmd unfoldAllMethods<CR>
+noremap <Space>fc :xccmd foldAllComments<CR>
+noremap <Space>fC :xccmd unfoldAllComments<CR>
+noremap <Space>ff :xccmd fold<CR>
+noremap <Space>fF :xccmd unfold<CR>
+noremap <Space>fa :xccmd unfoldAll<CR>
 
 " Refactoring
-nmap ,rr :xccmd refactorRename<CR>
-nmap ,rx :xccmd refactorExtract<CR>
-nmap ,re :xccmd refactorEncapsulate<CR>
-nmap ,rm :xccmd refactorMoveUp<CR>
-nmap ,rM :xccmd refactorMoveDown<CR>
-nmap ,rs :xccmd refactorCreateSuperclass<CR>
+noremap <Space>rr :xccmd refactorRename<CR>
+noremap <Space>rx :xccmd refactorExtract<CR>
+noremap <Space>re :xccmd refactorEncapsulate<CR>
+noremap <Space>rm :xccmd refactorMoveUp<CR>
+noremap <Space>rM :xccmd refactorMoveDown<CR>
+noremap <Space>rs :xccmd refactorCreateSuperclass<CR>
 
 " Navigation
-nmap gmd :xccmd showDocumentItemsMenu<CR>
-nmap gmh :xccmd showPreviousFilesHistoryMenu<CR>
-nmap gmg :xccmd showGroupFilesMenu<CR>
-nmap gF :xccmd goForwardInHistoryByCommand<CR>
-nmap gf :xccmd goBackwardInHistoryByCommand<CR>
-nmap gn :xccmd jumpToNextCounterpart<CR>
-nmap gN :xccmd jumpToPreviousCounterpart<CR>
-nmap gt :xccmd selectNextTab<CR>
-nmap gT :xccmd selectPreviousTab<CR>
-nmap gi :xccmd jumpToNextIssue<CR>
-nmap gI :xccmd jumpToPreviousIssue<CR>
+noremap <Space>o :xccmd openQuickly<CR>
+noremap <Space>n :xccmd jumpToNextCounterpart<CR>
+noremap <Space>N :xccmd jumpToPreviousCounterpart<CR>
+noremap <Space>i :xccmd jumpToNextIssue<CR>
+noremap <Space>I :xccmd jumpToPreviousIssue<CR>
+noremap <Space>g :xccmd goBackInHistoryByCommand<CR>
+noremap <Space>G :xccmd goForwardInHistoryByCommand<CR>
+noremap gt :xccmd selectNextTab<CR>
+noremap gT :xccmd selectPreviousTab<CR>
+noremap gl :xccmd openQuicklyScoped<CR>
+" Using fixNextIssue/fixPreviousIssue this way will crash XCode
+"noremap <Space>fi :xccmd fixNextIssue<CR>
+"noremap <Space>fI :xccmd fixPreviousIssue<CR>
+
+" Menus
+noremap <Space>mh :xccmd showPreviousFilesHistoryMenu<CR>
+noremap <Space>mo :xccmd showDocumentItemsMenu<CR>
+noremap <Space>mg :xccmd showGroupFilesMenu<CR>
+
+" Toggle bars
+noremap <Space>th :xccmd toggleNavigatorsVisibility<CR>
+noremap <Space>tj :xccmd toggleDebuggerVisibility<CR>
+noremap <Space>tl :xccmd toggleUtilitiesVisibility<CR>
+noremap <Space>tk :xccmd toggleToolbarShown<CR>
+noremap <Space>ta :xccmd toggleUtilitiesVisibility<CR> :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
+noremap <Space>tt :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
 
 " Find and Replace
-nmap ,fn :xccmd findNext<CR>
-nmap ,fN :xccmd findPrevious<CR>
-nmap ,fr :xccmd replaceAndFindNext<CR>
-nmap ,fR :xccmd replaceAndFindPrevious<CR>
+noremap <Space>fn :xccmd findNext<CR>
+noremap <Space>fN :xccmd findPrevious<CR>
+noremap <Space>fr :xccmd replaceAndFindNext<CR>
+noremap <Space>fR :xccmd replaceAndFindPrevious<CR>
+noremap <Space>fw :xccmd findSelectedTextInWorkspace<CR>
+noremap <Space>fW :xccmd findAndReplaceInWorkspace<CR>
 
 " Debugging
-nmap ,ba :xccmd toggleBreakpoints<CR>
-nmap ,bc :xccmd toggleBreakpointAtCurrentLine<CR>
-nmap ,dc :xccmd clearConsole<CR>
+noremap <Space>ba :xccmd toggleBreakpoints<CR>
+noremap <Space>bb :xccmd toggleBreakpointAtCurrentLine<CR>
+noremap <Space>dc :xccmd clearConsole<CR>
+
+" Help
+noremap <Space>hh :xccmd searchDocumentationForSelectedText<CR>
+" The xccommand showQuickHelp is identical to :xhelp
+noremap <Space>hq :xccmd showQuickHelp<CR>
+
