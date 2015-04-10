@@ -118,8 +118,8 @@ nmap ,rs :xccmd refactorCreateSuperclass<CR>
 nmap gmd :xccmd showDocumentItemsMenu<CR>
 nmap gmh :xccmd showPreviousFilesHistoryMenu<CR>
 nmap gmg :xccmd showGroupFilesMenu<CR>
-nmap gf :xccmd goForwardInHistoryByCommand<CR>
-nmap gF :xccmd goBackwardInHistoryByCommand<CR>
+nmap gF :xccmd goForwardInHistoryByCommand<CR>
+nmap gf :xccmd goBackwardInHistoryByCommand<CR>
 nmap gn :xccmd jumpToNextCounterpart<CR>
 nmap gN :xccmd jumpToPreviousCounterpart<CR>
 nmap gt :xccmd selectNextTab<CR>
@@ -128,8 +128,8 @@ nmap gi :xccmd jumpToNextIssue<CR>
 nmap gI :xccmd jumpToPreviousIssue<CR>
 
 " Find and Replace
-nmap ,ff :xccmd findNext<CR>
-nmap ,fF :xccmd findPrevious<CR>
+nmap ,fn :xccmd findNext<CR>
+nmap ,fN :xccmd findPrevious<CR>
 nmap ,fr :xccmd replaceAndFindNext<CR>
 nmap ,fR :xccmd replaceAndFindPrevious<CR>
 
