@@ -11,6 +11,8 @@ Plugin 'xolox/vim-session'
 Plugin 'kien/ctrlp.vim'
 Plugin 'terryma/vim-expand-region'
 Plugin 'bling/vim-airline'
+" Maps ,w ,b and ,e to move like w b and e but respecting boundaries of CamelCase, hyphens, underscores and similar.
+Plugin 'bkad/CamelCaseMotion' 
 "Plugin 'powerline/powerline'
 "Plugin 'Lokaltog/powerline'
 "Plugin 'kana/vim-textobj-line'
@@ -53,6 +55,10 @@ let g:ctrlp_prompt_mappings = {
     \ }
 
 let g:airline_powerline_fonts = 1
+"let g:airline_theme = 'solarized'
+"let g:airline_left_sep=''
+"let g:airline_right_sep=''
+"let g:airline_section_z=''
 "let g:Powerline_symbols = 'fancy'
 """ SETTINGS
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
@@ -183,8 +189,15 @@ nnoremap <Leader>P :pu!<CR> " Paste above current line
 nnoremap <Leader>p :pu<CR> " Paste below current line
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+noremap <Leader>nh :nohl<CR>
 
 "" Search and replace (see http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/)
 vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
     \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
 omap s :normal vs<CR>
+
+"" Tabs
+" Go to last active tab
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()

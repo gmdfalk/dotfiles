@@ -1,5 +1,5 @@
 set nowrap
-set nowrapscan
+"set nowrapscan
 " Send input to system first. Might fix issues for non-US keyboard layouts.
 set alwaysuseinputsource
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
@@ -34,7 +34,7 @@ noremap <Space>ss :xccmd createSnapshot<CR>
 noremap <Space>sr :xccmd restoreSnapshot<CR>
 
 " Remap 'Go to last edit location' because backtick doesn't really work well on a german mac keyboard
-:noremap <Space>e `.
+:noremap <Space>l `.
 " Repeat last command.
 :noremap <Space>x @:<CR>
 " Quickly replay the q macro.
@@ -46,11 +46,11 @@ noremap <Space>k {
 noremap <Space>K {)
 
 " Window management
-" Go to window above
+" Go to window below
 noremap <Space>wj <C-w>j
 " Go left
 noremap <Space>wh <C-w>h
-" Go down
+" Go up
 noremap <Space>wk <C-w>k
 " Go right
 noremap <Space>wl <C-w>l
@@ -62,15 +62,23 @@ noremap <Space>wq <C-w>q
 noremap <Space>ws <C-w>s
 " Split window vertically
 noremap <Space>wv <C-w>v
+" Layout: Assistant Editors on the right
+noremap <Space>ww :xccmd changeToAssistantLayout_RV<CR>
+" Layout: Assistant Editors on the bottom
+noremap <Space>we :xccmd changeToAssistantLayout_BH<CR>
+" Layout: Assistant Editors stacked horizontally
+noremap <Space>wr :xccmd changeToAssistantLayout_RH<CR>
+" Layout: Assistant Editors stacked vertically
+noremap <Space>wt :xccmd changeToAssistantLayout_BV<CR>
 " Switch back to single editor
-noremap <Space>ww :xccmd changeToStandardEditor<CR>
+noremap <Space>wf :xccmd changeToStandardEditor<CR>
 " Switch to split window (Standard + Assistant)
 noremap <Space>wg :xccmd changeToGeniusEditor<CR>
 " Version Control views
-noremap <Space>we :xccmd changeToVersionEditor<CR>
+"noremap <Space>wy :xccmd changeToVersionEditor<CR>
+noremap <Space>wx :xccmd changeToVersionEditorLogView<CR>
 noremap <Space>wc :xccmd changeToVersionEditorComparisonView<CR>
 noremap <Space>wb :xccmd changeToVersionEditorBlameView<CR>
-noremap <Space>wl :xccmd changeToVersionEditorLogView<CR>
 
 " Text
 nnoremap <Space>c :xccmd commentAndUncommentCurrentLines<CR>
@@ -84,13 +92,13 @@ vnoremap <C-l> :xccmd shiftRight<CR>gv
 noremap gV `[v`]
 
 " Folding
+noremap <Space>fd :xccmd fold<CR>
+noremap <Space>fD :xccmd unfold<CR>
+noremap <Space>fa :xccmd unfoldAll<CR>
 noremap <Space>fm :xccmd foldAllMethods<CR>
 noremap <Space>fM :xccmd unfoldAllMethods<CR>
 noremap <Space>fc :xccmd foldAllComments<CR>
 noremap <Space>fC :xccmd unfoldAllComments<CR>
-noremap <Space>ff :xccmd fold<CR>
-noremap <Space>fF :xccmd unfold<CR>
-noremap <Space>fa :xccmd unfoldAll<CR>
 
 " Refactoring
 noremap <Space>rr :xccmd refactorRename<CR>
@@ -129,24 +137,46 @@ noremap <Space>ta :xccmd toggleUtilitiesVisibility<CR> :xccmd toggleDebuggerVisi
 noremap <Space>tt :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
 noremap <Space>tw :set wrap<CR>
 noremap <Space>tW :set nowrap<CR>
-noremap <Space>tws :set wrapscan<CR>
-noremap <Space>twS :set nowrapscan<CR>
+noremap <Space>ts :set wrapscan<CR>
+noremap <Space>tS :set nowrapscan<CR>
 
 " Find and Replace
+noremap <Space>fv :xccmd find<CR>
+noremap <Space>fv :xccmd findAndReplace<CR>
+noremap <Space>fw :xccmd findSelectedTextInWorkspace<CR>
+noremap <Space>fW :xccmd findAndReplaceInWorkspace<CR>
 noremap <Space>fn :xccmd findNext<CR>
 noremap <Space>fN :xccmd findPrevious<CR>
 noremap <Space>fr :xccmd replaceAndFindNext<CR>
 noremap <Space>fR :xccmd replaceAndFindPrevious<CR>
-noremap <Space>fw :xccmd findSelectedTextInWorkspace<CR>
-noremap <Space>fW :xccmd findAndReplaceInWorkspace<CR>
 
-" Debugging
+"" Debugging
 noremap <Space>ba :xccmd toggleBreakpoints<CR>
 noremap <Space>bb :xccmd toggleBreakpointAtCurrentLine<CR>
+noremap <Space>bv :xccmd changeToBreakpointsNavigator<CR>
+noremap <Space>dv :xccmd changeToDebuggerNavigator<CR>
 noremap <Space>dc :xccmd clearConsole<CR>
+noremap <Space>dt :xccmd pauseOrContinue<CR>
+noremap <Space>do :xccmd stepOver<CR>
+noremap <Space>di :xccmd stepInto<CR>
+noremap <Space>dq :xccmd stepOut<CR>
+noremap <Space>dm :xccmd viewMemory<CR>
 
-" Help
+"" Help
 " The xccommand showQuickHelp is identical to :xhelp
 noremap <Space>hh :xccmd showQuickHelp<CR>
 noremap <Space>hs :xccmd searchDocumentationForSelectedText<CR>
+
+"" Execution
+noremap <Space>er :xccmd runActiveRunContext<CR>
+noremap <Space>eR :xccmd editAndRunActiveRunContext<CR>
+noremap <Space>et :xccmd testActiveRunContext<CR>
+noremap <Space>eT :xccmd editAndTestActiveRunContext<CR>
+noremap <Space>ep :xccmd profileActiveScheme<CR>
+noremap <Space>eP :xccmd editAndProfileActiveScheme<CR>
+noremap <Space>ea :xccmd analyzeActiveRunContext<CR>
+noremap <Space>eA :xccmd editAndAnalyzeActiveRunContext<CR>
+noremap <Space>ec :xccmd cancelCurrentExecution<CR>
+noremap <Space>eb :xccmd buildActiveRunContext<CR>
+noremap <Space>eC :xccmd cleanActiveRunContext<CR>
 
