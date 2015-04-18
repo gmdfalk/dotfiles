@@ -1,0 +1,84 @@
+" {{{ Options
+"set defsearch=g
+"set gui=none,navigation,tabs
+set gui=none,tabs
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set noerrorbells
+set novisualbell
+" }}}
+
+" {{{ Firefox Options
+set! ui.key.contentAccess=0
+set! browser.urlbar.filter.javascript=false
+set! browser.urlbar.maxRichResults=20
+"set! network.dns.disableIPv6=true
+set! browser.tabs.closeButtons=2
+set! browser.tabs.insertRelatedAfterCurrent=false
+set! browser.tabs.loadDivertedInBackground=true
+" }}}
+
+" {{{ Mapping
+let mapleader = ","
+
+" Search
+map s :open g<Space>
+map S :tabopen g<Space>
+
+" Scrolling
+nnoremap j 5j
+nnoremap k 5k
+nnoremap h 5h
+nnoremap l 5l
+nmap <Up> 20<Up>
+nmap <Down> 20<Down>
+
+" Tab control
+nmap <Leader>td :tabduplicate<CR>
+nmap <Leader>tl :tablast<CR>
+nmap <Leader>tt :tabdetach<CR>
+nmap <Leader>tT :tabattach 1<CR>
+
+" Groups
+nmap <Leader>g :bmarks! -T
+nmap <Leader>gn :bmarks! -T news<CR>
+nmap <Leader>gd :bmarks! -T dvagit<CR>
+nmap <Leader>gm :bmarks! -T dvagnews<CR>
+
+" Tab
+nmap <silent> <C-l> :tabmove! +1<CR>
+nmap <silent> <C-h> :tabmove! -1<CR>
+
+" last buffer
+"map <Leader>l :buffer #<CR>
+"map <C-l> <C-^>
+
+" Unmap annoying keys
+map <bs> <Nop>
+map <f1> <Nop>
+"map <C-h> <Nop>
+map <C-z> <Nop>
+
+" Firefox dialogues
+nmap <Leader>fd :tabnew<CR> :downloads<CR>
+nmap <Leader>fp :dia preferences<CR>
+nmap <Leader>fb :dia places<CR>
+nmap <Leader>fa :dia addons<CR>
+
+" Proxy
+command proxy -nargs=1 :set! network.proxy.type=<args>
+nmap <Leader>py :proxy 1<CR>
+nmap <Leader>pn :proxy 0<CR>
+
+" Make up/dn work in completion lists
+cmap <Up> <S-Tab>
+cmap <C-Up> <Up>
+cmap <Down> <Tab>
+cmap <C-Down> <Down>
+" }}}
+
+" {{{ Style
+"autocmd Fullscreen .* :set gui=none,tabs
+" }}}

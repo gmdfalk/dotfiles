@@ -47,7 +47,8 @@ noremap <Space>K {)
 
 "" Mode switching
 " ESC is a buzzkill
-inoremap ,, <ESC>
+inoremap ö <ESC>
+inoremap j <ESC>
 
 " Window management
 " Go to window below
@@ -66,6 +67,10 @@ noremap <Space>wq <C-w>q
 noremap <Space>ws <C-w>s
 " Split window vertically
 noremap <Space>wv <C-w>v
+" Jump to next editor
+noremap <Space>wö <C-w>w
+" Jump to next editor
+noremap <Space>wÖ <C-w>W
 " Layout: Assistant Editors on the right
 noremap <Space>ww :xccmd changeToAssistantLayout_RV<CR>
 " Layout: Assistant Editors on the bottom

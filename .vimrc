@@ -182,7 +182,7 @@ nnoremap <Leader>o :CtrlP<CR>
 
 "" Mode switching
 " ESC is a buzzkill
-inoremap ,, <ESC>
+inoremap öö <ESC>
 
 "" Text manipulation
 noremap <leader>ss :call StripWhitespace()<CR>
@@ -205,3 +205,15 @@ omap s :normal vs<CR>
 let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
+
+" Remap 'Go to last edit location' because backtick doesn't really work well on a german mac keyboard
+:noremap <Space>l `.
+" Repeat last command.
+:noremap <Space>x @:<CR>
+" Quickly replay the q macro.
+:nnoremap <Space>q @q
+" { and } are very inconvient to press on a german mac keyboard.
+noremap <Space>j }
+noremap <Space>J })
+noremap <Space>k {
+noremap <Space>K {)
