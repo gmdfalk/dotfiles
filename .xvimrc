@@ -45,6 +45,10 @@ noremap <Space>J })
 noremap <Space>k {
 noremap <Space>K {)
 
+"" Mode switching
+" ESC is a buzzkill
+inoremap ,, <ESC>
+
 " Window management
 " Go to window below
 noremap <Space>wj <C-w>j

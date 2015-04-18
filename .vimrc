@@ -180,6 +180,10 @@ nnoremap <Leader>w :w<CR>
 nnoremap <leader>W :w !sudo tee % > /dev/null<CR> " Save a file as root (,W)
 nnoremap <Leader>o :CtrlP<CR>
 
+"" Mode switching
+" ESC is a buzzkill
+inoremap ,, <ESC>
+
 "" Text manipulation
 noremap <leader>ss :call StripWhitespace()<CR>
 
