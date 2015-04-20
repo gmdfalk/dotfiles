@@ -18,8 +18,8 @@ set ignorecase
 set smartcase
 " Highlight dynamically as pattern is typed
 set incsearch
-" Always show status line (2 is default)
-set laststatus=2
+" Don't show status line.
+set laststatus=0
 " Disable error bells
 set noerrorbells
 " Use relative line numbers
@@ -47,8 +47,7 @@ noremap <Space>K {)
 
 "" Mode switching
 " ESC is a buzzkill
-inoremap ö <ESC>
-inoremap j <ESC>
+inoremap öö <ESC>
 
 " Window management
 " Go to window below
@@ -85,9 +84,9 @@ noremap <Space>wf :xccmd changeToStandardEditor<CR>
 noremap <Space>wg :xccmd changeToGeniusEditor<CR>
 " Version Control views
 "noremap <Space>wy :xccmd changeToVersionEditor<CR>
+noremap <Space>wy :xccmd changeToVersionEditorBlameView<CR>
 noremap <Space>wx :xccmd changeToVersionEditorLogView<CR>
 noremap <Space>wc :xccmd changeToVersionEditorComparisonView<CR>
-noremap <Space>wb :xccmd changeToVersionEditorBlameView<CR>
 
 " Text
 nnoremap <Space>c :xccmd commentAndUncommentCurrentLines<CR>

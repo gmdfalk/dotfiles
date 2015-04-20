@@ -36,23 +36,24 @@ nmap <Up> 20<Up>
 nmap <Down> 20<Down>
 
 " Tab control
-nmap <Leader>td :tabduplicate<CR>
-nmap <Leader>tl :tablast<CR>
-nmap <Leader>tt :tabdetach<CR>
-nmap <Leader>tT :tabattach 1<CR>
+map <Leader>td :tabduplicate<CR>
+map <Leader>tl :tablast<CR>
+map <Leader>tf :tabfirst<CR>
+map <Leader>tt :tabdetach<CR>
+map <Leader>tT :tabattach 1<CR>
 
 " Groups
-nmap <Leader>g :bmarks! -T
-nmap <Leader>gn :bmarks! -T news<CR>
-nmap <Leader>gd :bmarks! -T dvagit<CR>
-nmap <Leader>gm :bmarks! -T dvagnews<CR>
+map <Leader>gg :bmarks! -T
+map <Leader>gn :bmarks! -T news<CR>
+map <Leader>gd :bmarks! -T dvagit<CR>
+map <Leader>gm :bmarks! -T dvagnews<CR>
 
 " Tab
 nmap <silent> <C-l> :tabmove! +1<CR>
 nmap <silent> <C-h> :tabmove! -1<CR>
 
 " last buffer
-"map <Leader>l :buffer #<CR>
+map <Leader>l :buffer #<CR>
 "map <C-l> <C-^>
 
 " Unmap annoying keys
