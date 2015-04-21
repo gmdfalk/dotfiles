@@ -10,7 +10,7 @@ set gdefault
 set number
 " Highlight cursor periodically
 set blinkcursor
-" Highlight searches
+" Highlight searches?
 set hlsearch
 " Ignore case of searches
 set ignorecase
@@ -47,6 +47,7 @@ noremap <Space>K {)
 
 "" Mode switching
 " ESC is a buzzkill
+noremap öö <ESC>
 inoremap öö <ESC>
 
 " Window management
@@ -68,7 +69,7 @@ noremap <Space>ws <C-w>s
 noremap <Space>wv <C-w>v
 " Jump to next editor
 noremap <Space>wö <C-w>w
-" Jump to next editor
+" Jump to previous editor
 noremap <Space>wÖ <C-w>W
 " Layout: Assistant Editors on the right
 noremap <Space>ww :xccmd changeToAssistantLayout_RV<CR>
@@ -109,6 +110,7 @@ noremap <Space>fc :xccmd foldAllComments<CR>
 noremap <Space>fC :xccmd unfoldAllComments<CR>
 
 " Refactoring
+noremap <Space>rR :xccmd editAllInScope<CR>
 noremap <Space>rr :xccmd refactorRename<CR>
 noremap <Space>rx :xccmd refactorExtract<CR>
 noremap <Space>re :xccmd refactorEncapsulate<CR>
@@ -135,12 +137,14 @@ noremap gl :xccmd openQuicklyScoped<CR>
 noremap <Space>mh :xccmd showPreviousFilesHistoryMenu<CR>
 noremap <Space>mo :xccmd showDocumentItemsMenu<CR>
 noremap <Space>mg :xccmd showGroupFilesMenu<CR>
+noremap <Space>mf :xccmd showInFinder<CR>
+noremap <Space>me :xccmd openWithExternalEditor<CR>
 
 " Toggle bars
 noremap <Space>th :xccmd toggleNavigatorsVisibility<CR>
 noremap <Space>tj :xccmd toggleDebuggerVisibility<CR>
-noremap <Space>tl :xccmd toggleUtilitiesVisibility<CR>
 noremap <Space>tk :xccmd toggleToolbarShown<CR>
+noremap <Space>tl :xccmd toggleUtilitiesVisibility<CR>
 noremap <Space>ta :xccmd toggleUtilitiesVisibility<CR> :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
 noremap <Space>tt :xccmd toggleDebuggerVisibility<CR> :xccmd toggleNavigatorsVisibility<CR>
 noremap <Space>tw :set wrap<CR>
@@ -150,13 +154,13 @@ noremap <Space>tS :set nowrapscan<CR>
 
 " Find and Replace
 noremap <Space>fv :xccmd find<CR>
-noremap <Space>fv :xccmd findAndReplace<CR>
+noremap <Space>fV :xccmd findAndReplace<CR>
 noremap <Space>fw :xccmd findSelectedTextInWorkspace<CR>
 noremap <Space>fW :xccmd findAndReplaceInWorkspace<CR>
 noremap <Space>fn :xccmd findNext<CR>
-noremap <Space>fN :xccmd findPrevious<CR>
-noremap <Space>fr :xccmd replaceAndFindNext<CR>
-noremap <Space>fR :xccmd replaceAndFindPrevious<CR>
+noremap <Space>fN :xccmd replaceAndFindNext<CR>
+noremap <Space>fp :xccmd findPrevious<CR>
+noremap <Space>fP :xccmd replaceAndFindPrevious<CR>
 
 "" Debugging
 noremap <Space>ba :xccmd toggleBreakpoints<CR>
@@ -171,11 +175,12 @@ noremap <Space>dq :xccmd stepOut<CR>
 noremap <Space>dm :xccmd viewMemory<CR>
 
 "" Help
-" The xccommand showQuickHelp is identical to :xhelp
-noremap <Space>hh :xccmd showQuickHelp<CR>
+noremap <Space>hh :xccmd showDeveloperDocumentation<CR>
+noremap <Space>hq :xccmd showQuickHelp<CR>
 noremap <Space>hs :xccmd searchDocumentationForSelectedText<CR>
 
 "" Execution
+noremap <Space>e. :xccmd cancelCurrentExecution<CR>
 noremap <Space>er :xccmd runActiveRunContext<CR>
 noremap <Space>eR :xccmd editAndRunActiveRunContext<CR>
 noremap <Space>et :xccmd testActiveRunContext<CR>
@@ -184,7 +189,6 @@ noremap <Space>ep :xccmd profileActiveScheme<CR>
 noremap <Space>eP :xccmd editAndProfileActiveScheme<CR>
 noremap <Space>ea :xccmd analyzeActiveRunContext<CR>
 noremap <Space>eA :xccmd editAndAnalyzeActiveRunContext<CR>
-noremap <Space>ec :xccmd cancelCurrentExecution<CR>
 noremap <Space>eb :xccmd buildActiveRunContext<CR>
-noremap <Space>eC :xccmd cleanActiveRunContext<CR>
+noremap <Space>ec :xccmd cleanActiveRunContext<CR>
 

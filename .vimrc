@@ -61,6 +61,8 @@ let g:airline_powerline_fonts = 1
 "let g:airline_section_z=''
 "let g:Powerline_symbols = 'fancy'
 """ SETTINGS
+" CtrlP should ignore some filetypes completely
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -186,6 +188,7 @@ nnoremap <Leader>o :CtrlP<CR>
 
 "" Mode switching
 " ESC is a buzzkill
+noremap öö <ESC>
 inoremap öö <ESC>
 
 "" Text manipulation
