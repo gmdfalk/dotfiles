@@ -62,7 +62,7 @@ let g:airline_powerline_fonts = 1
 "let g:Powerline_symbols = 'fancy'
 """ SETTINGS
 " CtrlP should ignore some filetypes completely
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.obj,*.bak,*.exe
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -183,7 +183,7 @@ let mapleader="\<Space>"
 
 "" Files
 nnoremap <Leader>w :w<CR>
-nnoremap <leader>W :w !sudo tee % > /dev/null<CR> " Save a file as root (,W)
+nnoremap <Leader>W :w !sudo tee % > /dev/null<CR> " Save a file as root (,W)
 nnoremap <Leader>o :CtrlP<CR>
 
 "" Mode switching
@@ -192,7 +192,7 @@ noremap öö <ESC>
 inoremap öö <ESC>
 
 "" Text manipulation
-noremap <leader>ss :call StripWhitespace()<CR>
+noremap <Leader>ss :call StripWhitespace()<CR>
 
 "" Select & Paste
 noremap gV `[v`] " Select pasted text
@@ -214,13 +214,13 @@ nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
 " Remap 'Go to last edit location' because backtick doesn't really work well on a german mac keyboard
-:noremap <Space>l `.
+:noremap <Leader>l `.
 " Repeat last command.
-:noremap <Space>x @:<CR>
+:noremap <Leader>x @:<CR>
 " Quickly replay the q macro.
-:nnoremap <Space>q @q
+:nnoremap <Leader>q @q
 " { and } are very inconvient to press on a german mac keyboard.
-noremap <Space>j }
-noremap <Space>J })
-noremap <Space>k {
-noremap <Space>K {)
+noremap <Leader>j }
+noremap <Leader>J })
+noremap <Leader>k {
+noremap <Leader>K {)
