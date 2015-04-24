@@ -54,12 +54,15 @@ let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
     \ }
 
+"" Airline
+let g:airline_theme = 'solarized'
 let g:airline_powerline_fonts = 1
-"let g:airline_theme = 'solarized'
-"let g:airline_left_sep=''
-"let g:airline_right_sep=''
-"let g:airline_section_z=''
-"let g:Powerline_symbols = 'fancy'
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+"let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+
 """ SETTINGS
 " CtrlP should ignore some filetypes completely
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.obj,*.bak,*.exe
