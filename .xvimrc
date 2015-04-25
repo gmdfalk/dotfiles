@@ -192,3 +192,7 @@ noremap <Space>eA :xccmd editAndAnalyzeActiveRunContext<CR>
 noremap <Space>eb :xccmd buildActiveRunContext<CR>
 noremap <Space>ec :xccmd cleanActiveRunContext<CR>
 
+"" Plugins
+" Tuna
+vnoremap <enter> :xcmenucmd Set Print Breakpoint<CR>
+noremap \<enter> :xcmenucmd Set Backtrace Breakpoint<CR>
