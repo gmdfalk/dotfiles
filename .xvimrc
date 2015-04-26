@@ -28,27 +28,19 @@ set relativenumber
 " Mapleader is currently not supported
 "let mapleader = "\<Space>"
 
-" Files
+"" Files
 noremap <Space>W :w !sudo tee % > /dev/null<CR>
-noremap <Space>ss :xccmd createSnapshot<CR>
-noremap <Space>sr :xccmd restoreSnapshot<CR>
+noremap <Space>o :xccmd openQuickly<CR>
 
-" Remap 'Go to last edit location' because backtick doesn't really work well on a german mac keyboard
-:noremap <Space>l `.
+"" Various
 " Repeat last command.
-:noremap <Space>x @:<CR>
+noremap ö :<Up><CR>
+noremap <Space>ö @:<CR>
 " Quickly replay the q macro.
-:nnoremap <Space>q @q
-" { and } are very inconvient to press on a german mac keyboard.
-noremap <Space>j }
-noremap <Space>J })
-noremap <Space>k {
-noremap <Space>K {)
-
-"" Mode switching
+noremap <Space>q @q
 " ESC is a buzzkill
-noremap öö <ESC>
-inoremap öö <ESC>
+noremap ä <ESC>
+inoremap ä <ESC>
 
 " Window management
 " Go to window below
@@ -95,15 +87,17 @@ vnoremap <Space>c :xccmd commentAndUncommentCurrentLines<CR>gv
 " These two mappings are set in XCode directly as gv behaves strangely here
 "vnoremap <C-j> :xccmd moveCurrentLineDown<CR>gv
 "vnoremap <C-k> :xccmd moveCurrentLineUp<CR>gv
+nnoremap <C-h> :xccmd shiftLeft<CR>
+nnoremap <C-l> :xccmd shiftRight<CR>
+inoremap <C-h> :xccmd shiftLeft<CR>
+inoremap <C-l> :xccmd shiftRight<CR>
 vnoremap <C-h> :xccmd shiftLeft<CR>gv
 vnoremap <C-l> :xccmd shiftRight<CR>gv
-" Select text i just pasted
-noremap gV `[v`]
 
 " Folding
 noremap <Space>fd :xccmd fold<CR>
 noremap <Space>fD :xccmd unfold<CR>
-noremap <Space>fa :xccmd unfoldAll<CR>
+noremap <Space>fu :xccmd unfoldAll<CR>
 noremap <Space>fm :xccmd foldAllMethods<CR>
 noremap <Space>fM :xccmd unfoldAllMethods<CR>
 noremap <Space>fc :xccmd foldAllComments<CR>
@@ -117,28 +111,47 @@ noremap <Space>re :xccmd refactorEncapsulate<CR>
 noremap <Space>rm :xccmd refactorMoveUp<CR>
 noremap <Space>rM :xccmd refactorMoveDown<CR>
 noremap <Space>rs :xccmd refactorCreateSuperclass<CR>
+" BBUncrustify
+noremap <Space>rf :xcmenucmd Format Active File<CR>
+noremap <Space>rl :xcmenucmd Format Selected Lines<CR>
 
 " Navigation
-noremap <Space>o :xccmd openQuickly<CR>
-noremap <Space>n :xccmd jumpToNextCounterpart<CR>
-noremap <Space>N :xccmd jumpToPreviousCounterpart<CR>
-noremap <Space>i :xccmd jumpToNextIssue<CR>
-noremap <Space>I :xccmd jumpToPreviousIssue<CR>
-noremap <Space>g :xccmd goBackInHistoryByCommand<CR>
-noremap <Space>G :xccmd goForwardInHistoryByCommand<CR>
+noremap <Space>j }
+noremap <Space>k {
+noremap <Space>gl ``
+noremap <Space>ge `.
 noremap gt :xccmd selectNextTab<CR>
 noremap gT :xccmd selectPreviousTab<CR>
-noremap gl :xccmd openQuicklyScoped<CR>
+noremap <Space>n :xccmd jumpToNextCounterpart<CR>
+noremap <Space>N :xccmd jumpToNextCounterPartWithAlternate<CR>
+"noremap <Space>gp :xccmd jumpToPreviousCounterpart<CR>
+"noremap <Space>gP :xccmd jumpToPreviousCounterPartWithAlternate<CR>
+noremap <Space>gi :xccmd jumpToNextIssue<CR>
+noremap <Space>gI :xccmd jumpToPreviousIssue<CR>
+noremap <Space>gh :xccmd goBackInHistoryByCommand<CR>
+noremap <Space>gH :xccmd goForwardInHistoryByCommand<CR>
+noremap <Space>gd :xccmd jumpToDefinition<CR>
+noremap <Space>gD :xccmd jumpToDefinitionWithAlternate<CR>
+noremap <Space>gp :xccmd revealInProjectNavigator<CR>
+noremap <Space>gs :xccmd revealInSymbolNavigator<CR>
+noremap <Space>gb :xccmd revealInDebugNavigator<CR>
 " Using fixNextIssue/fixPreviousIssue this way will crash XCode
 "noremap <Space>fi :xccmd fixNextIssue<CR>
 "noremap <Space>fI :xccmd fixPreviousIssue<CR>
 
 " Menus
-noremap <Space>mh :xccmd showPreviousFilesHistoryMenu<CR>
-noremap <Space>mo :xccmd showDocumentItemsMenu<CR>
-noremap <Space>mg :xccmd showGroupFilesMenu<CR>
-noremap <Space>mf :xccmd showInFinder<CR>
-noremap <Space>me :xccmd openWithExternalEditor<CR>
+noremap <Space>sr :xccmd showRelatedItemsMenu<CR>
+noremap <Space>sh :xccmd showPreviousHistoryMenu<CR>
+noremap <Space>sH :xccmd showNextHistoryMenu<CR>
+noremap <Space>sf :xccmd showPreviousFilesHistoryMenu<CR>
+noremap <Space>sF :xccmd showNextFilesHistoryMenu<CR>
+noremap <Space>sd :xccmd showDocumentItemsMenu<CR>
+noremap <Space>sg :xccmd showGroupFilesMenu<CR>
+noremap <Space>st :xccmd showTopLevelItemsMenu<CR>
+noremap <Space>ss :xccmd showInFinder<CR>
+noremap <Space>se :xccmd openWithExternalEditor<CR>
+noremap <Space>so :xcmenucmd Organizer<CR>
+noremap <Space>si :xcmenucmd Show Invisibles<CR>
 
 " Toggle bars
 noremap <Space>th :xccmd toggleNavigatorsVisibility<CR>
@@ -156,16 +169,13 @@ noremap <Space>tS :set nowrapscan<CR>
 noremap <Space>fv :xccmd find<CR>
 noremap <Space>fV :xccmd findAndReplace<CR>
 noremap <Space>fw :xccmd findSelectedTextInWorkspace<CR>
-noremap <Space>fW :xccmd findAndReplaceInWorkspace<CR>
+noremap <Space>fW :xccmd findSelectedTextInWorkspace<CR> :xccmd findAndReplaceInWorkspace<CR>
 noremap <Space>fn :xccmd findNext<CR>
 noremap <Space>fN :xccmd replaceAndFindNext<CR>
 noremap <Space>fp :xccmd findPrevious<CR>
 noremap <Space>fP :xccmd replaceAndFindPrevious<CR>
 
 "" Debugging
-noremap <Space>ba :xccmd toggleBreakpoints<CR>
-noremap <Space>bb :xccmd toggleBreakpointAtCurrentLine<CR>
-noremap <Space>bv :xccmd changeToBreakpointsNavigator<CR>
 noremap <Space>dv :xccmd changeToDebuggerNavigator<CR>
 noremap <Space>dc :xccmd clearConsole<CR>
 noremap <Space>dt :xccmd pauseOrContinue<CR>
@@ -174,10 +184,18 @@ noremap <Space>di :xccmd stepInto<CR>
 noremap <Space>dq :xccmd stepOut<CR>
 noremap <Space>dm :xccmd viewMemory<CR>
 
+"" Breakpoints
+noremap <Space>bv :xccmd changeToBreakpointsNavigator<CR>
+noremap <Space>ba :xccmd toggleBreakpoints<CR>
+noremap <Space>bb :xccmd toggleBreakpointAtCurrentLine<CR>
+" Tuna
+noremap <Space>bp :xcmenucmd Set Print Breakpoint<CR>
+noremap <Space>bt :xcmenucmd Set Backtrace Breakpoint<CR>
+
 "" Help
-noremap <Space>hh :xccmd showDeveloperDocumentation<CR>
+noremap <Space>hd :xccmd showDeveloperDocumentation<CR>
 noremap <Space>hq :xccmd showQuickHelp<CR>
-noremap <Space>hs :xccmd searchDocumentationForSelectedText<CR>
+noremap <Space>hh :xccmd searchDocumentationForSelectedText<CR>
 
 "" Execution
 noremap <Space>e. :xccmd cancelCurrentExecution<CR>
@@ -192,7 +210,17 @@ noremap <Space>eA :xccmd editAndAnalyzeActiveRunContext<CR>
 noremap <Space>eb :xccmd buildActiveRunContext<CR>
 noremap <Space>ec :xccmd cleanActiveRunContext<CR>
 
-"" Plugins
-" Tuna
-vnoremap <enter> :xcmenucmd Set Print Breakpoint<CR>
-noremap \<enter> :xcmenucmd Set Backtrace Breakpoint<CR>
+"" Version Control
+noremap <Space>vh :xcmenucmd History...<CR>
+noremap <Space>vb :xcmenucmd Show Blame For Line<CR> 
+noremap <Space>vc :xccmd commitCommand<CR>
+noremap <Space>vp :xccmd pushCommand<CR>
+noremap <Space>vu :xccmd updateCommand<CR>
+noremap <Space>vU :xccmd updateAllCommand<CR>
+noremap <Space>vr :xccmd revertCommand<CR>
+noremap <Space>vs :xccmd createSnapshot<CR>
+noremap <Space>vS :xccmd restoreSnapshot<CR>
+" GitDiff (Version Control)
+noremap <Space>vv :xcmenucmd Next Change<CR>
+noremap <Space>vV :xcmenucmd Previous Change<CR>
+
