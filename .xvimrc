@@ -118,12 +118,12 @@ noremap <Space>rl :xcmenucmd Format Selected Lines<CR>
 " Navigation
 noremap <Space>j }
 noremap <Space>k {
-noremap <Space>gl ``
-noremap <Space>ge `.
+noremap <Space>l ``
+noremap <Space>L `.
 noremap gt :xccmd selectNextTab<CR>
 noremap gT :xccmd selectPreviousTab<CR>
 noremap <Space>n :xccmd jumpToNextCounterpart<CR>
-noremap <Space>N :xccmd jumpToNextCounterPartWithAlternate<CR>
+noremap <Space>N :xccmd jumpToPreviousCounterpart<CR>
 "noremap <Space>gp :xccmd jumpToPreviousCounterpart<CR>
 "noremap <Space>gP :xccmd jumpToPreviousCounterPartWithAlternate<CR>
 noremap <Space>gi :xccmd jumpToNextIssue<CR>
@@ -166,8 +166,8 @@ noremap <Space>ts :set wrapscan<CR>
 noremap <Space>tS :set nowrapscan<CR>
 
 " Find and Replace
-noremap <Space>fv :xccmd find<CR>
-noremap <Space>fV :xccmd findAndReplace<CR>
+noremap <Space>fv :xccmd find<CR> :xccmd useSelectionForFind<CR>
+noremap <Space>fV :xccmd findAndReplace<CR> :xccmd useSelectionForFind<CR>
 noremap <Space>fw :xccmd findSelectedTextInWorkspace<CR>
 noremap <Space>fW :xccmd findSelectedTextInWorkspace<CR> :xccmd findAndReplaceInWorkspace<CR>
 noremap <Space>fn :xccmd findNext<CR>

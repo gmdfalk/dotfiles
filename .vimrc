@@ -92,6 +92,9 @@ if exists("&undodir")
     set undodir=~/.vim/undo
 endif
 
+" Always change to current directory
+set autochdir
+
 " Don’t create backups when editing files in certain directories
 set backupskip=/tmp/*,/private/tmp/*
 
@@ -216,14 +219,17 @@ let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
-" Remap 'Go to last edit location' because backtick doesn't really work well on a german mac keyboard
-:noremap <Leader>l `.
 " Repeat last command.
-:noremap <Leader>x @:<CR>
+noremap ö :<Up><CR>
+noremap <Space>ö @:<CR>
 " Quickly replay the q macro.
-:nnoremap <Leader>q @q
-" { and } are very inconvient to press on a german mac keyboard.
-noremap <Leader>j }
-noremap <Leader>J })
-noremap <Leader>k {
-noremap <Leader>K {)
+noremap <Space>q @q
+" ESC is a buzzkill
+noremap ä <ESC>
+inoremap ä <ESC>
+
+" Navigation
+noremap <Space>j }
+noremap <Space>k {
+noremap <Space>ge `.
+noremap <Space>gc ``
