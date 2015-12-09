@@ -1,13 +1,23 @@
 /*
+/*/
 !.gitignore
 !.gitconfig
 !.Xresources
 !.xinitrc
 !.xprofile
+!.cvimrc
+!.vimperatorrc
+!.xbindkeysrc
+!.xmodmaprc
 !.vimrc
 !.zshrc
 !.colors/
 !.vim/
 !.zsh/
+!.config/
+.config/*
 !.config/awesome/
+!.config/gtk-3.0/
+!.config/dircolors
+!.config/user-dirs.dirs
 
