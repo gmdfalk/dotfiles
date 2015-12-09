@@ -1,14 +1,13 @@
-# Ignore everything
-*
-
-# But not these files...
+/*
 !.gitignore
 !.gitconfig
-!.colors/*
 !.Xresources
 !.xinitrc
 !.xprofile
-!.vim/*
 !.vimrc
-!.zsh/*
 !.zshrc
+!.colors/
+!.vim/
+!.zsh/
+!.config/awesome/
+

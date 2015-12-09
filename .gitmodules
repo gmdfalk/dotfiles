@@ -1,0 +1,6 @@
+[submodule ".zsh/zsh-git-prompt"]
+	path = .zsh/zsh-git-prompt
+	url = https://github.com/olivierverdier/zsh-git-prompt
+[submodule ".config/awesome"]
+	path = .config/awesome
+	url = https://github.com/copycat-killer/awesome-copycats
