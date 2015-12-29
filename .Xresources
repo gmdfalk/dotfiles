@@ -12,7 +12,7 @@ Xft.lcdfilter:  lcddefault
 !-------------------------------------------------------------------------------
 ! {{{ urxvt
 !*URxvt.imLocale:           en_US.UTF-8
-*URxvt.font:                xft:DejaVu Sans Mono:pixelsize=14
+*URxvt.font:                xft:DejaVu Sans Mono:pixelsize=13
 *URxvt.geometry:            60x26
 *URxvt.saveLines:           40000
 *URxvt.externalBorder:      0
@@ -95,37 +95,66 @@ urxvt_drop_r*shading:       40
 !*color14: rgb:77/87/98
 !*color15: rgb:ca/ca/ca
 
+! Multicolor
+
+!black
+*color0:  #171717
+*color8:  #737373
+!red
+*color1:  #FF5E5E
+*color9:  #FF7878
+!green
+*color2:  #9CE82B
+*color10: #9ACD32
+!yellow
+*color3:  #F0E68C
+*color11: #EEE8AA
+!blue
+*color4:  #008AFF
+*color12: #4F98FF
+!magenta
+*color5:  #E88CFF
+*color13: #EDA6FF
+!cyan
+*color6:  #87CEFA
+*color14: #B0E2FF
+!white
+*color7:  #DCDCCC
+*color15: #FFFFFF
+*background: #101010
+*foreground: #d4d4d4
+*cursorColor: darkorange2
 
 ! redhalo
 ! Defaults
-*background:             #262729
-*foreground:             #f8f8f2
+!*background:             #262729
+!*foreground:             #f8f8f2
 ! Black
-*color0:                 #262729
-*color8:                 #554444
+!*color0:                 #262729
+!*color8:                 #554444
 ! Red
-*color1:                 #f92671
-*color9:                 #ff669d
+!*color1:                 #f92671
+!*color9:                 #ff669d
 ! Green
-*color2:                 #a6e22e
-*color10:                #beed5f
+!*color2:                 #a6e22e
+!*color10:                #beed5f
 ! Yellow
-*color3:                 #fd971f
-*color11:                #e6db74
+!*color3:                 #fd971f
+!*color11:                #e6db74
 ! Blue
-*color4:                 #34bdef
-*color12:                #66d9ef
+!*color4:                 #34bdef
+!*color12:                #66d9ef
 ! Magenta
-*color5:                 #9e6ffe
-*color13:                #df92f6
+!*color5:                 #9e6ffe
+!*color13:                #df92f6
 ! Cyan
-*color6:                 #5e7175
-*color14:                #a3babf
+!*color6:                 #5e7175
+!*color14:                #a3babf
 ! White
-*color7:                 #ccccc6
-*color15:                #f8f8f2
+!*color7:                 #ccccc6
+!*color15:                #f8f8f2
 ! Cursor
-*cursorColor:            #b5d2dd
+!*cursorColor:            #b5d2dd
 
 !Theme Two http://phraktured.net/terminal-colors/
 !*background: rgb:00/00/00

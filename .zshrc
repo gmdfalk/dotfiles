@@ -1069,7 +1069,7 @@ sysinfo() { # show information about my system
 #}}}
 #{{{ CONDITIONAL
 ### laptop?
-if [[ $HOST = laptop ]]; then
+if [[ $HOST != slave ]]; then
     # commons
     export acpi=/sys/devices/platform/thinkpad_acpi
     export bat=/sys/devices/platform/smapi/BAT0
@@ -1243,7 +1243,8 @@ if [[ $HOST = laptop ]]; then
     alias umntmov="cd && sleep .1 && umount -fl ~mov"
     umnta(){ (umntm; umnti; umntser; umntmov)&>/dev/null; }
     alias umntm="cd && sleep .1 && umount -fl /mnt/smb"
-    alias mntm="mount /mnt/smb && cdm"
+    #alias mntm="mount /mnt/smb && cdm"
+    alias mntm="mount -o guest,gid=1000,uid=1000 //192.168.0.2/media ~/media && sleep .1 && cd ~/media"
     alias mnta="(mntmov;mntser;mnti)&>/dev/null && cdi"
     alias mnti="mount -o guest,gid=1000,uid=1000 //192.168.0.2/incoming ~i && sleep .1 && cdi"
     alias mntser="mount -o guest,gid=1000,uid=1000 //192.168.0.2/ser ~ser && sleep .1 && cdser"
