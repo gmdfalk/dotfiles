@@ -4,14 +4,17 @@
 
 xrdb -merge ~/.Xresources
 
-envfile="$HOME/.gnupg/gpg-agent.env"
-if [[ -e "$envfile" ]] && kill -0 $(grep GPG_AGENT_INFO "$envfile" | cut -d: -f 2) 2>/dev/null; then
-    eval "$(cat "$envfile")"
-else
-    eval "$(gpg-agent --daemon --enable-ssh-support --write-env-file "$envfile")"
+#eval $(gpg-agent --daemon --enable-ssh-support)
+#export SSH_AUTH_SOCK
+
+if ! pgrep -u $USER ssh-agent > /dev/null; then
+    ssh-agent > ~/.ssh-agent-thing
 fi
-export GPG_AGENT_INFO  # the env file does not contain the export statement
-export SSH_AUTH_SOCK   # enable gpg-agent for ssh
+if [[ "$SSH_AGENT_PID" == "" ]]; then
+    eval $(<~/.ssh-agent-thing)
+fi
+ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+
 
 ## Ensure that the D-Bus Communication System is running properly to fix
 ## File management, authentication, and other essential system processes
@@ -33,11 +36,12 @@ setxkbmap de # -variant nodeadkeys
 xmodmap ~/.xmodmaprc
 xbindkeys
 xset s off dpms 0 0 300 &
-xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1 &
-xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2 &
-xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200 &
-xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5 &
-xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.8 &
+(sleep 10 &&
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5
+xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.8) &
 
 # Common apps
 nm-applet --sm-disable &
