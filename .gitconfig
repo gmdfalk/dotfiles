@@ -169,17 +169,7 @@
 [url "git://gist.github.com/"]
     insteadOf = "gist:"
 
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-
-[mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.5.2/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-
 [user]
-    #name = Geronimo Max Falk
-    #email = geronimo.falk@dvag.com
-    name = Max Demian
-    email = mikar@gmx.de
+    name = Max Falk
+    email = gmdfalk@gmail.com
 

@@ -42,16 +42,16 @@ _isroot=false
 _isxrunning=false
 [[ -n "$DISPLAY" ]] && _isxrunning=true
 
-if [[ -n "$_isxrunning" && -n "$_isroot" ]];then
-    export DISPLAY=:0
-    #[[ $HOST == htpc ]] && export XAUTHORITY=/home/slave/.Xauthority || export XAUTHORITY=/home/demian/.Xauthority
-fi
+# if [[ -n "$_isxrunning" && -n "$_isroot" ]];then
+#     export DISPLAY=:0
+#     #[[ $HOST == htpc ]] && export XAUTHORITY=/home/slave/.Xauthority || export XAUTHORITY=/home/demian/.Xauthority
+# fi
 
 [[ -z $HOST ]] && HOST=$HOSTNAME
 #}}}
 #{{{ ENVIRONMENT
 # set path and remove duplicates
-#PATH=$HOME/.bin:/opt:$PATH
+export PATH=~/.bin:$PATH
 #typeset -U PATH
 
 export  CC=/usr/bin/gcc             \
@@ -1245,6 +1245,7 @@ if [[ $HOST != slave ]]; then
     alias umntm="cd && sleep .1 && umount -fl /mnt/smb"
     #alias mntm="mount /mnt/smb && cdm"
     alias mntm="mount -o guest,gid=1000,uid=1000 //192.168.0.2/media ~/media && sleep .1 && cd ~/media"
+    alias mntm="mount -t nfs htpc: ~/media && sleep .1 && cd ~/media"
     alias mnta="(mntmov;mntser;mnti)&>/dev/null && cdi"
     alias mnti="mount -o guest,gid=1000,uid=1000 //192.168.0.2/incoming ~i && sleep .1 && cdi"
     alias mntser="mount -o guest,gid=1000,uid=1000 //192.168.0.2/ser ~ser && sleep .1 && cdser"
@@ -2210,3 +2211,23 @@ $PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
     fi
 fi
 #}}}
+
+alias sysupgrade="sudo pacman -Syw && sudo snp pacman -Su"
+
+  # Start the gpg-agent if not already running
+  if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
+    gpg-connect-agent /bye >/dev/null 2>&1
+  fi
+
+  # Set SSH to use gpg-agent
+  unset SSH_AGENT_PID
+  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+  fi
+
+  # Set GPG TTY
+  GPG_TTY=$(tty)
+  export GPG_TTY
+
+  # Refresh gpg-agent tty in case user switches into an X session
+  gpg-connect-agent updatestartuptty /bye >/dev/null
