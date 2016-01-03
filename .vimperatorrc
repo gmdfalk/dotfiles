@@ -68,6 +68,11 @@ nmap <Leader>fp :dia preferences<CR>
 nmap <Leader>fb :dia places<CR>
 nmap <Leader>fa :dia addons<CR>
 
+" Places
+map ö -j $('.stream-prev').click();
+map ä -j $('.stream-next').click();
+
+
 " Proxy
 command proxy -nargs=1 :set! network.proxy.type=<args>
 nmap <Leader>py :proxy 1<CR>

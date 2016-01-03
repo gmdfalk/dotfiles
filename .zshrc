@@ -370,7 +370,7 @@ fi
 alias c=cat
 alias d=pwd
 #f: find in current directory
-alias g=geany
+alias g=git
 alias h=history
 #j: autojump
 alias k=kill
@@ -2217,10 +2217,20 @@ alias sysupgrade="sudo pacman -Syw && sudo snp pacman -Su"
 # Enable SSH-Agent
 if ! pgrep -u $USER ssh-agent > /dev/null; then
     ssh-agent > ~/.ssh-agent-thing
-    ssh-add $HOME/.ssh/home
     ssh-add $HOME/.ssh/git
+    ssh-add $HOME/.ssh/home
 fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
     eval $(<~/.ssh-agent-thing)
 fi
 ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+
+tpspeed() {
+    local speed=${1:-0.4}
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" $speed
+    echo $speed
+}
