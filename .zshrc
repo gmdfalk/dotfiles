@@ -2244,3 +2244,4 @@ system_state() {
 	systemctl --failed
 	journalctl -p 0..3 -xn
 }
+
