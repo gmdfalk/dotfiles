@@ -2234,3 +2234,13 @@ tpspeed() {
     xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" $speed
     echo $speed
 }
+
+sysbackup() {
+	# archive, keep attributes, keep extended attributes, verbose, delete obsolete destination files
+	rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*/.thumbnails","/home/*/.cache/spotify","/home/*/.cache/mozilla","/home/*/.cache/chromium","/home/*/.local/share/Trash/*","/home/*/.gvfs","/.snapshots"} / /media/backup
+}
+
+system_state() {
+	systemctl --failed
+	journalctl -p 0..3 -xn
+}
