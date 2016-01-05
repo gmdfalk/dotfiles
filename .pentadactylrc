@@ -1,0 +1,237 @@
+" General options {{{ 
+" Follow hints (links) immediately when matched
+set followhints=0
+
+" Limit number of items displayed on commandline at once (default is 20)
+set maxitems=10
+
+" Limit number of (error and info) messages stored in history (default is 100)
+set messages=25
+
+" Number of lines to scroll with <C-d>/<C-u> (0 means it scrolls half the window at a time)
+set scroll=0
+
+" Maximum number of commands and find patterns to store in the cmd history (default is 500)
+set history=100
+
+" show URLs of links (on hover or other focus) in command line
+set showstatuslinks='command'
+
+" Keep hints on home row
+"set hintkeys=alskdjfhg
+
+" Default search engine (google)
+set defsearch=g
+
+" No suggestion engines please
+set suggestengines=
+
+" b=bottomScroll, B=bookmarkBar, c=commandLine, C=commandLineOutsideStatusLine,
+" l=leftScroll, m=menuBar, M=messageOutsideStatusLine, n=tabNumber,
+" N=tabNumberOverIcon, r=rightScroll, s=statusBar, T=toolBar
+set guioptions=rs
+
+" Use vim as editor (see C-i)
+set editor="urxvt -name URxvt -e vim -f"
+
+" No beeping please
+set visualbell
+hi Bell display: none;
+
+" Wait 10ms before executing a command if a longer one exists
+set timeout
+set timeoutlen=10
+
+" Show tabline
+set showtabline=always
+map -ex <C-t> :set showtabline!=always,never
+
+" Open all types of pages (addons, downloads, help, javascript, prefs) in new tab
+set newtab=all
+
+" Popups open in new tab
+set popups=tab
+" }}}
+
+" Search Options {{{
+" Show highlights when searching
+set hlfind
+
+" Search incrementally
+set incfind
+
+" Ignore case in searches unless search term contains upper case letters
+set wildcase=.?:smart
+set findcase=smart
+
+"set nextpattern='^\s*Next Page\s*$', '^\s*Next [>»]', '\bnext\b', ^>$, '^(>>|»)$', '^(>|»)', '(>|»)$', '\bmore\b'
+"set previouspattern='^\s*Prev(ious)? Page\s*$', '[<«] Prev\s*$', '\bprev(ious)?\b', ^<$, '^(<<|«)$', '^(<|«)', '(<|«)$'
+"set nextpattern=\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b,\\bweiter\\b,\\bvor\\b,\\bNäch
+"set previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorhe,\\bZurück
+"}}}
+
+" Completions {{{
+" s=search l=location bar h=history b=bookmarks f=file
+set complete=lsbf
+
+" For one match, show it; If more, list all matches until longest common
+set wildmode=list:full
+" }}}
+
+" Firefox Options {{{
+" Allow addons without a Firefox certified signature (necessary to run Pentadactyl)
+set! xpinstall.signatures.required=false
+
+" Hide close buttons on tabs (less mouse temptation)
+set! browser.tabs.closeButtons=2
+
+" Disable accelerator key for content
+"set! ui.key.contentAccess=0
+
+" Don't filter out "javascript:" URLs from appearing in location bar
+set! browser.urlbar.filter.javascript=false
+
+" Insert related tabs after the current one
+set! browser.tabs.insertRelatedAfterCurrent=true
+
+" Leave focus on current tab by loading new tabs in background
+set! browser.tabs.loadDivertedInBackground=true
+
+" Don't close last tab via "d"
+set! browser.tabs.closeWindowWithLastTab=false
+
+" Tab undo limit (default is 10)
+set! browser.sessionstore.max_tabs_undo=20
+" }}}
+
+" Mapping {{{
+map , <Leader>
+
+map s :open g<Space>
+map S :tabopen g<Space>
+
+" Unmap annoying keys
+map -builtin <bs> <Nop>
+map -builtin <f1> <Nop>
+map -builtin <C-h> <Nop>
+map -builtin <C-l> <Nop>
+" Go to about:home
+map -builtin <C-j> <Nop>
+map -builtin <C-k> <Nop>
+
+" Enable pass through for copy shortcut in normal mode
+nmap -builtin <C-c> <pass>
+
+" Enable pass through for common text editing shortcuts in insert mode
+imap -builtin <C-a> <pass>
+imap -builtin <C-b> <pass>
+imap -builtin <C-c> <pass>
+imap -builtin <C-i> <pass>
+imap -builtin <C-u> <pass>
+imap -builtin <C-v> <pass>
+imap -builtin <C-x> <pass>
+imap -builtin <C-y> <pass>
+imap -builtin <C-z> <pass>
+
+" Scrolling
+nmap h -builtin 5h
+nmap j -builtin 5j
+nmap k -builtin 5k
+nmap l -builtin 5l
+
+" Tab control
+map <Leader>td :tabduplicate<CR> 
+map <Leader>tl :tablast<CR>      
+map <Leader>tf :tabfirst<CR>     
+map <Leader>tt :tabdetach<CR>    
+map <Leader>tT :tabattach 1<CR>  
+map <C-h> :tabmove! -1<CR>
+map <C-l> :tabmove! +1<CR>
+
+" Tab groups
+map <Leader>gg :bmarks! -T             
+map <Leader>gn :bmarks! -T news<CR>    
+map <Leader>gd :bmarks! -T dvagit<CR>  
+map <Leader>gm :bmarks! -T dvagnews<CR>
+
+" Firefox dialogues
+nmap <Leader>fa :dialog addons<CR>
+nmap <Leader>fb :dialog places<CR>
+nmap <Leader>fd :dialog downloads<CR>
+nmap <Leader>fh :dialog history<CR>
+nmap <Leader>fp :dialog preferences<CR>
+nmap <Leader>fP :dialog printpreview<CR>
+nmap <Leader>fs :dialog pagesource<CR>
+
+nmap -builtin <Leader>ba :toolbartoggle Add-on Bar<CR>
+nmap -builtin <Leader>bn :toolbartoggle Navigation Toolbar<CR>
+nmap -builtin <Leader>bb :sidebar Bookmarks<CR>
+nmap -builtin <Leader>bd :sidebar Downloads<CR>
+
+" Jump to previous buffer
+map <Leader>, :buffer #<CR>
+
+" Disable Pentadactyl extension
+nmap -builtin <Leader>d :extdisable Pentadactyl<CR>
+
+" Open new private window
+nmap -builtin <Leader>p :private winopen<CR>
+
+" Add -k= after bookmark
+nmap -builtin a a -k=
+
+" Quickly turn off search highlighting
+map <Leader><Space> :noh<CR>
+
+" Proxy
+command proxy -nargs=1 :set! network.proxy.type=<args>
+nmap <Leader>py :proxy 1<CR>
+nmap <Leader>pn :proxy 0<CR>
+
+" Reload the config file
+map <Leader>s :source ~/.pentadactylrc<CR>
+
+" Make up/dn work in completion lists
+"cmap -builtin <up> <s-tab>
+"cmap -builtin <c-up> <up>
+"cmap -builtin <down> <tab>
+"cmap -builtin <c-down> <down>
+" }}}
+
+" Sites + Groups {{{
+" Disable passkeys for all sites
+set passkeys=
+
+" Imgur keys
+set passkeys+=imgur.com:<Left>,<Right>
+group -locations http://imgur.com/* imgur
+map ö -j $('.navNext')[0].click();
+map ä -j $('.navPrev')[0].click();
+group user
+
+" pr0gramm keys
+set passkeys+=pr0gramm.com:<Return>,<Left>,<Right>
+group -locations http://pr0gramm.com/* pr0gramm
+map ä -j $('.stream-prev').click();
+map ö -j $('.stream-next').click();
+group user
+" }}}
+
+" Style {{{
+autocmd Fullscreen .* :set guioptions+=s
+
+style -name tabs chrome://* <<EOF
+/* Remove these buttons */
+.tabs-newtab-button,
+.tabs-alltabs-button,
+.tabs-container > stack,
+.tabs-bottom {
+    display: none !important;
+}
+EOF
+
+hi StatusLine   font-family: Terminus; padding:0 4px; font-size: 8pt;
+hi Bell         display: none;
+hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;
+"hi CmdOutput    white-space: pre;
+"}}}
