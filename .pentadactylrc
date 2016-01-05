@@ -105,7 +105,8 @@ set! browser.sessionstore.max_tabs_undo=20
 " }}}
 
 " Mapping {{{
-map , <Leader>
+map <Space> <Leader>
+map ö <Esc>
 
 map s :open g<Space>
 map S :tabopen g<Space>
@@ -147,6 +148,8 @@ map <Leader>tt :tabdetach<CR>
 map <Leader>tT :tabattach 1<CR>  
 map <C-h> :tabmove! -1<CR>
 map <C-l> :tabmove! +1<CR>
+map <C-j> :tabprevious<CR>
+map <C-k> :tabnext<CR>
 
 " Tab groups
 map <Leader>gg :bmarks! -T             
@@ -166,10 +169,11 @@ nmap <Leader>fs :dialog pagesource<CR>
 nmap -builtin <Leader>ba :toolbartoggle Add-on Bar<CR>
 nmap -builtin <Leader>bn :toolbartoggle Navigation Toolbar<CR>
 nmap -builtin <Leader>bb :sidebar Bookmarks<CR>
+nmap -builtin <Leader>bh :sidebar History<CR>
 nmap -builtin <Leader>bd :sidebar Downloads<CR>
 
 " Jump to previous buffer
-map <Leader>, :buffer #<CR>
+map <Leader><Space> :buffer #<CR>
 
 " Disable Pentadactyl extension
 nmap -builtin <Leader>d :extdisable Pentadactyl<CR>
@@ -181,7 +185,7 @@ nmap -builtin <Leader>p :private winopen<CR>
 nmap -builtin a a -k=
 
 " Quickly turn off search highlighting
-map <Leader><Space> :noh<CR>
+map <Leader>n :set hlfind!<CR>
 
 " Proxy
 command proxy -nargs=1 :set! network.proxy.type=<args>
@@ -189,7 +193,7 @@ nmap <Leader>py :proxy 1<CR>
 nmap <Leader>pn :proxy 0<CR>
 
 " Reload the config file
-map <Leader>s :source ~/.pentadactylrc<CR>
+map <Leader>r :source ~/.pentadactylrc<CR>
 
 " Make up/dn work in completion lists
 "cmap -builtin <up> <s-tab>
@@ -205,15 +209,15 @@ set passkeys=
 " Imgur keys
 set passkeys+=imgur.com:<Left>,<Right>
 group -locations http://imgur.com/* imgur
-map ö -j $('.navNext')[0].click();
-map ä -j $('.navPrev')[0].click();
+map x -j $('.navPrev')[0].click();
+map c -j $('.navNext')[0].click();
 group user
 
 " pr0gramm keys
 set passkeys+=pr0gramm.com:<Return>,<Left>,<Right>
 group -locations http://pr0gramm.com/* pr0gramm
-map ä -j $('.stream-prev').click();
-map ö -j $('.stream-next').click();
+map x -j $('.stream-prev').click();
+map c -j $('.stream-next').click();
 group user
 " }}}
 

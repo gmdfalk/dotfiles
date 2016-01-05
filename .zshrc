@@ -2244,3 +2244,4 @@ system_state() {
 	journalctl -p 0..3 -xn
 }
 
+stty -ixon
