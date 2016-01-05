@@ -2218,7 +2218,6 @@ alias sysupgrade="sudo pacman -Syw && sudo snp pacman -Su"
 if ! pgrep -u $USER ssh-agent > /dev/null; then
     ssh-agent > ~/.ssh-agent-thing
     ssh-add $HOME/.ssh/git
-    ssh-add $HOME/.ssh/home
 fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
     eval $(<~/.ssh-agent-thing)
