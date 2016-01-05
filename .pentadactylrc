@@ -1,4 +1,4 @@
-" General options {{{ 
+" General options {{{
 " Follow hints (links) immediately when matched
 set followhints=0
 
@@ -44,7 +44,7 @@ set timeoutlen=10
 
 " Show tabline
 set showtabline=always
-map -ex <C-t> :set showtabline!=always,never
+"map <C-t> :set showtabline!=always,never<CR>
 
 " Open all types of pages (addons, downloads, help, javascript, prefs) in new tab
 set newtab=all
@@ -125,11 +125,11 @@ nmap -builtin <C-c> <pass>
 
 " Enable pass through for common text editing shortcuts in insert mode
 imap -builtin <C-a> <pass>
-imap -builtin <C-b> <pass>
-imap -builtin <C-c> <pass>
-imap -builtin <C-i> <pass>
-imap -builtin <C-u> <pass>
 imap -builtin <C-v> <pass>
+"imap -builtin <C-b> <pass>
+imap -builtin <C-c> <pass>
+"imap -builtin <C-i> <pass>
+"imap -builtin <C-u> <pass>
 imap -builtin <C-x> <pass>
 imap -builtin <C-y> <pass>
 imap -builtin <C-z> <pass>
@@ -141,20 +141,20 @@ nmap k -builtin 5k
 nmap l -builtin 5l
 
 " Tab control
-map <Leader>td :tabduplicate<CR> 
-map <Leader>tl :tablast<CR>      
-map <Leader>tf :tabfirst<CR>     
-map <Leader>tt :tabdetach<CR>    
-map <Leader>tT :tabattach 1<CR>  
+map <Leader>td :tabduplicate<CR>
+map <Leader>tl :tablast<CR>
+map <Leader>tf :tabfirst<CR>
+map <Leader>tt :tabdetach<CR>
+map <Leader>tT :tabattach 1<CR>
 map <C-h> :tabmove! -1<CR>
 map <C-l> :tabmove! +1<CR>
 map <C-j> :tabprevious<CR>
 map <C-k> :tabnext<CR>
 
 " Tab groups
-map <Leader>gg :bmarks! -T             
-map <Leader>gn :bmarks! -T news<CR>    
-map <Leader>gd :bmarks! -T dvagit<CR>  
+map <Leader>gg :bmarks! -T
+map <Leader>gn :bmarks! -T news<CR>
+map <Leader>gd :bmarks! -T dvagit<CR>
 map <Leader>gm :bmarks! -T dvagnews<CR>
 
 " Firefox dialogues

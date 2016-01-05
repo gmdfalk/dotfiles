@@ -6,18 +6,19 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
-Plugin 'kien/ctrlp.vim'
+" Use <Leader>c<Space> to toggle comment
+Plugin 'scrooloose/nerdcommenter'
+" Use <A-j> and <A-k> to move line/selection up/down with proper indenting
+Plugin 'matze/vim-move' 
 Plugin 'terryma/vim-expand-region'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
-" Maps ,w ,b and ,e to move like w b and e but respecting boundaries of CamelCase, hyphens, underscores and similar.
-Plugin 'bkad/CamelCaseMotion' 
-"Plugin 'powerline/powerline'
-"Plugin 'Lokaltog/powerline'
-"Plugin 'kana/vim-textobj-line'
+"Plugin 'xolox/vim-misc'
+"Plugin 'xolox/vim-session'
 call vundle#end()
 filetype plugin indent on
+
+let g:move_key_modifier = 'C'
 
 """ COLORS
 " Use the Solarized Dark theme
@@ -48,15 +49,9 @@ let g:expand_region_text_objects = {
       \ 'ie'  :0,
       \ }
 
-" Open files in new tabs by default (CtrlP)
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
-
 "" Airline
 let g:airline_theme = 'solarized'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
@@ -190,12 +185,11 @@ let mapleader="\<Space>"
 "" Files
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :w !sudo tee % > /dev/null<CR> " Save a file as root (,W)
-nnoremap <Leader>o :CtrlP<CR>
 
 "" Mode switching
 " ESC is a buzzkill
-noremap öö <ESC>
-inoremap öö <ESC>
+noremap ö <ESC>
+inoremap ö <ESC>
 
 "" Text manipulation
 noremap <Leader>ss :call StripWhitespace()<CR>
@@ -253,3 +247,4 @@ augroup resCur
     autocmd!
     autocmd BufWinEnter * call ResCur()
 augroup END
+
