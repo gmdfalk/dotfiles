@@ -8,7 +8,7 @@
 !.config/user-dirs.dirs
 !.colors/
 !.cvimrc
-!.dircolors
+!.dircolors*
 !.gitconfig
 !.gitignore
 !.pentadactylrc

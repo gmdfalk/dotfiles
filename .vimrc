@@ -20,17 +20,19 @@ filetype plugin indent on
 
 """ PLUGIN OPTIONS
 " Use ctrl as modifier for vim-move (C-j/k to move lines down/up)
-let g:move_key_modifier = 'C'
+let g:move_key_modifier='C'
 
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
+" vim-colors-solarized
+"let g:solarized_termcolors=256
+"let g:solarized_termtrans=1
+
 
 " Vim-session & vim-misc settings to automatically reload a default session
 let g:session_autosave='yes'
-let g:session_autoload='yes'
+let g:solarized_termtrans=1
 
 " Vim-expand-region settings
-let g:expand_region_text_objects = {
+let g:expand_region_text_objects={
       \ 'iw'  :0,
       \ 'iW'  :0,
       \ 'i"'  :1,
@@ -44,13 +46,13 @@ let g:expand_region_text_objects = {
       \ }
 
 "" Airline
-let g:airline_theme = 'solarized'
-let g:airline_powerline_fonts = 0
+let g:airline_theme='solarized'
+let g:airline_powerline_fonts=0
 " Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-"let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#show_tab_nr=0
+let g:airline#extensions#tabline#fnamemod=':t' " Show just the filename
+"let g:airline#extensions#tabline#tab_nr_type=1 " tab number
 
 """ COLORS
 " Use the Solarized Dark theme
@@ -145,8 +147,8 @@ set scrolloff=3
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
+    let save_cursor=getpos(".")
+    let old_query=getreg('/')
     :%s/\s\+$//e
     call setpos('.', save_cursor)
     call setreg('/', old_query)
@@ -163,7 +165,7 @@ if has("autocmd")
 endif
 
 if has("gui_running")
-   let s:uname = system("uname")
+   let s:uname=system("uname")
    if s:uname == "Darwin\n"
       set guifont=Inconsolata\ for\ Powerline:h13
    endif
@@ -206,9 +208,9 @@ omap s :normal vs<CR>
 
 "" Tabs
 " Go to last active tab
-let g:lasttab = 1
+let g:lasttab=1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
+au TabLeave * let g:lasttab=tabpagenr()
 
 " Repeat last command.
 noremap ö :<Up><CR>
