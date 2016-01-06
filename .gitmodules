@@ -4,3 +4,9 @@
 [submodule ".config/awesome"]
 	path = .config/awesome
 	url = https://github.com/copycat-killer/awesome-copycats
+[submodule ".vim/bundle/vim-move"]
+	path = .vim/bundle/vim-move
+	url = gh:matze/vim-move.git
+[submodule ".vim/bundle/vim-expand-region"]
+	path = .vim/bundle/vim-expand-region
+	url = gh:terryma/vim-expand-region.git
