@@ -7,7 +7,7 @@ Xft.hintstyle:               hintfull
 Xft.lcdfilter:               lcddefault
 Xft.rgba:                    rgb
 ! }}}
-
+!-----------------------------------------------------------------------
 ! {{{ urxvt
 ! General
 *URxvt.perl-ext-common:      default,matcher
@@ -40,25 +40,11 @@ Xft.rgba:                    rgb
 *URxvt.allow_bold:           false
 *URxvt.letterSpace:          -1
 ! }}}
-
+!-----------------------------------------------------------------------
 ! {{{ urxvt_drop
-!urxvt_drop*inheritpixmap:  true
 urxvt_drop*depth:           32
 urxvt_drop*background:      rgba:0000/0000/0000/aaaa
 urxvt_drop*shading:         40
-!urxvt_drop*fading:         30
-
-!urxvt_drop_t*inheritpixmap: true
-urxvt_drop_t*depth:         32
-urxvt_drop_t*background:    rgba:0000/0000/0000/aaaa
-urxvt_drop_t*shading:       40
-!urxvt_drop_t*fading:       30
-
-!urxvt_drop_r*inheritpixmap: true
-urxvt_drop_r*depth:         32
-urxvt_drop_r*background:    rgba:0000/0000/0000/aaaa
-urxvt_drop_r*shading:       40
-!urxvt_drop_r*fading:       30
 ! }}}
 !-----------------------------------------------------------------------
 ! {{{ solarized dark
@@ -119,7 +105,7 @@ urxvt_drop_r*shading:       40
 *color7:                S_base2
 *color15:               S_base3
 ! }}}
-
+!-----------------------------------------------------------------------
 ! {{{ solarized light
 !#define S_base03        #002b36
 !#define S_base02        #073642

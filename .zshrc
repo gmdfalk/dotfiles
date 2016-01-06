@@ -58,7 +58,7 @@ export  CC=/usr/bin/gcc             \
         BROWSER=firefox             \
         TTYBROWSER=firefox          \
         EDITOR="vim -p"             \
-        SYSTEMD_EDITOR="vim -p"	    \
+        SYSTEMD_EDITOR="vim -p"     \
         VISUAL="vim -p"             \
        # GREP_OPTIONS="--color=auto" \
        # GREP_COLOR="1;36"           \
@@ -1163,7 +1163,7 @@ if [[ $HOST != slave ]]; then
         esac
     }
     temp() { cat /proc/acpi/ibm/thermal | awk '{print $2, $3, $5, $6, $8, $10, $11}'; }
-    
+
     # network
     alias iwconfig="sudo iwconfig"
     alias iwcfg="iwconfig"
@@ -1459,7 +1459,7 @@ else
     alias -g WC="| wc -l"
     alias -g XA="| xargs"
     ## Suffixes
-    
+
     if [[ $_isxrunning = true ]];then
         alias -s {conf,txt,TXT,README,PKGBUILD}=$XEDITOR
     else
@@ -1596,7 +1596,7 @@ else
     }
     zle -N insert-sudo insert_sudo
     bindkey '^H' insert-sudo
-    
+
     # Move to where the arguments belong.
     after-first-word() {
       zle beginning-of-line
@@ -2004,7 +2004,7 @@ else
     compile=(all clean compile disclean install remove uninstall)
     compctl -k compile make
 
-  
+
     # hosts completion for a few commands
     compctl -k hosts ftp lftp ncftp ssh w3m lynx links elinks nc telnet rlogin host
     compctl -k hosts -P '@' finger
@@ -2080,7 +2080,7 @@ else
     compctl -x 'C[-1,[+-]o]' -o - 'c[-1,-A]' -A -- set
 
     # PROMPT
-    prompt_small() {          
+    prompt_small() {
         h1=${HOST:0:1}
         if [[ $HOST == laptop ]];then
             PROMPT="%{$fg[red]%}%(?. .%?)%{$reset_color%}%{$fg[blue]%}>> %{$reset_color%}"
@@ -2198,7 +2198,7 @@ $PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
 
         setprompt
     }
-    
+
     alias pphil="source $HOME/.philsprompt"
     #[[ -f $HOME/.dircolors ]] && eval $(/bin/dircolors -b $HOME/.dircolors) || LS_COLORS="no=00:fi=00:rs=0:di=04:ex=00:" && export LS_COLORS
     alias lscolor='eval `dircolors -b $HOME/.dircolors`'
@@ -2235,13 +2235,23 @@ tpspeed() {
 }
 
 sysbackup() {
-	# archive, keep attributes, keep extended attributes, verbose, delete obsolete destination files
-	rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*/.thumbnails","/home/*/.cache/spotify","/home/*/.cache/mozilla","/home/*/.cache/chromium","/home/*/.local/share/Trash/*","/home/*/.gvfs","/.snapshots"} / /media/backup
+    # archive, keep attributes, keep extended attributes, verbose, delete obsolete destination files
+    rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*/.thumbnails","/home/*/.cache/spotify","/home/*/.cache/mozilla","/home/*/.cache/chromium","/home/*/.local/share/Trash/*","/home/*/.gvfs","/.snapshots"} / /media/backup
 }
 
 system_state() {
-	systemctl --failed
-	journalctl -p 0..3 -xn
+    systemctl --failed
+    journalctl -p 0..3 -xn
 }
 
+# Disable scroll locking via ^s and ^q.
 stty -ixon
+
+# Load dircolors
+dircolors_file=$HOME/.dircolors
+[[ -f "$dircolors_file" ]] && eval $(dircolors "$dircolors_file")
+
+alias resource="source $HOME/.zshrc"
+
+# Supress warnings about accessibility bus
+NO_AT_BRIDGE=1

@@ -6,6 +6,8 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
+"Plugin 'Shougo/neocomplete.vim'
+Plugin 'ervandew/supertab'
 " Use <Leader>c<Space> to toggle comment
 Plugin 'scrooloose/nerdcommenter'
 " Use <A-j> and <A-k> to move line/selection up/down with proper indenting
@@ -19,17 +21,69 @@ call vundle#end()
 filetype plugin indent on
 
 """ PLUGIN OPTIONS
-" Use ctrl as modifier for vim-move (C-j/k to move lines down/up)
+"" neocomplete
+"" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+"" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+            "\ 'default' : '',
+            "\ 'vimshell' : $HOME.'/.vimshell_hist',
+            "\ 'scheme' : $HOME.'/.gosh_completions'
+            "\ }
+
+"" Define keyword.
+"if !exists('g:neocomplete#keyword_patterns')
+    "let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default']='\h\w*'
+
+"" Plugin key-mappings.
+"inoremap <expr><C-g> neocomplete#undo_completion()
+"inoremap <expr><C-l> neocomplete#complete_common_string()
+
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+    "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    "" For no inserting <CR> key.
+    ""return pumvisible() ? "\<C-y>" : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"" Close popup by <Space>.
+""inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+    "let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+
+" vim-move
 let g:move_key_modifier='C'
 
 " vim-colors-solarized
 "let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
 
-
 " Vim-session & vim-misc settings to automatically reload a default session
 let g:session_autosave='yes'
-let g:solarized_termtrans=1
 
 " Vim-expand-region settings
 let g:expand_region_text_objects={
@@ -53,6 +107,9 @@ let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#show_tab_nr=0
 let g:airline#extensions#tabline#fnamemod=':t' " Show just the filename
 "let g:airline#extensions#tabline#tab_nr_type=1 " tab number
+
+" Disable autocommenting
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 """ COLORS
 " Use the Solarized Dark theme

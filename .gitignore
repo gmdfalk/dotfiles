@@ -11,7 +11,9 @@
 !.dircolors*
 !.gitconfig
 !.gitignore
+!.icons/
 !.pentadactylrc
+!.themes/
 !.vimperatorrc
 !.vim/
 !.vimrc
