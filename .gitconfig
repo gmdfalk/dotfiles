@@ -86,8 +86,8 @@
 [core]
 
     # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = /Users/i13az63/.gitignore
-    attributesfile = ~/.gitattributes
+    #excludesfile = /Users/i13az63/.gitignore
+    #attributesfile = ~/.gitattributes
 
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
