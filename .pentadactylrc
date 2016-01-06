@@ -91,8 +91,8 @@ set! browser.tabs.closeButtons=2
 " Don't filter out "javascript:" URLs from appearing in location bar
 set! browser.urlbar.filter.javascript=false
 
-" Insert related tabs after the current one
-set! browser.tabs.insertRelatedAfterCurrent=true
+" Don't insert related tabs after the current one
+set! browser.tabs.insertRelatedAfterCurrent=false
 
 " Leave focus on current tab by loading new tabs in background
 set! browser.tabs.loadDivertedInBackground=true
