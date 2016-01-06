@@ -18,22 +18,16 @@ Plugin 'bling/vim-airline'
 call vundle#end()
 filetype plugin indent on
 
+""" PLUGIN OPTIONS
+" Use ctrl as modifier for vim-move (C-j/k to move lines down/up)
 let g:move_key_modifier = 'C'
 
-""" COLORS
-" Use the Solarized Dark theme
-set background=dark
-colorscheme solarized
-
-""" PLUGIN OPTIONS
+let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 
 " Vim-session & vim-misc settings to automatically reload a default session
 let g:session_autosave='yes'
 let g:session_autoload='yes'
-
-" Show hidden files in CtrlP
-let g:ctrlp_show_hidden = 1
 
 " Vim-expand-region settings
 let g:expand_region_text_objects = {
@@ -58,9 +52,13 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 "let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 
+""" COLORS
+" Use the Solarized Dark theme
+set t_Co=256
+set background=dark
+colorscheme solarized
+
 """ SETTINGS
-" CtrlP should ignore some filetypes completely
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.obj,*.bak,*.exe
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -76,7 +74,6 @@ set gdefault
 "" Powerline settings
 set encoding=utf-8 nobomb  " Use UTF-8 without BOM
 set laststatus=2  " Always show status line
-set t_Co=256
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
