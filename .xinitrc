@@ -16,6 +16,9 @@ if [ -x /usr/bin/xdg-user-dirs-update ]; then
    /usr/bin/xdg-user-dirs-update
 fi
 
+[ -f /etc/xprofile ] && source /etc/xprofile
+[ -f ~/.xprofile ] && source ~/.xprofile
+
 # Common apps
 nm-applet --sm-disable &
 pidgin &
