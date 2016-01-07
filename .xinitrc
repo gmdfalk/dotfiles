@@ -16,26 +16,11 @@ if [ -x /usr/bin/xdg-user-dirs-update ]; then
    /usr/bin/xdg-user-dirs-update
 fi
 
-# X11 environment
-#start-pulseaudio-x11
-setxkbmap de -variant nodeadkeys
-xmodmap ~/.xmodmaprc
-xset s off dpms 0 0 300 &
-
-# Host specific startup
-if [[ $HOSTNAME = htpc ]];then
-    wspotify &
-    pkill -f blockify &
-    (sleep 10; blockify) &
-    sudo vbetool dpms off &
-    #eval $(gpg-agent --daemon) &
-else
-    xchat &
-fi
-
 # Common apps
-compton &
+nm-applet --sm-disable &
+pidgin &
+thunderbird &
 firefox &
-dropboxd &
+(sleep 10 && dropbox) &
 
 exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err

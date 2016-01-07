@@ -6,36 +6,87 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
-Plugin 'kien/ctrlp.vim'
+"Plugin 'Shougo/neocomplete.vim'
+Plugin 'ervandew/supertab'
+" Use <Leader>c<Space> to toggle comment
+Plugin 'scrooloose/nerdcommenter'
+" Use <A-j> and <A-k> to move line/selection up/down with proper indenting
+Plugin 'matze/vim-move' 
 Plugin 'terryma/vim-expand-region'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
-" Maps ,w ,b and ,e to move like w b and e but respecting boundaries of CamelCase, hyphens, underscores and similar.
-Plugin 'bkad/CamelCaseMotion' 
-"Plugin 'powerline/powerline'
-"Plugin 'Lokaltog/powerline'
-"Plugin 'kana/vim-textobj-line'
+"Plugin 'xolox/vim-misc'
+"Plugin 'xolox/vim-session'
 call vundle#end()
 filetype plugin indent on
 
-""" COLORS
-" Use the Solarized Dark theme
-set background=dark
-colorscheme solarized
-
 """ PLUGIN OPTIONS
-let g:solarized_termtrans=1
+"" neocomplete
+"" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+"" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+            "\ 'default' : '',
+            "\ 'vimshell' : $HOME.'/.vimshell_hist',
+            "\ 'scheme' : $HOME.'/.gosh_completions'
+            "\ }
+
+"" Define keyword.
+"if !exists('g:neocomplete#keyword_patterns')
+    "let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default']='\h\w*'
+
+"" Plugin key-mappings.
+"inoremap <expr><C-g> neocomplete#undo_completion()
+"inoremap <expr><C-l> neocomplete#complete_common_string()
+
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+    "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    "" For no inserting <CR> key.
+    ""return pumvisible() ? "\<C-y>" : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"" Close popup by <Space>.
+""inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+    "let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+
+" vim-move
+let g:move_key_modifier='C'
+
+" vim-colors-solarized
+"let g:solarized_termcolors=256
+"let g:solarized_termtrans=1
 
 " Vim-session & vim-misc settings to automatically reload a default session
 let g:session_autosave='yes'
-let g:session_autoload='yes'
-
-" Show hidden files in CtrlP
-let g:ctrlp_show_hidden = 1
 
 " Vim-expand-region settings
-let g:expand_region_text_objects = {
+let g:expand_region_text_objects={
       \ 'iw'  :0,
       \ 'iW'  :0,
       \ 'i"'  :1,
@@ -48,24 +99,25 @@ let g:expand_region_text_objects = {
       \ 'ie'  :0,
       \ }
 
-" Open files in new tabs by default (CtrlP)
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
-
 "" Airline
-let g:airline_theme = 'solarized'
-let g:airline_powerline_fonts = 1
+let g:airline_theme='solarized'
+let g:airline_powerline_fonts=0
 " Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-"let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#show_tab_nr=0
+let g:airline#extensions#tabline#fnamemod=':t' " Show just the filename
+"let g:airline#extensions#tabline#tab_nr_type=1 " tab number
+
+" Disable autocommenting
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+""" COLORS
+" Use the Solarized Dark theme
+set t_Co=256
+set background=dark
+colorscheme solarized
 
 """ SETTINGS
-" CtrlP should ignore some filetypes completely
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.obj,*.bak,*.exe
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -81,7 +133,6 @@ set gdefault
 "" Powerline settings
 set encoding=utf-8 nobomb  " Use UTF-8 without BOM
 set laststatus=2  " Always show status line
-set t_Co=256
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
@@ -153,8 +204,8 @@ set scrolloff=3
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
+    let save_cursor=getpos(".")
+    let old_query=getreg('/')
     :%s/\s\+$//e
     call setpos('.', save_cursor)
     call setreg('/', old_query)
@@ -171,7 +222,7 @@ if has("autocmd")
 endif
 
 if has("gui_running")
-   let s:uname = system("uname")
+   let s:uname=system("uname")
    if s:uname == "Darwin\n"
       set guifont=Inconsolata\ for\ Powerline:h13
    endif
@@ -190,12 +241,11 @@ let mapleader="\<Space>"
 "" Files
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :w !sudo tee % > /dev/null<CR> " Save a file as root (,W)
-nnoremap <Leader>o :CtrlP<CR>
 
 "" Mode switching
 " ESC is a buzzkill
-noremap öö <ESC>
-inoremap öö <ESC>
+noremap ö <ESC>
+inoremap ö <ESC>
 
 "" Text manipulation
 noremap <Leader>ss :call StripWhitespace()<CR>
@@ -215,9 +265,9 @@ omap s :normal vs<CR>
 
 "" Tabs
 " Go to last active tab
-let g:lasttab = 1
+let g:lasttab=1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
+au TabLeave * let g:lasttab=tabpagenr()
 
 " Repeat last command.
 noremap ö :<Up><CR>
@@ -233,3 +283,24 @@ noremap <Space>j }
 noremap <Space>k {
 noremap <Space>ge `.
 noremap <Space>gc ``
+
+" Tell vim to remember certain things when we exit
+"  '10  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+"  n... :  where to save the viminfo files
+set viminfo='10,\"100,:20,%
+
+function! ResCur()
+    if line("'\"") <= line("$")
+        normal! g`"
+        return 1
+    endif
+endfunction
+
+augroup resCur
+    autocmd!
+    autocmd BufWinEnter * call ResCur()
+augroup END
+

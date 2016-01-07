@@ -42,27 +42,28 @@ _isroot=false
 _isxrunning=false
 [[ -n "$DISPLAY" ]] && _isxrunning=true
 
-if [[ -n "$_isxrunning" && -n "$_isroot" ]];then
-    export DISPLAY=:0
-    [[ $HOST == htpc ]] && export XAUTHORITY=/home/slave/.Xauthority || export XAUTHORITY=/home/demian/.Xauthority
-fi
+# if [[ -n "$_isxrunning" && -n "$_isroot" ]];then
+#     export DISPLAY=:0
+#     #[[ $HOST == htpc ]] && export XAUTHORITY=/home/slave/.Xauthority || export XAUTHORITY=/home/demian/.Xauthority
+# fi
 
 [[ -z $HOST ]] && HOST=$HOSTNAME
 #}}}
 #{{{ ENVIRONMENT
 # set path and remove duplicates
-#PATH=$HOME/.bin:/opt:$PATH
+export PATH=~/.bin:$PATH
 #typeset -U PATH
 
 export  CC=/usr/bin/gcc             \
         BROWSER=firefox             \
         TTYBROWSER=firefox          \
         EDITOR="vim -p"             \
+        SYSTEMD_EDITOR="vim -p"     \
         VISUAL="vim -p"             \
-        GREP_OPTIONS="--color=auto" \
-        GREP_COLOR="1;36"           \
-        LANG=en_GB.UTF-8            \
-        LC_ALL=en_GB.UTF-8          \
+       # GREP_OPTIONS="--color=auto" \
+       # GREP_COLOR="1;36"           \
+        LANG=en_US.UTF-8            \
+        LC_ALL=en_US.UTF-8          \
         LESS="-MWi -x4 --shift 5"   \
         LS_COLORS="no=00:fi=00:rs=0:di=04:ow=04:ex=00:"
 
@@ -369,7 +370,7 @@ fi
 alias c=cat
 alias d=pwd
 #f: find in current directory
-alias g=geany
+alias g=git
 alias h=history
 #j: autojump
 alias k=kill
@@ -1068,7 +1069,7 @@ sysinfo() { # show information about my system
 #}}}
 #{{{ CONDITIONAL
 ### laptop?
-if [[ $HOST = laptop ]]; then
+if [[ $HOST != slave ]]; then
     # commons
     export acpi=/sys/devices/platform/thinkpad_acpi
     export bat=/sys/devices/platform/smapi/BAT0
@@ -1162,7 +1163,7 @@ if [[ $HOST = laptop ]]; then
         esac
     }
     temp() { cat /proc/acpi/ibm/thermal | awk '{print $2, $3, $5, $6, $8, $10, $11}'; }
-    
+
     # network
     alias iwconfig="sudo iwconfig"
     alias iwcfg="iwconfig"
@@ -1242,7 +1243,9 @@ if [[ $HOST = laptop ]]; then
     alias umntmov="cd && sleep .1 && umount -fl ~mov"
     umnta(){ (umntm; umnti; umntser; umntmov)&>/dev/null; }
     alias umntm="cd && sleep .1 && umount -fl /mnt/smb"
-    alias mntm="mount /mnt/smb && cdm"
+    #alias mntm="mount /mnt/smb && cdm"
+    alias mntm="mount -o guest,gid=1000,uid=1000 //192.168.0.2/media ~/media && sleep .1 && cd ~/media"
+    alias mntm="mount -t nfs htpc: ~/media && sleep .1 && cd ~/media"
     alias mnta="(mntmov;mntser;mnti)&>/dev/null && cdi"
     alias mnti="mount -o guest,gid=1000,uid=1000 //192.168.0.2/incoming ~i && sleep .1 && cdi"
     alias mntser="mount -o guest,gid=1000,uid=1000 //192.168.0.2/ser ~ser && sleep .1 && cdser"
@@ -1456,7 +1459,7 @@ else
     alias -g WC="| wc -l"
     alias -g XA="| xargs"
     ## Suffixes
-    
+
     if [[ $_isxrunning = true ]];then
         alias -s {conf,txt,TXT,README,PKGBUILD}=$XEDITOR
     else
@@ -1593,7 +1596,7 @@ else
     }
     zle -N insert-sudo insert_sudo
     bindkey '^H' insert-sudo
-    
+
     # Move to where the arguments belong.
     after-first-word() {
       zle beginning-of-line
@@ -2001,7 +2004,7 @@ else
     compile=(all clean compile disclean install remove uninstall)
     compctl -k compile make
 
-  
+
     # hosts completion for a few commands
     compctl -k hosts ftp lftp ncftp ssh w3m lynx links elinks nc telnet rlogin host
     compctl -k hosts -P '@' finger
@@ -2077,7 +2080,7 @@ else
     compctl -x 'C[-1,[+-]o]' -o - 'c[-1,-A]' -A -- set
 
     # PROMPT
-    prompt_small() {          
+    prompt_small() {
         h1=${HOST:0:1}
         if [[ $HOST == laptop ]];then
             PROMPT="%{$fg[red]%}%(?. .%?)%{$reset_color%}%{$fg[blue]%}>> %{$reset_color%}"
@@ -2086,7 +2089,7 @@ else
             PROMPT="%{$fg[red]%}%(?. .%?)%{$reset_color%}%{$fg[green]%}$h1$h1 %{$reset_color%}"
             [[ $EUID = 0 ]] && PROMPT="%{$fg[red]%}%(?. .%?)%{$reset_color%}%{$fg[green]%}$h1%{$reset_color%}%{$fg[red]%}# %{$reset_color%}"
         fi
-        source ~/.zsh/git-prompt/zshrc.sh
+        source ~/.zsh/zsh-git-prompt/zshrc.sh
         #RPROMPT="%b$(git_super_status)%# [%~] %*"
         RPROMPT='%b$(git_super_status) [%~] %* '
     }
@@ -2195,7 +2198,7 @@ $PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
 
         setprompt
     }
-    
+
     alias pphil="source $HOME/.philsprompt"
     #[[ -f $HOME/.dircolors ]] && eval $(/bin/dircolors -b $HOME/.dircolors) || LS_COLORS="no=00:fi=00:rs=0:di=04:ex=00:" && export LS_COLORS
     alias lscolor='eval `dircolors -b $HOME/.dircolors`'
@@ -2208,3 +2211,47 @@ $PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
     fi
 fi
 #}}}
+
+alias sysupgrade="sudo pacman -Syw && sudo snp pacman -Su"
+
+# Enable SSH-Agent
+if ! pgrep -u $USER ssh-agent > /dev/null; then
+    ssh-agent > ~/.ssh-agent-thing
+    ssh-add $HOME/.ssh/git
+fi
+if [[ "$SSH_AGENT_PID" == "" ]]; then
+    eval $(<~/.ssh-agent-thing)
+fi
+ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+
+tpspeed() {
+    local speed=${1:-0.4}
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5
+    xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" $speed
+    echo $speed
+}
+
+sysbackup() {
+    # archive, keep attributes, keep extended attributes, verbose, delete obsolete destination files
+    rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*/.thumbnails","/home/*/.cache/spotify","/home/*/.cache/mozilla","/home/*/.cache/chromium","/home/*/.local/share/Trash/*","/home/*/.gvfs","/.snapshots"} / /media/backup
+}
+
+system_state() {
+    systemctl --failed
+    journalctl -p 0..3 -xn
+}
+
+# Disable scroll locking via ^s and ^q.
+stty -ixon
+
+# Load dircolors
+dircolors_file=$HOME/.dircolors
+[[ -f "$dircolors_file" ]] && eval $(dircolors "$dircolors_file")
+
+alias resource="source $HOME/.zshrc"
+
+# Supress warnings about accessibility bus
+NO_AT_BRIDGE=1
