@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#
+
+echo 'awesome.restart()' | awesome-client
+sh ~/.xprofile
