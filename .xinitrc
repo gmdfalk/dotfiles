@@ -22,6 +22,7 @@ fi
 # Common apps
 nm-applet --sm-disable &
 pidgin &
+hexchat &
 thunderbird &
 firefox &
 (sleep 10 && dropbox) &
