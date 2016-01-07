@@ -47,10 +47,10 @@ set showtabline=always
 "map <C-t> :set showtabline!=always,never<CR>
 
 " Open all types of pages (addons, downloads, help, javascript, prefs) in new tab
-set newtab=all
+"set newtab=all
 
 " Popups open in new tab
-set popups=tab
+"set popups=tab
 " }}}
 
 " Search Options {{{

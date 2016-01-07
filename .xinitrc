@@ -16,14 +16,6 @@ if [ -x /usr/bin/xdg-user-dirs-update ]; then
    /usr/bin/xdg-user-dirs-update
 fi
 
-# X11 environment
-xrdb -merge ~/.Xresources
-start-pulseaudio-x11
-setxkbmap de # -variant nodeadkeys
-xmodmap ~/.xmodmaprc
-xbindkeys
-xset s off dpms 0 0 300
-
 # Common apps
 nm-applet --sm-disable &
 pidgin &
@@ -31,9 +23,4 @@ thunderbird &
 firefox &
 (sleep 10 && dropbox) &
 
-if ping -c 1 htpc &>/dev/null;then
-   mount ~/media &
-fi
-
 exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err
-#exec startkde
