@@ -16,8 +16,8 @@ if [ -x /usr/bin/xdg-user-dirs-update ]; then
    /usr/bin/xdg-user-dirs-update
 fi
 
-[ -f /etc/xprofile ] && source /etc/xprofile
-[ -f ~/.xprofile ] && source ~/.xprofile
+# Automatically configure monitor setup (docked/undocked)
+autorandr -c &
 
 # Common apps
 nm-applet --sm-disable &

@@ -22,6 +22,8 @@
 !.tmux.conf
 !.vimperatorrc
 !.vim/
+.vim/backups/*
+.vim/swaps/*
 !.vimrc
 !.xbindkeysrc*
 !.xinitrc

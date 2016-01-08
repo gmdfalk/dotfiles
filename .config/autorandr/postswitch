@@ -2,4 +2,4 @@
 #
 
 echo 'awesome.restart()' | awesome-client
-sh ~/.xprofile
+sh /home/max/.xprofile
