@@ -116,16 +116,6 @@ beautiful.init(themes_dir..theme)
 -- }}}
 
 -- =====================================================================
--- {{{ s_wallpaper
--- =====================================================================
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
-end
--- }}}
-
--- =====================================================================
 -- {{{ s_tags
 -- =====================================================================
 local layouts = {
@@ -153,13 +143,23 @@ local layouts = {
     --~ lain.layout.uselesstile,
 }
 tags = {
-    names = { "web", "dev", "irc", "vlc", "docs", "play" },
+    names = { "web", "dev", "docs", "vlc", "irc", "play" },
     --names = { "♏", "♐", "⌘", "☊", "♓", "⌥", "♒" },
-    layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[8], layouts[9] }
+    layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[9] }
 }
 for s = 1, screen.count() do
 -- Each screen has its own tag table.
    tags[s] = awful.tag(tags.names, s, tags.layout)
+end
+-- }}}
+
+-- =====================================================================
+-- {{{ s_wallpaper
+-- =====================================================================
+if beautiful.wallpaper then
+    for s = 1, screen.count() do
+        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+    end
 end
 -- }}}
 
@@ -607,9 +607,11 @@ for i = 1, 9 do
 end
 
 clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button(k_m, 1, awful.mouse.client.move),
-    awful.button(k_m, 3, awful.mouse.client.resize))
+    awful.button({ },  1, function (c) client.focus = c; c:raise() end),
+    awful.button(k_a,  1, function (c) client.focus = c; c:lower() end),
+    awful.button(k_m,  1, awful.mouse.client.move),
+    awful.button(k_m,  3, awful.mouse.client.resize)
+)
 
 -- Set keys
 root.keys(globalkeys)
@@ -618,56 +620,142 @@ root.keys(globalkeys)
 -- {{{ Rules
 awful.rules.rules = {
     -- All clients will match this rule.
-    { rule = { },
+    { rule = {},
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
+                     raise = true,
                      keys = clientkeys,
                      buttons = clientbuttons,
-                     size_hints_honor = false
-                   },
+                     --~ maximized_horizontal = false,
+                     --~ maximized_vertical = false,
+                     --~ size_hints_honor = false
+        },
         -- Start windows as slave
-        callback = awful.client.setslave
+        --callback = awful.client.setslave
     },
-    { rule = { class = "URxvt" },
-          properties = { opacity = 0.99 } },
 
-    { rule = { class = "MPlayer" },
-          properties = { floating = true } },
+    -- Floating clients.
+    { rule_any = {
+        instance = {
+          "DTA",  -- Firefox addon DownThemAll.
+          "copyq",  -- Includes session name in class.
+          "urxvt_drop",
+        },
+        class = {
+          "Arandr",
+          "Gpick",
+          "Kruler",
+          "MessageWin",  -- kalarm.
+          "Sxiv",
+          "Wpa_gui",
+          "pinentry",
+          "veromix",
+          "xtightvncviewer",
+          "Blockify",
+          "Thunderbird",
+          "Deluge"
+          "Zenity",
+          "Plugin-container",
+        },
+        name = {
+          "Event Tester",  -- xev.
+        },
+        role = {
+          "AlarmWindow",  -- Thunderbird's calendar.
+          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+        }
+      }, properties = { floating = true } },
 
-    { rule = { class = "Dwb" },
-          properties = { tag = tags[1][1] } },
+    -- General
+    { rule_any = { class = { "Plugin-container" }, instance = { "urxvt_drop" } },
+        properties = { border_width = 0, above = true }
+    },
+    --~ { rule_any = { class = { "Plugin-container" } },
+        --~ properties = { maximized_horizontal = true, maximized_vertical = true }
+    --~ },
+    { rule_any = { class = { "Thunderbird", "Deluge" } },
+        properties = { geometry = { width = 1200, height = 800 } },
+        callback = awful.placement.centered
+    },
+    { rule_any = { class = { "Copyq", "Zenity" } },
+        properties = { sticky = true, ontop = true, above = true },
+        callback = awful.placement.centered
+    }
 
-    { rule = { class = "Iron" },
-          properties = { tag = tags[1][1] } },
+    -- 1:web
+   { rule_any = { class = { "Firefox", "Chromium", "Dwb" } },
+        properties = { tag = tags[1][1] }
+    },
+    { rule = { class = "Firefox" }, except = { instance = "Navigator" },
+        properties = { floating = true },
+        callback = awful.placement.centered
+    },
 
-    { rule = { instance = "plugin-container" },
-          properties = { tag = tags[1][1] } },
+    -- 2:dev
+   { rule_any = { class = { "jetbrains-*", "Eclipse", "Gvim", "urxvt_edit", "Geany", "Gedit", "medit" } },
+        properties = { tag = tags[1][2] }
+    },
+    { rule_any = { class = { "Geany", "Gedit", "medit" }, instance = { "urxvt_edit" } },
+        properties = { switchtotag = true }
+    },
 
-      { rule = { class = "Gimp" },
-            properties = { tag = tags[1][4] } },
+    -- 3:vm
+   { rule_any = { class = { "VirtualBox", "Wine", "Vncviewer", "Nxplayer.bin" } },
+        properties = { tag = tags[1][3], floating = true }
+    },
+    { rule = { class = "VirtualBox" },
+        callback = awful.placement.centered
+    },
+    { rule_any = { class = { "Vncviewer", "VirtualBox" } },
+        properties = { switchtotag = true },
+        callback = awful.placement.centered
+    },
 
+    -- 4:vlc
+   { rule_any = { class = { "Vlc", "Spotify" } },
+        properties = { tag = tags[1][4], switchtotag = true }
+    },
+    { rule = { class = "Vlc", role = "vlc-main" },
+        callback = awful.client.setmaster
+    },
+
+    -- 5:irc
+   { rule_any = { class = { "Pidgin", "Hexchat" } },
+        properties = { tag = tags[1][5] }
+    },
+    { rule_any = { class = { "Hexchat" } },
+        callback = awful.client.setmaster
+    },
+
+    -- 6:work
+   { rule_any = { class = { "Gimp", "Zeal", "LibreOffice", "AbiWord" } },
+        properties = { tag = tags[1][6], switchtotag = true}
+    },
     { rule = { class = "Gimp", role = "gimp-image-window" },
-          properties = { maximized_horizontal = true,
-                         maximized_vertical = true } },
+        callback = awful.client.setmaster
+    }
 }
 -- }}}
 
--- {{{ Signals
--- signal function to execute when a new client appears.
-local sloppyfocus_last = {c=nil}
-client.connect_signal("manage", function (c, startup)
-    -- Enable sloppy focus
-    client.connect_signal("mouse::enter", function(c)
-         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-            and awful.client.focus.filter(c) then
-             -- Skip focusing the client if the mouse wasn't moved.
-             if c ~= sloppyfocus_last.c then
-                 client.focus = c
-                 sloppyfocus_last.c = c
-             end
-         end
-     end)
+-- =====================================================================
+-- {{{ s_signals
+-- =====================================================================
+client.connect_signal("manage", function (c)
+    if not awesome.startup then
+        -- Set the windows at the slave,
+        -- i.e. put it at the end of others instead of setting it master.
+        -- awful.client.setslave(c)
+
+        -- Put windows in a smart way, only if they do not set an initial position.
+        if not c.size_hints.user_position and not c.size_hints.program_position then
+            awful.placement.no_overlap(c)
+            awful.placement.no_offscreen(c)
+        end
+    elseif not c.size_hints.user_position and not c.size_hints.program_position then
+        -- Prevent clients from being unreachable after screen count changes.
+        awful.placement.no_offscreen(c)
+    end
 
     local titlebars_enabled = false
     if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
@@ -685,7 +773,12 @@ client.connect_signal("manage", function (c, startup)
                 end)
                 )
 
-        -- widgets that are aligned to the right
+        -- Widgets that are aligned to the left
+        local left_layout = wibox.layout.fixed.horizontal()
+        left_layout:add(awful.titlebar.widget.iconwidget(c))
+        left_layout:buttons(buttons)
+
+        -- Widgets that are aligned to the right
         local right_layout = wibox.layout.fixed.horizontal()
         right_layout:add(awful.titlebar.widget.floatingbutton(c))
         right_layout:add(awful.titlebar.widget.maximizedbutton(c))
@@ -693,56 +786,31 @@ client.connect_signal("manage", function (c, startup)
         right_layout:add(awful.titlebar.widget.ontopbutton(c))
         right_layout:add(awful.titlebar.widget.closebutton(c))
 
-        -- the title goes in the middle
+        -- The title goes in the middle
         local middle_layout = wibox.layout.flex.horizontal()
         local title = awful.titlebar.widget.titlewidget(c)
         title:set_align("center")
         middle_layout:add(title)
         middle_layout:buttons(buttons)
 
-        -- now bring it all together
+        -- Now bring it all together
         local layout = wibox.layout.align.horizontal()
+        layout:set_left(left_layout)
         layout:set_right(right_layout)
         layout:set_middle(middle_layout)
 
-        awful.titlebar(c,{size=16}):set_widget(layout)
+        awful.titlebar(c):set_widget(layout)
     end
 end)
 
--- No border for maximized clients
-client.connect_signal("focus",
-    function(c)
-        if c.maximized_horizontal == true and c.maximized_vertical == true then
-            c.border_color = beautiful.border_normal
-        else
-            c.border_color = beautiful.border_focus
-        end
-    end)
+-- Enable sloppy focus
+client.connect_signal("mouse::enter", function(c)
+    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+        and awful.client.focus.filter(c) then
+        client.focus = c
+    end
+end)
+
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
-
--- {{{ Arrange signal handler
-for s = 1, screen.count() do screen[s]:connect_signal("arrange", function ()
-        local clients = awful.client.visible(s)
-        local layout  = awful.layout.getname(awful.layout.get(s))
-
-        if #clients > 0 then -- Fine grained borders and floaters control
-            for _, c in pairs(clients) do -- Floaters always have borders
-                -- No borders with only one humanly visible client
-                if layout == "max" then
-                    c.border_width = 0
-                elseif awful.client.floating.get(c) or layout == "floating" then
-                    c.border_width = beautiful.border_width
-                elseif #clients == 1 then
-                    clients[1].border_width = 0
-                    if layout ~= "max" then
-                        awful.client.moveresize(0, 0, 2, 0, clients[1])
-                    end
-                else
-                    c.border_width = beautiful.border_width
-                end
-            end
-        end
-      end)
-end
 -- }}}
