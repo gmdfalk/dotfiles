@@ -63,7 +63,7 @@ let g:airline#extensions#tabline#show_tab_nr=0
 let g:airline#extensions#tabline#fnamemod=':t' " Show just the filename
 "let g:airline#extensions#tabline#tab_nr_type=1 " tab number
 
-" Disable autocommenting
+" Disable autocommenting on newline (messing with pasting)
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 """ COLORS
