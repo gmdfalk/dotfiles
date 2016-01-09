@@ -68,7 +68,6 @@ export  CC=/usr/bin/gcc             \
         LS_COLORS="no=00:fi=00:rs=0:di=04:ow=04:ex=00:"
 
 alias p="pacman"
-alias sp="sudo pacman"
 
 if _have less; then
     alias more=less
@@ -305,21 +304,21 @@ else
     alias updfonts="sudo fc-cache -vf"               # update font cache
     # pacman operations requiring root privileges
     if [[ $_isarch = true ]];then
-        alias {pS,pin}="sp -S"  # install
-        alias {pR,pout}="sp -R" # remove
-        alias prd="sp -Rd"      # remove omit dependencies
-        alias prdd="sp -Rdd"      # remove omit dependencies
-        alias prs="sp -Rs"      # remove plus unused dependencies
-        alias psc="sp -Sc"      # clean those packages from cage that are no longer installed
-        alias pscc="sp -Scc"    # clean the whole cache directory
-        alias psf="sp -Sf"      # force (re-)installation
-        alias psw="sp -Sw"      # download but don't install
-        alias psu="sp -Su"      # sys update without refresh
-        alias psy="sp -Sy"      # sync refresh
-        alias psyu="sp -Syu"    # sync refresh and update
-        alias psyy="sp -Syy"    # force all db to be refreshed
-        alias psyyu="sp -Syyu"  # force refresh and update
-        alias pu="sp -U"        # install local pkg
+        alias {pS,pin}="s p -S"  # install
+        alias {pR,pout}="s p -R" # remove
+        alias prd="s p -Rd"      # remove omit dependencies
+        alias prdd="s p -Rdd"      # remove omit dependencies
+        alias prs="s p -Rs"      # remove plus unused dependencies
+        alias psc="s p -Sc"      # clean those packages from cage that are no longer installed
+        alias pscc="s p -Scc"    # clean the whole cache directory
+        alias psf="s p -Sf"      # force (re-)installation
+        alias psw="s p -Sw"      # download but don't install
+        alias psu="s p -Su"      # sys update without refresh
+        alias psy="s p -Sy"      # sync refresh
+        alias psyu="s p -Syu"    # sync refresh and update
+        alias psyy="s p -Syy"    # force all db to be refreshed
+        alias psyyu="s p -Syyu"  # force refresh and update
+        alias pu="s p -U"        # install local pkg
         alias pclean="s pclean" # .bin/pclean with sudo privileges
         alias mirrorupdate="sudo reflector --verbose -l 150 -p http --sort rate --save /etc/pacman.d/mirrorlist"
         alias mirrorupdateDE="sudo reflector --verbose -c 'Germany' -l 40 -p http --sort rate --save /etc/pacman.d/mirrorlist"

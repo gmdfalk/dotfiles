@@ -22,9 +22,6 @@ eval "$cmd"
 snapshot_nbr=$(snapper create --type=post --cleanup-algorithm=number --print-number --pre-number="$snapshot_nbr")
 echo -e "\n> New post snapshot with number ${snapshot_nbr}."
 
-
-
-
 # Snapper has a --command option nowadays. But it works worse, the output from the command is not printed separately from the snaptshot number, just becomes a mess.
 #echo "> Running command \"${cmd}\"."
 #snapshot_nbr=$(snapper create --command "${cmd}" --print-number --cleanup-algorithm=number --description="${cmd}" | tail -1)

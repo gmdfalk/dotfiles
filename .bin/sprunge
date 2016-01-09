@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Simple sprunge.us pastebin client
 
+# Default is ptpb.pw. Alternatively, use http://sprunge.us here.
+SITE="https://ptpb.pw"
+URL_REGEX='(http|ftp|https):\/\/(sprunge\.us|ptpb.pw)\/[A-Za-z0-9]{4,}'
+
 usage() {
     local script_name=$(basename $0)
     cat << EOF
 Description:
-    Upload data and fetch URL from the pastebin http://sprunge.us
+    Upload data and fetch URL from the pastebin $SITE
 
 Usage:
     <command> | $script_name
@@ -54,10 +58,14 @@ putclip() {
 }
 
 post() {
-    local url=$(curl -sF "sprunge=<$1" http://sprunge.us/)
+    #~ local url=$(curl -sF "sprunge=<$1" $SITE)
+    local target="c"
+    [[ "$SITE" == *"sprunge"* ]] && target="sprunge"
+    local url=$(curl -sF "${target}=<$1" $SITE)
     if [ "$url" ]; then
-        seturl "$1" $url
-        echo $url
+        echo "$url"
+        url=$(echo "$url" | grep -o -E ${URL_REGEX})
+        echo "$url"
         putclip $url
     else
         echo "...failed"

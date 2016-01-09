@@ -1,11 +1,31 @@
 #!/bin/bash
 #
 
+usage() {
+    local script_name=$(basename $0)
+    cat << EOF
+Description:
+    Wrapper for scrot/import to create (window/thumbnail) screenshots
+
+Usage:
+    $script_name (all | window | thumb) <sleep-time>
+
+Arguments:
+    all     Create screenshot of whole screen.
+    window  Create screenshot of currently focused window.
+    thumb   Create a screenshot in thumbnail size.
+
+EOF
+    exit
+}
+[[ "$#" -lt 1 ]] && usage
+
 DATE_FORMAT='%Y-%m-%d_$wx$h'
 EXTENSION=".png"
 SUFFIX=""
 DEST="$HOME/box/bilder/screenshots"
 COMMAND="scrot -q 90"
+SLEEP_DURATION="$2"
 
 if [[ "$1" == window ]];then
     SUFFIX="_window"
@@ -17,4 +37,6 @@ fi
 
 COMMAND+=" $DEST/${DATE_FORMAT}${SUFFIX}${EXTENSION}"
 
+# Wait the desired amount of time, then take the screenshot.
+[[ -n "$SLEEP_DURATION" ]] && sleep ${SLEEP_DURATION}
 eval $($COMMAND)
