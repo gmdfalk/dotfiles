@@ -95,10 +95,11 @@ browser    = "firefox"
 mail       = "thunderbird"
 graphics   = "gimp"
 
--- Env
-home       = os.getenv("HOME")
-config     = awful.util.getdir("config")
-hostname   = io.lines("/proc/sys/kernel/hostname")()
+-- Environment
+hostname       = io.lines("/proc/sys/kernel/hostname")()
+home_dir       = os.getenv("HOME")
+config_dir     = awful.util.getdir("config")
+screenshot_dir = home_dir .. "/box/bilder/screenshots"
 
 -- Appearance
 wibox_height = 20
@@ -138,7 +139,7 @@ k_ams      = { altkey, modkey, "Shift" }
 -- {{{ s_theme
 -- =====================================================================
 shared_themes_dir = "/usr/share/awesome/themes/"
-themes_dir        = config .. "/themes"
+themes_dir        = config_dir .. "/themes"
 theme             = "/multicolor/theme.lua"
 
 if hostname == "htpc" then
@@ -206,7 +207,7 @@ end
 myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end},
     { "manual", terminal .. " -e man awesome" },
-    { "edit config", editor_cmd .. " " .. config .. "/rc.lua"},
+    { "edit config", editor_cmd .. " " .. config_dir .. "/rc.lua"},
     { "run", function() mypromptbox[mouse.screen]:run() end },
     { "restart", awesome.restart },
     { "quit", awesome.quit }
@@ -270,6 +271,27 @@ fswidget = lain.widgets.fs({
         widget:set_markup(markup("#80d9d8", fs_now.used .. "% "))
     end
 })
+
+--[[ Mail IMAP check
+-- commented because it needs to be set before use
+mailicon = wibox.widget.imagebox()
+mailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn(mail) end)))
+mailwidget = lain.widgets.imap({
+    timeout  = 180,
+    server   = "server",
+    mail     = "mail",
+    password = "keyring get mail",
+    settings = function()
+        if mailcount > 0 then
+            mailicon:set_image(beautiful.widget_mail)
+            widget:set_markup(markup("#cccccc", mailcount .. " "))
+        else
+            widget:set_text("")
+            mailicon:set_image(nil)
+        end
+    end
+})
+]]
 
 -- CPU
 cpuicon = wibox.widget.imagebox()
@@ -347,7 +369,7 @@ spacer = wibox.widget.textbox(" ")
 -- =====================================================================
 -- {{{ s_wibox
 -- =====================================================================
--- Menubar configuration
+-- Menubar config_diruration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
@@ -458,7 +480,7 @@ for s = 1, screen.count() do
     mywibox[s]:set_widget(layout)
 
     -- Create the bottom wibox
-    mybottomwibox[s] = awful.wibox({ position = "bottom", screen = s, border_width = 0, height = 20 })
+    mybottomwibox[s] = awful.wibox({ position = "bottom", screen = s, border_width = border_width, height = wibox_height })
     --mybottomwibox[s].visible = false
 
     -- Widgets that are aligned to the bottom left
@@ -514,7 +536,7 @@ function run_or_raise (command, rule)
     awful.client.run_or_raise(command, matcher)
 end
 function get_wibox_height ()
-    return 20
+    return mywibox[awful.screen.focused()].height
 end
 function get_current_screen_workarea ()
     -- Get available screen workarea
@@ -528,6 +550,7 @@ function snap_client_to_screen_half(c, half)
     workarea = get_current_screen_workarea ()
 
     y_position = get_wibox_height()
+    print(y_position)
     x_position = 0
     new_width = workarea.width
     new_height = workarea.height
@@ -548,7 +571,7 @@ function snap_client_to_screen_half(c, half)
     -- Resize client
     c:geometry({
                 x = x_position,
-                y = y_positioin,
+                y = y_position,
                 width = new_width,
                 height = new_height
     })
@@ -674,6 +697,11 @@ globalkeys = awful.util.table.join(
     --~ awful.key(k_m, "q", function () awful.util.spawn(browser) end),
     --~ awful.key(k_m, "s", function () awful.util.spawn(gui_editor) end),
     --~ awful.key(k_m, "g", function () awful.util.spawn(graphics) end),
+    -- Screenshots
+    awful.key(k_n, "Print",     function () sexec("scrot-wrapper") end),
+    awful.key(k_w, "Print",     function () sexec("scrot-wrapper thumb") end),
+    awful.key(k_a, "Print",     function () sexec("scrot-wrapper window") end),
+    --awful.key(k_a, "Print",     function () sexec("(sleep 1 && xdotvvool click 1) & scrot -q 90 -bs " .. screenshot_dir .. "/w%m.%d.%y_%H-%M-%S.jpg") end),
 
     -- Media control
     -- Available on Thinkpad W541:
@@ -877,7 +905,7 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      --~ maximized_horizontal = false,
                      --~ maximized_vertical = false,
-                     --~ size_hints_honor = false
+                     size_hints_honor = false,
         }
     },
 

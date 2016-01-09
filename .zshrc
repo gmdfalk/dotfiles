@@ -2253,3 +2253,5 @@ alias resource="source $HOME/.zshrc"
 
 # Supress warnings about accessibility bus
 NO_AT_BRIDGE=1
+
+alias tail_awesome="tail -f ~/.logs/awe_*"
