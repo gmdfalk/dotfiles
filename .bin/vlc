@@ -1,3 +1,0 @@
-#!/bin/sh
-/usr/bin/vlc "$@" &> /dev/null &
-exit 0

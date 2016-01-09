@@ -1,9 +1,0 @@
-#!/bin/bash
-#
-
-xset dpms force off
-systemctl stop acpid
-theft &
-su -c slimlock demian
-kill $!
-systemctl start acpid

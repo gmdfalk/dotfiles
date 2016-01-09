@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 # Simple sprunge.us pastebin client
 
+usage() {
+    local script_name=$(basename $0)
+    cat << EOF
+Description:
+    Upload data and fetch URL from the pastebin http://sprunge.us
+
+Usage:
+    <command> | $script_name
+    $script_name < <file>
+    $script_name <file>
+    $script_name <string>
+
+Example:
+    cat some_script.sh | $script_name
+
+Notes:
+    Precedence is "piped data" < "redirected stdin" < "file" < "string"
+EOF
+    exit
+}
+[[ "$1" == "--help" ]] && usage
+
 have() {
     command -v "$1" >/dev/null 2>&1
 }
