@@ -490,9 +490,33 @@ root.buttons(awful.util.table.join(
 -- =====================================================================
 -- {{{ s_globalkeys
 -- =====================================================================
+-- Functions
+function widget_volume_up ()
+    os.execute(string.format("amixer set %s 7%%+", volumewidget.channel))
+    volumewidget.update()
+end
+function widget_volume_down ()
+    os.execute(string.format("amixer set %s 7%%-", volumewidget.channel))
+    volumewidget.update()
+end
+function widget_volume_mute ()
+    os.execute(string.format("amixer set %s toggle", volumewidget.channel))
+    volumewidget.update()
+end
+function widget_volume_full ()
+    os.execute(string.format("amixer set %s 100%%", volumewidget.channel))
+    volumewidget.update()
+end
+function run_or_raise (command, rule)
+    local matcher = function (c)
+        return awful.rules.match(c, rule)
+    end
+    awful.client.run_or_raise(command, matcher)
+end
+
 globalkeys = awful.util.table.join(
     -- {{{ Default keys (mostly)
-    awful.key(k_ms, "s",      hotkeys_popup.show_help,
+    awful.key(k_mc, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key(k_m, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
@@ -607,6 +631,23 @@ globalkeys = awful.util.table.join(
     --~ awful.key(k_m, "s", function () awful.util.spawn(gui_editor) end),
     --~ awful.key(k_m, "g", function () awful.util.spawn(graphics) end),
 
+    -- Media control
+    awful.key({},   "XF86MonBrightnessUp",   brightness_up),
+    awful.key({},   "XF86MonBrightnessDown", brightness_down),
+    awful.key({},   "XF86AudioRaiseVolume", widget_volume_up),
+    awful.key({},   "XF86AudioLowerVolume", widget_volume_down),
+    awful.key({},   "XF86AudioMute", widget_volume_mute),
+    awful.key({},   "XF86AudioPlay", function () sexec("playerctl play-pause") end),
+    awful.key({},   "XF86AudioStop", function () sexec("playerctl pause") end),
+    awful.key({},   "XF86AudioPrev", function () sexec("playerctl prev") end),
+    awful.key({},   "XF86AudioNext", function () sexec("playerctl next") end),
+    awful.key(k_ms, "Up",            function () sexec("playerctl play-pause") end),
+    awful.key(k_ms, "Down",          function () sexec("playerctl pause") end),
+    awful.key(k_ms, "Left",          function () sexec("playerctl prev") end),
+    awful.key(k_ms, "Right",         function () sexec("playerctl next") end),
+    awful.key(k_mc, "Up",            widget_volume_up),
+    awful.key(k_mc, "Down",          widget_volume_down),
+
     -- Scratchdrop
     awful.key(k_m, "a", function () drop("urxvt -name urxvt_drop_bl", "bottom", "left", 0.333, 0.35 ) end,
               {description = "dropdown terminal on bottom left", group = "dropdown"}),
@@ -619,15 +660,21 @@ globalkeys = awful.util.table.join(
     awful.key(k_ms, "s", function () drop("urxvt -name urxvt_drop_tc", "top", "center", 0.333, 0.35 ) end,
               {description = "dropdown terminal on top center", group = "dropdown"}),
     awful.key(k_ms, "d", function () drop("urxvt -name urxvt_drop_tr", "top", "right", 0.333, 0.35 ) end,
-              {description = "dropdown terminal on top right", group = "dropdown"})
-    --awful.key(k_a, "t",       function () drop("thunderbird", "center", "center", 0.7, 0.8 ) end),
-    --awful.key(k_w, "d",         function () drop("deluge", "center", "center", 0.7, 0.8 ) end),
-    --awful.key(k_w, "f",         function () run_or_raise("firefox", { class = "Firefox" }) end),
-    --awful.key(k_w, "o",       function () drop("spotify", "center", "center", 0.7, 0.8 ) end),
-    --awful.key(k_w, "q",         function () drop("copyq show", "center", "right", 0.5, 0.7 ) end)
-    --awful.key(k_w, "h",       function () drop("urxvt -name urxvt_ghost -e ghost", "top", "center", 0.5, 0.6 ) end),
+              {description = "dropdown terminal on top right", group = "dropdown"}),
+    --awful.key(k_m, "t",       function () drop("thunderbird", "center", "center", 0.7, 0.8 ) end),
+    --awful.key(k_m, "d",       function () drop("deluge", "center", "center", 0.7, 0.8 ) end),
+    awful.key(k_mc, "f",       function () run_or_raise("firefox", { class = "Firefox" }) end)
+    --awful.key(k_m, "o",       function () drop("spotify", "center", "center", 0.7, 0.8 ) end),
+    --awful.key(k_m, "q",       function () drop("copyq show", "center", "right", 0.5, 0.7 ) end)
+    --awful.key(k_m, "h",       function () drop("urxvt -name urxvt_ghost -e ghost", "top", "center", 0.5, 0.6 ) end),
     -- }}}
 )
+if hostname ~= 'htpc' then
+    globalkeys = awful.util.table.join(globalkeys,
+    awful.key(k_mc, "Left",   function () sexec("ssh slave@htpc 'amixer -q set Master 7%+'") end),
+    awful.key(k_mc, "Right",  function () sexec("ssh slave@htpc 'amixer -q set Master 7%-'") end)
+    )
+end
 -- }}}
 
 -- =====================================================================
@@ -676,14 +723,10 @@ clientkeys = awful.util.table.join(
                                 --~ end
                             end,
             {description = "float window with ffmpeg optimized resolution", group = "client custom"}),
-    --~ awful.key(k_m, "<",     function (c)
-                                --~ awful.titlebar.toggle(c)
-                            --~ end,
-              --~ {description = "toggle titlebar", group = "client custom"}),
     awful.key(k_ms, "o",    function (c) c.ontop = not c.ontop   end,
-              {description = "toggle ontop", group = "client custom"}),
-    awful.key(k_ms, "s",    function (c) c.sticky = not c.sticky end,
-              {description = "toggle sticky", group = "client custom"})
+              {description = "toggle ontop", group = "client custom"})
+    --~ awful.key(k_ms, "s",    function (c) c.sticky = not c.sticky end,
+              --~ {description = "toggle sticky", group = "client custom"})
 )
 
 -- Bind all key numbers to tags.
@@ -801,16 +844,16 @@ awful.rules.rules = {
       }, properties = { floating = true } },
 
     -- General
-    { rule_any = { class = { "Plugin-container" }, instance = { "urxvt_drop.*" } },
-        properties = { border_width = 0, above = true }
-    },
+    --~ { rule_any = { class = { "Plugin-container" }, instance = { "urxvt_drop.*" } },
+        --~ properties = { border_width = 0, above = true }
+    --~ },
     --~ { rule_any = { class = { "Plugin-container" } },
         --~ properties = { maximized_horizontal = true, maximized_vertical = true }
     --~ },
-    { rule_any = { class = { "Thunderbird", "Deluge" } },
-        properties = { geometry = { width = 1200, height = 800 } },
-        callback = awful.placement.centered
-    },
+    --~ { rule_any = { class = { "Thunderbird", "Deluge" } },
+        --~ properties = { geometry = { width = 1200, height = 800 } },
+        --~ callback = awful.placement.centered
+    --~ },
     { rule_any = { class = { "Copyq", "Zenity" } },
         properties = { sticky = true, ontop = true, above = true },
         callback = awful.placement.centered
@@ -826,7 +869,7 @@ awful.rules.rules = {
     },
 
     -- 2:dev
-   { rule_any = { class = { "jetbrains-*", "Eclipse", "Gvim", "urxvt_edit", "Geany", "Gedit", "medit" } },
+   { rule_any = { class = { "jetbrains-.*", "Eclipse", "Gvim", "urxvt_edit", "Geany", "Gedit", "medit" } },
         properties = { tag = tags[1][2] }
     },
     { rule_any = { class = { "Geany", "Gedit", "medit" }, instance = { "urxvt_edit" } },
@@ -846,7 +889,7 @@ awful.rules.rules = {
     },
 
     -- 4:vlc
-   { rule_any = { class = { "Vlc", "Spotify" } },
+   { rule_any = { class = { "Vlc", "Spotify" }, instance = { "spotify" } },
         properties = { tag = tags[1][4], switchtotag = true }
     },
     { rule = { class = "Vlc", role = "vlc-main" },
@@ -884,6 +927,8 @@ client.connect_signal("manage", function (c)
         if not c.size_hints.user_position and not c.size_hints.program_position then
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
+            -- Non-default
+            awful.placement.under_mouse(c)
         end
     elseif not c.size_hints.user_position and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.

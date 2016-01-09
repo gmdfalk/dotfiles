@@ -7,7 +7,7 @@ xrdb -merge ~/.Xresources
 start-pulseaudio-x11
 setxkbmap de
 xmodmap ~/.Xmodmap
-xbindkeys
+#xbindkeys
 xset s off dpms 0 0 300
 
 # evdev
