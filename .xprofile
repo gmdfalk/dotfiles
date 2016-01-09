@@ -5,7 +5,7 @@
 # X11 environment
 xrdb -merge ~/.Xresources
 start-pulseaudio-x11
-setxkbmap gb
+setxkbmap de
 xmodmap ~/.Xmodmap
 #xbindkeys
 xset s off dpms 0 0 300

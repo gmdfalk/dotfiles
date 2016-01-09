@@ -1,5 +1,6 @@
 /*
 /*/
+!.bin/
 !.config/
 .config/*
 !.config/autorandr/

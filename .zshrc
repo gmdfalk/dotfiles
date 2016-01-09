@@ -264,7 +264,6 @@ else
             XDG_VIDEOS_DIR=$HOME/down
 
     # sudo
-    alias hell="sudo hell"
     alias chi="sudo chattr +i"                       # immunize file
     alias chu="sudo chattr -i"                       # unimmunize file
     alias clams="sudo clam -r -l $HOME/.clamlog /"   # scan whole system

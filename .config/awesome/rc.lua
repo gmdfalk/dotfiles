@@ -719,14 +719,13 @@ globalkeys = awful.util.table.join(
     -- Fn+F12: XF86Explorer
     --
     -- F11
-    awful.key({},   "XF86AudioMute", widget_volume_mute),
-    awful.key({},   "XF86AudioLowerVolume", widget_volume_down),
-    awful.key({},   "XF86AudioRaiseVolume", widget_volume_up),
-    awful.key({},   "XF86AudioMicMute", widget_volume_up),
-
+    awful.key({},   "XF86AudioMute",         widget_volume_mute),
+    awful.key({},   "XF86AudioLowerVolume",  widget_volume_down),
+    awful.key({},   "XF86AudioRaiseVolume",  widget_volume_up),
+    awful.key({},   "XF86AudioMicMute",      function () sexec("amixer -q set Capture toggle") end),
+    awful.key({},   "XF86MonBrightnessUp",   function () sexec("xbacklight -inc 7") end),
+    awful.key({},   "XF86MonBrightnessDown", function () sexec("xbacklight -dec 7") end),
     awful.key({},   "XF86LaunchA",   function () sexec("playerctl play-pause") end),
-    awful.key({},   "XF86MonBrightnessUp",   brightness_up),
-    awful.key({},   "XF86MonBrightnessDown", brightness_down),
     awful.key({},   "XF86AudioPlay", function () sexec("playerctl play-pause") end),
     awful.key({},   "XF86AudioStop", function () sexec("playerctl pause") end),
     awful.key({},   "XF86AudioPrev", function () sexec("playerctl prev") end),
