@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+
+if [[ "$1" == all ]];then
+    ssh -f -t -t -L 5900:localhost:5900 slave@htpc "x11vnc -q -scale 1392x870 -display :0" &>/dev/null
+else
+    ssh -f -t -t -L 5900:localhost:5900 slave@htpc ".bin/vnc2id" &>/dev/null
+fi
+
+ssh slave@htpc "export DISPLAY=:0; xdotool key Super_L+o; xdotool key alt; xdotool key Escape"
+
+
+for i in {1..5}; do
+    sleep 1
+    if vncviewer localhost:0 &>/dev/null; then break; fi
+done
+
+# Cleanup
+ssh slave@htpc "DISPLAY=:0 pkill -f vnc"
+pkill -f vnc

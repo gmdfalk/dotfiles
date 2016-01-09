@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+
+DATE_FORMAT='%Y-%m-%d_$wx$h'
+EXTENSION=".png"
+SUFFIX=""
+DEST="$HOME/box/bilder/screenshots"
+COMMAND="scrot -q 90"
+
+if [[ "$1" == window ]];then
+    SUFFIX="_window"
+    COMMAND="import -window $(xdotool getwindowfocus)"
+    DATE_FORMAT="$(date +%Y-%m-%d_%H%M%S)"
+elif [[ "$1" == thumb ]];then
+    COMMAND+=" -t 30"
+fi
+
+COMMAND+=" $DEST/${DATE_FORMAT}${SUFFIX}${EXTENSION}"
+
+eval $($COMMAND)

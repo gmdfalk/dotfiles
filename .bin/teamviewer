@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/teamviewer "$@" &> /dev/null &
+exit 0

@@ -1,0 +1,5 @@
+#!/bin/sh
+#/usr/bin/dbus-launch
+/usr/bin/pcmanfm "$@" &> /dev/null &
+
+exit 0

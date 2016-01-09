@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/teamspeak3 "$@" &> /dev/null &
+exit 0

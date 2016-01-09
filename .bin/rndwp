@@ -1,0 +1,12 @@
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+my $searchPath = '~/.local/wallpapers/';   # Set to the directory you want to have searched for photos
+
+my @photos = `find $searchPath -type f | grep [jJ][pP][eE]*[gG]`;             
+chomp(@photos);
+my $photo;
+
+$photo = $photos[rand($#photos)];
+`feh --bg-scale "$photo"`;

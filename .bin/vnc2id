@@ -1,0 +1,4 @@
+#!/bin/bash
+#
+id=$(DISPLAY=:0 wmctrl -lx | awk '/spotify.Spotify/ {print $1}')
+x11vnc -q -sid "$id" -display :0

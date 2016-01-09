@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/gimp "$@" &> /dev/null &
+exit 0

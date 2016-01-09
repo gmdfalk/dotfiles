@@ -1,0 +1,6 @@
+#!/bin/sh
+/usr/bin/firefox "$@" &> /dev/null &
+
+rmdir $HOME/{Desktop,Downloads} 2>/dev/null &
+
+exit 0

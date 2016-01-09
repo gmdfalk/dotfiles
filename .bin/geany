@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/geany "$@" &> /dev/null &
+exit 0
