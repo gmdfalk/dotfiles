@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #
 
-echo 'awesome.restart()' | awesome-client
-sh /home/max/.xprofile
+# Load some X11 stuff
+sh $HOME/.xprofile
+# Restart AwesomeWM
+pkill -HUP awesome

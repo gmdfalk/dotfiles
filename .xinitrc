@@ -19,12 +19,22 @@ fi
 # Automatically configure monitor setup (docked/undocked)
 autorandr -c &
 
-# Common apps
+# {{{ Apps
+# Compositing
+compton &
+# Clipboard manager
+parcellite &
+
+# NetworkManager applet
 nm-applet --sm-disable &
+
+# Communication
 pidgin &
 hexchat &
 thunderbird &
+
 firefox &
 (sleep 10 && dropbox) &
+# }}}
 
 exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err

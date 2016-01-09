@@ -180,7 +180,7 @@ local layouts = {
     --~ lain.layout.uselesstile,
 }
 tags = {
-    names = { "web", "dev", "docs", "vlc", "irc", "play" },
+    names = { "web", "dev", "irc", "vlc", "play", "docs" },
     --names = { "♏", "♐", "⌘", "☊", "♓", "⌥", "♒" },
     layouts = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[9] }
 }
@@ -492,19 +492,19 @@ root.buttons(awful.util.table.join(
 -- =====================================================================
 -- Functions
 function widget_volume_up ()
-    os.execute(string.format("amixer set %s 7%%+", volumewidget.channel))
+    os.execute(string.format("amixer -q set %s 7%%+", volumewidget.channel))
     volumewidget.update()
 end
 function widget_volume_down ()
-    os.execute(string.format("amixer set %s 7%%-", volumewidget.channel))
+    os.execute(string.format("amixer -q set %s 7%%-", volumewidget.channel))
     volumewidget.update()
 end
 function widget_volume_mute ()
-    os.execute(string.format("amixer set %s toggle", volumewidget.channel))
+    os.execute(string.format("amixer -q set %s toggle", volumewidget.channel))
     volumewidget.update()
 end
 function widget_volume_full ()
-    os.execute(string.format("amixer set %s 100%%", volumewidget.channel))
+    os.execute(string.format("amixer -q set %s 100%%", volumewidget.channel))
     volumewidget.update()
 end
 function run_or_raise (command, rule)
@@ -512,6 +512,50 @@ function run_or_raise (command, rule)
         return awful.rules.match(c, rule)
     end
     awful.client.run_or_raise(command, matcher)
+end
+function get_wibox_height ()
+    return 20
+end
+function get_current_screen_workarea ()
+    -- Get available screen workarea
+    local index = awful.screen.focused()
+    return screen[index].workarea
+end
+function snap_client_to_screen_half(c, half)
+    -- Float client
+    awful.client.floating.set(c, true)
+
+    workarea = get_current_screen_workarea ()
+
+    y_position = get_wibox_height()
+    x_position = 0
+    new_width = workarea.width
+    new_height = workarea.height
+    if half == "upper" then
+        new_height = new_height / 2
+    elseif half == "lower" then
+        new_height = new_height / 2
+        y_position = y_position + new_height
+    elseif half == "left" then
+        new_width = new_width / 2
+    elseif half == "right" then
+        new_width = new_width / 2
+        x_position = x_position + new_width
+    else
+        return
+    end
+
+    -- Resize client
+    c:geometry({
+                x = x_position,
+                y = y_positioin,
+                width = new_width,
+                height = new_height
+    })
+
+    -- Raise the window
+    client.focus = c
+    c:raise()
 end
 
 globalkeys = awful.util.table.join(
@@ -632,11 +676,29 @@ globalkeys = awful.util.table.join(
     --~ awful.key(k_m, "g", function () awful.util.spawn(graphics) end),
 
     -- Media control
+    -- Available on Thinkpad W541:
+    -- Fn+F1:  XF86AudioMute
+    -- Fn+F2:  XF86AudioLowerVolume
+    -- Fn+F3:  XF86AudioRaiseVolume
+    -- Fn+F4:  XF86AudioMicMute
+    -- Fn+F5:  XF86MonBrightnessDown
+    -- Fn+F6:  XF86MonBrightnessUp
+    -- Fn+F7:  XF86Display
+    -- Fn+F8:  XF86WLAN
+    -- Fn+F9:  XF86Tools
+    -- Fn+F10: XF86Search
+    -- Fn+F11: XF86LaunchA
+    -- Fn+F12: XF86Explorer
+    --
+    -- F11
+    awful.key({},   "XF86AudioMute", widget_volume_mute),
+    awful.key({},   "XF86AudioLowerVolume", widget_volume_down),
+    awful.key({},   "XF86AudioRaiseVolume", widget_volume_up),
+    awful.key({},   "XF86AudioMicMute", widget_volume_up),
+
+    awful.key({},   "XF86LaunchA",   function () sexec("playerctl play-pause") end),
     awful.key({},   "XF86MonBrightnessUp",   brightness_up),
     awful.key({},   "XF86MonBrightnessDown", brightness_down),
-    awful.key({},   "XF86AudioRaiseVolume", widget_volume_up),
-    awful.key({},   "XF86AudioLowerVolume", widget_volume_down),
-    awful.key({},   "XF86AudioMute", widget_volume_mute),
     awful.key({},   "XF86AudioPlay", function () sexec("playerctl play-pause") end),
     awful.key({},   "XF86AudioStop", function () sexec("playerctl pause") end),
     awful.key({},   "XF86AudioPrev", function () sexec("playerctl prev") end),
@@ -714,8 +776,8 @@ clientkeys = awful.util.table.join(
                                 --~ if awful.client.floating.get(c)
                                     --~ awful.client.floating.set(c, false)
                                 --~ else
+                                    -- ~ c:geometry( { width = 720 , height = 450 } )
                                     awful.client.floating.set(c, true)
-                                    --~ c:geometry( { width = 720 , height = 450 } )
                                     local g = c:geometry()
                                     g.height = math.floor(g.height/2)*2
                                     g.width = math.floor(g.width/2)*2
@@ -723,6 +785,14 @@ clientkeys = awful.util.table.join(
                                 --~ end
                             end,
             {description = "float window with ffmpeg optimized resolution", group = "client custom"}),
+    awful.key({ modkey, "Control" }, "a", function (c) snap_client_to_screen_half (c, "left") end,
+        {description = "Snap window to the left screen half", group = "client custom"}),
+    awful.key({ modkey, "Control" }, "d", function (c) snap_client_to_screen_half (c, "right") end,
+        {description = "Snap window to the right screen half", group = "client custom"}),
+    awful.key({ modkey, "Control" }, "w", function (c) snap_client_to_screen_half (c, "upper") end,
+        {description = "Snap window to the upper screen half", group = "client custom"}),
+    awful.key({ modkey, "Control" }, "s", function (c) snap_client_to_screen_half (c, "lower") end,
+        {description = "Snap window to the lower screen half", group = "client custom"}),
     awful.key(k_ms, "o",    function (c) c.ontop = not c.ontop   end,
               {description = "toggle ontop", group = "client custom"})
     --~ awful.key(k_ms, "s",    function (c) c.sticky = not c.sticky end,
@@ -869,16 +939,26 @@ awful.rules.rules = {
     },
 
     -- 2:dev
-   { rule_any = { class = { "jetbrains-.*", "Eclipse", "Gvim", "urxvt_edit", "Geany", "Gedit", "medit" } },
-        properties = { tag = tags[1][2] }
-    },
-    { rule_any = { class = { "Geany", "Gedit", "medit" }, instance = { "urxvt_edit" } },
-        properties = { switchtotag = true }
+   { rule_any = { class = { "jetbrains-.*", "Eclipse", "Gvim", "Geany", "Gedit", "medit" }, instance = { "urxvt_edit" } },
+        properties = { tag = tags[1][2], switchtotag = true }
     },
 
-    -- 3:vm
+    -- 3:irc
+   { rule_any = { class = { "Pidgin", "Hexchat" } },
+        properties = { tag = tags[1][3] }
+    },
+    { rule_any = { class = { "Hexchat" } },
+        callback = awful.client.setmaster
+    },
+
+    -- 4:vlc
+   { rule_any = { class = { "Vlc", "Mplayer", "Clementine" } },
+        properties = { tag = tags[1][4], switchtotag = true }
+    },
+
+    -- 5:play
    { rule_any = { class = { "VirtualBox", "Wine", "Vncviewer", "Nxplayer.bin" } },
-        properties = { tag = tags[1][3], floating = true }
+        properties = { tag = tags[1][5], floating = true }
     },
     { rule = { class = "VirtualBox" },
         callback = awful.placement.centered
@@ -888,23 +968,7 @@ awful.rules.rules = {
         callback = awful.placement.centered
     },
 
-    -- 4:vlc
-   { rule_any = { class = { "Vlc", "Spotify" }, instance = { "spotify" } },
-        properties = { tag = tags[1][4], switchtotag = true }
-    },
-    { rule = { class = "Vlc", role = "vlc-main" },
-        callback = awful.client.setmaster
-    },
-
-    -- 5:irc
-   { rule_any = { class = { "Pidgin", "Hexchat" } },
-        properties = { tag = tags[1][5] }
-    },
-    { rule_any = { class = { "Hexchat" } },
-        callback = awful.client.setmaster
-    },
-
-    -- 6:work
+    -- 6:docs
    { rule_any = { class = { "Gimp", "Zeal", "LibreOffice", "AbiWord" } },
         properties = { tag = tags[1][6], switchtotag = true}
     },
@@ -928,7 +992,7 @@ client.connect_signal("manage", function (c)
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
             -- Non-default
-            awful.placement.under_mouse(c)
+            --~ awful.placement.under_mouse(c)
         end
     elseif not c.size_hints.user_position and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
