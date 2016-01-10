@@ -1,0 +1,654 @@
+#!/usr/bin/perl
+#
+# tp-theft v0.5.1
+# (http://thinkwiki.org/wiki/Script_for_theft_alarm_using_HDAPS)
+
+# Provided under the GNU General Public License version 2 or later or
+# the GNU Free Documentation License version 1.2 or later, at your option.
+# See http://www.gnu.org/copyleft/gpl.html for the Warranty Disclaimer.
+
+# This script uses the HDAPS accelerometer found on recent ThinkPad models
+# to emit an audio alarm when the laptop is tilted. In sufficiently
+# populated environments, it can be used as a laptop theft deterrent.
+# Uses a state machine and some heuristics to reduce false alarms.
+#
+# By default the alarm will be activated only when the KDE screen saver is
+# locked. If you you open the laptop lid (or press the lid button) shortly
+# before or after the beginning of movement, the alarm will be suspended
+# (except for a brief warning) and you will get a few seconds of grace to 
+# unlock the screen saver. You can disable this functionality by passing 
+# the "--arm" parameter, or by setting  $use_kde=0 and $use_lid=0.
+#
+# There is also an option to track a BlueTooth device (e.g., a mobile phone).
+# In this case, the alarm is activated (and optionally, the KDE desktop is 
+# locked) whenever the device is turned off or too distant for a given period,
+# and deactivated when the BlueTooth device is nearby. You need to provide the
+# device's BD address. If both KDE screen saver and BlueTooth checking are
+# enabled, then the alarm will be activated when *either* the screensaver
+# is enabled or the BlueTooth device is amiss.
+#
+# To control the sound and blinkenlights, and adjust the alarm activation 
+# parameters, see the variables below.
+
+use strict;
+use warnings;
+use FileHandle;
+use IO::Pipe;
+use Time::HiRes qw(sleep time);
+use POSIX qw(:errno_h :signal_h);
+
+##############################
+# Siren volume and content
+
+# Checks
+# Here `lsmod` is in list context and returns the output of lsmod as a list of lines
+# grep filters lists, returning only the line that matches the /hdaps/ regexp
+unless ( grep { /hdaps/ } `lsmod` ) {
+    system 'modprobe', ( 'hdaps' ); sleep(1);
+}
+
+# Alarm audio volume (0..100)
+my $alarm_volume = 100;
+# Alarm command (default: synthesize a siren for 1.0 seconds):
+#~ my $alarm_cmd = "padsp sox -n -t ossdsp /dev/dsp -d synth 0.6 sine 1000-1600 >/dev/null 2>&1";
+my $alarm_cmd = "sox -n -t alsa -i hw:0 -d synth 0.6 sine 1000-1600 >/dev/null 2>&1";
+# my $alarm_cmd = "aplay keep_your_hands_off_me.wav";
+
+# Warning audio volume (0..100)
+my $warn_volume = 100;
+# Alarm command (default: synthesize a biref siren):
+#~ my $warn_cmd = "padsp sox -n -t ossdsp /dev/dsp -d synth 1 sine 400-1000 >/dev/null 2>&1";
+my $warn_cmd = "sox -n -t alsa -i hw:0 -d synth 1 sine 400-1000 >/dev/null 2>&1";
+# my $warn_cmd = "aplay warning.wav";
+
+# Set ibm_acpi volume (0..15), if ibm_acpi is loaded with "experimental=1".
+# Combining $acpi_volume=15 and $alarm_volume=100 makes the alarm 
+# dangerously loud.
+my $acpi_volume = 10;
+
+# Blink system LEDs when alarm activated?
+my $use_led = 'safe';  # 0=off, 'safe'=only LEDs whose state you can recover, 'all'=pretty blinkenlights!
+
+# Blink ThinkLight when alarm activated?
+my $use_light = 0;  # 0=off, 1=on
+
+# Use AC state to monitor 
+my $use_ac_state = 1; # 0=off, 1=on
+##############################
+# Activation control
+
+# Tilt threshold (increase value to decrease sensitivity):
+my $thresh = 0.30;
+# Minimum movement duration between warning and alarm:
+my $min_hold = 1.3;
+# When armed, any movement triggers alarm. How long should it remain armed?
+my $arm_persist = 6;
+
+# After this many seconds of no movement, will allow a grace period again:
+my $grace_relax = 15;
+
+# Activate according to KDE screen saver? Otherwise, always active:
+my $use_kde = 0;
+# When screen saver locked, wait this long before activation:
+my $kde_lock_delay =  8;
+
+# Provide grace period if laptop lid is opened?
+my $use_lid = 0;
+# Opening a lid will grant this many seconds of grace (once):
+my $lid_grace = 7;
+# Lid must to be opened within this time to hold/pause alarm:
+my $lid_grace_window = 8;
+# Alarm will hold off this long when grace is available:
+my $lid_hold = 3;
+
+# Control arming according by presence of a BlueTooth token
+my $use_bluetooth = 0;
+# Lock KDE screen saver when BlueTootk is not present?
+my $bluetooth_lock_kde = 1;
+# BD address of BlueTooth token (use "hcitool scan" to find this)
+my $bluetooth_token_addr = '00:00:00:00:00:00';
+# Consider token amiss when its received signal leve is below this (see "hcitool rssi")
+my $bluetooth_min_rssi = -10;
+# Activate if BlueTooth token not seen this long:
+my $bluetooth_activate_period = 12;
+# Disactivate if BlueTooth token seen this recently:
+my $bluetooth_deactivate_period = 5;
+# If BlueTooth detection activated KDE lock, don't do it again for this long
+my $bluetooth_lock_kde_interval = 30;
+# If BlueTooth wasn't polled for this long, disregard recent history
+my $bluetooth_reset_period = 10; 
+
+##############################
+# Other setup vars
+
+my $interval = 0.1;  # sampling intervalm in seconds
+my $depth = 10;      # number of recent samples to analyze
+my $verbose = 2;     # 0=nothing, 1=alarms, 2=state transitions, 3=everything
+my $kde_check_interval = 1.5; # KDE screen saver check is expensive
+my $bluetooth_sleep = 1;       # Sleep interval in BlueTooth check loop
+
+my $pos_file = '/sys/devices/platform/hdaps/position';
+my $lid_file = '/proc/acpi/button/lid/LID/state';
+my $led_file = '/proc/acpi/ibm/led';
+my $light_file = '/proc/acpi/ibm/light';
+my $bay_file = '/proc/acpi/ibm/bay';
+my $volume_file = '/proc/acpi/ibm/volume'; # load ibm_acpi with experimental=1
+my $bluetooth_file = '/proc/acpi/ibm/bluetooth'; # load ibm_acpi with experimental=1
+my $ac_state_file = '/sys/class/power_supply/AC/online'; # ac state 
+
+my $alsactl = '/usr/sbin/alsactl';
+my $amixer = 'amixer';
+my $kdesktop_lock = '/usr/bin/kdesktop_lock';
+my $hcitool = '/usr/bin/hcitool';
+my $l2ping = '/usr/bin/l2ping';
+
+##############################
+# Utility functions
+
+sub say {
+    my ($verb, $what) = @_;
+    print(gmtime().": $what\n") if $verb<=$verbose;
+}
+
+sub slurp { # read whole file
+    my ($filename) = @_;
+    local $/;
+    my $fh = new FileHandle($filename,"<") or return;
+    return <$fh>;
+}
+
+sub burp { # write whole file
+    my ($filename) = shift;
+    my $fh = new FileHandle($filename,">") or die "Can't open $filename for writing: $!";
+    print $fh @_ or die "Can't write to $filename: $!";
+    close $fh or die "Can't close $filename after writing: $!";
+}
+
+sub stddev { # standard deviation of list
+    my $sum=0;
+    my $sumsq=0;
+    my $n=$#_+1;
+    for my $v (@_) {
+        $sum += $v;
+        $sumsq += $v*$v;
+    }
+    return sqrt($n*$sumsq - $sum*$sum)/($n*($n-1));
+}
+
+sub frac {
+    my ($x) = @_;
+    return $x-int($x);
+}
+
+sub max {
+    return $_[0] > $_[1] ? $_[0] : $_[1];
+}
+
+my $alarm_file; # flags ongoing alarm (and also stores saved mixer settings)
+
+sub sound_alarm {
+    # Sound alarm. Forks bash code which sets given volumes, runs the given
+    # command, and then restores the given volumes to their saved values.
+    my ($name, $volume, $acpi_volume, $cmd) = @_;
+    return if (defined($alarm_file) && -f $alarm_file);
+    say(1,$name);
+    $alarm_file = `mktemp /tmp/tp-theft-tmp.XXXXXXXX` or die "mktemp: $?";
+    chomp($alarm_file);
+    my ($acpi_vol_file, $acpi_vol_set, $acpi_vol_restore);
+    if ($_=slurp($volume_file) and m/^level:\s+(\d+)\n/) {
+        $acpi_vol_file = $volume_file; 
+        $acpi_vol_set = "level $acpi_volume"; 
+        $acpi_vol_restore = "level $1"; 
+        if (m/^mute:\s+on$/m) {
+          $acpi_vol_set = "up,".$acpi_vol_set; # unmute first
+          $acpi_vol_restore .= ",mute";         # mute last
+        }
+    } else {
+        $acpi_vol_file='/dev/null'; $acpi_vol_set=''; $acpi_vol_restore='';
+    }
+    system('/bin/bash', '-c', <<"EOF")==0 or die "Failed: $?";
+( trap \"echo '$acpi_vol_restore' > $acpi_vol_file; sleep 0.1;
+         $alsactl -f $alarm_file restore;
+         rm -f $alarm_file
+       \" EXIT HUP QUIT TERM
+  $alsactl -f $alarm_file store &&                         # store ALSA
+  echo '$acpi_vol_set' > $acpi_vol_file && sleep 0.1 &&    # set ACPI
+  $amixer -q set Master $volume% unmute &&                 # set ALSA Master
+  $cmd ) &                                                 # invoke command
+EOF
+}
+
+
+##############################
+# KDE screen saver lock check
+
+if ($use_kde) { # Basic sanity check
+    `/sbin/pidof kdesktop`; $?==0 or die "Can't use KDE, it's not running.\n";
+}
+
+sub kdesktop_lock_status {
+    # See if kdesktop_lock is running and check its cmdline and automatic lock delay
+    my $bin = $kdesktop_lock;
+    my $pids = `/sbin/pidof $bin`;
+    return 'off' unless $?==0;
+    for my $pid (split(/\s+/,$pids)) {
+        next unless $pid =~ m/^\d+$/;
+        # Attached to display ":0" or "localhost:0"?
+        my $environ = slurp("/proc/$pid/environ") or next;
+        my $good=0; my $home;
+        for (split(/\x00/,$environ)) { 
+            $good=1 if m/^DISPLAY=(localhost)?:0$/; 
+            $home=$1 if m/^HOME=(.+)$/;  # also remember its $HOME
+        }
+        next unless $good;
+        # Check command line
+        my $cmdline = slurp("/proc/$pid/cmdline") or next;
+        $cmdline =~ m/^[^\x00]+\x00(?:([^\x00]+)\x00)?/ or die "Cannot parse $bin command line\n";
+        if (!defined($1)) {
+            # Read KDE screensaver lock time
+            defined($home) or die "Cannot find HOME in environment of $bin process";
+            my $rc_path = "$home/.kde/share/config/kdesktoprc";
+            my $rc = new FileHandle($rc_path,"<") or die "Error opening $rc_path: $!";
+            while (<$rc>) { m/^LockGrace=(\d+)$/ and return ('auto', $1/1000.0); };
+            die "Cannot parse $rc_path";
+        } elsif ($1 eq '--forcelock') {
+            return "force";
+        }
+    }
+    return 'off';
+}
+
+my $last_kls_update = 0; # time of last update
+my $last_kls = 'init';   # last state seen
+my $last_kls_start;      # when that state started
+my @last_kls_opwhy = ();
+
+sub check_kde_lock {
+    # De/activate according to KDE screen saver:
+    my $now=time();
+    return @last_kls_opwhy if $now < $last_kls_update + $kde_check_interval;
+    my ($kls, $auto_delay) = kdesktop_lock_status();
+    $last_kls_update = time();
+    if ($kls ne $last_kls) {
+        $last_kls = $kls;
+        $last_kls_start = $now;
+    }
+    if ($kls eq 'off') { # no screen saver
+        @last_kls_opwhy = (0, 'KDE screen saver not locked');
+    } elsif ($kls eq 'auto') { # screen saver with automatic lock
+        if ($now >= $last_kls_start + $auto_delay + $kde_lock_delay) {
+            @last_kls_opwhy = (1, 'KDE screen saver is auto-locked');
+        }
+    } elsif ($kls eq 'force') { # screen saver with forced lock
+        if ($now >= $last_kls_start + $kde_lock_delay) {
+            @last_kls_opwhy = (1, 'KDE screen saver is forced-locked');
+        }
+    }
+    return @last_kls_opwhy;
+}
+
+# Lock KDE desktop
+sub force_kde_lock {
+    return if ($last_kls eq 'auto' or $last_kls eq 'force');
+    say(1, "Locking KDE desktop");
+    # system('dcop kdesktop KScreensaverIface lock') or die "Cannot lock KDE dekstop: $!"
+
+    my %oldENV = %ENV;
+    my $kde_pids = `/sbin/pidof -x /usr/bin/startkde`;
+    for my $kde_pid (split(/\s+/,$kde_pids)) {
+        my $kde_env = slurp("/proc/$kde_pid/environ") or next;
+        %ENV = ();
+        for (split(/\x00/,$kde_env)) {
+            m/^(DISPLAY|HOME|XAUTHORITY|USER|DBUS_SESSION_BUS_ADDRESS)=(.+)$/
+                and $ENV{$1} = $2;
+        }
+        next unless defined($ENV{DISPLAY}) and $ENV{DISPLAY} =~ m/^:/;
+        system('dcop kdesktop KScreensaverIface lock') and die "Cannot lock KDE dekstop: $!"
+    }
+    my %ENV = %oldENV;
+}
+
+##############################
+# Lid checking
+
+if ($use_lid) { # sanity check
+    slurp($lid_file) or die "Can't use lid via $lid_file: $!";
+}
+
+my $last_lid_status = 'open';
+my $last_lid_open = 0;
+
+sub check_lid {
+    my $lid = slurp($lid_file) or return;
+    if ($lid =~ m/state: *open$/) {
+        $last_lid_open = time() if ($last_lid_status eq 'closed');
+        $last_lid_status = 'open';
+    } else {
+        $last_lid_status = 'closed';
+    }
+    return $last_lid_status;
+}
+
+##############################
+#AC state checking
+my $ac_state;
+sub read_ac_state {
+        open F, $ac_state_file;
+        if ((<F>) =~ /^(1|0)$/)
+                {
+                    $ac_state=$1;
+                }
+                close F;
+            return($1);
+                  }
+        read_ac_state;
+  ### used for testing
+         print "AC: $ac_state\n";
+
+##############################
+# LED blinking
+
+# Flash LEDs
+sub led_activate {
+    return if $use_led eq '0';
+    my $ledf = new FileHandle($led_file,">");
+    if (!defined($ledf)) {
+        print "Cannot open $led_file, disabling LED indicator: $!\n";
+        $use_led = '0';
+        return;
+    }
+    $ledf->autoflush(1);
+    my $base = time()*2.5;
+    #print $ledf '0 '.((frac($base)>0.7)?'on':'off')."\n"; # power
+    if ($use_led eq 'all') { # battery -- we can't recover these
+        print $ledf '1 '.((frac($base+0.50)>0.7)?'on':'off')."\n"; # battery, orange
+        print $ledf '2 '.((frac($base+0.25)>0.7)?'on':'off')."\n"; # battery, yellow
+    }
+    #print $ledf '4 '.((frac($base)>0.7)?'on':'off')."\n"; # bay
+    print $ledf '7 '.((frac($base+0.725)>0.7)?'on':'off')."\n"; # standby
+}
+
+# Restore LEDs to normal state
+sub led_restore {
+    return if $use_led eq '0';
+    my $ledf = new FileHandle($led_file,">") or die "Cannot open $led_file: $!\n";
+    $ledf->autoflush(1);
+    print $ledf "0 on\n"; # power=on
+    if ($use_led eq 'all') { # battery -- we can't recover these
+        print $ledf "1 on\n";
+        print $ledf "2 on\n";
+    }
+    print $ledf "7 off\n"; # power=off
+    if (my $baydata = slurp($bay_file)) {
+        my $is_bay = ($baydata =~ m/^status:\s*occupied$/m)?'on':'off';
+        print $ledf "4 $is_bay\n"; # reset to correct status
+    } else {
+        print $ledf "4 on\n"; # force bay on, we don't know correct status
+    }
+}
+
+
+##############################
+# ThinkLight blinking
+
+sub light_activate {
+    return if $use_light eq '0';
+    my $lightf = new FileHandle($light_file,">");
+    if (!defined($lightf)) {
+        print "Cannot open $light_file, disabling ThinkLight indicator: $!\n";
+        $use_light = '0';
+        return;
+    }
+    my $base = time()/2;
+    print $lightf (check_lid() eq 'open' && ((frac($base)<0.1)?'on':'off'))."\n";
+}
+
+sub light_restore {
+    return if $use_light eq '0';
+    my $lightf = new FileHandle($light_file,">") or die "Cannot open $light_file: $!\n";
+    print $lightf "off\n"; # ThinkLight
+}
+
+##############################
+# BlueTooth token detection
+
+
+{
+    my $temporary_bt = 0;
+    my $bt_pid;
+    my $bt_pipe;
+    my $bluetooth_last_seen = 0; # last time we saw the BlueTooth token
+    my $bluetooth_last_read = 0;   # last time we polled the BlueTooth child process
+    my $bluetooth_ignore_missing_until = time() + $bluetooth_reset_period; 
+
+    if ($use_bluetooth) {
+        # If BlueTooth is disabled, temporarily enable it
+        slurp($bluetooth_file) or die "Can't control bluetooth via $bluetooth_file: $!";
+        my $bt_status = slurp($bluetooth_file);
+        $temporary_bt = $bt_status =~ m/status:[\t]*disabled/;
+        if ($temporary_bt) {
+            say(1, 'BlueTooth was disabled, enabling');
+            burp($bluetooth_file, "enable\n");
+            sleep(1);
+        }
+    }
+
+    sub bluetooth_reset {  # disregard recent (negative) history
+        $bluetooth_ignore_missing_until = max($bluetooth_ignore_missing_until, time() + $bluetooth_reset_period);
+    }
+
+    sub check_bluetooth {
+        if (!defined($bt_pid)) {
+            # Create new child process, which will loop checking
+            # for the token. Each time it sees the token, it writes
+            # the current time to a pipe that's read by the main process.
+            $bt_pipe = new IO::Pipe;
+            $bt_pid = fork();
+            die "Cannot fork BlueTooth check: $!" unless defined($bt_pid);
+            if (!$bt_pid) {
+                # Child
+                $bt_pipe->writer();
+                $bt_pipe->autoflush(1);
+                open(STDOUT, ">/dev/null");
+                open(STDERR, ">/dev/null");
+                while(1) {
+                    # Is the BlueTooth token reachable?
+                    my $res = system($l2ping,'-c','1','-t',1,$bluetooth_token_addr);
+                    die "Failed invoking l2ping: $!\n" if $res&0xFF;
+                    if ($res==0) {
+                       # Is the BlueTooth sufficiently close, as judged by signal strength?
+                       $res = `$hcitool rssi $bluetooth_token_addr`;
+                       if ($?==0 && $res =~ m/^RSSI return value: (-?[0-9]+)$/) {
+                           my $rssi = $1;
+                           printf $bt_pipe "%d\n", time() if ($rssi > $bluetooth_min_rssi);
+                       }
+                    }
+                    sleep($bluetooth_sleep);
+                }
+             }
+             $bt_pipe->reader();
+             $bt_pipe->blocking(0);
+        }
+
+        while (1) { 
+            my $res = <$bt_pipe>;
+            last if ($!==POSIX::EAGAIN); # busy
+            die "Error reading from BlueTooth check child process\n" unless defined($res);
+            $bluetooth_last_seen = $res;
+        }
+
+        my $now = time();
+        bluetooth_reset() if ($now > $bluetooth_last_read + $bluetooth_reset_period);
+        $bluetooth_last_read = time();
+        if ($now > max($bluetooth_last_seen + $bluetooth_activate_period, $bluetooth_ignore_missing_until)) {
+            if ($bluetooth_lock_kde) {
+                force_kde_lock();
+                $bluetooth_ignore_missing_until = max($bluetooth_ignore_missing_until, time() + $bluetooth_lock_kde_interval);
+            }
+            return (1, "BlueTooth token not seen for $bluetooth_activate_period seconds, activating.");
+        } elsif ($now < $bluetooth_last_seen + $bluetooth_deactivate_period) {
+            return (0, "BlueTooth token seen during last $bluetooth_deactivate_period seconds, deactivating.");
+        }
+        return ();
+    }
+
+    sub bluetooth_restore {
+        if ($temporary_bt) {
+            say(1, 'Disabling BlueTooth');
+            burp($bluetooth_file, "disable\n");
+        }
+        if ($bt_pid) {
+            kill(SIGTERM, $bt_pid);
+            waitpid($bt_pid, 0);
+        }
+    }
+}
+
+##############################
+# Main code
+
+my $state;       # See state machine in main loop
+my %state_names=(0  =>'disabled    ',
+                 0.5=>'activating  ',
+                 1  =>'active+grace',
+                 2  =>'active      ',
+                 3  =>'hold+grace  ',
+                 4  =>'armed+grace ',
+                 5  =>'hold        ',
+                 6  =>'armed       ',
+                 7  =>'armed-force '  );
+my $state_end = 0; 
+my $last_tilt = 0;
+my $arm_forced = 0;
+my (@XHIST, @YHIST); # sensor history
+
+my $initpower=read_ac_state();  #check power state when script runs
+
+sub set_state {
+    my ($st,  $why) = @_;
+    say(2, "state=[".$state_names{$st}."]  ($why)");
+    (@XHIST, @YHIST) = () if $st==0.5;
+    led_restore() and light_restore() if defined($state) && $st==0;
+    $state = $st;
+}
+
+sub get_pos {
+    my $pos = slurp($pos_file);
+    return undef if $!{EBUSY};
+    die "Can't open HDAPS file $pos_file: $!\n" if (!defined($pos) || $!);
+    $pos =~ m/^\((-?\d+),(-?\d+)\)$/ or die "Can't parse $pos_file content\n";
+    return ($1,$2);
+}
+
+
+for (@ARGV) {
+    m/^--arm/ && do { $arm_forced=1; $use_lid=0; $use_kde=0; last; };
+    die "Unknown parameter\n";
+}
+
+set_state( ($use_kde || $use_bluetooth)  ? 0 : 0.5, "init");
+
+eval {
+
+$SIG{'HUP'}=$SIG{'INT'}=$SIG{'ABRT'}=$SIG{'QUIT'}=$SIG{'SEGV'}=$SIG{'TERM'} = sub { die "signal\n" };
+
+while (1) {
+    sleep(($state==0 && $use_kde) ? $kde_check_interval : $interval);
+
+    check_lid() if $use_lid;
+    # Check screensaver and BlueTooth. Activate if either says so,
+    # otherwise deactivate if either says so.
+    my ($op1, $why1); ($op1, $why1) = check_kde_lock() if $use_kde;
+    my ($op2, $why2); ($op2, $why2) = check_bluetooth() if $use_bluetooth;
+    my ($op, $why) = ( !defined($op1) || ( defined($op2) && $op2>$op1 ) ) ? ($op2,$why2) : ($op1,$why1);
+    if (defined($op)) {
+        if ($op==1 && $state==0) { set_state(0.5, $why); }
+        if ($op==0 && $state>0) { set_state(0, $why); bluetooth_reset(); }
+    }
+    next unless $state>0;
+
+    # Collect and analyze sensor data:
+    my $now = time();
+    my $tilted;
+    my ($x,$y) = get_pos() or next; # Hopefully the error is transient
+    push(@XHIST,$x); push(@YHIST,$y);
+    if ($state>0.5) {
+        shift(@XHIST); shift(@YHIST);
+        my $xdev = stddev(@XHIST);
+        my $ydev = stddev(@YHIST);
+        say(3,"X: v=$xdev (".join(',',@XHIST).")  Y: v=$ydev (".join(",",@YHIST).")");
+        $tilted = ($xdev>$thresh || $ydev>$thresh);
+        $last_tilt = $now if $tilted;
+    }
+
+# ac state check and set when system started on battery and later plugged power cord
+    my $power = read_ac_state();
+        if ($initpower eq '0' && $power eq '1') {
+        $initpower='1';
+        }
+
+    # Decide: state machine transitions
+    if ($state==0.5) { # ACTIVATING  (collecting motion data will soon activate)
+        if ($#XHIST >= $depth && $#YHIST >= $depth) {
+            set_state($arm_forced?7:$use_lid?1:2, "finished data collection");
+        }
+    } elsif ($state==1) { # ACTIVE+GRACE  (quiet for a long time, awaiting movement)
+        if ($tilted) {
+            set_state(3, "motion detected, holding for $lid_hold seconds, open lid for grace");
+            $state_end = $now + $lid_hold;
+            sound_alarm("WARNING", $warn_volume, $acpi_volume, $warn_cmd);
+        }
+    } elsif ($state==2) { # ACTIVE  (short for a shorter time, awaiting movement)
+        if ($tilted) {
+            set_state(5, "motion detected, holding for $min_hold seconds");
+            $state_end = $now + $min_hold;
+            sound_alarm("WARNING", $warn_volume, $acpi_volume, $warn_cmd);
+        } else {
+            if ($use_lid && ($now > $last_tilt + $grace_relax )) { 
+                set_state(1, "$grace_relax seconds since last motion, so allowing grace again");
+            }
+        }
+    } elsif ($state==3) { # HOLD+GRACE  (recent movemvent, but still holding off alarm; after long quiet)
+        if ($now < $last_lid_open + $lid_grace) {
+            set_state(5, "lid opened, holding for $lid_grace seconds grace period");
+            $state_end = $now + $lid_grace;
+        } elsif ($now >= $state_end) {
+            my $delta = $lid_grace_window - $lid_hold;
+            $state_end = $now + $delta;
+            set_state(4, "hold ended, arming but allowing grace for $delta more seconds");
+        }
+    } elsif ($state==4) { # ARMED+GRACE  (armed, but recently quiet so allow grace if lid opened)
+        if ($now < $last_lid_open + $lid_grace) {
+            set_state(5, "lid opened, holding for $lid_grace seconds grace period");
+            $state_end = $now + $lid_grace;
+        } elsif ($now >= $state_end) {
+            set_state(6, "grace window ended");
+        }
+    } elsif ($state==5) { # HOLD  (recent movement, but still holding off alarm; there was recent action)
+        if ($now >= $state_end) {
+            set_state(6, "hold ended, arming");
+        }
+    } elsif ($state==6) { # ARMED  (sound alarm on any movement)
+        if ($now > $last_tilt + $arm_persist) {
+            set_state(2, "no motion for $arm_persist seconds, unarming");
+        }
+    }
+
+    # LEDs:
+    if ($state>0) {
+        led_activate(); light_activate();
+    }
+
+    # Alarm: 
+     # included initpower state
+    if (($state==4 || $state==6 || $state==7) && ($tilted || ($power eq '0') && $initpower eq '1')) {
+        sound_alarm("ALARM", $alarm_volume, $acpi_volume, $alarm_cmd);
+    }
+}
+
+};
+
+print "Shutting down.\n" if $verbose>1;
+led_restore() and light_restore() if ($state>0);
+bluetooth_restore();
+die "$@" if $@;

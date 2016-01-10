@@ -1,0 +1,24 @@
+#!/usr/bin/perl -w
+# Pick a random wallpaper from a location.
+# If a numerical parameter is supplied, the script will use that number
+# as wait timer and loop indefinitely.
+
+use strict;
+use warnings;
+
+#  The directory you want to have searched for wallpapers
+my $searchPath = '~/.local/wallpapers/';
+# The time in seconds to wait between wallpaper switches
+my $switchTime = 0;
+
+if (@ARGV) { $switchTime = $ARGV[0] }
+
+my @photos = `find $searchPath -type f | grep [jJ][pP][eE]*[gG]`;
+chomp(@photos);
+my $photo;
+
+do {
+    $photo = $photos[rand($#photos)];
+    `feh --bg-scale "$photo"`;
+    sleep($switchTime);
+} while ($switchTime);
