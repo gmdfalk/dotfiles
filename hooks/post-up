@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+fix_permissions() {
+  local arg
+
+  for arg; do
+    if [ -d "$arg" ]; then
+      chmod 700 "$arg"
+    elif [ -f "$arg" ]; then
+      chmod 600 "$arg"
+    fi
+  done
+}
+
+install_vim_plugin_manager() {
+  local bundles="$HOME/.vim/bundle"
+
+  if [ ! -d "$bundles"/Vundle.vim ]; then
+    mkdir -p "$bundles"
+    git clone https://github.com/gmarik/Vundle.vim "$bundles"/Vundle.vim
+  fi
+
+  vim +PluginInstall +PluginClean! +qa
+}
+
+fix_permissions ~/.config/gnupg ~/.ssh
+
+install_vim_plugin_manager
+

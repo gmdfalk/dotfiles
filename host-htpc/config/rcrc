@@ -1,0 +1,2 @@
+EXCLUDES=README.md
+TAGS='awesome git gpg linux pentadactyl ssh theme-solarized-dark tmux vim zsh'
