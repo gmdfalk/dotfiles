@@ -2259,3 +2259,8 @@ apply_dock_xrandr() {
     xrandr --output DP2-1 --mode 1920x1200 --right-of eDP1
     xrandr --output DP2-2 --mode 1920x1200 --right-of DP2-1
 }
+
+# Detach these processes from shell by default
+declare -a processes=(firefox thunderbird eog spotify hexchat vlc)
+for process in ${processes[@]}; do alias $process="q $process"; done
+

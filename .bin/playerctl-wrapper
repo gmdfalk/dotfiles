@@ -8,7 +8,7 @@ Description:
     Wrapper for playerctl to control media playback
 
 Usage:
-    $script_name (play-pause | pause | prev | next | mute)
+    $script_name (play-pause | pause | prev | next | status | mute)
 
 EOF
     exit

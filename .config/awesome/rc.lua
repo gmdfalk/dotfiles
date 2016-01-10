@@ -582,9 +582,7 @@ function snap_client_to_screen_half(c, half)
 end
 
 globalkeys = awful.util.table.join(
-    -- {{{ Default keys (mostly)
-    awful.key(k_mc, "s",      hotkeys_popup.show_help,
-              {description="show help", group="awesome"}),
+    -- {{{ Unchanged default actions
     awful.key(k_m, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
     awful.key(k_m, "Right",  awful.tag.viewnext,
@@ -604,8 +602,6 @@ globalkeys = awful.util.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key(k_m, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key(k_ms, "j", function () awful.client.swap.byidx(  1)    end,
@@ -618,14 +614,6 @@ globalkeys = awful.util.table.join(
               {description = "focus the previous screen", group = "screen"}),
     awful.key(k_m, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
-    awful.key(k_m, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "go back", group = "client"}),
 
     -- Standard program
     awful.key(k_m, "Return", function () awful.spawn(terminal_tmux) end,
@@ -667,6 +655,16 @@ globalkeys = awful.util.table.join(
     awful.key(k_m, "r", function () mypromptbox[awful.screen.focused()]:run() end,
               {description = "run prompt", group = "launcher"}),
 
+    -- Menubar
+    awful.key(k_m, "p", function() menubar.show() end,
+              {description = "show the menubar", group = "launcher"}),
+    -- }}}
+
+    -- {{{ Remapped default actions
+    awful.key(k_mc, "s",      hotkeys_popup.show_help,
+              {description="show help", group="awesome"}),
+    awful.key(k_mc, "w", function () mymainmenu:show() end,
+              {description = "show main menu", group = "awesome"}),
     awful.key(k_m, "x",
               function ()
                   awful.prompt.run({ prompt = "Run Lua code: " },
@@ -675,13 +673,20 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end,
               {description = "lua execute prompt", group = "awesome"}),
-    -- Menubar
-    awful.key(k_m, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
+    awful.key(k_a, "Tab",
+        function ()
+            awful.client.focus.history.previous()
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "focus previous client", group = "client"}),
     -- }}}
 
 
     -- {{{ Non-default keys
+    awful.key(k_m, "Tab", awful.tag.history.restore,
+              {description = "Go to previously selected tag set", group = "tag custom"}),
     -- Non-tmux terminal
     awful.key(k_ms, "Return", function () awful.spawn(terminal) end),
     -- Show/Hide Wibox
@@ -719,18 +724,15 @@ globalkeys = awful.util.table.join(
     -- Fn+F12: XF86Explorer
     -- Calc:   XF86Calculator
     -- Globe:  XF86HomePage
-    awful.key({},   "XF86AudioMute",         widget_volume_mute),
-    awful.key({},   "XF86AudioLowerVolume",  widget_volume_down),
-    awful.key({},   "XF86AudioRaiseVolume",  widget_volume_up),
-    awful.key({},   "XF86AudioMicMute",      function () sexec("amixer -q set Capture toggle") end,
-              {description = "Toggle Microphone", group = "xf86"}),
-    awful.key({},   "XF86MonBrightnessUp",   function () sexec("xbacklight -inc 7") end,
-              {description = "Brightness up 7%", group = "xf86"}),
-    awful.key({},   "XF86MonBrightnessDown", function () sexec("xbacklight -dec 7") end,
-              {description = "Brightness down 7%", group = "xf86"}),
+
+    -- ACPI control buttons
+    awful.key({},   "XF86MonBrightnessUp",   function () sexec("xbacklight -inc 7") end),
+    awful.key({},   "XF86MonBrightnessDown", function () sexec("xbacklight -dec 7") end),
     awful.key({},   "XF86Display",    function () sexec("autorandr -c --force") end,
               {description = "Reload display configuration", group = "xf86"}),
     --~ awful.key({},   "XF86WLAN",       function () sexec("") end),
+
+    -- ACPI tool buttons
     --~ awful.key({},   "XF86Tools",      function () sexec("") end),
     --~ awful.key({},   "XF86Search",     function () sexec("") end),
     --~ awful.key({},   "XF86LaunchA",    function () sexec("") end),
@@ -740,43 +742,43 @@ globalkeys = awful.util.table.join(
               {description = "Open Calculator", group = "xf86"}),
     awful.key({},   "XF86HomePage",   function () run_or_raise(browser, { class = "Firefox" }) end,
               {description = "Open Browser", group = "xf86"}),
-    awful.key({},   "XF86AudioPlay",  function () sexec("playerctl-wrapper play-pause") end,
-              {description = "Toggle media playback", group = "xf86"}),
-    awful.key({},   "XF86AudioStop",  function () sexec("playerctl-wrapper pause") end,
-              {description = "Mute sound", group = "xf86"}),
-    awful.key({},   "XF86AudioPrev",  function () sexec("playerctl-wrapper prev") end,
-              {description = "Previous file/song", group = "xf86"}),
-    awful.key({},   "XF86AudioNext",  function () sexec("playerctl-wrapper next") end,
-              {description = "Next file/song", group = "xf86"}),
+
+    -- ACPI audio control
+    awful.key({},   "XF86AudioMute",         widget_volume_mute),
+    awful.key({},   "XF86AudioLowerVolume",  widget_volume_down),
+    awful.key({},   "XF86AudioRaiseVolume",  widget_volume_up),
+    awful.key({},   "XF86AudioMicMute",      function () sexec("amixer -q set Capture toggle") end),
+    awful.key({},   "XF86AudioPlay",  function () sexec("playerctl-wrapper play-pause") end),
+    awful.key({},   "XF86AudioStop",  function () sexec("playerctl-wrapper pause") end),
+    awful.key({},   "XF86AudioPrev",  function () sexec("playerctl-wrapper prev") end),
+    awful.key({},   "XF86AudioNext",  function () sexec("playerctl-wrapper next") end),
+
+    -- Audio control
     awful.key(k_ms, "Up",             function () sexec("playerctl-wrapper play-pause") end,
-              {description = "Toggle media playback", group = "xf86"}),
-    awful.key(k_ms, "Down",           function () sexec("playerctl-wrapper pause") end,
-              {description = "Pause media playback", group = "xf86"}),
+              {description = "Toggle media playback", group = "media"}),
+    awful.key(k_ms, "Down",           function () sexec("playerctl-wrapper mute") end,
+              {description = "Mute sound", group = "media"}),
     awful.key(k_ms, "Left",           function () sexec("playerctl-wrapper prev") end,
-              {description = "Previous file/song", group = "xf86"}),
+              {description = "Previous file/song", group = "media"}),
     awful.key(k_ms, "Right",          function () sexec("playerctl-wrapper next") end,
-              {description = "Next file/song", group = "xf86"}),
-    awful.key(k_mc, "Up",             widget_volume_up,
-              {description = "", group = "xf86"}),
-    awful.key(k_mc, "Down",           widget_volume_down,
-              {description = "", group = "xf86"}),
+              {description = "Next file/song", group = "media"}),
+    awful.key(k_m, "Up",             widget_volume_up,
+              {description = "Increase volume by 7%", group = "media"}),
+    awful.key(k_m, "Down",           widget_volume_down,
+              {description = "Decrease volume by 7%", group = "media"}),
 
     -- Scratchdrop
-    awful.key(k_m, "a", function () drop("urxvt -name urxvt_drop_bl", "bottom", "left", 0.5, 0.35 ) end,
-              {description = "dropdown terminal on bottom left", group = "dropdown"}),
-    --~ awful.key(k_m, "s", function () drop("urxvt -name urxvt_drop_bc", "bottom", "center", 0.333, 0.35 ) end,
-              --~ {description = "dropdown terminal on bottom center", group = "dropdown"}),
+    awful.key(k_m, "a", function () drop("urxvt -name urxvt_drop_bl -e tmux", "bottom", "left", 0.5, 0.35 ) end,
+              {description = "dropdown terminal at bottom left", group = "drop"}),
+    awful.key(k_m, "s", function () drop("urxvt -name urxvt_drop_bc -e tmux", "bottom", "center", 1, 0.35 ) end,
+              {description = "dropdown terminal at bottom center", group = "drop"}),
     awful.key(k_m, "d", function () drop("urxvt -name urxvt_drop_br", "bottom", "right", 0.5, 0.35 ) end,
-              {description = "dropdown terminal on bottom right", group = "dropdown"}),
-    awful.key(k_ms, "a", function () drop("urxvt -name urxvt_drop_tl", "top", "left", 0.5, 0.35 ) end,
-              {description = "dropdown terminal on top left", group = "dropdown"}),
-    --~ awful.key(k_ms, "s", function () drop("urxvt -name urxvt_drop_tc", "top", "center", 0.333, 0.35 ) end,
-              --~ {description = "dropdown terminal on top center", group = "dropdown"}),
-    awful.key(k_ms, "d", function () drop("urxvt -name urxvt_drop_tr", "top", "right", 0.5, 0.35 ) end,
-              {description = "dropdown terminal on top right", group = "dropdown"}),
+              {description = "dropdown terminal at bottom right", group = "drop"}),
     --awful.key(k_m, "t",       function () drop("thunderbird", "center", "center", 0.7, 0.8 ) end),
     --awful.key(k_m, "d",       function () drop("deluge", "center", "center", 0.7, 0.8 ) end),
-    awful.key(k_mc, "f",       function () run_or_raise("firefox", { class = "Firefox" }) end)
+    awful.key(k_mc, "f",       function () run_or_raise("firefox", { class = "Firefox" }) end,
+                  {description = "Run firefox", group = "apps"})
+
     --awful.key(k_m, "o",       function () drop("spotify", "center", "center", 0.7, 0.8 ) end),
     --awful.key(k_m, "q",       function () drop("copyq show", "center", "right", 0.5, 0.7 ) end)
     --awful.key(k_m, "h",       function () drop("urxvt -name urxvt_ghost -e ghost", "top", "center", 0.5, 0.6 ) end),
