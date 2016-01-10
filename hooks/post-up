@@ -25,5 +25,6 @@ install_vim_plugin_manager() {
 
 fix_permissions ~/.config/gnupg ~/.ssh
 
-install_vim_plugin_manager
+# Currently unused as I've switched to vim-plug
+#install_vim_plugin_manager
 
