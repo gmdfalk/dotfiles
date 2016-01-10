@@ -9,7 +9,7 @@ case "$1" in
     +)      xbacklight -inc ${STEP};;
     -)      xbacklight -dec ${STEP};;
     [0-9]*) xbacklight -set $1;;
-    *)  echo "Usage: hell {0-100,+,-,min,max}" && exit 1;;
+    *)  echo "Usage: hell {0-100,+,-,min,max}";;
 esac
 
 CUR_VAL=$(xbacklight -get)
