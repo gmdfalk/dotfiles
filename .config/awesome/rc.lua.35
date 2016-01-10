@@ -631,14 +631,14 @@ globalkeys = awful.util.table.join(
     awful.key(k_mc, "r", awesome.restart),
     awful.key(k_ms, "q", awesome.quit),
 
-    awful.key(k_m, "l",      function () awful.tag.incmwfact( 0.05)          end),
-    awful.key(k_m, "h",      function () awful.tag.incmwfact(-0.05)          end),
+    awful.key(k_m,  "l",     function () awful.tag.incmwfact( 0.05)          end),
+    awful.key(k_m,  "h",     function () awful.tag.incmwfact(-0.05)          end),
     awful.key(k_ms, "h",     function () awful.tag.incnmaster( 1, nil, true) end),
     awful.key(k_ms, "l",     function () awful.tag.incnmaster(-1, nil, true) end),
     awful.key(k_mc, "h",     function () awful.tag.incncol( 1, nil, true)    end),
     awful.key(k_mc, "l",     function () awful.tag.incncol(-1, nil, true)    end),
-    awful.key(k_m, "space",  function () awful.layout.inc( 1)                end),
-    awful.key(k_ms, "space", function () awful.layout.inc(-1)                end),
+    awful.key(k_m,  "space", function () awful.layout.inc(layouts, 1)        end),
+    awful.key(k_ms, "space", function () awful.layout.inc(layouts, -1)       end),
 
     awful.key(k_mc, "n",
               function ()

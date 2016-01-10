@@ -534,7 +534,7 @@ if [[ $_isarch = true ]];then
         alias y="yaourt"
         alias yS="y -S"    # install
         alias yR="y -R"    # remove
-        yG() { cd ~/code/build &>/dev/null && yaourt -G $1 && cd $1; }
+        yG() { cd ~/build &>/dev/null && yaourt -G $1 && cd $1; }
         alias ysw="y -Sw"      # download but don't install
         alias yss="y -Sas"     # query database
         [[ $_isroot = false ]] && alias ysu="y -Sau" || alias ysu="y -Sau"
@@ -2261,6 +2261,6 @@ apply_dock_xrandr() {
 }
 
 # Detach these processes from shell by default
-declare -a processes=(firefox thunderbird eog spotify hexchat vlc)
+declare -a processes=(firefox thunderbird eog spotify hexchat vlc geany gedit medit gvim pcmanfm)
 for process in ${processes[@]}; do alias $process="q $process"; done
 
