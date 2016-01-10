@@ -11,7 +11,7 @@ Installation on ArchLinux
     clone https://aur.archlinux.org/rcm-git.git && cd rcm-git
     makepkg -i
     git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles
-    ln -s $HOME/.dotfiles/host-w541/config/rcrc $HOME/.rcrc
+    ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc
     rcup
 
 Installation on OSX
@@ -20,7 +20,9 @@ Installation on OSX
     cd $HOME
     brew tap thoughtbot/formulae
     brew install rcm
-    env RCRC=$HOME/.dotfiles/host-w541/config/rcrc rcup
+    git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles
+    ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc
+    rcup
 
 Customization
 ----------------------------
