@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-#
-
-# Load some X11 stuff
-sh $HOME/.xprofile
-# Restart AwesomeWM
-pkill -HUP awesome
