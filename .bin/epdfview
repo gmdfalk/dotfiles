@@ -1,3 +1,0 @@
-#!/bin/sh
-/usr/bin/epdfview "$@" &> /dev/null &
-exit 0

@@ -2253,3 +2253,9 @@ alias resource="source $HOME/.zshrc"
 NO_AT_BRIDGE=1
 
 alias tail_awesome="tail -f ~/.logs/awe_*"
+
+apply_dock_xrandr() {
+    xrandr --output eDP1 --mode 1920x1080
+    xrandr --output DP2-1 --mode 1920x1200 --right-of eDP1
+    xrandr --output DP2-2 --mode 1920x1200 --right-of DP2-1
+}

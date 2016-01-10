@@ -1,4 +1,0 @@
-#!/bin/sh
-WINEPREFIX=~/.wine32 wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Geo3/Geo3.exe &>/dev/null &
-exit 0
-

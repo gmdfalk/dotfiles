@@ -58,7 +58,6 @@ putclip() {
 }
 
 post() {
-    #~ local url=$(curl -sF "sprunge=<$1" $SITE)
     local target="c"
     [[ "$SITE" == *"sprunge"* ]] && target="sprunge"
     local url=$(curl -sF "${target}=<$1" $SITE)

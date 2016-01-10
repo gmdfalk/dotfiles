@@ -1,3 +1,0 @@
-#!/bin/sh
-/usr/bin/feh "$@" &> /dev/null &
-exit 0
