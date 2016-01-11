@@ -1,8 +1,28 @@
 dotfiles
 ===================
 
-Cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
+Modular cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
 I use these with OSX, (Arch-)Linux and Cygwin under Windows 10.
+
+Quick intro to rcm
+------------------
+
+rcm will create symlinks (or copy, if you so choose) your defined configuration sets to your $HOME folder.
+It assumes a ~/.dotfiles directory as source and a ~/.rcrc file for configuration. Both are optional but when they exist, the following are common operations:
+
+Status information:
+* `lsrc` (lists all files managed by rcm)
+* `lsrc -d ~/company_dotfiles` (specify a non-default directory)
+
+Installing and deleting symlinks/tags:
+* `rcup -v` (create/update all symlinks for ~/.dotfiles (and be verbose about it))
+* `rcup -d ~/company_dotfiles` (install from a non-default dotfile directory)
+* `rcup -t zsh -t vim` (only install the vim and zsh configurations)
+
+Adding and deleting files: 
+* `mkrc FILE` (add FILE to ~/.dotfiles/FILE)
+* `mkrc -t TAG FILE` (will add FILE to ~/.dotfiles/tag-TAG)
+* `mkrc -U -o FILE` (will add FILE to ~/.dotfiles/host-$HOSTNAME and install it without a leading dot)
 
 Installation on ArchLinux
 -------------------------
@@ -12,7 +32,7 @@ Installation on ArchLinux
     makepkg -i &&
     git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
-    rcup
+    rcup -v
 
 Installation on OSX
 -------------------
@@ -22,7 +42,7 @@ Installation on OSX
     brew install rcm &&
     git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
-    rcup
+    rcup -v
 
 Installation on Windows
 -------------------
@@ -36,7 +56,7 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     make install &&
     git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
-    rcup
+    rcup -v
 
 Portable installation script
 ---------------------------
