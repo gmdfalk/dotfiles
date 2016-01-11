@@ -1,0 +1,6 @@
+[submodule "tag-awesome/config/awesome/revelation"]
+	path = tag-awesome/config/awesome/revelation
+	url = https://github.com/guotsuan/awesome-revelation
+[submodule "tag-awesome/config/awesome/lain"]
+	path = tag-awesome/config/awesome/lain
+	url = https://github.com/copycat-killer/lain

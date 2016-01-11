@@ -30,7 +30,7 @@ Installation on ArchLinux
     cd $HOME &&
     clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
     makepkg -i &&
-    git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
     rcup -v
 
@@ -40,7 +40,7 @@ Installation on OSX
     cd $HOME &&
     brew tap thoughtbot/formulae &&
     brew install rcm &&
-    git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
     rcup -v
 
@@ -49,12 +49,12 @@ Installation on Windows
 Cygwin doesn't come with a rcm package so we'll have to build it.
 
     cd $HOME &&
-    git clone git://github.com.com/thoughtbot/rcm.git && cd rcm &&
+    git clone --recursive git://github.com.com/thoughtbot/rcm.git && cd rcm &&
     ./autogen.sh &&
     ./configure &&
     make &&
     make install &&
-    git clone git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
     rcup -v
 
@@ -63,7 +63,6 @@ Portable installation script
 You can create a portable installation script (e.g. for machines where you don't want to or can't install rcm) like this:
 
     rcup -B 0 -g -K > install.sh
-
 Customization
 ----------------------------
 
