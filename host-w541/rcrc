@@ -1,3 +1,3 @@
-EXCLUDES="README.md"
+EXCLUDES="README.md host-w541/install.sh"
 TAGS='awesome bin cvim docker git gpg linux pentadactyl ssh theme-solarized-dark tmux vagrant vim vimperator x11 zsh'
 #SYMLINK_DIRS="awesome"
