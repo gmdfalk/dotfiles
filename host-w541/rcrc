@@ -1,2 +1,2 @@
 EXCLUDES=README.md
-TAGS='awesome bin docker git gpg linux pentadactyl ssh theme-solarized-dark tmux vagrant vim vimperator zsh'
+TAGS='awesome bin cvim docker git gpg linux pentadactyl ssh theme-solarized-dark tmux vagrant vim vimperator x11 zsh'
