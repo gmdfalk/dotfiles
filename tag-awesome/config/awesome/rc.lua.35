@@ -334,11 +334,20 @@ tempwidget = lain.widgets.temp({
 
 -- Battery
 baticon = wibox.widget.imagebox(beautiful.widget_batt)
+suspend_scheduled = false
 batwidget = lain.widgets.bat({
     settings = function()
         if bat_now.perc == "N/A" then
             perc = "AC "
         else
+	    percent = tonumber(bat_now.perc)
+	    if percent and percent < 5 and not suspend_scheduled then
+    		naughty.notify({ preset = naughty.config.presets.critical,
+                    title = "Critical battery level! Suspending in 30 seconds.",
+                    text = awesome.startup_errors })
+	        suspend_scheduled = true
+	        sexec("sleep 30 && systemctl suspend")
+	    end
             perc = bat_now.perc .. "% "
         end
         widget:set_text(perc)

@@ -38,6 +38,12 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
     rcup
 
+Portable installation script
+---------------------------
+You can create a portable installation script (e.g. for machines where you don't want to or can't install rcm) like this:
+
+    rcup -B 0 -g -K > install.sh
+
 Customization
 ----------------------------
 
