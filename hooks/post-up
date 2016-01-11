@@ -13,18 +13,15 @@ fix_permissions() {
 }
 
 install_vim_plugin_manager() {
-  local bundles="$HOME/.vim/bundle"
+  local plug_file="$HOME/.vim/autoload/plug.vim"
 
-  if [ ! -d "$bundles"/Vundle.vim ]; then
-    mkdir -p "$bundles"
-    git clone https://github.com/gmarik/Vundle.vim "$bundles"/Vundle.vim
+  if [ ! -f "$plug_file" ]; then
+    curl -fLo "$plug_file" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
 
-  vim +PluginInstall +PluginClean! +qa
+  vim +PlugInstall! +qa
 }
 
 fix_permissions ~/.config/gnupg ~/.ssh
-
-# Currently unused as I've switched to vim-plug
-#install_vim_plugin_manager
+install_vim_plugin_manager
 
