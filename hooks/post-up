@@ -36,9 +36,9 @@ configure_vim() {
 install_cygwin_packages() {
     logger "Installing apt-cyg and curl"
     lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg &&
-    install apt-cyg /bin/ &&
-    rm apt-cyg &&
-    apt-cyg install curl
+    chmod a+x apt-cyg && cp apt-cyg /bin/ && rm apt-cyg &&
+    # Install some essential packages
+    apt-cyg install chere ctags curl gcc-g++ install make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses
     if [ $? -ne 0 ]; then
         logger "Could not install curl. You will need to install it via the Cygwin Installer"
     fi
@@ -54,7 +54,7 @@ apply_system_specific_setup() {
     case "$OS" in
         Cygwin)
             install_cygwin_packages
-            echo "Remember to edit /etc/passwd if you want to use zsh"
+            echo "Remember to change the cygwin link to '.../mintty.exe /usr/bin/zsh -' to use zsh by default" 
             ;;
         GNU/Linux)
             ;;
