@@ -13,9 +13,10 @@ fix_permissions() {
 }
 
 configure_vim() {
-  local plug_file="$HOME/.vim/autoload/plug.vim"
+  local vim_dir="$HOME/.vim"
+  local plug_file="$vim_dir/autoload/plug.vim"
 
-  mkdir -p "$HOME/.vim/{swaps,backups}"
+  mkdir -p "$vim_dir/swaps" "$vim_dir/backups"
   if [ ! -f "$plug_file" ]; then
     curl -fLo "$plug_file" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
