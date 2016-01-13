@@ -36,7 +36,7 @@ Adding and deleting files:
     clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
     makepkg -i &&
     git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
+    ln -s $HOME/.dotfiles/host-generic/rcrc $HOME/.rcrc &&
     rcup -v
 ```
 
@@ -47,7 +47,7 @@ Adding and deleting files:
     brew tap thoughtbot/formulae &&
     brew install rcm &&
     git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
+    ln -s $HOME/.dotfiles/host-generic/rcrc $HOME/.rcrc &&
     rcup -v
 ```
 
@@ -63,7 +63,7 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     make &&
     make install &&
     git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    ln -s $HOME/.dotfiles/host-w541/rcrc $HOME/.rcrc &&
+    ln -s $HOME/.dotfiles/host-generic/rcrc $HOME/.rcrc &&
     rcup -v
 ```
 
@@ -83,6 +83,19 @@ You can create a portable installation script (e.g. for machines where you don't
     rcup -B 0 -g -K > install.sh
 ```
 
+## Post-Install
+
+There are a couple of configurations you probably want to do after installing this repository as outlined above.
+
+### Git
+
+Add a `~/.gitconfig.local` with your name, email and whatever else you want to add to your local gitconfig.  
+```
+[user]
+    name = Your Name Here
+    email = your@email.here
+```
+
 ## Customization
 
 You can make your own customizations by adding `.local`files.
@@ -98,41 +111,4 @@ has two special subdirectories: `pre` for files that must be loaded first, and
 
 ## Features
 
-[vim](http://www.vim.org/) configuration:
-
-* [Ctrl-P](https://github.com/kien/ctrlp.vim) for fuzzy file/buffer/tag finding.
-* Set `<leader>` to a single space.
-* Switch between the last two files with space-space.
-* Syntax highlighting for CoffeeScript, Textile, Cucumber, Haml, Markdown, and
-  HTML.
-* Use [vim-mkdir](https://github.com/pbrisbin/vim-mkdir) for automatically
-  creating non-existing directories before writing the buffer.
-* Use [vim-plug](https://github.com/junegunn/vim-plug) to manage plugins.
-
-[tmux](http://robots.thoughtbot.com/a-tmux-crash-course) configuration:
-
-* Improve color resolution.
-* Remove administrative debris (session name, hostname, time) in status bar.
-* Set prefix to `Ctrl+Space`
-* Soften status bar color from harsh green to light gray.
-
-[git](http://git-scm.com/) configuration:
-
-* Adds a `create-branch` alias to create feature branches.
-* Adds a `delete-branch` alias to delete feature branches.
-* Adds a `merge-branch` alias to merge feature branches into master.
-* Adds an `up` alias to fetch and rebase `origin/master` into the feature
-  branch. Use `git up -i` for interactive rebases.
-* Adds `post-{checkout,commit,merge}` hooks to re-index your ctags.
-* Adds `pre-commit` and `prepare-commit-msg` stubs that delegate to your local
-  config.
-
-Shell aliases and scripts:
-
-* `b` for `bundle`.
-* `g` with no arguments is `hub status` and with arguments acts like `hub`.
-* `git-churn` to show churn for the files changed in the branch.
-* `mcd` to make a directory and change into it.
-* `tat` to attach to tmux session named the same as the current directory.
-* `v` for `$VISUAL`.
-
+Coming soon.
