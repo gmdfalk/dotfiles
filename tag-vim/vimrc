@@ -264,6 +264,6 @@ augroup resCur
     autocmd BufWinEnter * call ResCur()
 augroup END
 
-if filereadable("~/.vimrc.local")
+if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
