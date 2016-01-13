@@ -38,7 +38,8 @@ install_cygwin_packages() {
     lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg &&
     chmod a+x apt-cyg && cp apt-cyg /bin/ && rm apt-cyg &&
     # Install some essential packages
-    apt-cyg install chere ctags curl gcc-g++ install make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses
+    apt-cyg install chere ctags curl gcc-g++ make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses ruby git &&
+    gem install hub
     if [ $? -ne 0 ]; then
         logger "Could not install curl. You will need to install it via the Cygwin Installer"
     fi
