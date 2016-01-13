@@ -1,0 +1,8 @@
+[user]
+    name = Max Falk
+    email = max.falk@dvag.com
+[core]
+    autocrlf = true
+    filemode = false
+[branch]
+    autosetuprebase = always
