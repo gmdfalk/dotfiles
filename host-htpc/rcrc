@@ -1,2 +1,4 @@
-EXCLUDES=README.md
-TAGS='awesome git gpg linux pentadactyl ssh theme-solarized-dark tmux vim zsh'
+EXCLUDES="README.md host-*:install.sh"
+TAGS="awesome bin git gpg linux pentadactyl ssh theme-solarized-dark tmux vim zsh"
+SYMLINK_DIRS="awesome oh-my-zsh"
+UNDOTTED="tag-bin:bin"

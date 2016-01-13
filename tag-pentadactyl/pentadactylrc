@@ -179,7 +179,7 @@ map <Leader><Space> :buffer #<CR>
 nmap -builtin <Leader>d :extdisable Pentadactyl<CR>
 
 " Open new private window
-nmap -builtin <Leader>p :private winopen<CR>
+nmap -builtin <Leader>P :private winopen<CR>
 
 " Add -k= after bookmark
 nmap -builtin a a -k=
@@ -234,8 +234,8 @@ style -name tabs chrome://* <<EOF
 }
 EOF
 
-hi StatusLine   font-family: Terminus; padding:0 4px; font-size: 8pt;
-hi Bell         display: none;
-hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;
-"hi CmdOutput    white-space: pre;
+/*hi StatusLine   font-family: Terminus; padding:0 4px; font-size: 8pt;*/
+/*hi Bell         display: none;*/
+/*hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;*/
+/*"hi CmdOutput    white-space: pre;*/
 "}}}

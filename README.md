@@ -67,6 +67,14 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     rcup -v
 ```
 
+A note on symlinks:  
+Please note that Cygwin creates "fake" symlinks by default which Windows cannot read. So, if, like me, you want to be able to use the dotfiles both in Cygwin and in normal Windows applications (e.g. git/ssh/gpg configs), you have two options:  
+1) Use the `COPY_ALWAYS` option in .rcrc, for instance with the entry `COPY_ALWAYS="*"` to match every file.
+2) Tell Cygwin to use native NTFS symlinks. To do that, you'll have to `export CYGWIN="winsymlinks:native"` before running `rcup`. There are two drawbacks to this method: a) This requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator" and b) it requires Windows Vista/2008 or later. Even then, native NTFS symlinks might behave strangely but this method is what works for me.  
+
+A word on `$PATH`:
+You  might want to remove Windows applications from `$PATH` that provide Windows versions of unix tools e.g. Git for Windows. The latter will autocrlf, for instance, which means Cygwin can't read files cloned with the Windows version of Git unless you `dos2unix` each file.
+
 ### Portable installation script
 
 You can create a portable installation script (e.g. for machines where you don't want to or can't install rcm) like this:
