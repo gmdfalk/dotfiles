@@ -1,4 +1,4 @@
 EXCLUDES="README.md install.sh"
-TAGS="awesome bin cvim docker git gpg linux pentadactyl ssh theme-solarized-dark tmux vagrant vim vimperator x11 zsh ideavim"
-SYMLINK_DIRS="awesome oh-my-zsh"
+TAGS="awesome bash bin git gpg ssh theme-solarized-dark tmux vim vimlike zsh-oh-my-zsh"
+SYMLINK_DIRS="awesome"
 UNDOTTED="bin"
