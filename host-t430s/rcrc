@@ -1,3 +1,3 @@
 EXCLUDES="README.md install.sh"
-TAGS="bash bin git gpg ssh theme-solarized-dark tmux vim vimlike zsh-oh-my-zsh"
+TAGS="bash bin git gpg shell-common ssh theme-solarized-dark tmux vim vimlike zsh-oh-my-zsh"
 UNDOTTED="bin"

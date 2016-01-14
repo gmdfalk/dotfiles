@@ -16,31 +16,10 @@ fi
 EDITOR=$VISUAL
 
 
-BROWSER="tpope browser"
-export LESS LESSOPEN VISUAL EDITOR
+export PATH PAGER VISUAL EDITOR
+# }}}
 
-IFS=:
-newpath=.git/safe/../../bin:$HOME/.local/bin
-for dir in $PATHPREPEND $PATH; do
-case :$newpath: in
-*:$dir:*) ;;
-*) [ -z "$dir" -o ! -d "$dir" ] || newpath=$newpath:$dir ;;
-esac
-done
-PATH=$newpath
-
-unset IFS dir newpath
-[ -z "$ZSH_VERSION" ] || setopt noshwordsplit
-
-if [ -t 1 ] && expr "$-" : '.*i' >/dev/null; then
-if [ -f "$HOME/.hushlogin" ]; then
-if [ -x /usr/bin/finger ]; then
-finger $LOGNAME | grep '^New mail' >/dev/null && echo "You have new mail."
-elif [ -f "$MAIL" ]; then
-find "$MAIL" -newerma "$MAIL" -exec echo 'You have new mail.' \;
-fi
-fi
-
+# {{{ Source files
 # Source common shell aliases, functions and settings
 for f in ~/.shell-common/*; do
     source "$f"
