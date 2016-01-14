@@ -1,4 +1,4 @@
-EXCLUDES="README.md host-*:install.sh"
+EXCLUDES="README.md install.sh"
 TAGS="bin git gpg linux ssh theme-solarized-dark tmux vim zsh"
 SYMLINK_DIRS="oh-my-zsh"
-UNDOTTED="tag-bin:bin"
+UNDOTTED="bin"
