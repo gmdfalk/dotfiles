@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# 
+# This script is run when bash starts
+
+# Source our basic environment
+[[ -d "$HOME/.profile" ]] && source "$HOME/.profile"
+
+# Only source bashrc for interactive prompts
+[[ $- != *i* ]] || . "$HOME/.bashrc"
+
