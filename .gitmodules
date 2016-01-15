@@ -2,5 +2,5 @@
     path = tag-awesome/config/awesome
     url = https://github.com/mikar/dotfiles-awesome
 [submodule "tag-shell-zsh-oh-my-zsh/oh-my-zsh"]
-	path = tag-shell-zsh-oh-my-zsh/oh-my-zsh
-	url = https://github.com/mikar/dotfiles-zsh
+    path = tag-shell-zsh-oh-my-zsh/oh-my-zsh
+    url = https://github.com/mikar/dotfiles-zsh
