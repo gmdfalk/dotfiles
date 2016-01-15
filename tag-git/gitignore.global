@@ -125,7 +125,6 @@ Session.vim
 ### Eclipse ###
 *.pydevproject
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
