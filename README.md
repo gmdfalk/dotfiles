@@ -17,7 +17,8 @@ Status information:
 * `lsrc -d ~/company_dotfiles` (specify a non-default directory)
 
 Installing and deleting symlinks/tags:
-* `rcup -v` (create/update all symlinks for ~/.dotfiles (and be verbose about it))
+* `rcup -v` (create/update all symlinks for ~/.rcrc or ~/.dotfiles/rcrc (and be verbose about it))
+* `rcup -B mbpro` (create all symlinks for the host mbro (i.e. read ~/.dotfiles/host-mbpro/rcrc))
 * `rcup -d ~/company_dotfiles` (install from a non-default dotfile directory)
 * `rcup -t zsh -t vim` (only install the vim and zsh configurations)
 * The same commands work with `rcdn` to unlink/deinstall tags or whole repositories.  
@@ -36,8 +37,7 @@ Adding and deleting files:
     clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
     makepkg -i &&
     git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    ln -s $HOME/.dotfiles/host-generic/rcrc $HOME/.rcrc &&
-    rcup -v
+    rcup -B generic -v
 ```
 
 ### On OSX
@@ -47,8 +47,7 @@ Adding and deleting files:
     brew tap thoughtbot/formulae &&
     brew install rcm &&
     git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    ln -s $HOME/.dotfiles/host-generic/rcrc $HOME/.rcrc &&
-    rcup -v
+    rcup -B generic -v
 ```
 
 ### On Windows
@@ -63,8 +62,7 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     make &&
     make install &&
     git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    ln -s $HOME/.dotfiles/host-generic/rcrc $HOME/.rcrc &&
-    rcup -v
+    rcup -B generic -v
 ```
 
 A note on symlinks:  
@@ -85,9 +83,22 @@ You can create a portable installation script (e.g. for machines where you don't
 
 ## Post-Install
 
+### Maintenance
+
+Once a configuration is installed, e.g. via `rcup -B generic` the corresponding rcrc file (`~/.dotfiles/host-generic/rcrc`)
+will be symlinked to `~/.rcrc` so that you don't have to specify the dotfiles directory or host name anymore.
+Maintenance then simply becomes:
+```
+cd ~/.dotfiles
+git pull
+rcup -v
+```
+
+### Configuration
+
 There are a couple of configurations you probably want to do after installing this repository as outlined above.
 
-### Git
+#### Git
 
 Add a `~/.gitconfig.local` with your name, email and whatever else you want to add to your local gitconfig.  
 ```
@@ -98,16 +109,28 @@ Add a `~/.gitconfig.local` with your name, email and whatever else you want to a
 
 ## Customization
 
-You can make your own customizations by adding `.local`files.
-They will take precedence over their counterparts as they are loaded last.
-For instance, to extend `.zshrc` you can make your changes in `.zshrc.local`.
+You can make your own customizations, of course, by editing files directly or alternatively by adding a new file with 
+`.local` appended to the file name. These `.local` files will take precedence over their counterparts as they are loaded last.
 
-To extend your `git` hooks, create executable scripts in
-`~/.git_template.local/hooks/*` files.
+Configuration files that accept `.local` overrides are:
+  * ~/.tmux.conf (i.e. ~/.tmux.conf.local)
+  * ~/.zshrc
+  * ~/.vimrc
+  * ~/.pentadactylrc
+  * ~/.vimperatorrc
+  * ~/.cvimrc
+  * ~/.ideavimrc
+  * ~/.gitconfig
 
-Additional zsh configuration can go under the `~/.zsh/configs` directory. This
-has two special subdirectories: `pre` for files that must be loaded first, and
-`post` for files that must be loaded last.
+Additionally, there are a couple of special directories from which configuration files are automatically loaded.
+
+  * ~/.shell/{pre,post}/
+  * ~/.zsh/{pre,post}/
+  * ~/.oh-my-zsh/custom/
+  * ~/.vim/plugin/
+
+The pre and post folders are for shared shell/zsh files that you want sourced.
+Files in pre get loaded first (in ~/.profile) and files in post at the end (in ~/.{bash_,z}login).
 
 ## Features
 
