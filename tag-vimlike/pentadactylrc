@@ -239,3 +239,6 @@ EOF
 "hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;
 "hi CmdOutput    white-space: pre;
 "}}}
+
+" Source local overriding configuration file, if it exists
+silent source ~/.pentadactylrc.local

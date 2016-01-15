@@ -61,3 +61,6 @@ cmap <C-Down> <Down>
 " {{{ Style
 "autocmd Fullscreen .* :set gui=none,tabs
 " }}}
+
+" Source local overriding configuration file, if it exists
+silent source ~/.cvimrc.local

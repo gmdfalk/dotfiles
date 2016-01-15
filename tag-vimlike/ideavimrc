@@ -294,14 +294,21 @@ cnoremap w' w<CR>
 
 " Disable the ever-annoying Ex mode shortcut key. Type visual my ass. Instead,
 " make Q repeat the last macro instead. *hat tip* http://vimbits.com/bits/263
-nnoremap Q @@
+nnoremap Q @r
 
 " Removes doc lookup mapping because it's easy to fat finger and never useful.
 nnoremap K k
 vnoremap K k
+
 
 " Toggle paste mode with F5
 nnoremap <silent> <F5> :set paste!<CR>
 
 " Insert date
 iabbrev ddate <C-R>=strftime("%Y-%m-%d")<CR>
+
+map <leader>rr :source ~/.ideavimrc<CR>
+
+" Source local overriding configuration file, if it exists
+source ~/.ideavimrc.local
+
