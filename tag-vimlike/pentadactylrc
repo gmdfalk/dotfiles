@@ -112,7 +112,7 @@ map s :open g<Space>
 map S :tabopen g<Space>
 
 " Unmap annoying keys
-map -builtin <bs> <Nop>
+nmap -builtin <bs> <Nop>
 map -builtin <f1> <Nop>
 map -builtin <C-h> <Nop>
 map -builtin <C-l> <Nop>
@@ -234,8 +234,8 @@ style -name tabs chrome://* <<EOF
 }
 EOF
 
-/*hi StatusLine   font-family: Terminus; padding:0 4px; font-size: 8pt;*/
-/*hi Bell         display: none;*/
-/*hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;*/
-/*"hi CmdOutput    white-space: pre;*/
+"hi StatusLine   font-family: Terminus; padding:0 4px; font-size: 8pt;
+"hi Bell         display: none;
+"hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;
+"hi CmdOutput    white-space: pre;
 "}}}
