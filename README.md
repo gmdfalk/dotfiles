@@ -3,6 +3,7 @@
 Modular cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
 
 ## About
+
 I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (w/ Cygwin64).
 They are very vim-centric and try to use the solarized dark theme wherever possible.
 
