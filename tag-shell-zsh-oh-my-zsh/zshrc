@@ -66,3 +66,8 @@ if [ -n "$DISPLAY" ]; then
 else 
     export BROWSER=links
 fi
+
+LOCALFILE="$HOME/.zshrc.local"
+if [[ -f "$LOCALFILE" ]]; then
+    source "$LOCALFILE"
+fi
