@@ -4,3 +4,6 @@
 [submodule "tag-shell-zsh-oh-my-zsh/oh-my-zsh"]
     path = tag-shell-zsh-oh-my-zsh/oh-my-zsh
     url = https://github.com/mikar/dotfiles-zsh
+[submodule "prezto"]
+	path = prezto
+	url = https://github.com/sorin-ionescu/prezto
