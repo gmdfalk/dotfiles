@@ -15,9 +15,11 @@ EOF
 }
 [[ "$#" -lt 1 ]] && usage
 
+# Always execute mute on remote
+[[ $1 == mute ]] && ssh slave@htpc "pamixer --toggle-mute" && exit 0
+
 SPOTIFY_FOUND=$(pgrep spotify)
 COMMAND="playerctl $1 --player=spotify"
-[[ $1 == mute ]] && COMMAND="pamixer --toggle-mute"
 if [[ $HOSTNAME != "htpc" ]] && [[ -z $SPOTIFY_FOUND ]]; then
     ssh slave@htpc ${COMMAND}
 else
