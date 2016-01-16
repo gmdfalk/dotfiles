@@ -1,7 +1,7 @@
 #!/bin/sh
 # ~/.xinitrc
 #
-
+#
 ## Ensure that the D-Bus Communication System is running properly to fix
 ## File management, authentication, and other essential system processes
 if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
@@ -21,7 +21,7 @@ autorandr -c &
 
 # {{{ Apps
 # Compositing
-compton &
+#compton &
 # Clipboard manager
 parcellite &
 
