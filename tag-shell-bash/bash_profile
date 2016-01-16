@@ -3,7 +3,10 @@
 # This script is run when bash starts
 
 # Source our basic environment
-[[ -d "$HOME/.profile" ]] && source "$HOME/.profile"
+[[ -f "$HOME/.profile" ]] && source "$HOME/.profile"
+
+LOCALFILE="$HOME/.bash_profile.local"
+[[ -f "$LOCALFILE" ]] && source "$LOCALFILE"
 
 # Only source bashrc for interactive prompts
 [[ $- != *i* ]] || . "$HOME/.bashrc"

@@ -1,4 +1,17 @@
-# ~/.profile
+#!/usr/bin/env sh
+#
+
+# {{{ Initialization
+SHELL_DIR="~/.shell"
+
+# Load pre initialization files
+PRE_FILE="~/${SHELL_DIR}/pre-init.sh"
+if test -r ${PRE_FILE}; then
+    . ${PRE_FILE}
+fi
+unset PREFILE
+
+# }}}
 
 # {{{ Utilities
 have() {
@@ -11,40 +24,42 @@ PATH=$HOME/bin:${PATH}
 PAGER=less
 LESS="-F -g -i -M -R -S -w -X -z-4"
 
-if [[ -z "$VISUAL" ]]; then
+if [ -z "$VISUAL" ]; then
     have vim && VISUAL=vim || VISUAL=vi
 fi
 EDITOR=$VISUAL
 
-if [[ ! -d "$TMPDIR" ]]; then
+if [ ! -d "$TMPDIR" ]; then
   TMPDIR="/tmp/$LOGNAME"
   mkdir -p -m 700 "$TMPDIR"
 fi
 
-if [[ "$OSTYPE" == darwin* ]]; then
+if [ "$OSTYPE" == darwin* ]; then
     BROWSER="open"
 else
     BROWSER="lynx"
 fi
 
-if [[ -n "$DISPLAY" ]]; then
+if [ -n "$DISPLAY" ]; then
     BROWSER="firefox"
 fi
 
 export BROWSER EDITOR LESS PAGER PATH TMPDIR VISUAL 
 
-if [[ -z "$LANG" ]]; then
+if [ -z "$LANG" ]; then
   export LANG="en_US.UTF-8"
 fi
-
 
 # }}}
 
 # {{{ Source files
-# Source common shell aliases, functions and settings
-for f in ~/.shell-common/*; do
-    source "$f"
-done
+# Load post initialization files
+POST_FILE="~/${SHELL_DIR}/post-init.sh"
+if test -r ${POST_FILE}; then
+    . ${POST_FILE}
+fi
+unset POSTFILE
 
 # Source optional local configuration
-[[ -r "$HOME/.profile.local" ]] && . "$HOME/.profile.local"
+test -r "$HOME/.profile.local" && . "$HOME/.profile.local"
+# }}}
