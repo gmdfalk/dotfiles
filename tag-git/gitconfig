@@ -169,5 +169,11 @@
 [url "git://gist.github.com/"]
     insteadOf = "gist:"
 
+[user]
+    name = "Max Falk"
+    email = "gmdfalk@gmail.com"
+    signingkey = "A3753845"
+
 [include]
     path = ~/.gitconfig.local
+

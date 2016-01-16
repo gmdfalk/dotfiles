@@ -140,6 +140,10 @@ nmap j -builtin 5j
 nmap k -builtin 5k
 nmap l -builtin 5l
 
+" Switch buffers
+nmap J gt
+nmap K gT
+
 " Tab control
 map <Leader>td :tabduplicate<CR>
 map <Leader>tl :tablast<CR>
@@ -193,7 +197,7 @@ nmap <Leader>py :proxy 1<CR>
 nmap <Leader>pn :proxy 0<CR>
 
 " Reload the config file
-map <Leader>r :source ~/.pentadactylrc<CR>
+map <Leader>rr :source ~/.pentadactylrc<CR>
 
 " Make up/dn work in completion lists
 "cmap -builtin <up> <s-tab>
@@ -233,11 +237,6 @@ style -name tabs chrome://* <<EOF
     display: none !important;
 }
 EOF
-
-"hi StatusLine   font-family: Terminus; padding:0 4px; font-size: 8pt;
-"hi Bell         display: none;
-"hi CmdLine      font-family: Terminus; padding: 0px; font-size: 8pt; font-family: Terminus; font-weight: normal; padding: 0px 0px;
-"hi CmdOutput    white-space: pre;
 "}}}
 
 " Source local overriding configuration file, if it exists

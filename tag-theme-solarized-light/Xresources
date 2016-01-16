@@ -41,24 +41,6 @@ Xft.rgba:                    rgb
 *URxvt.letterSpace:          -1
 ! }}}
 !-----------------------------------------------------------------------
-! {{{ urxvt_drop
-urxvt_drop_bl*foreground:      white
-urxvt_drop_bl*depth:           32
-urxvt_drop_bl*background:      rgba:0000/0000/0000/aaaa
-urxvt_drop_bl*shading:         40
-
-urxvt_drop_bc*foreground:      white
-urxvt_drop_bc*depth:           32
-urxvt_drop_bc*background:      rgba:0000/0000/0000/aaaa
-urxvt_drop_bc*shading:         40
-
-urxvt_drop_br*foreground:      white
-urxvt_drop_br*depth:           32
-urxvt_drop_br*background:      rgba:0000/0000/0000/aaaa
-urxvt_drop_br*shading:         40
-
-! }}}
-!-----------------------------------------------------------------------
 ! {{{ solarized light
 #define S_base03        #002b36
 #define S_base02        #073642
