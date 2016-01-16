@@ -125,7 +125,7 @@ Configuration files that accept `.local` overrides are:
 
 Additionally, there are a couple of special directories from which configuration files are automatically loaded.
 
-  * ~/.shell/{pre,post}/
+  * ~/.shell/custom/
   * ~/.zsh/{pre,post}/
   * ~/.oh-my-zsh/custom/
   * ~/.vim/plugin/

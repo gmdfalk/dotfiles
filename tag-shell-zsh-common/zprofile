@@ -1,7 +1,6 @@
 #
 # Executes commands at login pre-zshrc.
 #
-[[ -d ~/.profile ]] && source ~/.profile
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path

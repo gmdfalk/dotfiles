@@ -5,11 +5,11 @@
 SHELL_DIR="~/.shell"
 
 # Load pre initialization files
-PRE_FILE="~/${SHELL_DIR}/pre-init.sh"
-if test -r ${PRE_FILE}; then
-    . ${PRE_FILE}
+INIT_FILE="$HOME/${SHELL_DIR}/init.sh"
+if test -r ${INIT_FILE}; then
+    . ${INIT_FILE}
 fi
-unset PREFILE
+unset INIT_FILE
 
 # }}}
 
@@ -58,8 +58,12 @@ POST_FILE="~/${SHELL_DIR}/post-init.sh"
 if test -r ${POST_FILE}; then
     . ${POST_FILE}
 fi
-unset POSTFILE
+unset POST_FILE
 
 # Source optional local configuration
-test -r "$HOME/.profile.local" && . "$HOME/.profile.local"
+LOCAL_FILE="$HOME/.profile.local"
+if test -r "$LOCAL_FILE"; then
+    . "$LOCAL_FILE"
+fi
+unset LOCAL_FILE
 # }}}

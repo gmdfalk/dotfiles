@@ -17,7 +17,7 @@ if [ -x /usr/bin/xdg-user-dirs-update ]; then
 fi
 
 # Automatically configure monitor setup (docked/undocked)
-autorandr -c &
+#autorandr -c &
 
 # {{{ Apps
 # Compositing
