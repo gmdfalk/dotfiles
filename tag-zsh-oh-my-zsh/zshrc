@@ -54,7 +54,7 @@ plugins=(archlinux common-aliases git git-extras git-flow sudo systemd tmux vi-m
 
 # {{{ User configuration
 # Initialize bash config
-BASH_PLUGINS=(env git archlinux)
+POST_SCRIPTS=(archlinux common-aliases git git-extras git-flow sudo systemd tmux ssh-agent z)
 [[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
 # }}}
 
