@@ -10,10 +10,13 @@ load_scripts() {
     local directory="${1}"
     # Read all arguments after $1 into array
     local scripts=("${@:2}")
+    local ext="zsh"
 
     for script in ${scripts[@]}; do
-        echo "${directory}/${script}.zsh"
-        [[ -f "${directory}/${script}.zsh" ]] && source "${directory}/${script}.zsh"
+        if [[ -f "${directory}/${script}.${ext}" ]]; then
+            echo "Loading ${directory}/${script}.${ext}"
+            source "${directory}/${script}.${ext}"
+        fi
     done
 }
 
