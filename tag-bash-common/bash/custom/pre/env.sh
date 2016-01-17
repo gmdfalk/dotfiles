@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# {{{ Colors
+[[ -r "$HOME/.dircolors" ]] && eval "$(dircolors $HOME/.dircolors)"
+# }}}
+
 # {{{ Set environment variables
 PATH="${HOME}/bin:${PATH}"
 PAGER=less
