@@ -109,10 +109,10 @@ noremap <C-j> <Nop>
 noremap <C-k> <Nop>
 
 " Scrolling
-nmap h -builtin 5h
-nmap j -builtin 5j
-nmap k -builtin 5k
-nmap l -builtin 5l
+nnoremap h 5h
+nnoremap j 5j
+nnoremap k 5k
+nnoremap l 5l
 
 " Switch buffers
 nmap J gt
