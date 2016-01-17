@@ -63,11 +63,6 @@ set incfind
 " Ignore case in searches unless search term contains upper case letters
 set wildcase=.?:smart
 set findcase=smart
-
-"set nextpattern='^\s*Next Page\s*$', '^\s*Next [>»]', '\bnext\b', ^>$, '^(>>|»)$', '^(>|»)', '(>|»)$', '\bmore\b'
-"set previouspattern='^\s*Prev(ious)? Page\s*$', '[<«] Prev\s*$', '\bprev(ious)?\b', ^<$, '^(<<|«)$', '^(<|«)', '(<|«)$'
-"set nextpattern=\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b,\\bweiter\\b,\\bvor\\b,\\bNäch
-"set previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorhe,\\bZurück
 "}}}
 
 " Completions {{{

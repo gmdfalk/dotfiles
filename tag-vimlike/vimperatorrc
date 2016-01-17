@@ -1,26 +1,82 @@
-" {{{ Options
-"set defsearch=g
-"set gui=none,navigation,tabs
+" General options {{{
+" Follow hints (links) immediately when matched
+set followhints=0
+
+" Limit number of items displayed on commandline at once (default is 20)
+set maxitems=10
+
+" Limit number of (error and info) messages stored in history (default is 100)
+set messages=25
+
+" Number of lines to scroll with <C-d>/<C-u> (0 means it scrolls half the window at a time)
+set scroll=0
+
+" Maximum number of commands and find patterns to store in the cmd history (default is 500)
+set history=100
+
+" show URLs of links (on hover or other focus) in command line
+set showstatuslinks=1
+
+" Keep hints on home row
+"set hintkeys=alskdjfhg
+
+" Default search engine (google)
+set defsearch=g
+
+" No suggestion engines please
+set suggestengines=
+
 set gui=none,tabs
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
-set noerrorbells
-set novisualbell
+
+" Use vim as editor (see C-i)
+set editor="urxvt -name URxvt -e vim -f"
+
+" No beeping please
+set visualbell
+hi Bell display: none;
+
+" Open all types of pages (addons, downloads, help, javascript, prefs) in new tab
+"set newtab=all
+
+" Popups open in new tab
+"set popups=tab
 " }}}
 
-" {{{ Firefox Options
-set! ui.key.contentAccess=0
-set! browser.urlbar.filter.javascript=false
-set! browser.urlbar.maxRichResults=20
-"set! network.dns.disableIPv6=true
+" Completions {{{
+" s=search l=location bar h=history b=bookmarks f=file
+set complete=lsbf
+
+" For one match, show it; If more, list all matches until longest common
+set wildmode=list:full
+" }}}
+
+" Firefox Options {{{
+" Allow addons without a Firefox certified signature (necessary to run Pentadactyl)
+set! xpinstall.signatures.required=false
+
+" Hide close buttons on tabs (less mouse temptation)
 set! browser.tabs.closeButtons=2
+
+" Disable accelerator key for content
+"set! ui.key.contentAccess=0
+
+" Don't filter out "javascript:" URLs from appearing in location bar
+set! browser.urlbar.filter.javascript=false
+
+" Don't insert related tabs after the current one
 set! browser.tabs.insertRelatedAfterCurrent=false
+
+" Leave focus on current tab by loading new tabs in background
 set! browser.tabs.loadDivertedInBackground=true
+
+" Don't close last tab via "d"
+set! browser.tabs.closeWindowWithLastTab=false
+
+" Tab undo limit (default is 10)
+set! browser.sessionstore.max_tabs_undo=20
 " }}}
 
-" {{{ Mapping
+" Mapping {{{
 " Enable mapping <Space> to <Leader>
 js <<EOM
   window.addEventListener('keypress',function (event) {
@@ -38,20 +94,29 @@ js <<EOM
   },false);
 EOM
 map <Space> <Leader>
-
 map ö <Esc>
 
-" Search
 map s :open g<Space>
 map S :tabopen g<Space>
 
+" Unmap annoying keys
+nnoremap <bs> <Nop>
+noremap <f1> <Nop>
+noremap <C-h> <Nop>
+noremap <C-l> <Nop>
+" Go to about:home
+noremap <C-j> <Nop>
+noremap <C-k> <Nop>
+
 " Scrolling
-nnoremap j 5j
-nnoremap k 5k
-nnoremap h 5h
-nnoremap l 5l
-nmap <Up> 20<Up>
-nmap <Down> 20<Down>
+nmap h -builtin 5h
+nmap j -builtin 5j
+nmap k -builtin 5k
+nmap l -builtin 5l
+
+" Switch buffers
+nmap J gt
+nmap K gT
 
 " Tab control
 map <Leader>td :tabduplicate<CR>
@@ -59,52 +124,50 @@ map <Leader>tl :tablast<CR>
 map <Leader>tf :tabfirst<CR>
 map <Leader>tt :tabdetach<CR>
 map <Leader>tT :tabattach 1<CR>
+map <C-h> :tabmove! -1<CR>
+map <C-l> :tabmove! +1<CR>
+map <C-j> :tabprevious<CR>
+map <C-k> :tabnext<CR>
 
-" Groups
+" Tab groups
 map <Leader>gg :bmarks! -T
 map <Leader>gn :bmarks! -T news<CR>
 map <Leader>gd :bmarks! -T dvagit<CR>
 map <Leader>gm :bmarks! -T dvagnews<CR>
 
-" Tab
-nmap <silent> <C-l> :tabmove! +1<CR>
-nmap <silent> <C-h> :tabmove! -1<CR>
-
-" last buffer
-map <Leader>l :buffer #<CR>
-"map <C-l> <C-^>
-
-" Unmap annoying keys
-map <bs> <Nop>
-map <f1> <Nop>
-"map <C-h> <Nop>
-map <C-z> <Nop>
-
 " Firefox dialogues
-nmap <Leader>fd :tabnew<CR> :downloads<CR>
-nmap <Leader>fp :dia preferences<CR>
-nmap <Leader>fb :dia places<CR>
-nmap <Leader>fa :dia addons<CR>
+nmap <Leader>fa :dialog addons<CR>
+nmap <Leader>fb :dialog places<CR>
+nmap <Leader>fd :dialog downloads<CR>
+nmap <Leader>fh :dialog history<CR>
+nmap <Leader>fp :dialog preferences<CR>
+nmap <Leader>fP :dialog printpreview<CR>
+nmap <Leader>fs :dialog pagesource<CR>
 
-" Places
-"map ö -j $('.stream-prev').click();
-"map ä -j $('.stream-next').click();
+nnoremap <Leader>bb :sidebar Bookmarks<CR>
+nnoremap <Leader>bh :sidebar History<CR>
+nnoremap <Leader>bd :sidebar Downloads<CR>
 
+" Jump to previous buffer
+map <Leader><Space> :buffer #<CR>
+
+" Disable Pentadactyl extension
+nnoremap <Leader>d :extdisable Vimperator<CR>
 
 " Proxy
 command proxy -nargs=1 :set! network.proxy.type=<args>
 nmap <Leader>py :proxy 1<CR>
 nmap <Leader>pn :proxy 0<CR>
 
-" Make up/dn work in completion lists
-cmap <Up> <S-Tab>
-cmap <C-Up> <Up>
-cmap <Down> <Tab>
-cmap <C-Down> <Down>
-" }}}
+" Reload the config file
+map <Leader>rr :source ~/.vimperatorrc<CR>
 
-" {{{ Style
-"autocmd Fullscreen .* :set gui=none,tabs
+" Make up/dn work in completion lists
+"cnoremap <up> <s-tab>
+"cnoremap <c-up> <up>
+"cnoremap <down> <tab>
+"cnoremap <c-down> <down>
+
 " }}}
 
 " Source local overriding configuration file, if it exists
