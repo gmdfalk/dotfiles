@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # {{{ Set environment variables
-PATH=$HOME/bin:${PATH}
+PATH="${HOME}/bin:${PATH}"
 PAGER=less
 LESS="-F -g -i -M -R -S -w -X -z-4"
 

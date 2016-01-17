@@ -10,13 +10,13 @@ load_plugins() {
     local plugins=("${@:2}")
 
     for plugin in ${plugins[@]}; do
-        echo "${directory}/${plugin}.sh"
+#        echo "${directory}/${plugin}.sh"
         [[ -f "${directory}/${plugin}.sh" ]] && source "${directory}/${plugin}.sh"
     done
 }
 
-[[ -z "$PRE_PLUGINS" ]] && PRE_SCRIPTS=(utilities env)
-[[ -z "$POST_PLUGINS" ]] && POST_SCRIPTS=(z git fallbacks)
+[[ -z "$PRE_PLUGINS" ]] && PRE_PLUGINS=(utilities env)
+[[ -z "$POST_PLUGINS" ]] && POST_PLUGINS=(z git fallbacks)
 
 load_plugins "${PRE_DIR}" "${PRE_PLUGINS[@]}"
 load_plugins "${POST_DIR}" "${POST_PLUGINS[@]}"
