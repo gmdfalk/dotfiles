@@ -1,17 +1,16 @@
 #!/usr/bin/env zsh
 #
 
-# {{{ User configuration
-# Initialize bash config
-POST_PLUGINS=(archlinux common-aliases git git-extras git-flow sudo systemd tmux ssh-agent z)
-[[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
-# }}}
 
 # {{{ Source configurations
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+# Initialize bash config
+POST_SCRIPTS=(archlinux common-aliases git git-extras git-flow sudo systemd tmux ssh-agent z)
+[[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
 
 # Source optional local configuration file
 [[ -f "${0}.local" ]] && source "${0}.local"

@@ -7,3 +7,6 @@
 [submodule "tag-zsh-prezto/zprezto"]
 	path = tag-zsh-prezto/zprezto
 	url = https://github.com/sorin-ionescu/prezto
+[submodule "tag-bash-bash-it/bash-it"]
+	path = tag-bash-bash-it/bash-it
+	url = https://github.com/Bash-it/bash-it

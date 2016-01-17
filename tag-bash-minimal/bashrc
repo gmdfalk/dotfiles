@@ -5,7 +5,7 @@
 PS1='[\u@\h \W]\$ '
 
 # Initialize bash config
-POST_PLUGINS=(archlinux common-aliases git git-extras git-flow sudo systemd tmux ssh-agent z)
+POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
 [[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
 
 # Source optional local configuration file
