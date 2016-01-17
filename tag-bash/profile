@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 #
 
+echo profile
 # {{{ Initialization
 SHELL_DIR="~/.shell"
 

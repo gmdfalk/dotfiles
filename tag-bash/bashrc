@@ -1,6 +1,12 @@
-#
-# ~/.bashrc
+#!/usr/bin/env bash
 #
 
-alias ls='ls --color=auto'
+# Use a simple prompt
 PS1='[\u@\h \W]\$ '
+
+# Initialize bash config
+PLUGINS=(env git archlinux)
+[[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
+
+# Source optional local configuration file
+[[ -f "${BASH_SOURCE[0]}.local" ]] && source "${BASH_SOURCE[0]}.local"

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if ! command -v clear &>/dev/null; then
     alias clear='printf "\033c"'
 fi

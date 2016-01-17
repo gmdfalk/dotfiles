@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 # 
-# This script is run when bash starts
+# This script is sourced when bash is started as an interactive login shell
 
-# Source our basic environment
-[[ -f "$HOME/.profile" ]] && source "$HOME/.profile"
-
-LOCALFILE="$HOME/.bash_profile.local"
-[[ -f "$LOCALFILE" ]] && source "$LOCALFILE"
+# Source optional local configuration
+[[ -f "${BASH_SOURCE[0]}.local" ]] && source "${BASH_SOURCE[0]}.local"
 
 # Only source bashrc for interactive prompts
 [[ $- != *i* ]] || . "$HOME/.bashrc"
