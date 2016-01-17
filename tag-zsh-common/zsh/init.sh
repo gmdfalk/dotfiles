@@ -12,8 +12,8 @@ load_scripts() {
     local scripts=("${@:2}")
 
     for script in ${scripts[@]}; do
-        echo "${directory}/${script}.sh"
-        [[ -f "${directory}/${script}.sh" ]] && source "${directory}/${script}.sh"
+        echo "${directory}/${script}.zsh"
+        [[ -f "${directory}/${script}.zsh" ]] && source "${directory}/${script}.zsh"
     done
 }
 
