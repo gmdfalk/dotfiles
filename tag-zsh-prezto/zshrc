@@ -1,18 +1,19 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#!/usr/bin/env zsh
 #
 
+# {{{ User configuration
+# Initialize bash config
+BASH_PLUGINS=(env git archlinux)
+[[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
+# }}}
+
+# {{{ Source configurations
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Source local configuration
-LOCALFILE="$HOME/.zshrc.local"
-if [[ -f "$LOCALFILE" ]]; then
-    source "$LOCALFILE"
-fi
+# Source optional local configuration file
+[[ -f "${0}.local" ]] && source "${0}.local"
+# }}}
 

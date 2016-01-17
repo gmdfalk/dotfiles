@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
-BASH_DIR="$HOME/.bash/custom/plugins"
 
-for extension in ${EXTENSIONS[$@]}; do
-    . ${BASH_DIR}/${extension}.sh
+# {{{ Utilities
+have() {
+    type "$@" &>/dev/null
+}
+# }}}
+
+# {{{ Plugins
+PLUGINS_DIR="$HOME/.bash/plugins"
+for PLUGIN in ${BASH_PLUGINS[@]}; do
+    [[ -f "${PLUGINS_DIR}/${PLUGIN}.sh" ]] && source "${PLUGINS_DIR}/${PLUGIN}.sh"
 done
+# }}}

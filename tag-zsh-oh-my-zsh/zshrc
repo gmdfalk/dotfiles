@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -5,7 +6,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
 ZSH_THEME="pure-sindresorhus"
 # Uncomment the following line to use case-sensitive completion.
 
@@ -52,22 +52,13 @@ HIST_STAMPS="yyyy-mm-dd"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(archlinux common-aliases git git-extras git-flow sudo systemd tmux vi-mode ssh-agent) # gpg-agent
 
-# User configuration
-
-export PATH="$HOME/bin:${PATH}"
+# {{{ User configuration
+# Initialize bash config
+BASH_PLUGINS=(env git archlinux)
+[[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
+# }}}
 
 source $ZSH/oh-my-zsh.sh
 
-export LANG=en_US.UTF-8
-export EDITOR="vim"
-export VISUAL="$EDITOR"
-if [ -n "$DISPLAY" ]; then
-    export BROWSER=firefox
-else 
-    export BROWSER=links
-fi
-
-LOCALFILE="$HOME/.zshrc.local"
-if [[ -f "$LOCALFILE" ]]; then
-    source "$LOCALFILE"
-fi
+# Source optional local configuration file
+[[ -f "${0}.local" ]] && source "${0}.local"

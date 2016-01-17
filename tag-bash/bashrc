@@ -5,7 +5,7 @@
 PS1='[\u@\h \W]\$ '
 
 # Initialize bash config
-PLUGINS=(env git archlinux)
+BASH_PLUGINS=(env git archlinux)
 [[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
 
 # Source optional local configuration file
