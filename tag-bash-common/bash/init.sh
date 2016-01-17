@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+#
+# Load shared custom bash configurations
 
-BASH_DIR="$HOME/.bash/custom"
-PRE_DIR="${BASH_DIR}/pre"
-POST_DIR="${BASH_DIR}/post"
+[[ -z "$BASH_DIR" ]] && BASH_DIR="$HOME/.bash"
+BASH_PRE_DIR="${BASH_DIR}/custom/pre"
+BASH_POST_DIR="${BASH_DIR}/custom/post"
 
 load_scripts() {
     local directory="${1}"
@@ -10,14 +12,14 @@ load_scripts() {
     local scripts=("${@:2}")
 
     for script in ${scripts[@]}; do
-#        echo "${directory}/${script}.sh"
+        echo "${directory}/${script}.sh"
         [[ -f "${directory}/${script}.sh" ]] && source "${directory}/${script}.sh"
     done
 }
 
-[[ -z "$PRE_SCRIPTS" ]] && PRE_SCRIPTS=(utilities env)
-[[ -z "$POST_SCRIPTS" ]] && POST_SCRIPTS=(z git fallbacks)
+[[ -z "$BASH_PRE_SCRIPTS" ]] && BASH_PRE_SCRIPTS=(utilities env)
+[[ -z "$BASH_POST_SCRIPTS" ]] && BASH_POST_SCRIPTS=(z git fallbacks)
 
-load_scripts "${PRE_DIR}" "${PRE_SCRIPTS[@]}"
-load_scripts "${POST_DIR}" "${POST_SCRIPTS[@]}"
+load_scripts "${BASH_PRE_DIR}" "${BASH_PRE_SCRIPTS[@]}"
+load_scripts "${BASH_POST_DIR}" "${BASH_POST_SCRIPTS[@]}"
 # }}}

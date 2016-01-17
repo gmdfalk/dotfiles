@@ -26,13 +26,14 @@ export SCM_CHECK=true
 # https://github.com/xvzf/vcprompt
 #export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
 
+# {{{ Source configuration files
 # Load Bash It
 source $BASH_IT/bash_it.sh
 
-# {{{ User customization
 # Initialize bash config
-POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
-[[ -f "$HOME/.bash/init.sh" ]] && source "$HOME/.bash/init.sh"
+BASH_DIR="$HOME/.bash"
+BASH_POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
+[[ -f "$BASH_DIR/init.sh" ]] && source "$BASH_DIR/init.sh"
 
 # Source optional local configuration file
 [[ -f "${BASH_SOURCE[0]}.local" ]] && source "${BASH_SOURCE[0]}.local"

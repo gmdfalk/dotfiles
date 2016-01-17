@@ -1,4 +1,4 @@
 EXCLUDES="README.md install.sh"
-TAGS="bin git gpg osx ssh theme-solarized-dark tmux vim vimlike bash zsh-common zsh-prezto"
-SYMLINK_DIRS="bin"
+TAGS="bin git gpg osx ssh theme-solarized-dark tmux vim vimlike bash-common bash-bash-it zsh-common zsh-prezto"
+SYMLINK_DIRS="bin bash zsh bash-it oh-my-zsh zprezto"
 UNDOTTED="bin"
