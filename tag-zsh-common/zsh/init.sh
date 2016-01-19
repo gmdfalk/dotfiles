@@ -2,27 +2,47 @@
 #
 # Load shared custom zsh configurations
 
-[[ -z "$ZSH_DIR" ]] && ZSH_DIR="$HOME/.bash"
-ZSH_PRE_DIR="${ZSH_DIR}/custom/pre"
-ZSH_POST_DIR="${ZSH_DIR}/custom/post"
+[[ -z "$ZSH_DIR" ]] && ZSH_DIR="$HOME/.zsh"
+[[ -z "$ZSH_PRE_SCRIPTS" ]] && ZSH_PRE_SCRIPTS=(utilities env)
+[[ -z "$ZSH_POST_SCRIPTS" ]] && ZSH_POST_SCRIPTS=(globals)
+SCRIPTS_DIR="${ZSH_DIR}/custom"
+# Error out if $SCRIPTS_DIR doesn't exist.
+[[ ! -d "$SCRIPTS_DIR" ]] && exit 1
+EXTENSION="zsh"
 
-load_scripts() {
+load_scripts_by_name() {
     local directory="${1}"
     # Read all arguments after $1 into array
     local scripts=("${@:2}")
-    local ext="zsh"
 
     for script in ${scripts[@]}; do
-        if [[ -f "${directory}/${script}.${ext}" ]]; then
-            echo "Loading ${directory}/${script}.${ext}"
-            source "${directory}/${script}.${ext}"
+        if [[ -f "${directory}/${script}.${EXTENSION}" ]]; then
+            echo "Loading ${directory}/${script}.${EXTENSION}"
+            source "${directory}/${script}.${EXTENSION}"
         fi
     done
 }
 
-[[ -z "$ZSH_PRE_SCRIPTS" ]] && ZSH_PRE_SCRIPTS=(utilities env)
-[[ -z "$ZSH_POST_SCRIPTS" ]] && ZSH_POST_SCRIPTS=(globals)
+load_scripts_in_folder() {
+    local directory="${1}"
+    # Ignore 0 results on glob expansion
+    setopt null_glob
 
-load_scripts "${ZSH_PRE_DIR}" "${ZSH_PRE_SCRIPTS[@]}"
-load_scripts "${ZSH_POST_DIR}" "${ZSH_POST_SCRIPTS[@]}"
+    for script in "$directory"/*.${EXTENSION}; do
+        echo "Automatically loading $script"
+        source "$script"
+    done
+
+    unsetopt null_glob
+}
+
+
+# Load scripts that need to be sourced first
+load_scripts_by_name "${SCRIPTS_DIR}/pre" "${ZSH_PRE_SCRIPTS[@]}"
+
+# Load any customization scripts in the root of SCRIPTS_DIR where load order doesn't matter.
+load_scripts_in_folder "${SCRIPTS_DIR}"
+
+# Load scripts that need to be sourced last
+load_scripts_by_name "${SCRIPTS_DIR}/post" "${ZSH_POST_SCRIPTS[@]}"
 # }}}

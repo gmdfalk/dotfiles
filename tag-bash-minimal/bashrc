@@ -6,7 +6,6 @@ PS1='[\u@\h \W]\$ '
 
 # Initialize bash config
 BASH_DIR="$HOME/.bash"
-BASH_POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
 [[ -f "$BASH_DIR/init.sh" ]] && source "$BASH_DIR/init.sh"
 
 # Source optional local configuration file
