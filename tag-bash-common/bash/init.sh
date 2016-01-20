@@ -39,11 +39,15 @@ load_scripts_in_folder() {
 
 
 # Load scripts that need to be sourced first
-load_scripts_by_name "${SCRIPTS_DIR}/pre" "${BASH_PRE_SCRIPTS[@]}"
+if [[ -n "$BASH_PRE_SCRIPTS" ]]; then
+    load_scripts_by_name "${SCRIPTS_DIR}/pre" "${BASH_PRE_SCRIPTS[@]}"
+fi
 
 # Load any customization scripts in the root of SCRIPTS_DIR where load order doesn't matter.
 load_scripts_in_folder "${SCRIPTS_DIR}"
 
 # Load scripts that need to be sourced last
-load_scripts_by_name "${SCRIPTS_DIR}/post" "${BASH_POST_SCRIPTS[@]}"
+if [[ -n "$BASH_POST_SCRIPTS" ]]; then
+    load_scripts_by_name "${SCRIPTS_DIR}/post" "${BASH_POST_SCRIPTS[@]}"
+fi
 # }}}
