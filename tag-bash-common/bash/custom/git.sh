@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+if have hub; then
+    alias git="hub"
+fi
 
 g() {
   if [[ $# -gt 0 ]]; then
@@ -8,10 +11,6 @@ g() {
     git status
   fi
 }
-
-if have hub; then
-    alias git="hub"
-fi
 
 # Aliases
 alias gcl='git clone'

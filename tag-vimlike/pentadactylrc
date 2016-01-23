@@ -175,7 +175,7 @@ nmap -builtin <Leader>bd :sidebar Downloads<CR>
 map <Leader><Space> :buffer #<CR>
 
 " Disable Pentadactyl extension
-nmap -builtin <Leader>d :extdisable Pentadactyl<CR>
+"nmap -builtin <Leader>d :extdisable Pentadactyl<CR>
 
 " Open new private window
 nmap -builtin <Leader>P :private winopen<CR>
