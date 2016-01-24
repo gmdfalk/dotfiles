@@ -1,4 +1,5 @@
 #!/bin/bash
+# script to manipulate backlight brightness
 
 COMMAND="xbacklight"
 STEP=7
@@ -9,7 +10,7 @@ case "$1" in
     +)      xbacklight -inc ${STEP};;
     -)      xbacklight -dec ${STEP};;
     [0-9]*) xbacklight -set $1;;
-    *)  echo "Usage: hell {0-100,+,-,min,max}";;
+    *)  echo "Usage: $(basename $0) {0-100,+,-,min,max}";;
 esac
 
 CUR_VAL=$(xbacklight -get)

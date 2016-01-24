@@ -20,6 +20,7 @@ EOF
 
 SPOTIFY_FOUND=$(pgrep spotify)
 COMMAND="playerctl $1 --player=spotify"
+echo $COMMAND
 if [[ $HOSTNAME != "htpc" ]] && [[ -z $SPOTIFY_FOUND ]]; then
     ssh slave@htpc ${COMMAND}
 else

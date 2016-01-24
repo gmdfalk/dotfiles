@@ -4,9 +4,6 @@
 
 # Look for yaourt, and add some useful functions if we have it.
 if have yaourt; then
-  upgrade () {
-    yaourt -Syu
-  }
   alias yaconf='yaourt -C'        # Fix all configuration files with vimdiff
   # Pacman - https://wiki.archlinux.org/index.php/Pacman_Tips
   alias yaupg='yaourt -Syua'        # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
@@ -35,10 +32,6 @@ if have yaourt; then
   fi
   alias yainsd='yaourt -S --asdeps'        # Install given package(s) as dependencies of another package
   alias yamir='yaourt -Syy'                # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
-else
- upgrade() {
-   $SUDO pacman -Syu
- }
 fi
 
 # Pacman - https://wiki.archlinux.org/index.php/Pacman_Tips
@@ -107,3 +100,5 @@ pacmansignkeys() {
       --no-permission-warning --command-fd 0 --edit-key $key
   done
 }
+
+alias makepkgg="updpkgsums && mksrcinfo"

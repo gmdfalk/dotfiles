@@ -9,13 +9,10 @@ fi
 
 # Source common bash configuration.
 BASH_DIR="$HOME/.bash"
-#BASH_POST_SCRIPTS=(archlinux common-aliases git git-extras git-flow sudo systemd tmux ssh-agent z)
-BASH_POST_SCRIPTS=(fallbacks)
 [[ -f "$BASH_DIR/init.sh" ]] && source "$BASH_DIR/init.sh"
 
 # Source common zsh configuration.
 ZSH_DIR="$HOME/.zsh"
-ZSH_POST_SCRIPTS=(globals)
 [[ -f "$ZSH_DIR/init.sh" ]] && source "$ZSH_DIR/init.sh"
 
 # Source optional local configuration file.

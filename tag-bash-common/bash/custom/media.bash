@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # Blockify shortcuts
-bl() {
+bb() {
     local signal
     local cmd
     case "$1" in
-        "") blockify-dbus get song && return 0;;
+        "") blockify-dbus get && return 0;;
         ex) signal='TERM';;       # Exit
         b) signal='USR1';;        # Block
         u) signal='USR2';;        # Unblock
@@ -26,6 +26,23 @@ bl() {
     eval "${cmd}"
 }
 
-blr() {
-    bl "$1" "htpc"
+bbr() {
+    bb "$1" "htpc"
+}
+
+pc() {
+    case "$1" in
+        "") arg="status";;
+        p) arg="previous";;
+        n) arg="next";;
+        t) arg="play-pause";;
+        v) arg="volume $2";;
+        s) arg="stop";;
+        *) echo "Bad option" && return 0;;
+    esac
+    if have playerctl-wrapper; then
+        playerctl-wrapper "$arg"
+    else
+        playerctl "$arg"
+    fi
 }

@@ -1189,52 +1189,6 @@ if [[ $HOST != slave ]]; then
     alias alldown="netctl store; netctl stop-all"
     alias allup="netctl restore"
 
-    alias bup="netctl start bett"
-    alias fup="netctl start felix"
-    alias hup="netctl start home"
-    alias uup="netctl start uni"
-    alias pup="netctl start petra"
-
-    alias bdown="netctl stop bett"
-    alias fdown="netctl stop felix"
-    alias hdown="netctl stop home"
-    alias udown="netctl stop uni"
-    alias pdown="netctl stop uni"
-
-    alias breup="netctl restart bett"
-    alias freup="netctl restart felix"
-    alias hreup="netctl restart home"
-    alias ureup="netctl restart uni"
-    alias preup="netctl restart petra"
-
-    lid(){
-        local onstate="systemctl suspend;;#"
-        local offstate=";;#systemctl suspend"
-        local file=/etc/acpi/handler.sh
-        state(){ grep -c "$onstate" "$file"; }
-        if [[ $1 == on ]];then
-            sudo sed -i "s/$offstate/$onstate/g" "$file"
-            [[ $(state) = 1 ]] && echo "success"
-        elif [[ $1 == off ]];then
-            sudo sed -i "s/$onstate/$offstate/g" "$file"
-            [[ $(state) = 0 ]] && echo "success"
-        else
-            [[ $(state) = 1 ]] && echo "On" || echo "Off"
-        fi
-    }
-    alias wol2="wol 40:61:86:87:F3:FE"
-    alias wol2i="wol -i 192.168.0.2 40:61:86:87:F3:FE"
-    alias ssh2="ssh -p 21397 slave@htpc"
-    alias s2off="ssh -p 21397 slave@htpc 'DISPLAY=:0 xset dpms force off'"
-    alias s2on="ssh -p 21397 slave@htpc 'DISPLAY=:0 xset dpms force on'"
-    alias v2off="ssh -p 21397 slave@htpc 'DISPLAY=:0 sudo vbetool dpms off'"
-    alias v2on="ssh -p 21397 slave@htpc 'DISPLAY=:0 sudo vbetool dpms on'"
-    bla(){ ssh -p 21397 slave@htpc 'pkill -USR1 -f "python2.*blockify"'; }
-    blr() { ssh -p 21397 slave@htpc 'pkill -USR2 -f "python2.*blockify"'; }
-    bls() { ssh -p 21397 slave@htpc 'pkill -f "python2.*blockify"'; }
-    alias blget="ssh -p 21397 slave@htpc 'spotifycmd status | grep -v OK'"
-    blsr() { ssh -p 21397 slave@htpc 'pkill spotify; wspotify'; } #FIXME
-
     # shares
     alias umnti="cd && sleep .1 && umount -fl ~i"
     alias umntser="cd && sleep .1 && umount -fl ~ser"
