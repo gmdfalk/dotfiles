@@ -115,23 +115,41 @@ You can make your own customizations, of course, by editing files directly or al
 
 Configuration files that accept `.local` overrides are:
   * ~/.tmux.conf (i.e. ~/.tmux.conf.local)
+  * ~/.gitconfig
   * ~/.zshrc
   * ~/.vimrc
   * ~/.pentadactylrc
   * ~/.vimperatorrc
   * ~/.cvimrc
   * ~/.ideavimrc
-  * ~/.gitconfig
 
 Additionally, there are a couple of special directories from which configuration files are automatically loaded.
 
-  * ~/.shell/custom/
-  * ~/.zsh/{pre,post}/
-  * ~/.oh-my-zsh/custom/
-  * ~/.vim/plugin/
+  * ~/.bash/custom/{pre,autoload,post} (in load order)
+  * ~/.zsh/custom/{pre,autoload,post}
 
-The pre and post folders are for shared shell/zsh files that you want sourced.
-Files in pre get loaded first (in ~/.profile) and files in post at the end (in ~/.{bash_,z}login).
+Load order for (interactive, non-login) bash is:
+1. ~/.bash_profile
+2. ~/.bash_profile.local
+3. ~/.profile
+5. ~/.profile.local
+4. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre,autoload,post} folders)
+6. ~/.bashrc
+7. ~/.bashrc.local
+
+Load order for (interactive, non-login) zs is:
+1. ~/.zshenv
+2. ~/.zshenv.local
+3. ~/.zprofile (on first start)
+4. ~/.profile
+5. ~/.profile.local
+4. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre,autoload,post} folders)
+5. ~/.zsh/custom/init.zsh (which will load scripts in ~/.zsh/custom/{pre,autoload,post} folders)
+3. ~/.
+4. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre,autoload,post} folders)
+5. ~/.profile.local
+6. ~/.bashrc
+7. ~/.bashrc.local
 
 ## Features
 

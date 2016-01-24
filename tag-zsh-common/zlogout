@@ -1,3 +1,6 @@
 #!/usr/bin/env zsh
 #
 # `.zlogout' is sourced when a login shells exit.
+
+# Source optional local configuration file.
+[[ -f "${0}.local" ]] && . "${0}.local"

@@ -30,9 +30,6 @@ export SCM_CHECK=true
 # Load Bash It
 . $BASH_IT/bash_it.sh
 
-# Initialize shared settings
-[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
-
 # Source optional local configuration file
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
 # }}}

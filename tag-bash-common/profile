@@ -1,21 +1,43 @@
 #!/usr/bin/env sh
 
+# The directory where custom bash scripts are loaded from. Should contain init.bash file which will source scripts from
+# the subfolders pre-autoload, pre, post and post-autoload (in order of being loaded).
+BASH_CUSTOM_DIR="$HOME/.bash/custom"
+
+# The directory where custom zsh scripts are loaded from. Should contain init.zsh file which will source scripts from
+# the subfolders pre-autoload, pre, post and post-autoload (in order of being loaded).
+ZSH_CUSTOM_DIR="$HOME/.zsh/custom"
+
+# Use BASH_PRE_SCRIPTS to load modules on-demand that need to be loaded first.
+# They will be sourced from $BASH_CUSTOM_DIR/pre, i.e. the entry fasd will try to source ~/.bash/custom/pre/fasd.bash.
+# BASH_PRE_SCRIPTS=(fasd)
+
+# Use BASH_PRE_SCRIPTS to load modules on-demand that need to be loaded last.
+# They will be sourced from $BASH_CUSTOM_DIR/post.
+# BASH_POST_SCRIPTS=()
+
+# Use ZSH_PRE_SCRIPTS to load zsh modules on-demand that need to be loaded first.
+# They will be sourced from $ZSH_CUSTOM_DIR/pre.
+# ZSH_PRE_SCRIPTS=()
+
+# Use ZSH_PRE_SCRIPTS to load zsh modules on-demand that need to be loaded last.
+# They will be sourced from $ZSH_CUSTOM_DIR/post.
+# ZSH_POST_SCRIPTS=()
+
+# SSH_IDENTITIES is used by the ssh-agent.bash script to automatically load identities from $HOME/.ssh/.
 SSH_IDENTITIES=(git home)
-BASH_DIR="$HOME/.bash"
-BASH_PRE_SCRIPTS=(util env fasd)
-#BASH_POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
-ZSH_DIR="$HOME/.zsh"
-#ZSH_PRE_SCRIPTS=()
-#ZSH_POST_SCRIPTS=(globals)
+
+# {{{ Source files
+# Source optional local configuration
+test -r "$HOME/.profile.local" && . "$HOME/.profile.local"
 
 # Source common bash configuration.
-[[ -f "$BASH_DIR/init.bash" ]] && . "$BASH_DIR/init.bash"
+test -r "${BASH_CUSTOM_DIR}/init.bash" && . "${BASH_CUSTOM_DIR}/init.bash"
 
 # Source common zsh configuration.
-if [[ -n "$ZSH_VERSION" ]];then
-    [[ -f "$ZSH_DIR/init.zsh" ]] && . "$ZSH_DIR/init.zsh"
+if test -n "$ZSH_VERSION";then
+    test -r "${ZSH_CUSTOM_DIR}/init.zsh" && . "${ZSH_CUSTOM_DIR}/init.zsh"
 fi
+# }}}
 
-if have fasd; then
-    eval "$(fasd --init auto)"
-fi
+

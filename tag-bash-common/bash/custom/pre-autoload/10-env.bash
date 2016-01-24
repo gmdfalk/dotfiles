@@ -21,6 +21,11 @@ fi
 
 [[ -n "$DISPLAY" ]] && BROWSER="firefox" || BROWSER="lynx"
 [[ "$OSTYPE" == "darwin"* ]] && BROWSER="open"
+
+# By default, cygwin creates "fake" symlinks which are just regular files with the path of the linked file as content.
+# This only works inside Cygwin, breaking e.g. .gitconfig functionality if it should be sourced outside of Cygwin.
+# Thus, we tell Cygwin to use native NTFS symlinks (but beware as they can behave different to unix symlinks).
+[[ $OSTYPE == "cygwin" ]] && CYGWIN="winsymlinks:native"
 # }}}
 
 # {{{ Exporting

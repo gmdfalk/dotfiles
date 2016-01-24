@@ -20,4 +20,5 @@ path=(
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 
-
+# Source optional local configuration file.
+[[ -f "${0}.local" ]] && . "${0}.local"
