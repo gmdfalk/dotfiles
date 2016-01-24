@@ -14,7 +14,7 @@ load_scripts_by_name() {
 
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
-            echo "Loading ${directory}/${script}.${EXTENSION}"
+            echo "${directory}/${script}.${EXTENSION}"
             source "${directory}/${script}.${EXTENSION}"
         fi
     done
@@ -28,7 +28,7 @@ load_scripts_in_folder() {
     setopt null_glob
 
     for script in "$directory"/*.${EXTENSION}; do
-        echo "Automatically loading $script"
+        echo "$script"
         source "$script"
     done
 
@@ -39,20 +39,20 @@ load_scripts_in_folder() {
 # {{{ Source scripts
 
 # Load auto scripts that need to be sourced first
-load_scripts_in_folder "${ZSH_SCRIPTS_DIR}/pre-autoload"
+load_scripts_in_folder "${ZSH_CUSTOM_DIR}/pre-autoload"
 
 # Load on-demand scripts that need to be sourced first
 if [[ -n "$ZSH_PRE_SCRIPTS" ]]; then
-    load_scripts_by_name "${ZSH_SCRIPTS_DIR}/pre" "${ZSH_PRE_SCRIPTS[@]}"
+    load_scripts_by_name "${ZSH_CUSTOM_DIR}/pre" "${ZSH_PRE_SCRIPTS[@]}"
 fi
 
 # Load on-demand scripts that need to be sourced last
 if [[ -n "$ZSH_POST_SCRIPTS" ]]; then
-    load_scripts_by_name "${ZSH_SCRIPTS_DIR}/post" "${ZSH_POST_SCRIPTS[@]}"
+    load_scripts_by_name "${ZSH_CUSTOM_DIR}/post" "${ZSH_POST_SCRIPTS[@]}"
 fi
 
 # Load auto scripts that need to be sourced last
-load_scripts_in_folder "${ZSH_SCRIPTS_DIR}/post-autoload"
+load_scripts_in_folder "${ZSH_CUSTOM_DIR}/post-autoload"
 
 # }}}
 

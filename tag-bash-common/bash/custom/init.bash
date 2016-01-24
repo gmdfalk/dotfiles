@@ -14,7 +14,7 @@ load_scripts_by_name() {
 
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
-            echo "Loading ${directory}/${script}.${EXTENSION}"
+            echo "${directory}/${script}.${EXTENSION}"
             . "${directory}/${script}.${EXTENSION}"
         fi
     done
@@ -28,7 +28,7 @@ load_scripts_in_folder() {
     [[ -n "$ZSH_VERSION" ]] && setopt null_glob || shopt -s nullglob
 
     for script in "$directory"/*.${EXTENSION}; do
-        echo "Automatically loading $script"
+        echo "$script"
         [[ -r "$script" ]] && . "$script"
     done
 
