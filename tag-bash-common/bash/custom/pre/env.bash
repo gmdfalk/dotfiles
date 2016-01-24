@@ -28,8 +28,12 @@ export BROWSER EDITOR LESS PAGER PATH TMPDIR VISUAL
 [[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
 
 [[ "$UID" == 0 ]] && SUDO= || SUDO=sudo
-
 # }}}
+
+# {{{ Custom variables
+SSH2="ssh -p 21397 slave@192.168.0.2"
+# }}}
+
 # {{{ Various Settings
 # Disable scroll locking via ^s and ^q.
 stty -ixon
