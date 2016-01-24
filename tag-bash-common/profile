@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+SSH_IDENTITIES=(git home)
+BASH_DIR="$HOME/.bash"
+BASH_PRE_SCRIPTS=(util env fasd)
+#BASH_POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
+ZSH_DIR="$HOME/.zsh"
+#ZSH_PRE_SCRIPTS=()
+#ZSH_POST_SCRIPTS=(globals)
+
+# Source common bash configuration.
+[[ -f "$BASH_DIR/init.bash" ]] && . "$BASH_DIR/init.bash"
+
+# Source common zsh configuration.
+if [[ -n "$ZSH_VERSION" ]];then
+    [[ -f "$ZSH_DIR/init.zsh" ]] && . "$ZSH_DIR/init.zsh"
+fi
+
+eval "$(fasd --init auto)"

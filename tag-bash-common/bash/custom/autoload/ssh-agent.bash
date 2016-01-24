@@ -39,13 +39,10 @@ fi
 
 # Load identities.
 if ssh-add -l 2>&1 | grep -q 'The agent has no identities'; then
-#  zstyle -a ':prezto:module:ssh:load' identities '_ssh_identities'
-  declare -a _ssh_identities=(git home)
-  if (( ${#_ssh_identities} > 0 )); then
-    for identity in ${_ssh_identities[@]}; do
+  if (( ${#SSH_IDENTITIES} > 0 )); then
+    for identity in "${SSH_IDENTITIES[@]}"; do
         echo "${_ssh_dir}/${identity}"
-        ssh-add "${_ssh_dir}/${identity}
-#        ${_ssh_identities[@]}" 2> /dev/null
+        ssh-add "${_ssh_dir}/${identity}" 2> /dev/null
     done
   else
     ssh-add 2> /dev/null

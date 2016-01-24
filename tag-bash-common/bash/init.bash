@@ -3,12 +3,12 @@
 # Load shared custom bash configurations
 
 [[ -z "$BASH_DIR" ]] && BASH_DIR="$HOME/.bash"
-[[ -z "$BASH_PRE_SCRIPTS" ]] && BASH_PRE_SCRIPTS=(utilities env)
-[[ -z "$BASH_POST_SCRIPTS" ]] && BASH_POST_SCRIPTS=(fallbacks)
-SCRIPTS_DIR="${BASH_DIR}/custom"
-# Error out if $SCRIPTS_DIR doesn't exist.
-[[ ! -d "$SCRIPTS_DIR" ]] && exit 1
+[[ -z "$BASH_PRE_SCRIPTS" ]] && BASH_PRE_SCRIPTS=(util env)
+[[ -z "$BASH_SCRIPTS_DIR" ]] && BASH_SCRIPTS_DIR="${BASH_DIR}/custom"
 EXTENSION="bash"
+
+# Error out if $BASH_SCRIPTS_DIR doesn't exist.
+[[ ! -d "$BASH_SCRIPTS_DIR" ]] && exit 1
 
 load_scripts_by_name() {
     local directory="${1}"
@@ -18,7 +18,7 @@ load_scripts_by_name() {
     for script in ${scripts[@]}; do
         if [[ -f "${directory}/${script}.${EXTENSION}" ]]; then
             echo "Loading ${directory}/${script}.${EXTENSION}"
-            source "${directory}/${script}.${EXTENSION}"
+            . "${directory}/${script}.${EXTENSION}"
         fi
     done
 }
@@ -31,23 +31,31 @@ load_scripts_in_folder() {
 
     for script in "$directory"/*.${EXTENSION}; do
         echo "Automatically loading $script"
-        [[ -f "$script" ]] && source "$script"
+        [[ -f "$script" ]] && . "$script"
     done
 
     [[ -n "$ZSH_VERSION" ]] && unsetopt null_glob || shopt -u nullglob
 }
 
+# {{{ Source scripts
 
-# Load scripts that need to be sourced first
+# Load any customization scripts in the lib folder.
+load_scripts_in_folder "${BASH_SCRIPTS_DIR}/lib"
+
+# Load scripts that need to be .d first
 if [[ -n "$BASH_PRE_SCRIPTS" ]]; then
-    load_scripts_by_name "${SCRIPTS_DIR}/pre" "${BASH_PRE_SCRIPTS[@]}"
+    load_scripts_by_name "${BASH_SCRIPTS_DIR}/pre" "${BASH_PRE_SCRIPTS[@]}"
 fi
 
-# Load any customization scripts in the root of SCRIPTS_DIR where load order doesn't matter.
-load_scripts_in_folder "${SCRIPTS_DIR}"
+# Load any customization scripts in the autoload folder.
+load_scripts_in_folder "${BASH_SCRIPTS_DIR}/autoload"
 
-# Load scripts that need to be sourced last
+# Load scripts that need to be .d last
 if [[ -n "$BASH_POST_SCRIPTS" ]]; then
-    load_scripts_by_name "${SCRIPTS_DIR}/post" "${BASH_POST_SCRIPTS[@]}"
+    load_scripts_by_name "${BASH_SCRIPTS_DIR}/post" "${BASH_POST_SCRIPTS[@]}"
 fi
+# }}}
+
+# {{{ Cleanup
+unset EXTENSION
 # }}}

@@ -28,13 +28,11 @@ export SCM_CHECK=true
 
 # {{{ Source configuration files
 # Load Bash It
-source $BASH_IT/bash_it.sh
+. $BASH_IT/bash_it.sh
 
-# Initialize bash config
-BASH_DIR="$HOME/.bash"
-BASH_POST_SCRIPTS=(common-aliases git systemd tmux ssh-agent z)
-[[ -f "$BASH_DIR/init.sh" ]] && source "$BASH_DIR/init.sh"
+# Initialize shared settings
+[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
 # Source optional local configuration file
-[[ -f "${BASH_SOURCE[0]}.local" ]] && source "${BASH_SOURCE[0]}.local"
+[[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
 # }}}

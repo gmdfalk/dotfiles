@@ -17,3 +17,6 @@ path=(
 )
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+
+# Initialize shared settings
+[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"

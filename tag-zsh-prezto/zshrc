@@ -4,16 +4,11 @@
 # {{{ Source configurations
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+  . "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Source common bash configuration.
-BASH_DIR="$HOME/.bash"
-[[ -f "$BASH_DIR/init.sh" ]] && source "$BASH_DIR/init.sh"
-
-# Source common zsh configuration.
-ZSH_DIR="$HOME/.zsh"
-[[ -f "$ZSH_DIR/init.sh" ]] && source "$ZSH_DIR/init.sh"
+# Initialize shared settings
+[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
 # Source optional local configuration file.
-[[ -f "${0}.local" ]] && source "${0}.local"
+[[ -f "${0}.local" ]] && . "${0}.local"
