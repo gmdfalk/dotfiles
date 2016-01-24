@@ -56,8 +56,5 @@ HIST_STAMPS="yyyy-mm-dd"
 # Source OMZ.
 . $ZSH/oh-my-zsh.sh
 
-# Initialize shared settings
-[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
-
 # Source optional local configuration file.
 [[ -f "${0}.local" ]] && . "${0}.local"

@@ -3,7 +3,10 @@
 # This script is sourced when bash is started as an interactive login shell
 
 # Source optional local configuration
-[[ -f "${BASH_SOURCE[0]}.local" ]] && source "${BASH_SOURCE[0]}.local"
+[[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
+
+# Initialize shared settings
+[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
 # Only source bashrc for interactive prompts
 [[ $- != *i* ]] || . "$HOME/.bashrc"

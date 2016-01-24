@@ -1,3 +1,3 @@
+#!/usr/bin/env zsh
 #
-# Executes commands at zsh logout.
-#
+# `.zlogout' is sourced when a login shells exit.

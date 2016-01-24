@@ -16,4 +16,6 @@ if [[ -n "$ZSH_VERSION" ]];then
     [[ -f "$ZSH_DIR/init.zsh" ]] && . "$ZSH_DIR/init.zsh"
 fi
 
-eval "$(fasd --init auto)"
+if have fasd; then
+    eval "$(fasd --init auto)"
+fi

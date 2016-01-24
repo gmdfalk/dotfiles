@@ -4,8 +4,5 @@
 # Use a simple prompt
 PS1='[\u@\h \W]\$ '
 
-# Initialize shared settings
-[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
-
 # Source optional local configuration file
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"

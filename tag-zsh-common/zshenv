@@ -1,11 +1,13 @@
+#!/usr/bin/env zsh
 #
-# Defines environment variables.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+# `.zshenv' is sourced on all invocations of the shell, unless the -f option is set. It should contain commands to set
+# the command search path, plus other important environment variables. It should not contain commands that produce
+# output or assume the shell is attached to a tty.
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   . "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+# Initialize shared settings
+[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
