@@ -6,6 +6,7 @@
     cl = clone
     ch = checkout
     cp = cherry-pick
+    d = diff -w
     f = fetch
     r = reset
     rb = rebase
@@ -19,22 +20,13 @@
     # }}}
 
     # {{{ Tag
-    # Add tag
-    ta = tag -a
-
-    # Delete tag
-    td = tag -d
-
-    # List tags
-    tl = tag -l
-
+    ta = tag -a  # Add tag
+    td = tag -d  # Delete tag
+    tl = tag -l  # List tags
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
     # }}}
 
-    # Add
-    aa = add -A
-    clr = clone --recursive
 
     # {{{ Commit
     # Quick commit all changes (excluding newly added files)
@@ -59,12 +51,16 @@
     # }}}
 
     # {{{ Branch
+    ba = branch -a
+    bt = branch --track
+    bd = branch -D
     # Remove branches that have already been merged with master
     # a.k.a. ‘delete merged’
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
     # Switch to a branch, creating it if necessary
     cb = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    ct = checkout --track
     # }}}
 
     # {{{ Fetch
@@ -80,7 +76,7 @@
     tags = tag -l
     branches = branch -a
     remotes = remote -v
-    contributors = shortlog --summary --numbered
+    count = shortlog --summary --numbered
 
     # View the current working tree status using the short format
     ss = status -s
@@ -106,9 +102,6 @@
     # }}}
 
     # {{{ Log
-    # Show commits since last pull
-    lnew = log HEAD@{1}..HEAD@{0}
-
     # View abbreviated SHA, description, author and time of commits
     l = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
 
@@ -116,9 +109,18 @@
     ll = log --pretty=oneline --graph --abbrev-commit
     ls = log --pretty=oneline --graph --abbrev-commit -n 20
 
+    # Show commits since last pull
+    lnew = log HEAD@{1}..HEAD@{0}
     # }}}
 
     # {{{ Push & Pull
+    pr = pull --rebase
+    pp = pull && git push
+    up = fetch && git rebase
+    po = push origin
+    pu = push --set-upstream
+    pom = push origin master
+
     # Pull in remote changes for the current repository and all its submodules
     pa = !"git pull; git submodule foreach git pull origin master"
 
@@ -130,10 +132,16 @@
 
     # Initialize and update all submodules recursively
     su = submodule update --init --recursive
+
+    # Merge upstream
+    mu = "!f() { git fetch origin -v; git fetch upstream -v; git merge upstream/master; }; f"
     # }}}
 
-
-
+    # {{{ Various
+    aa = add -A
+    clr = clone --recursive
+    # Diff in vim, ignoring whitespace
+    dv = "!f() { git diff -w "$@" | vim -R -; }; f"
 
     # Merge GitHub pull request on top of the `master` branch
     mpr = "!f() { \
@@ -146,6 +154,7 @@
             git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
         fi \
     }; f"
+    # }}}
 
 [apply]
 
