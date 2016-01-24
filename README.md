@@ -5,7 +5,37 @@ Modular cross-platform multi-host configuration files managed with [rcm](https:/
 ## About
 
 I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (w/ Cygwin64).
-They are very vim-centric and try to use the solarized dark theme wherever possible.
+If you are a developer, need cross-platform dotfiles and/or like the vim/solarized combo, these dotfiles might be for you!
+
+Features:
+  * Portable between OSX, Linux and Windows
+  * Shared configuration between bash and zsh
+  * Vim-centric key bindings
+  * Solarized colors, when possible
+
+Frameworks/Libraries:
+  * zsh: [prezto](https://github.com/sorin-ionescu/prezto)/[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
+  * bash: [bash-it](https://github.com/Bash-it/bash-it)
+  * tmux: [tpm](https://github.com/tmux-plugins/tpm)
+  * vim: [vim-plug](https://github.com/junegunn/vim-plug)
+  * firefox: [pentadactyl](https://github.com/5digits/dactyl)/[vimperator](https://github.com/vimperator/vimperator-labs)
+  * shell: [fasd](https://github.com/clvv/fasd)
+
+Inspirations:
+  * [mathiasbynens](https://github.com/mathiasbynens/dotfiles)
+  * [pbrisbin](https://github.com/pbrisbin/dotfiles)
+  * [thoughtbot](https://github.com/thoughtbot/dotfiles)
+  * [skwp/yadr](https://github.com/skwp/dotfiles)
+  * [holman](https://github.com/holman/dotfiles)
+  * [tpope](https://github.com/tpope/tpope)
+  * [dotphiles](https://github.com/dotphiles/dotphiles)
+  * [cowboy](https://github.com/cowboy/dotfiles)
+  * [paulmillr](https://github.com/paulmillr/dotfiles)
+  * [eduardolundgren](https://github.com/eduardolundgren/dotfiles)
+  * [xero](https://github.com/xero/dotfiles)
+  * [atomantic](https://github.com/atomantic/dotfiles)
+  * [andschwa](https://github.com/andschwa/dotfiles)
+  * and many more
 
 ## Quick intro to rcm
 
@@ -150,4 +180,14 @@ Load order for (interactive, non-login) zs is:
 
 ## Features
 
+### Solarized
+### Bash
+### Zsh
+### Vim
+### Scripts
+### Tmux
+### Awesome
+### OSX
+
 Coming soon.
+

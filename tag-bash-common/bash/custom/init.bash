@@ -3,6 +3,7 @@
 # Load shared custom bash configurations
 
 EXTENSION="bash"
+VERBOSE=true
 
 # {{{ Helper functions
 load_scripts_by_name() {
@@ -14,7 +15,7 @@ load_scripts_by_name() {
 
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
-            echo "${directory}/${script}.${EXTENSION}"
+            [[ "$VERBOSE" ]] && echo "${directory}/${script}.${EXTENSION}"
             . "${directory}/${script}.${EXTENSION}"
         fi
     done
@@ -28,7 +29,7 @@ load_scripts_in_folder() {
     [[ -n "$ZSH_VERSION" ]] && setopt null_glob || shopt -s nullglob
 
     for script in "$directory"/*.${EXTENSION}; do
-        echo "$script"
+        [[ "$VERBOSE" ]] && echo "$script"
         [[ -r "$script" ]] && . "$script"
     done
 

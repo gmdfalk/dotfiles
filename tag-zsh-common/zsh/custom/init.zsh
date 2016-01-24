@@ -2,6 +2,7 @@
 #
 # Load shared custom zsh configurations
 
+VERBOSE=true
 EXTENSION="zsh"
 
 # {{{ Helper functions
@@ -14,7 +15,7 @@ load_scripts_by_name() {
 
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
-            echo "${directory}/${script}.${EXTENSION}"
+            [[ "$VERBOSE" ]] && echo "${directory}/${script}.${EXTENSION}"
             source "${directory}/${script}.${EXTENSION}"
         fi
     done
@@ -28,7 +29,7 @@ load_scripts_in_folder() {
     setopt null_glob
 
     for script in "$directory"/*.${EXTENSION}; do
-        echo "$script"
+        [[ "$VERBOSE" ]] && echo "$script"
         source "$script"
     done
 
@@ -58,6 +59,6 @@ load_scripts_in_folder "${ZSH_CUSTOM_DIR}/post-autoload"
 
 # {{{ Cleanup
 
-unset EXTENSION
+unset EXTENSION VERBOSE
 
 # }}}
