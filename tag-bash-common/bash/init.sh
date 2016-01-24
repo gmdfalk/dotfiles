@@ -8,7 +8,7 @@
 SCRIPTS_DIR="${BASH_DIR}/custom"
 # Error out if $SCRIPTS_DIR doesn't exist.
 [[ ! -d "$SCRIPTS_DIR" ]] && exit 1
-EXTENSION="sh"
+EXTENSION="bash"
 
 load_scripts_by_name() {
     local directory="${1}"

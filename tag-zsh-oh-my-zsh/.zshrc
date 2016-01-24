@@ -2210,53 +2210,12 @@ $PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
 fi
 #}}}
 
-# Enable SSH-Agent
-if ! pgrep -u $USER ssh-agent > /dev/null; then
-    ssh-agent > ~/.ssh-agent-thing
-    ssh-add $HOME/.ssh/git
-fi
-if [[ "$SSH_AGENT_PID" == "" ]]; then
-    eval $(<~/.ssh-agent-thing)
-fi
-ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
 
-tpspeed() {
-    local speed=${1:-0.4}
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5
-    xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" $speed
-    echo $speed
-}
-
-sysbackup() {
-    # archive, keep attributes, keep extended attributes, verbose, delete obsolete destination files
-    rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/docker/btrfs/subvolumes","/lost+found","/home/*/.thumbnails","/home/*/.cache/spotify","/home/*/.cache/mozilla","/home/*/.cache/chromium","/home/*/.local/share/Trash/*","/home/*/.gvfs","/.snapshots"} / /media/backup
-}
-
-system_state() {
-    systemctl --failed
-    journalctl -p 0..3 -xn
-}
-
-# Disable scroll locking via ^s and ^q.
-stty -ixon
 
 # Load dircolors
-dircolors_file=$HOME/.dircolors
-[[ -f "$dircolors_file" ]] && eval $(dircolors "$dircolors_file")
-
 alias resource="source $HOME/.zshrc"
-
-# Supress warnings about accessibility bus
-NO_AT_BRIDGE=1
 
 alias tail_awesome="tail -f ~/.logs/awe_*"
 
-apply_dock_xrandr() {
-    xrandr --output eDP1 --mode 1920x1080
-    xrandr --output DP2-1 --mode 1920x1200 --right-of eDP1
-    xrandr --output DP2-2 --mode 1920x1200 --right-of DP2-1
-}
+
 

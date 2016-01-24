@@ -18,6 +18,9 @@ set novisualbell
 "let mapleader=","
 map <Space> <Leader>
 
+" Visual block selection key bind is used for copy-paste
+:nnoremap <Leader>vv <c-v>
+
 " Yank entire buffer with gy
 nnoremap gy :%y+<cr>
 

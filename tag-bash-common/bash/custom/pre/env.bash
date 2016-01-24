@@ -26,4 +26,14 @@ fi
 # {{{ Exporting
 export BROWSER EDITOR LESS PAGER PATH TMPDIR VISUAL
 [[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
+
+[[ "$UID" == 0 ]] && SUDO= || SUDO=sudo
+
+# }}}
+# {{{ Various Settings
+# Disable scroll locking via ^s and ^q.
+stty -ixon
+
+# Supress warnings about accessibility bus
+NO_AT_BRIDGE=1
 # }}}
