@@ -1,25 +1,55 @@
 [alias]
 
-    # View abbreviated SHA, description, and history graph of the latest 20 commits
-    l = log --pretty=oneline -n 20 --graph --abbrev-commit
+    # Show commits since last pull
+    new = log HEAD@{1}..HEAD@{0}
+
+    # Add uncommitted and unstaged changes to the last commit
+    caa = commit -a --amend -C HEAD
+
+
+
+    a = add
+    c = commit
+    r = reset
+    m = merge
+    p = pull
+    ps = push
+
+    aa = add -A
+
+    # Fetch and remove any remote-tracking references that no longer exist on the remote.
+    f = fetch --all --prune --verbose
+
+    # Fetch including remote tags. Tags are not pruned.
+    ft = fetch --all --prune --tags --verbose
+
+    # Initialize and update all submodules recursively
+    su = submodule update --init --recursive
+
+    # View abbreviated SHA, description, author and time of commits
+    l = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
+
+    # View abbreviated SHA, description, and history graph (of the latest 20 commits)
+    ll = log --pretty=oneline --graph --abbrev-commit
+    ls = log --pretty=oneline --graph --abbrev-commit -n 20
 
     # View the current working tree status using the short format
     s = status -s
 
-    # Show the diff between the latest commit and the current state
+    # Show the diff between the latest commit and the current state.
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
     # `git di $number` shows the diff between the state `$number` revisions ago and the current state
     di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
     # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin master"
+    pa = !"git pull; git submodule foreach git pull origin master"
 
     # Push origin to master
     pm = push origin master
 
     # Clone a repository including all submodules
-    c = clone --recursive
+    cl = clone --recursive
 
     # Commit all changes (including newly added files)
     ca = !git add -A && git commit -av
