@@ -3,15 +3,19 @@
 
 [[ "$DEBUG" ]] && echo zshrc
 
-# Initialize shared settings
-[[ -f "${HOME}/.profile" ]] && . "${HOME}/.profile"
-
-# Source optional local configuration file.
-[[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"
-
 # {{{ Source configurations
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   . "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Initialize shared settings
+[[ -f "${HOME}/.profile" ]] && . "${HOME}/.profile"
+# }}}
+
+# {{{ Customizations here
+
+# }}}
+
+# Source optional local configuration file.
+[[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"

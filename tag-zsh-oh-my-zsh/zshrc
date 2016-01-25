@@ -56,14 +56,17 @@ HIST_STAMPS="yyyy-mm-dd"
 # plugins=(archlinux common-aliases git git-extras git-flow sudo systemd tmux vi-mode ssh-agent) # gpg-agent
 
 # {{{ Source configurations
+# Source OMZ.
+. $ZSH/oh-my-zsh.sh
+
 # Initialize shared settings
 [[ -f "${HOME}/.profile" ]] && . "${HOME}/.profile"
+# }}}
+
+# {{{ Customizations here
+
+# }}}
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"
-
-# Source OMZ.
-. $ZSH/oh-my-zsh.sh
-# }}}
-
 

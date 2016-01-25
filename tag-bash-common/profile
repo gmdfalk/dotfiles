@@ -30,9 +30,6 @@ ZSH_CUSTOM_DIR="$HOME/.zsh/custom"
 SSH_IDENTITIES=(git home)
 
 # {{{ Source files
-# Source optional local configuration
-test -r "$HOME/.profile.local" && . "$HOME/.profile.local"
-
 # Source common bash configuration.
 test -r "${BASH_CUSTOM_DIR}/init.bash" && . "${BASH_CUSTOM_DIR}/init.bash"
 
@@ -41,6 +38,8 @@ if test -n "$ZSH_VERSION";then
     test -r "${ZSH_CUSTOM_DIR}/init.zsh" && . "${ZSH_CUSTOM_DIR}/init.zsh"
 fi
 
+# Source optional local configuration
+test -r "$HOME/.profile.local" && . "$HOME/.profile.local"
 # }}}
 
 

@@ -167,21 +167,21 @@ Additionally, there are a couple of special directories from which configuration
 Load order for (interactive, non-login) bash is:
    1. ~/.bashrc
    2. ~/.profile
-   3. ~/.profile.local
-   4. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre-autoload,pre,post,post-autoload} folders)
+   3. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre-autoload,pre,post,post-autoload} folders)
+   4. ~/.profile.local
    5. ~/.bashrc.local
 
 Load order for (interactive, non-login) zsh is:
    1. ~/.zshenv
    2. ~/.zshenv.local
    3. ~/.zshrc
-   4. ~/.profile
-   5. ~/.profile.local
-   6. ~/.bash/custom/init.bash
-   7. ~/.zsh/custom/init.zsh
-   8. ~/.zshrc.local
-   9. ~/.zpreztorc
-   10. ~/.zpreztorc.local
+   4. ~/.zpreztorc
+   5. ~/.zpreztorc.local
+   6. ~/.profile
+   7. ~/.bash/custom/init.bash
+   8. ~/.zsh/custom/init.zsh
+   9. ~/.profile.local
+   10. ~/.zshrc.local
 
 ## Features
 

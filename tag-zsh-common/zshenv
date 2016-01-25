@@ -14,6 +14,3 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   . "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-
-
-
