@@ -2,7 +2,6 @@
 #
 # Load shared custom zsh configurations
 
-VERBOSE=
 EXTENSION="zsh"
 
 [[ "$DEBUG" ]] && echo init.zsh
@@ -17,7 +16,7 @@ load_scripts_by_name() {
 
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
-            [[ "$VERBOSE" ]] && echo "${directory}/${script}.${EXTENSION}"
+            [[ "$DEBUG" ]] && echo "${directory}/${script}.${EXTENSION}"
             source "${directory}/${script}.${EXTENSION}"
         fi
     done
@@ -31,7 +30,7 @@ load_scripts_in_folder() {
     setopt null_glob
 
     for script in "$directory"/*.${EXTENSION}; do
-        [[ "$VERBOSE" ]] && echo "$script"
+        [[ "$DEBUG" ]]&& echo "$script"
         source "$script"
     done
 

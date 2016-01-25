@@ -3,10 +3,8 @@
 # Load shared custom bash configurations
 
 EXTENSION="bash"
-VERBOSE=
 
 [[ "$DEBUG" ]] && echo init.bash
-
 
 # {{{ Helper functions
 load_scripts_by_name() {
@@ -18,7 +16,7 @@ load_scripts_by_name() {
 
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
-            [[ "$VERBOSE" ]] && echo "${directory}/${script}.${EXTENSION}"
+            [[ "$DEBUG" ]] && echo "${directory}/${script}.${EXTENSION}"
             . "${directory}/${script}.${EXTENSION}"
         fi
     done
@@ -32,7 +30,7 @@ load_scripts_in_folder() {
     [[ -n "$ZSH_VERSION" ]] && setopt null_glob || shopt -s nullglob
 
     for script in "$directory"/*.${EXTENSION}; do
-        [[ "$VERBOSE" ]] && echo "$script"
+        [[ "$DEBUG" ]] && echo "$script"
         [[ -r "$script" ]] && . "$script"
     done
 
@@ -68,5 +66,7 @@ fi
 # }}}
 
 # {{{ Cleanup
+
 unset EXTENSION
+
 # }}}
