@@ -181,7 +181,7 @@ Load order for (interactive, non-login) zsh is:
    7. ~/.zsh/custom/init.zsh
    8. ~/.zshrc.local
    9. ~/.zpreztorc
-  10. ~/.zpreztorc.local
+   10. ~/.zpreztorc.local
 
 ## Features
 

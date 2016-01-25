@@ -4,6 +4,8 @@
 # the command search path, plus other important environment variables. It should not contain commands that produce
 # output or assume the shell is attached to a tty.
 
+[[ "$DEBUG" ]] && echo zshenv
+
 # Source optional local configuration file.
 [[ -f "$HOME/.zshenv.local" ]] && . "$HOME/.zshenv.local"
 

@@ -5,6 +5,8 @@
 VERBOSE=
 EXTENSION="zsh"
 
+[[ "$DEBUG" ]] && echo init.zsh
+
 # {{{ Helper functions
 load_scripts_by_name() {
     local directory="${1}"

@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+[[ "$DEBUG" ]] && echo profile
+
 # The directory where custom bash scripts are loaded from. Should contain init.bash file which will source scripts from
 # the subfolders pre-autoload, pre, post and post-autoload (in order of being loaded).
 BASH_CUSTOM_DIR="$HOME/.bash/custom"

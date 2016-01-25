@@ -5,6 +5,8 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+[[ "$DEBUG" ]] && echo zpreztorc
+
 #
 # General
 #

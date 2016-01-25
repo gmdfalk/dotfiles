@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 #
 
+[[ "$DEBUG" ]] && echo zshrc
+
 # Initialize shared settings
 [[ -f "${HOME}/.profile" ]] && . "${HOME}/.profile"
 

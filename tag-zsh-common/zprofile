@@ -3,6 +3,10 @@
 # `.zprofile' is similar to `.zlogin' (i.e. should only be sourced for login shells), except that it is sourced
 # before `.zshrc'. It is meant as an alternative to `.zlogin' for ksh fans; the two are not intended to be
 # used together, although this could certainly be done if desired.
+# Note that on ArchLinux ~/.zprofile sources /etc/zsh/zprofile which in turn sources /etc/profile and overrides $PATH.
+# Consequently, PATH (or any /etc/profile overrides) should be made in ~/.zshrc.
+
+[[ "$DEBUG" ]] && echo zprofile
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
@@ -19,10 +23,6 @@ path=(
 )
 
 TMPPREFIX="${TMPDIR%/}/zsh"
-
-# ~/.zprofile sources /etc/zsh/zprofile which in turn sources /etc/profile and overrides $PATH.
-# Accordingly, we have to make $PATH adjustments here or later (e.g. zshrc).
-export PATH="${HOME}/bin:${PATH}"
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zprofile.local" ]] && . "${HOME}/.zprofile.local"

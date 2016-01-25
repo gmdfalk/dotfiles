@@ -5,6 +5,9 @@
 EXTENSION="bash"
 VERBOSE=
 
+[[ "$DEBUG" ]] && echo init.bash
+
+
 # {{{ Helper functions
 load_scripts_by_name() {
     local directory="${1}"
