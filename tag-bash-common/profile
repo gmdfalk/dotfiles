@@ -38,6 +38,7 @@ test -r "${BASH_CUSTOM_DIR}/init.bash" && . "${BASH_CUSTOM_DIR}/init.bash"
 if test -n "$ZSH_VERSION";then
     test -r "${ZSH_CUSTOM_DIR}/init.zsh" && . "${ZSH_CUSTOM_DIR}/init.zsh"
 fi
+
 # }}}
 
 

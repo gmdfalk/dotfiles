@@ -2,7 +2,7 @@
 #
 # Load shared custom zsh configurations
 
-VERBOSE=true
+VERBOSE=
 EXTENSION="zsh"
 
 # {{{ Helper functions

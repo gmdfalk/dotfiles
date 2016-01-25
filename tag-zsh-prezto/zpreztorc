@@ -156,3 +156,6 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 # Integrate with iTerm2.
 # zstyle ':prezto:module:tmux:iterm' integrate 'yes'
 zstyle ':prezto:module:prompt' theme 'pure'
+
+# Source optional local configuration file.
+[[ -f "${HOME}/.zpreztorc.local" ]] && . "${HOME}/.zpreztorc.local"

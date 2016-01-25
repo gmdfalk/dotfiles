@@ -68,7 +68,7 @@
     fp = fetch --all --prune --verbose
 
     # Fetch including remote tags. Tags are not pruned.
-    ft = fetch --all --prune --tags --verbose
+    ftag = fetch --all --prune --tags --verbose
     # }}}
 
     # {{{ Info

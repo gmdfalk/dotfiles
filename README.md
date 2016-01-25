@@ -165,26 +165,27 @@ Additionally, there are a couple of special directories from which configuration
   * ~/.zsh/custom/{pre-autoload,pre,post,post-autoload}
 
 Load order for (interactive, non-login) bash is:
-  1. ~/.bash_profile
-  2. ~/.bash_profile.local
-  3. ~/.profile
-  5. ~/.profile.local
-  4. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre-autoload,pre,post,post-autoload} folders)
-  6. ~/.bashrc
-  7. ~/.bashrc.local
+   1. ~/.bashrc
+   2. ~/.profile
+   3. ~/.profile.local
+   4. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre-autoload,pre,post,post-autoload} folders)
+   5. ~/.bashrc.local
 
-Load order for (interactive, non-login) zs is:
-  1. ~/.zshenv
-  2. ~/.zshenv.local
-  3. ~/.zprofile (on first start)
-  4. ~/.profile
-  5. ~/.profile.local
-  6. ~/.bash/custom/init.bash
-  7. ~/.zsh/custom/init.zsh
-  8. ~/.zshrc
-  9. ~/.zshrc.local
+Load order for (interactive, non-login) zsh is:
+   1. ~/.zshenv
+   2. ~/.zshenv.local
+   3. ~/.zshrc
+   4. ~/.profile
+   5. ~/.profile.local
+   6. ~/.bash/custom/init.bash
+   7. ~/.zsh/custom/init.zsh
+   8. ~/.zshrc.local
+   9. ~/.zpreztorc
+  10. ~/.zpreztorc.local
 
 ## Features
+
+Coming soon.
 
 ### Solarized
 ### Bash
@@ -194,6 +195,4 @@ Load order for (interactive, non-login) zs is:
 ### Tmux
 ### Awesome
 ### OSX
-
-Coming soon.
 

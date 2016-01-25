@@ -20,5 +20,10 @@ path=(
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 
+# ~/.zprofile sources /etc/zsh/zprofile which in turn sources /etc/profile and overrides $PATH.
+# Accordingly, we have to make $PATH adjustments here or later (e.g. zshrc).
+export PATH="${HOME}/bin:${PATH}"
+
 # Source optional local configuration file.
-[[ -f "${0}.local" ]] && . "${0}.local"
+[[ -f "${HOME}/.zprofile.local" ]] && . "${HOME}/.zprofile.local"
+

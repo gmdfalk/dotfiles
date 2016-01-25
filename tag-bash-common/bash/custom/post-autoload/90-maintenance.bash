@@ -9,3 +9,5 @@ system_state() {
     systemctl --failed
     journalctl -p 0..3 -xn
 }
+
+slpin() { count "$1" && systemctl suspend; }

@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 # 
 # This script is sourced when bash is started as an interactive login shell
+echo bash_profile
 
 # Source optional local configuration
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
-
-# Initialize shared settings
-[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
 # Only source bashrc for interactive prompts
 [[ $- != *i* ]] || . "$HOME/.bashrc"

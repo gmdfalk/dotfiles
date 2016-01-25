@@ -27,6 +27,10 @@ export SCM_CHECK=true
 #export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
 
 # {{{ Source configuration files
+
+# Initialize shared settings
+[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
+
 # Load Bash It
 . $BASH_IT/bash_it.sh
 

@@ -73,7 +73,7 @@ alias gct='git checkout --track'
 # Fetch and remove any remote-tracking references that no longer exist on the remote.
 alias gfp="git fetch --all --prune --verbose"
 # Fetch including remote tags. Tags are not pruned.
-alias gft="git fetch --all --prune --tags --verbose"
+alias gftag="git fetch --all --prune --tags --verbose"
 # }}}
 
 # {{{ Info
@@ -95,7 +95,7 @@ gdi() {
 # Find branches containing commit
 gfb() { git branch -a --contains "$1"; }
 # Find tags containing commit
-gft() { git describe --always --contains $1; }
+gft() { git describe --always --contains "$1" ; }
 # Find commits by source code
 gfc() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }
 # Find commits by commit message
@@ -124,7 +124,7 @@ alias gpa="git pull; git submodule foreach git pull origin master"
 # Push origin to master
 alias gpm="git push origin master"
 # Interactive rebase with the given number of latest commits
-greb() { git rebase -i HEAD~$1; }
+greb() { git rebase -i HEAD~"$1"; }
 # Initialize and update all submodules recursively
 alias gsu="git submodule update --init --recursive"
 alias gmu='git fetch origin -v; git fetch upstream -v; git merge upstream/master'
@@ -137,11 +137,11 @@ alias gdv='git diff -w "$@" | vim -R -'
 # Merge GitHub pull request on top of the `master` branch
 gmpr() {
     if [ $(printf "%s" "$1" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then
-        git fetch origin refs/pull/$1/head:pr/$1 &&
-        git rebase master pr/$1 &&
+        git fetch origin refs/pull/"$1"/head:pr/"$1" &&
+        git rebase master pr/"$1" &&
         git checkout master &&
-        git merge pr/$1 &&
-        git branch -D pr/$1 &&
+        git merge pr/"$1" &&
+        git branch -D pr/"$1" &&
         git commit --amend -m "$(git log -1 --pretty=%B)\n\nCloses #$1.";
     fi
 }

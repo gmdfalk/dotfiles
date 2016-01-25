@@ -1,11 +1,15 @@
 #!/usr/bin/env zsh
 #
 
+# Initialize shared settings
+[[ -f "${HOME}/.profile" ]] && . "${HOME}/.profile"
+
+# Source optional local configuration file.
+[[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"
+
 # {{{ Source configurations
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   . "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Source optional local configuration file.
-[[ -f "${0}.local" ]] && . "${0}.local"

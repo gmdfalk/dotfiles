@@ -3,7 +3,7 @@
 # Load shared custom bash configurations
 
 EXTENSION="bash"
-VERBOSE=true
+VERBOSE=
 
 # {{{ Helper functions
 load_scripts_by_name() {

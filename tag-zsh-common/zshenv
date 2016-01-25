@@ -5,13 +5,13 @@
 # output or assume the shell is attached to a tty.
 
 # Source optional local configuration file.
-[[ -f "${0}.local" ]] && . "${0}.local"
+[[ -f "$HOME/.zshenv.local" ]] && . "$HOME/.zshenv.local"
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   . "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-# Initialize shared settings
-[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
+
+
 
