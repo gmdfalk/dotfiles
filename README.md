@@ -65,10 +65,10 @@ Adding and deleting files:
 
 ```bash
     cd $HOME &&
-    clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
+    clone https://aur.archlinux.org/rcm.git && cd rcm-git &&
     makepkg -i &&
-    git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    rcup -v
 ```
 
 ### On OSX
@@ -77,8 +77,8 @@ Adding and deleting files:
     cd $HOME &&
     brew tap thoughtbot/formulae &&
     brew install rcm &&
-    git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    rcup -v
 ```
 
 ### On Windows
@@ -87,13 +87,15 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
 
 ```bash
     cd $HOME &&
-    git clone --recursive git://github.com.com/thoughtbot/rcm.git && cd rcm &&
+    gem install mustache &&
+    git clone --recursive https://github.com.com/thoughtbot/rcm &&
+    cd rcm &&
     ./autogen.sh &&
     ./configure &&
     make &&
     make install &&
-    git clone --recursive git://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    rcup -v
 ```
 
 A note on symlinks:  
