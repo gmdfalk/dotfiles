@@ -35,8 +35,9 @@ configure_vim() {
 
 install_cygwin_packages() {
     logger "Installing apt-cyg and curl"
-    lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg &&
-    chmod a+x apt-cyg && cp apt-cyg /bin/ && rm apt-cyg &&
+    #lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > /bin/apt-cyg &&
+    svn --force export http://apt-cyg.googlecode.com/svn/trunk/ /bin/ 
+    chmod +x /bin/apt-cyg
     # Install some essential packages
     apt-cyg install chere ctags curl gcc-g++ make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses ruby git &&
     gem install hub
