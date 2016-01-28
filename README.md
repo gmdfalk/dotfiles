@@ -152,17 +152,16 @@ You can make your own customizations, of course, by editing files directly or al
 Configuration files that accept `.local` overrides are:
   * ~/.tmux.conf (i.e. ~/.tmux.conf.local)
   * ~/.gitconfig
-  * ~/.zshrc
-  * ~/.vimrc
-  * ~/.pentadactylrc
-  * ~/.vimperatorrc
-  * ~/.cvimrc
-  * ~/.ideavimrc
+  * ~/.{bashrc,bash_profile,profile}
+  * ~/.{zshrc,zpreztorc,zshenv,zprofile,zlogin,zlogout}
+  * ~/.{vimrc,ideavimrc,cvimrc,vimperatorrc,pentadactylrc}
 
 Additionally, there are a couple of special directories from which configuration files are automatically loaded.
 
-  * ~/.bash/custom/{pre-autoload,pre,post,post-autoload} (in load order)
-  * ~/.zsh/custom/{pre-autoload,pre,post,post-autoload}
+  * ~/.bash/custom/{pre-autoload,post-autoload}/ (in load order)
+  * ~/.zsh/custom/{pre-autoload,post-autoload}/
+  * ~/.vim/autoload/
+  * ~/.oh-my-zsh/custom/ (if using Oh My ZSH)
 
 Load order for (interactive, non-login) bash is:
    1. ~/.bashrc
