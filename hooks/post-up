@@ -39,8 +39,9 @@ install_cygwin_packages() {
     svn --force export http://apt-cyg.googlecode.com/svn/trunk/ /bin/ 
     chmod +x /bin/apt-cyg
     # Install some essential packages
-    apt-cyg install chere ctags curl gcc-g++ make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses ruby git &&
+    apt-cyg install chere ctags gcc-g++ make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses ruby git
     gem install hub
+    apt-cyg install curl
     if [ $? -ne 0 ]; then
         logger "Could not install curl. You will need to install it via the Cygwin Installer"
     fi
