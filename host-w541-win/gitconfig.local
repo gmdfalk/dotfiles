@@ -1,3 +1,5 @@
 [core]
+    # Cygwin can't handle Windows style line endings
     autocrlf = false
+    # Cygwin shouldn't touch file attributes because it really likes 755
     filemode = false
