@@ -1,3 +1,0 @@
-EXCLUDES="README.md install.sh"
-TAGS="bin git gpg ssh theme-solarized-dark tmux vim bash-common bash-bash-it zsh-common zsh-prezto"
-UNDOTTED="bin"
