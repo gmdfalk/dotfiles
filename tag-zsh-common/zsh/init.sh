@@ -2,7 +2,7 @@
 #
 # Load shared custom zsh configurations
 
-EXTENSION="zsh"
+EXTENSION="sh"
 
 [[ "$DEBUG" ]] && echo init.zsh
 

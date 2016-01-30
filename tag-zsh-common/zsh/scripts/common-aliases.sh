@@ -1,10 +1,8 @@
 #!/usr/bin/env zsh
 
 ## aliases and functions
+autoload -U zmv
 alias mmv="noglob zmv -W"
-alias mv="nocorrect mv"
-alias rm="nocorrect rm"
-alias cp="nocorrect cp"
 alias ls0="ls **/*(ND.L0m+0m-2) **/*.bak"
 alias rm0="rm -i *(.L0) *.bak(.)"
 

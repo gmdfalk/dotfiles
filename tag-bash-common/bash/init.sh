@@ -2,7 +2,7 @@
 #
 # Load shared custom bash configurations
 
-EXTENSION="bash"
+EXTENSION="sh"
 
 [[ "$DEBUG" ]] && echo init.bash
 
