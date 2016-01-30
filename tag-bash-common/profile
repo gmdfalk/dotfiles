@@ -27,7 +27,7 @@ ZSH_CUSTOM_DIR="$HOME/.zsh/custom"
 # ZSH_POST_SCRIPTS=()
 
 # SSH_IDENTITIES is used by the ssh-agent.bash script to automatically load identities from $HOME/.ssh/.
-SSH_IDENTITIES=(git home)
+SSH_IDENTITIES=(id_rsa)
 
 # {{{ Source files
 # Source common bash configuration.
