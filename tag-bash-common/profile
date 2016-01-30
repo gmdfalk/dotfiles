@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-test -n "$DEBUG" && echo profile
+test "$DEBUG" && echo profile
 
 BASH_DIR="$HOME/.bash"
 ZSH_DIR="$HOME/.zsh"
@@ -20,7 +20,7 @@ SSH_IDENTITIES=(id_rsa)
 test -r "$BASH_DIR/init.sh" && . "$BASH_DIR/init.sh"
 
 # Source common zsh configuration.
-if test -n "$ZSH_VERSION";then
+if test "$ZSH_VERSION";then
     test -r "$ZSH_DIR/init.sh" && . "$ZSH_DIR/init.sh"
 fi
 
