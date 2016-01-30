@@ -1,0 +1,1 @@
+../scripts/detachments.bash

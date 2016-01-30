@@ -1,0 +1,1 @@
+../scripts/thinkpad.bash

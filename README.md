@@ -124,7 +124,7 @@ You can create a portable installation script (e.g. for machines where you don't
 
 ### Maintenance
 
-Once a configuration is installed, e.g. via `rcup -B generic` the corresponding rcrc file (`~/.dotfiles/host-generic/rcrc`)
+Once a configuration is installed, e.g. via `rcup -B mbpro` the corresponding rcrc file (`~/.dotfiles/host-mbpro/rcrc`)
 will be symlinked to `~/.rcrc` so that you don't have to specify the dotfiles directory or host name anymore.
 Maintenance then simply becomes:
 ```
@@ -160,15 +160,14 @@ Configuration files that accept `.local` overrides are:
 
 Additionally, there are a couple of special directories from which configuration files are automatically loaded.
 
-  * ~/.bash/custom/{pre-autoload,post-autoload}/ (in load order)
-  * ~/.zsh/custom/{pre-autoload,post-autoload}/
+  * ~/.bash/autoload/
+  * ~/.zsh/autoload/
   * ~/.vim/autoload/
-  * ~/.oh-my-zsh/custom/ (if using Oh My ZSH)
 
 Load order for (interactive, non-login) bash is:
    1. ~/.bashrc
    2. ~/.profile
-   3. ~/.bash/custom/init.bash (which will load scripts in ~/.bash/custom/{pre-autoload,pre,post,post-autoload} folders)
+   3. ~/.bash/init.bash (which will load scripts in ~/.bash/autoload)
    4. ~/.profile.local
    5. ~/.bashrc.local
 
@@ -179,8 +178,8 @@ Load order for (interactive, non-login) zsh is:
    4. ~/.zpreztorc
    5. ~/.zpreztorc.local
    6. ~/.profile
-   7. ~/.bash/custom/init.bash
-   8. ~/.zsh/custom/init.zsh
+   7. ~/.bash/init.bash
+   8. ~/.zsh/init.zsh
    9. ~/.profile.local
    10. ~/.zshrc.local
 
@@ -189,6 +188,7 @@ Load order for (interactive, non-login) zsh is:
 Coming soon.
 
 ### Solarized
+### Fasd
 ### Bash
 ### Zsh
 ### Vim

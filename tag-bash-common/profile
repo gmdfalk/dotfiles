@@ -2,40 +2,25 @@
 
 [[ "$DEBUG" ]] && echo profile
 
-# The directory where custom bash scripts are loaded from. Should contain init.bash file which will source scripts from
-# the subfolders pre-autoload, pre, post and post-autoload (in order of being loaded).
-BASH_CUSTOM_DIR="$HOME/.bash/custom"
+BASH_DIR="$HOME/.bash"
+ZSH_DIR="$HOME/.zsh"
 
-# The directory where custom zsh scripts are loaded from. Should contain init.zsh file which will source scripts from
-# the subfolders pre-autoload, pre, post and post-autoload (in order of being loaded).
-ZSH_CUSTOM_DIR="$HOME/.zsh/custom"
+# Use BASH_SCRIPTS to load zsh modules from $BASH_DIR/scripts on-demand and in the order specified.
+# BASH_SCRIPTS=()
 
-# Use BASH_PRE_SCRIPTS to load modules on-demand that need to be loaded first.
-# They will be sourced from $BASH_CUSTOM_DIR/pre, i.e. the entry fasd will try to source ~/.bash/custom/pre/fasd.bash.
-# BASH_PRE_SCRIPTS=(fasd)
-
-# Use BASH_PRE_SCRIPTS to load modules on-demand that need to be loaded last.
-# They will be sourced from $BASH_CUSTOM_DIR/post.
-# BASH_POST_SCRIPTS=()
-
-# Use ZSH_PRE_SCRIPTS to load zsh modules on-demand that need to be loaded first.
-# They will be sourced from $ZSH_CUSTOM_DIR/pre.
-# ZSH_PRE_SCRIPTS=()
-
-# Use ZSH_PRE_SCRIPTS to load zsh modules on-demand that need to be loaded last.
-# They will be sourced from $ZSH_CUSTOM_DIR/post.
-# ZSH_POST_SCRIPTS=()
+# Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
+# ZSH_SCRIPTS=()
 
 # SSH_IDENTITIES is used by the ssh-agent.bash script to automatically load identities from $HOME/.ssh/.
 SSH_IDENTITIES=(id_rsa)
 
 # {{{ Source files
 # Source common bash configuration.
-test -r "${BASH_CUSTOM_DIR}/init.bash" && . "${BASH_CUSTOM_DIR}/init.bash"
+test -r "${BASH_DIR}/init.bash" && . "${BASH_DIR}/init.bash"
 
 # Source common zsh configuration.
 if test -n "$ZSH_VERSION";then
-    test -r "${ZSH_CUSTOM_DIR}/init.zsh" && . "${ZSH_CUSTOM_DIR}/init.zsh"
+    test -r "${ZSH_DIR}/init.zsh" && . "${ZSH_DIR}/init.zsh"
 fi
 
 # Source optional local configuration

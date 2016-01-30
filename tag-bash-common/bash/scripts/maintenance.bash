@@ -6,8 +6,17 @@ sysbackup() {
 }
 
 system_state() {
-    systemctl --failed
     journalctl -p 0..3 -xn
+    echo "\nFailed systemctl units:"
+    systemctl --failed
 }
 
 slpin() { count "$1" && systemctl suspend; }
+
+# Update rcm configuration
+rcupd() {
+    cd ~/.dotfiles
+    git pull
+    rcup -v
+    popd
+}

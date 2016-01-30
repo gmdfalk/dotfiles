@@ -1,1 +1,0 @@
-../post/maintenance.bash

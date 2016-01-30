@@ -1,1 +1,0 @@
-../post/common-aliases.zsh

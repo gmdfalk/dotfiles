@@ -1,10 +1,10 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 #
-# Load shared custom zsh configurations
+# Load shared custom bash configurations
 
-EXTENSION="zsh"
+EXTENSION="bash"
 
-[[ "$DEBUG" ]] && echo init.zsh
+[[ "$DEBUG" ]] && echo init.bash
 
 # {{{ Helper functions
 load_scripts_by_name() {
@@ -17,7 +17,7 @@ load_scripts_by_name() {
     for script in ${scripts[@]}; do
         if [[ -r "${directory}/${script}.${EXTENSION}" ]]; then
             [[ "$DEBUG" ]] && echo "${directory}/${script}.${EXTENSION}"
-            source "${directory}/${script}.${EXTENSION}"
+            . "${directory}/${script}.${EXTENSION}"
         fi
     done
 }
@@ -27,39 +27,41 @@ load_scripts_in_folder() {
     [[ ! -d "$directory" ]] && return 1
 
     # Ignore 0 results on glob expansion
-    setopt null_glob
+    [[ -n "$ZSH_VERSION" ]] && setopt null_glob || shopt -s nullglob
 
     for script in "$directory"/*.${EXTENSION}; do
-        [[ "$DEBUG" ]]&& echo "$script"
-        source "$script"
+        [[ "$DEBUG" ]] && echo "$script"
+        [[ -r "$script" ]] && . "$script"
     done
 
-    unsetopt null_glob
+    [[ -n "$ZSH_VERSION" ]] && unsetopt null_glob || shopt -u nullglob
 }
+
 # }}}
 
 # {{{ Source scripts
 
 # Load auto scripts that need to be sourced first
-load_scripts_in_folder "${ZSH_CUSTOM_DIR}/pre-autoload"
+load_scripts_in_folder "${BASH_DIR}/autoload"
 
 # Load on-demand scripts that need to be sourced first
-if [[ -n "$ZSH_PRE_SCRIPTS" ]]; then
-    load_scripts_by_name "${ZSH_CUSTOM_DIR}/pre" "${ZSH_PRE_SCRIPTS[@]}"
+if [[ -n "$BASH_SCRIPTS" ]]; then
+    load_scripts_by_name "${BASH_DIR}/scripts" "${BASH_SCRIPTS[@]}"
 fi
 
-# Load on-demand scripts that need to be sourced last
-if [[ -n "$ZSH_POST_SCRIPTS" ]]; then
-    load_scripts_by_name "${ZSH_CUSTOM_DIR}/post" "${ZSH_POST_SCRIPTS[@]}"
-fi
+# }}}
 
-# Load auto scripts that need to be sourced last
-load_scripts_in_folder "${ZSH_CUSTOM_DIR}/post-autoload"
+# {{{ Post config
+
+# Initialize fasd, the command-line productivity booster (https://github.com/clvv/fasd)
+if have fasd; then
+    eval "$(fasd --init auto)"
+fi
 
 # }}}
 
 # {{{ Cleanup
 
-unset EXTENSION VERBOSE
+unset EXTENSION
 
 # }}}

@@ -1,0 +1,1 @@
+../scripts/fasd.bash

@@ -1,1 +1,0 @@
-../post/keybindings.zsh

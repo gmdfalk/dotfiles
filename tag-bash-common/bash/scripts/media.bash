@@ -5,17 +5,17 @@ bb() {
     local signal
     local cmd
     case "$1" in
-        "") blockify-dbus get && return 0;;
-        ex) signal='TERM';;       # Exit
-        b) signal='USR1';;        # Block
-        u) signal='USR2';;        # Unblock
-        p) signal='RTMIN';;       # Previous song
-        n) signal='RTMIN+1';;     # Next song
-        t) signal='RTMIN+2';;     # Toggle play song
-        tb) signal='RTMIN+3';;    # Toggle block song
-        pi) signal='RTMIN+10';;   # Previous interlude song
-        ni) signal='RTMIN+11';;   # Next interlude song
-        ti) signal='RTMIN+12';;   # Toggle play interlude song
+        "")  blockify-dbus get 2>/dev/null && return 0;;
+        ex)  signal='TERM';;       # Exit
+        b)   signal='USR1';;        # Block
+        u)   signal='USR2';;        # Unblock
+        p)   signal='RTMIN';;       # Previous song
+        n)   signal='RTMIN+1';;     # Next song
+        t)   signal='RTMIN+2';;     # Toggle play song
+        tb)  signal='RTMIN+3';;    # Toggle block song
+        pi)  signal='RTMIN+10';;   # Previous interlude song
+        ni)  signal='RTMIN+11';;   # Next interlude song
+        ti)  signal='RTMIN+12';;   # Toggle play interlude song
         tir) signal='RTMIN+13';;  # Toggle interlude resume
         *) echo "Bad option" && return 0;;
     esac

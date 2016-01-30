@@ -24,17 +24,20 @@ if [[ ! -d "$TMPDIR" ]]; then
   mkdir -p -m 700 "$TMPDIR"
 fi
 
-[[ -n "$DISPLAY" ]] && BROWSER="firefox" || BROWSER="lynx"
-[[ "$OSTYPE" == "darwin"* ]] && BROWSER="open"
 
-# By default, cygwin creates "fake" symlinks which are just regular files with the path of the linked file as content.
-# This only works inside Cygwin, breaking e.g. .gitconfig functionality if it should be sourced outside of Cygwin.
-# Thus, we tell Cygwin to use native NTFS symlinks (but beware as they can behave different to unix symlinks).
-[[ $OSTYPE == "cygwin" ]] && CYGWIN="winsymlinks:native"
+# GUI
+[[ -n "$DISPLAY" ]] && BROWSER="firefox" || BROWSER="lynx"
 # }}}
 
 # {{{ Exporting
-export BROWSER EDITOR LESS PAGER PATH TMPDIR VISUAL
+export BROWSER \
+       EDITOR \
+       LESS \
+       PAGER \
+       PATH \
+       TMPDIR \
+       VISUAL
+
 [[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
 
 [[ "$UID" == 0 ]] && SUDO= || SUDO=sudo
@@ -42,7 +45,23 @@ export BROWSER EDITOR LESS PAGER PATH TMPDIR VISUAL
 
 # {{{ Custom variables
 SSH2="ssh -p 21397 slave@192.168.0.2"
+OPEN="xdg-open"
+VIDEO="vlc"
 # }}}
+
+# {{{ Cygwin
+# By default, cygwin creates "fake" symlinks which are just regular files with the path of the linked file as content.
+# This only works inside Cygwin, breaking e.g. .gitconfig functionality if it should be sourced outside of Cygwin.
+# Thus, we tell Cygwin to use native NTFS symlinks (but beware as they can behave different to unix symlinks).
+if [[ $OSTYPE == "cygwin" ]];then
+    export CYGWIN="winsymlinks:native"
+fi
+# }}}
+
+# {{{ OSX
+if [[ "$OSTYPE" == "darwin"* ]];then
+    OPEN="open"
+fi
 
 # {{{ Various Settings
 # Disable scroll locking via ^s and ^q.
