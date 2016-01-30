@@ -39,3 +39,7 @@ export SCM_CHECK=true
 # Source optional local configuration file
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
 # }}}
+
+# Bind Alt+Up/Down to search history based on what's already written at the prompt
+bind '"\e[1;3A":history-search-backward'
+bind '"\e[1;3B":history-search-forward'

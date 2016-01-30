@@ -46,3 +46,18 @@ pc() {
         playerctl "$arg"
     fi
 }
+
+note() { # Write a note to a target file
+    local target=$1
+    [[ -f "$target" ]] || touch "$target"
+    if [[ $# = 0 ]];then
+        echo "usage: note <filename> <message>"
+    elif [[ $# = 1 ]];then
+        cat "$target" | tail -n 20
+    else
+        shift
+        echo "$@" >> "$target"
+    fi
+}
+
+
