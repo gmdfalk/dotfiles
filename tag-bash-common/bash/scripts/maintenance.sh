@@ -17,6 +17,6 @@ slpin() { count "$1" && systemctl suspend; }
 rcupd() {
     cd ~/.dotfiles
     git pull
-    rcup -v
+    rcup -v "$@"
     popd
 }

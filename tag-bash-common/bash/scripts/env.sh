@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# {{{ Colors
-[[ -r "$HOME/.dircolors" ]] && eval "$(dircolors $HOME/.dircolors)"
-# }}}
 
 # {{{ Set environment variables
 # Add scripts directory to $PATH, if it's missing.
@@ -50,10 +47,10 @@ VIDEO="vlc"
 # }}}
 
 # {{{ Cygwin
-# By default, cygwin creates "fake" symlinks which are just regular files with the path of the linked file as content.
-# This only works inside Cygwin, breaking e.g. .gitconfig functionality if it should be sourced outside of Cygwin.
-# Thus, we tell Cygwin to use native NTFS symlinks (but beware as they can behave different to unix symlinks).
 if [[ $OSTYPE == "cygwin" ]];then
+    # By default, cygwin creates "fake" symlinks which are just regular files with the path of the linked file as content.
+    # This only works inside Cygwin, breaking e.g. .gitconfig functionality if it should be sourced outside of Cygwin.
+    # Thus, we tell Cygwin to use native NTFS symlinks (but beware as they can behave different to unix symlinks).
     export CYGWIN="winsymlinks:native"
 fi
 # }}}
@@ -64,9 +61,16 @@ if [[ "$OSTYPE" == "darwin"* ]];then
 fi
 
 # {{{ Various Settings
-# Disable scroll locking via ^s and ^q.
-stty -ixon
 
 # Supress warnings about accessibility bus
 NO_AT_BRIDGE=1
+# }}}
+
+# {{{ MinGW/MSYS incompatible settings
+if [[ "$OSTYPE" != "msys" ]];then
+    # Disable scroll locking the terminal via ^s and ^q.
+    stty -ixon
+    # Colors for ls
+    [[ -r "$HOME/.dircolors" ]] && eval "$(dircolors $HOME/.dircolors)"
+fi
 # }}}
