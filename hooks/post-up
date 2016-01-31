@@ -13,10 +13,11 @@ fix_permissions() {
 
     for arg; do
         logger "Fixing permissions for $arg"
+        setfacl -b "$arg"
         if [ -d "$arg" ]; then
-            chmod 700 "$arg"
+            chmod 0700 "$arg"
         elif [ -f "$arg" ]; then
-            chmod 600 "$arg"
+            chmod 0600 "$arg"
         fi
     done
 }
@@ -70,7 +71,7 @@ apply_system_specific_setup() {
 }
 
 main() {
-    fix_permissions ~/.config/gnupg ~/.ssh
+    fix_permissions ~/.config/gnupg ~/.ssh ~/.ssh/config
     apply_system_specific_setup
     configure_vim
 }
