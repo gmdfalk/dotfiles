@@ -87,11 +87,11 @@ alias gss="git status -s"
 # Show the diff between the latest commit and the current state.
 alias gd="git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 # `git di $number` shows the diff between the state `$number` revisions ago and the current state
-gdi() {
-    d() { git diff --patch-with-stat HEAD~$1; };
-    git diff-index --quiet HEAD -- || clear
-    d
-}
+#gdi() {
+    #d() { git diff --patch-with-stat "HEAD~$1"; };
+    #git diff-index --quiet HEAD -- || clear
+    #d
+#}
 # Find branches containing commit
 gfb() { git branch -a --contains "$1"; }
 # Find tags containing commit
