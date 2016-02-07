@@ -19,3 +19,4 @@ fi
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"
+
