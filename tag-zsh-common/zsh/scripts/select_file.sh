@@ -5,4 +5,4 @@ select_files() {
     READLINE_LINE="${READLINE_LINE:-1:READLINE_POINT}$files${READLINE_LINE:READLINE_POINT}"
     READLINE_POINT=$((READLINE_POINT + "${#files}"))
 }
-bindkey -s "^H" "select_files\n"
+bindkey -s "^h" "select_files\n"
