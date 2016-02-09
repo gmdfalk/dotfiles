@@ -41,12 +41,16 @@ gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 # }}}
 
 # {{{ Commit
+gcdate() {
+    local commit_date=$(date -R -d "$1 hours")
+    git commit --date="${commit_date}" #"${@:1}"
+}
 # Quick commit all changes (excluding newly added files)
 alias gcm="git commit -v -m $1"
 alias gci="git commit --interactive"
 alias gca="git commit -v -a"
 # Commit all changes (including newly added files)
-alias gcaa="git !git add -A && git commit -av"
+alias gcaa="git add -A && git commit -av"
 # Amend staged files to the latest commit
 alias gcam="git commit --amend --reuse-message=HEAD"
 # Amend staged and unstaged files to the latest commit
