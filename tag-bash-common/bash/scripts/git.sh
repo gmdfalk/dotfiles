@@ -43,7 +43,8 @@ gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 # {{{ Commit
 gcdate() {
     local commit_date=$(date -R -d "$1 hours")
-    git commit --date="${commit_date}" #"${@:1}"
+    shift
+    git commit --date="${commit_date}" "$@"
 }
 # Quick commit all changes (excluding newly added files)
 alias gcm="git commit -v -m $1"
