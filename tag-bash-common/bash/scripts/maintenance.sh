@@ -19,3 +19,4 @@ rcupd() {
 
 alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
 alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
+alias dfh="btrfs filesystem df -h /"
