@@ -28,3 +28,6 @@ alias labig="ls --color=auto -lArSh"
 alias lanew="ls --color=auto -lAhrt"
 alias laold="ls --color=auto -lAht"
 alias lasmall="ls --color=auto -lASh"
+
+f() { find . | grep -is "$@"; }
+ff() { find . -type f | xargs grep -is "$@"; }
