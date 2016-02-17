@@ -31,3 +31,8 @@ alias lasmall="ls --color=auto -lASh"
 
 f() { find . | grep -is "$@"; }
 ff() { find . -type f | xargs grep -is "$@"; }
+fp() { find $(sed 's/:/ /g' <<< "$PATH") | grep -is "$@"; }
+
+wgp() { wgetpaste -X "$@"; }
+
+alias pingg="ping www.google.com"
