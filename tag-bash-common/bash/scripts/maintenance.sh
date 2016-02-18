@@ -29,10 +29,9 @@ alias lanew="ls --color=auto -lAhrt"
 alias laold="ls --color=auto -lAht"
 alias lasmall="ls --color=auto -lASh"
 
+alias pingg="ping www.google.com"
 f() { find . | grep -is "$@"; }
 ff() { find . -type f | xargs grep -is "$@"; }
 fp() { find $(sed 's/:/ /g' <<< "$PATH") | grep -is "$@"; }
-
 wgp() { wgetpaste -X "$@"; }
-
-alias pingg="ping www.google.com"
+psg() { ps aux | grep "$@"; }
