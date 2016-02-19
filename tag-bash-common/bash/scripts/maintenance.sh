@@ -32,6 +32,9 @@ alias lasmall="ls --color=auto -lASh"
 alias pingg="ping www.google.com"
 f() { find . | grep -is "$@"; }
 ff() { find . -type f | xargs grep -is "$@"; }
-fp() { find $(sed 's/:/ /g' <<< "$PATH") | grep -is "$@"; }
+fp() { find $(sed 's/:/ /g' <<< "${PATH}") | grep -is "$@"; }
+psf() { ps aux | grep "$@"; }
 wgp() { wgetpaste -X "$@"; }
-psg() { ps aux | grep "$@"; }
+grab() { sudo chown -R ${USER}:${USER} ${1-.}; }
+alias vn="${VISUAL} ${HOME}/.note"
+alias vnn="$VISUAL $HOME/.notemed"
