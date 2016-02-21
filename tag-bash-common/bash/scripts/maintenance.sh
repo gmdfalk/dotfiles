@@ -39,3 +39,4 @@ grab() { sudo chown -R ${USER}:${USER} ${1-.}; }
 alias vn="${VISUAL} ${HOME}/.note"
 alias vnn="$VISUAL $HOME/.notemed"
 alias raw='grep -Ev "^\s*(;|#|$)"'
+debug() { bash -x $(which "$1") "${@:1}"; }
