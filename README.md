@@ -65,7 +65,7 @@ Adding and deleting files:
 
 ```bash
     cd $HOME &&
-    clone https://aur.archlinux.org/rcm.git && cd rcm-git &&
+    git clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
     makepkg -i &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     rcup -v
