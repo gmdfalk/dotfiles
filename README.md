@@ -68,7 +68,7 @@ Adding and deleting files:
     git clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
     makepkg -i &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -v
+    rcup -B generic -v
 ```
 
 ### On OSX
@@ -78,7 +78,7 @@ Adding and deleting files:
     brew tap thoughtbot/formulae &&
     brew install rcm &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -v
+    rcup -B generic -v
 ```
 
 ### On Windows
@@ -95,7 +95,7 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     make &&
     make install &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -v
+    rcup -B generic -v
 ```
 
 A note on symlinks:  
