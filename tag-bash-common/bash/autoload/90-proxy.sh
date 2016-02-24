@@ -1,1 +1,1 @@
-proxy.sh
+../scripts/proxy.sh
