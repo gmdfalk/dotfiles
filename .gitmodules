@@ -1,6 +1,6 @@
 [submodule "tag-awesome/config/awesome"]
     path = tag-awesome/config/awesome
-    url = git://github.com/mikar/dotfiles-awesome
+    url = https://github.com/mikar/dotfiles-awesome
 [submodule "tag-zsh-oh-my-zsh/oh-my-zsh"]
     path = tag-zsh-oh-my-zsh/oh-my-zsh
     url = https://github.com/robbyrussell/oh-my-zsh
