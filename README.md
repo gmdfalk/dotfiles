@@ -1,6 +1,7 @@
 # dotfiles
 
 Modular cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
+Currently under development.
 
 ## About
 
