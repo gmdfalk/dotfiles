@@ -15,3 +15,13 @@ apply_dock_xrandr() {
     xrandr --output DP2-1 --mode 1920x1200 --right-of eDP1
     xrandr --output DP2-2 --mode 1920x1200 --right-of DP2-1
 }
+fan() { # control fan
+    local fanfile=/proc/acpi/ibm/fan
+    case "$1" in
+        1|on|enable|auto) echo level auto | $SUDO tee $fanfile;;
+        0|off|disable)    echo disable | $SUDO tee $fanfile;;
+        '')               cat $fanfile;;
+        dog)              echo watchdog 120 | $SUDO tee $fanfile;;
+        *)                echo level $@ | $SUDO tee $fanfile;;
+    esac
+}
