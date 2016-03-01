@@ -2,6 +2,7 @@
 # 
 # This script is sourced when bash is started as an interactive login shell
 
+
 [[ "$DEBUG" ]] && echo bash_profile
 
 # Source optional local configuration
