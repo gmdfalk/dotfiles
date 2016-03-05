@@ -83,3 +83,5 @@ twitchw() { # stream (only) a selected screen region
 }
 alias soundrecord="ffmpeg -f alsa -ac 2 -i hw:0 -vn -acodec libmp3lame -ab 196k capture.mp3"
 alias soundtest="aplay /usr/share/sounds/alsa/Front_Center.wav"
+
+slpin() { count "$1" && pkill vlc; sudo umount -l ~/htpc ; systemctl suspend; }
