@@ -2,7 +2,7 @@
 
 Modular cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
 
-This project is currently in alpha state.
+This project is currently under heavy development.
 
 ## About
 
