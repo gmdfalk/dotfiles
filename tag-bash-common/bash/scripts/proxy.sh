@@ -26,7 +26,6 @@ proxy_off() {
 proxy(){
     local proxy_vars=(http_proxy ftp_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY ALL_PROXY)
     for env_var in "${proxy_vars[@]}"; do
-        #echo "${env_var}: ${!env_var}"   # Bash
-        echo "${env_var}: ${(P)env_var}"  # ZSH
+        [[ "${ZSH_VERSION}" ]] && echo "${env_var}: ${(P)env_var}" || echo "${env_var}: ${!env_var}"
     done
 }
