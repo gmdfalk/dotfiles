@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+alias reload="source ~/.zshrc"
+
 ## aliases and functions
 autoload -U zmv
 alias mmv="noglob zmv -W"
