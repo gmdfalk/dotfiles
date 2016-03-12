@@ -88,3 +88,4 @@ slpin() { count "$1" && pkill vlc; sudo umount -l ~/htpc ; systemctl suspend; }
 
 alias mntm="$SUDO mount ~/htpc && cd $_"
 alias umntm="cd && $SUDO umount ~/htpc"
+alias cdm="cd ~/htpc"
