@@ -60,3 +60,18 @@ mmvspecial() { # remove  / : ; * = " ' ( ) < > | from filenames
     unwanted="[(:);*?\"<>|']"
     zmv -Q "(**/)(*$~unwanted*)(D)" '$1${2//$~unwanted/}'
 }
+
+
+preexec() {
+    LS_USED=$(echo $1|cut -d' ' -f1)
+    print -Pn "\e]2;$1 (%~) %n@%m\a"
+}
+chpwd() {
+    case "${LS_USED}" in
+        cd)     ls --color=auto --group-directories-first -hF;;
+        cdl)     ls --color=auto --group-directories-first -hlF;;
+        cda)     ls --color=auto --group-directories-first -hlAF;;
+        *) ls --color=auto --group-directories-first -hF;;
+    esac
+}
+alias {cda,cdl,cdd,cdf,cdad,cdaf,cdbig,cdnew,cdold,cdsmall}="cd"
