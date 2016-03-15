@@ -74,4 +74,4 @@ chpwd() {
         *) ls --color=auto --group-directories-first -hF;;
     esac
 }
-alias {cda,cdl,cdd,cdf,cdad,cdaf,cdbig,cdnew,cdold,cdsmall}="cd"
+alias {cda,cdl}="cd"
