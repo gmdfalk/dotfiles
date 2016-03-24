@@ -30,4 +30,8 @@ firefox &
 #(sleep 10 && dropbox) &
 # }}}
 
+# Resolution update on window resize
+xrandr -s 1920x1200 &
+vmware-user-suid-wrapper &
+
 exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err
