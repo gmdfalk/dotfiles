@@ -5,9 +5,15 @@ NO_PROXY_VARS=("no_proxy" "NO_PROXY")
 DEFAULT_PROXY="idproxy.id.dvag.com:3128"
 DEFAULT_NO_PROXY="localhost,127.0.0.1,dvag.com,dvag.net"
 
+
 export_proxy(){
     set_variables "$1" "${PROXY_VARS[@]}"
     set_variables "$2" "${NO_PROXY_VARS[@]}"
+}
+
+proxy() {  # print proxy settings
+    print_variables "${PROXY_VARS[@]}"
+    print_variables "${NO_PROXY_VARS[@]}"
 }
 
 proxy_on() {
@@ -22,11 +28,6 @@ proxy_off() {
     export_proxy
 }
 
-proxy() {  # print proxy settings
-    print_variables "${PROXY_VARS[@]}"
-    print_variables "${NO_PROXY_VARS[@]}"
-}
-
 set_variables() {
     local value="$1"
     shift
@@ -34,6 +35,7 @@ set_variables() {
         export "${env_var}"="$value"
     done
 }
+
 print_variables() {
     for var in "$@"; do
         [[ "${ZSH_VERSION}" ]] && echo "${var}: ${(P)var}" || echo "${var}: ${!var}"
