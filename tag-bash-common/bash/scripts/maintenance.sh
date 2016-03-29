@@ -41,4 +41,5 @@ alias vnn="$VISUAL $HOME/.notemed"
 alias raw='grep -Ev "^\s*(;|#|$)"'
 debug() { bash -x $(which "$1") "${@:1}"; }
 
-alias cx="chmod +x"
+alias cm="chmod"
+alias cmx="chmod +x"
