@@ -42,6 +42,7 @@ gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 
 # {{{ Commit
 gcdate() {
+    [[ "$#" -lt 1 ]] && echo "Usage: gcdate <hours>" && exit
     local commit_date=$(date -R -d "$1 hours")
     shift
     git commit --date="${commit_date}" "$@"
