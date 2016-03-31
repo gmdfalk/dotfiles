@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-# {{{ Set environment variables
+# {{{ Basic environment
 # Add scripts directory to $PATH, if it's missing.
 BIN_DIR="${HOME}/bin"
 case ":$PATH:" in
@@ -11,22 +11,21 @@ esac
 PAGER=less
 LESS="-F -g -i -M -R -S -w -X -z-4"
 
-if [[ -z "$VISUAL" ]]; then
-    have vim && VISUAL=vim || VISUAL=vi
+if [[ -z "${VISUAL}" ]]; then
+    have vim && VISUAL="vim" || VISUAL="vi"
 fi
-EDITOR=$VISUAL
+EDITOR="${VISUAL}"
 
 if [[ ! -d "$TMPDIR" ]]; then
-  TMPDIR="/tmp/$LOGNAME"
-  mkdir -p -m 700 "$TMPDIR"
+  TMPDIR="/tmp/${LOGNAME}"
+  mkdir -p -m 700 "${TMPDIR}"
 fi
-
 
 # GUI
 [[ -n "$DISPLAY" ]] && BROWSER="firefox" || BROWSER="lynx"
 # }}}
 
-# {{{ Exporting
+# {{{ Export environment
 export BROWSER \
        EDITOR \
        LESS \
@@ -36,14 +35,6 @@ export BROWSER \
        VISUAL
 
 [[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
-
-[[ "$UID" == 0 ]] && SUDO= || SUDO=sudo
-# }}}
-
-# {{{ Custom variables
-SSH2="ssh -p 21397 slave@192.168.0.2"
-OPEN="xdg-open"
-VIDEO="vlc"
 # }}}
 
 # {{{ Cygwin
@@ -55,22 +46,30 @@ if [[ $OSTYPE == "cygwin" ]];then
 fi
 # }}}
 
-# {{{ OSX
-if [[ "$OSTYPE" == "darwin"* ]];then
-    OPEN="open"
-fi
-
-# {{{ Various Settings
-
-# Supress warnings about accessibility bus
-NO_AT_BRIDGE=1
-# }}}
-
-# {{{ MinGW/MSYS incompatible settings
+# {{{ Msys
 if [[ "$OSTYPE" != "msys" ]];then
     # Disable scroll locking the terminal via ^s and ^q.
     stty -ixon
     # Colors for ls
     [[ -r "$HOME/.dircolors" ]] && eval "$(dircolors $HOME/.dircolors)"
 fi
+# }}}
+
+# {{{ OSX
+if [[ "$OSTYPE" == "darwin"* ]];then
+    _OPEN="open"
+fi
+# }}}
+
+# {{{ Various Settings
+# Supress warnings about accessibility bus
+NO_AT_BRIDGE=1
+# }}}
+
+
+# {{{ Custom variables
+_HTPC="192.168.0.2"
+_OPEN="xdg-open"
+_VIDEO="vlc"
+[[ "$UID" == 0 ]] || _SUDO="sudo"
 # }}}
