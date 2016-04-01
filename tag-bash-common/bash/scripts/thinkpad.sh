@@ -18,10 +18,10 @@ apply_dock_xrandr() {
 fan() { # control fan
     local fanfile=/proc/acpi/ibm/fan
     case "$1" in
-        1|on|enable|auto) echo level auto | $SUDO tee $fanfile;;
-        0|off|disable)    echo disable | $SUDO tee $fanfile;;
+        1|on|enable|auto) echo level auto | ${_SUDO} tee $fanfile;;
+        0|off|disable)    echo disable | ${_SUDO} tee $fanfile;;
         '')               cat $fanfile;;
-        dog)              echo watchdog 120 | $SUDO tee $fanfile;;
-        *)                echo level $@ | $SUDO tee $fanfile;;
+        dog)              echo watchdog 120 | ${_SUDO} tee $fanfile;;
+        *)                echo level $@ | ${_SUDO} tee $fanfile;;
     esac
 }

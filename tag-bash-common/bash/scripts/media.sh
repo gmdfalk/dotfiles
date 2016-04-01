@@ -87,5 +87,5 @@ alias soundtest="aplay /usr/share/sounds/alsa/Front_Center.wav"
 slpin() { count "$1" && pkill vlc; sudo umount -l ~/htpc ; systemctl suspend; }
 
 alias cdm="cd ~/htpc"
-alias mntm="cd && $SUDO mount ~/htpc"
-alias umntm="cd && $SUDO umount ~/htpc"
+alias mntm="cd && ${_SUDO} mount ~/htpc"
+alias umntm="cd && ${_SUDO} umount ~/htpc"

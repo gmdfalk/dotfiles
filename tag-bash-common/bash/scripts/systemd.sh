@@ -19,9 +19,9 @@ sudo_commands=(
   edit)
 
 for c in "${user_commands}"; do
-    alias sc-$c="systemctl $c"
+    alias sc-${c}="systemctl ${c}"
 done
 
 for c in "${sudo_commands}"; do
-    alias sc-$c="$SUDO systemctl $c"
+    alias sc-${c}="${_SUDO} systemctl ${c}"
 done

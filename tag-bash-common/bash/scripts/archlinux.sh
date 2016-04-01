@@ -104,14 +104,14 @@ pacgetkeys() { # Get all keys for developers and trusted users
 }
 
 pacimportkeys() {
-  pacgetkeys | xargs "${_SUDO}" pacman-key --recv-keys
+  pacgetkeys | xargs ${_SUDO} pacman-key --recv-keys
 }
 
 pacsignkeys() {
   for key in $*; do
-    "${_SUDO}" pacman-key --recv-keys "${key}"
-    "${_SUDO}" pacman-key --lsign-key "${key}"
-    printf 'trust\n3\n' | "${_SUDO}" gpg --homedir "/etc/pacman.d/gnupg" \
+    ${_SUDO} pacman-key --recv-keys "${key}"
+    ${_SUDO} pacman-key --lsign-key "${key}"
+    printf 'trust\n3\n' | ${_SUDO} gpg --homedir "/etc/pacman.d/gnupg" \
       --no-permission-warning --command-fd 0 --edit-key "${key}"
   done
 }
