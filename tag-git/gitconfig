@@ -31,6 +31,7 @@
     # {{{ Commit
     # Quick commit all changes (excluding newly added files)
     cm = "!f() { git commit -v -m \"$1\"; }; f"
+    cda = "!f() { local commit_date=$(date -R -d \"$1 hours\"); shift; git commit --date=\"${commit_date}\" \"$@\"; }; f"
     ci = commit --interactive
     ca = commit -v -a
 
