@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# update via wget https://raw.githubusercontent.com/clvv/fasd/master/fasd fasd.sh.
 
 # Fasd (this file) can be sourced or executed by any POSIX compatible shell.
 

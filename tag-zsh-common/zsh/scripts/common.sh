@@ -1,6 +1,27 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
-alias reload="source ~/.zshrc"
+# {{{ Globals
+alias -g ...="../.."
+alias -g ....="../../.."
+alias -g .....="../../../.."
+alias -g CA="2>&1 | cat -A"
+alias -g G="| grep"
+alias -g GI="| grep -i"
+alias -g GV="| grep -v"
+alias -g H="| head"
+alias -g L="| less"
+alias -g LL="2>&1 | less"
+alias -g N="&>/dev/null"
+alias -g N1="1>/dev/null"
+alias -g N2="2>/dev/null"
+alias -g S="| sort"
+alias -g SP="| curl -F 'sprunge=<-' http://sprunge.us"
+alias -g T="| tail"
+alias -g VAR=">>$HOME/.logs/var.txt"
+alias -g WC="| wc"
+alias -g WCL="| wc -l"
+alias -g X="| xargs"
+# }}}
 
 ## aliases and functions
 autoload -U zmv
@@ -61,11 +82,14 @@ mmvspecial() { # remove  / : ; * = " ' ( ) < > | from filenames
     zmv -Q "(**/)(*$~unwanted*)(D)" '$1${2//$~unwanted/}'
 }
 
+
+# {{{ Navigation
 preexec() {
-    LS_USED=$(echo $1|cut -d' ' -f1)
-    print -Pn "\e]2;$1 (%~) %n@%m\a"
+    LS_USED=$(echo $1 | cut -d' ' -f1)
+    #print -Pn "\e]2;$1 (%~) %n@%m\a"
 }
 
+# When switching directories, list directory content according to the type of cd command used.
 chpwd() {
     case "${LS_USED}" in
         cd)     ls --color=auto --group-directories-first -hF;;
@@ -76,3 +100,4 @@ chpwd() {
     esac
 }
 alias {cda,cdl,cdn}="cd"
+# }}}

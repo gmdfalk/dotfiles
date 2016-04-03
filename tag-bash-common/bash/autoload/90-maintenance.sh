@@ -1,1 +1,0 @@
-../scripts/maintenance.sh

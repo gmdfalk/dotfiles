@@ -19,17 +19,17 @@ count() {
     do_count() {
         local message="$1"
         local operator="$2"
-        printf "$1" $((secs))
+        printf "${message}" $((secs))
         sleep 1 &>/dev/null
-        secs=$(( $secs $2 1 ))
+        secs=$(( $secs $operator 1 ))
     }
-    if [[ "$seconds" -gt 0 ]];then
-        while [[ "$secs" -ge 0 ]];do
-            do_count "\rcounting %02d/$seconds" -
+    if [[ "$seconds" -gt 0 ]]; then
+        while [[ "${secs}" -ge 0 ]]; do
+            do_count "\r%02d/${seconds}s" -
         done
     else # count up
-        while true;do
-            do_count "\rcounting %02d" +
+        while true; do
+            do_count "\r%02ds" +
         done
     fi
     echo

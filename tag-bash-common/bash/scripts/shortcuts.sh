@@ -7,12 +7,12 @@ alias cl=clear
 alias h=history
 alias f=find
 alias k=kill
-alias m="$VIDEO"
+alias m="${VIDEO}"
 alias n="note $HOME/.note"
 alias nn="note $HOME/.notemed"
 alias p=pacman
-alias s=sudo
-alias v="$VISUAL"
+alias s='sudo '
+alias v="${VISUAL}"
 alias x=exit
 alias y=yaourt
 
@@ -26,7 +26,7 @@ if have fasd;then
     # alias sf="fasd -sif"     # interactive file selection
     # alias z="fasd_cd -d"     # cd, same functionality as j in autojump
     # alias zz="fasd_cd -d -i" # cd with interactive selection
-    alias v="f -e $VISUAL" # quick opening files with vim
-    alias m="f -e $VIDEO" # quick opening files with mplayer
-    alias o="a -e $OPEN" # quick opening files with xdg-open
+    alias v="f -e ${VISUAL}" # quick opening files with vim
+    alias m="f -e ${VIDEO}" # quick opening files with mplayer
+    alias o="a -e ${_OPEN}" # quick opening files with xdg-open
 fi
