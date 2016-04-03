@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Based on https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/archlinux/archlinux.plugin.zsh
 
-cmds=( yaourt pacupg pacaur abs aur )
+cmds=( yaourt pacupg pacaur abs aur expac )
 for cmd in "${cmds[@]}"; do
     have "${cmd}" && export "_have_${cmd}"=1
 done
@@ -25,48 +25,7 @@ alias pacrmorphans="${_SUDO} pacman -Rs $(pacman -Qtdq)"
 alias pacupd="${_SUDO} pacman -Sy"                 # Update and refresh the local package database against repositories
 [[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Sy && ${_SUDO} abs"
 [[ "${_have_pacupg}" ]] && alias pacupg="${_SUDO} pacman -Syu" # Synchronize with repositories before upgrading packages that are out of date on the local system.
-
-# https://bbs.archlinux.org/viewtopic.php?id=93683
-paclist() {
-    LC_ALL=C pacman -Qei $(pacman -Qu | cut -d"" -f 1) | awk ' BEGIN {FS=":"}/^Name/{printf("\033[1;36m%s\033[1;37m", $2)}/^Description/{print $2}'
-}
-
-pacdisowned() {
-    local tmpdir=${TMPDIR-/tmp}/pacman-disowned-$UID-$$
-    local db="${tmpdir}/db"
-    local fs="${tmpdir}/fs"
-
-    mkdir "${tmpdir}"
-    trap ' rm-rf"${tmpdir}" ' EXIT
-
-    pacman -Qlq | sort -u > "${db}"
-
-    find /bin /etc /lib /sbin /usr  \
- ! -name lost+found  \
- \( -type d -printf '%p/\n' -o -print \) | sort > "${fs}"
-
-    comm -23 "${fs}" "${db}"
-}
-
-pacgetkeys() { # Get all keys for developers and trusted users
-    curl https://www.archlinux.org/people/{developers,trusted-users}/ |
-    awk -F\" '(/pgp.mit.edu/) {sub(/.*search=0x/,"");print $1}'
-}
-
-pacimportkeys() {
-    pacgetkeys | xargs ${_SUDO} pacman-key --recv-keys
-}
-
-pacsignkeys() {
-    for key in $*; do
-        ${_SUDO} pacman-key --recv-keys "${key}"
-        ${_SUDO} pacman-key --lsign-key "${key}"
-        printf 'trust\n3\n' | ${_SUDO} gpg --homedir "/etc/pacman.d/gnupg"  \
- --no-permission-warning --command-fd 0 --edit-key "${key}"
-    done
-}
 # }}}
-
 
 # {{{ Yaourt/AUR Helper
 if [[ "${_have_yaourt}" ]]; then
@@ -86,8 +45,8 @@ if [[ "${_have_yaourt}" ]]; then
     alias yainsd="yaourt -S --asdeps" # Install given package(s) as dependencies of another package
     alias yamir="yaourt -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
     alias yaupd="yaourt -Sy"    # Update and refresh the local package database against repositories
+    alias yaupg="yaourt -Syua"  # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
     [[ "${_have_aur}" ]] && alias yaupd="yaourt -Sy && ${_SUDO} aur"
-    alias yaupg="${_SUDO} yaourt -Syua" # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
     [[ "${_have_pacupg}" ]] && alias yaupg="pacupg -a"
 fi
 # }}}
@@ -104,17 +63,32 @@ if [[ "${_have_pacaur}" ]]; then
     alias paloc="pacaur -Qi"    # Display information about a given package in the local database
     alias palocs="pacaur -Qs"   # Search for package(s) in the local database
     alias palst="pacaur -Qe"    # List installed packages, even those installed from AUR (they"re tagged as "local")
-    alias paorph="pacaur -Qtd"  # Remove orphans using pacaur
+    alias paorph="pacaur -Qtd"  # List orphans using pacaur
     alias painsd="pacaur -S --asdeps" # Install given package(s) as dependencies of another package
     alias pamir="pacaur -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
     alias paupd="pacaur -Sy"    # Update and refresh the local package database against repositories
+    alias paupg="pacaur -Syua"  # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
     [[ "${_have_aur}" ]] && alias paupd="pacaur -Sy && ${_SUDO} aur"
-    alias paupg="${_SUDO} pacaur -Syua" # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
     [[ "${_have_pacupg}" ]] && alias paupg="pacupg -a"
+fi
+# }}}
+
+# {{{ Expac
+if [[ "${_have_expac}" ]]; then
+    # Show sorted installation date of all installed packages.
+    pacdate() { expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort --numeric-sort; }
+    # Show sorted installation date of explicitly installed packages.
+    pacexdate() { expac --timefmt='%Y-%m-%d %T' '%l\t%n' $(pacman -Qqe) | sort --numeric-sort; }
+    # Show the installation size of all installed packages.
+    pacsize() { expac --humansize M "%011m\t%n-%-20v" | sort --numeric-sort; }
+    # Show the installation size of expliticly installed packages.
+    pacexsize() { expac --humansize M "%011m\t%n-%-20v" $( comm -23 <(pacman -Qqe|sort) <(pacman -Qqg base base-devel|sort) ) | sort --numeric-sort; }
+    # Show dependencies of packages.
+    pacdep() { expac -l '\n' %E -S "$@" | sort --unique; }
 fi
 # }}}
 
 # {{{ Makepkg/Building
 # Update PKGBUILD with new checksums and create/update .SRCINFO file for AUR.
-alias makepkgs="updpkgsums && mksrcinfo"
+alias mkupd="updpkgsums && mksrcinfo"
 # }}}

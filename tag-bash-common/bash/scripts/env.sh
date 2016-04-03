@@ -71,5 +71,12 @@ NO_AT_BRIDGE=1
 _HTPC="192.168.0.2"
 _OPEN="xdg-open"
 _VIDEO="vlc"
+# }}}
+
+# {{{ Sudo
+# Bash only checks the first word of a command for an alias, any words after that are not checked.
+# If the last character of the alias value is a space or tab character, then the next command word following the alias
+# is also checked for alias expansion (http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo).
+alias sudo='sudo '
 [[ "$UID" == 0 ]] || _SUDO="sudo"
 # }}}
