@@ -52,8 +52,8 @@ alias ls2m="ls -l *(Lm+2) 2>/dev/null" # list files bigger than 2 megabytes
 alias lnx="ls *~*.*(.)"        # list files without extension
 alias lpics="ls *.(jpg|jpeg|gif) N2"
 
-mmvlc() { [[ $1 = -r ]] && zmv '(**/)(*)' '$1${(L)2}' || zmv '(*)' '${(L)1}'; }
-mmvsp() { [[ $1 = -r ]] && zmv '(**/)(* *)' '$f:gs/ /_' || zmv '(* *)' '$f:gs/ /_'; }
+mmvlc() { [[ $1 = -r ]] && zmv '(**/)(*)' '$1${(L)2}' || zmv '(*)' '${(L)1}'; } # To lower case.
+mmvsp() { [[ $1 = -r ]] && zmv '(**/)(* *)' '$f:gs/ /_' || zmv '(* *)' '$f:gs/ /_'; } # Remove special characters.
 alias mmvboth="mmvsp ; mmvlc"
 alias mmvrboth="mmvspr ; mmvlcr"
 mmvspecial() { # remove  / : ; * = " ' ( ) < > | from filenames
@@ -61,17 +61,18 @@ mmvspecial() { # remove  / : ; * = " ' ( ) < > | from filenames
     zmv -Q "(**/)(*$~unwanted*)(D)" '$1${2//$~unwanted/}'
 }
 
-
 preexec() {
     LS_USED=$(echo $1|cut -d' ' -f1)
     print -Pn "\e]2;$1 (%~) %n@%m\a"
 }
+
 chpwd() {
     case "${LS_USED}" in
         cd)     ls --color=auto --group-directories-first -hF;;
-        cdl)     ls --color=auto --group-directories-first -hlF;;
-        cda)     ls --color=auto --group-directories-first -hlAF;;
-        *) ls --color=auto --group-directories-first -hF;;
+        cda)    ls --color=auto --group-directories-first -hlAF;;
+        cdl)    ls --color=auto --group-directories-first -hlF;;
+        cdn)    ;;
+        *)      ls --color=auto --group-directories-first -hF;;
     esac
 }
-alias {cda,cdl}="cd"
+alias {cda,cdl,cdn}="cd"
