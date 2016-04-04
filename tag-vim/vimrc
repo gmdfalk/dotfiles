@@ -1,17 +1,65 @@
-" Load vim-plug if it doesn't exist
+" Load the light-weight plugin manager vim-plug if it doesn't exist.
+" Yup, it's that easy to install.
 if empty(glob("~/.vim/autoload/plug.vim"))
     execute '!curl --create-dirs -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
+" Load plugins.
 call plug#begin()
+" { Sensible vim defaults. These include:
+" Copy the indentation from the previous line when starting a new one.
+"set autoindent
+" Make backspace behave 'normal', i.e. delete indentation, end of line characters and cross line boundaries.
+"set backspace=indent,eol,start
+" Default completion is current buffer (.), buffers in other windows (w), other loaded buffers (b),
+" unloaded buffers (u), tags (t) and included files (i).
+" See http://usevim.com/2012/07/06/vim101-completion/ for full information on completion in vim.
+" This configuration uses supertab for better-than-default completion.
+" Remove included files from completion options.
+"set complete-=i
+" Make pressing <Tab> insert indentation based on the shiftwidth setting at the beginning of the line.
+" Uses tabstop and softtabstop everywhere else.
+"set smarttab
+" By default vims <C-a> and <C-x> de-/incrementation of numbers works on decimal, hex and octal numbers.
+"set nrformats-=octal
+" Enable timeout for key codes, i.e. don't wait indefinitely for the next key to be pressed.
+"set ttimeout
+"set ttimeoutlen=100  " in milliseconds.
+"set incsearch
+"set laststatus=2
+"set ruler
+"set wildmenu
+"set display+=lastline
+"set autoread
+"set sessionoptions-=options
+" Conditional options:
+"set scrolloff=1
+"set sidescrolloff=5
+"set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+" If version > 703, delete the comment character when joining commented lines.
+"set formatoptions+=j
+" If history is set to less than 1000:
+"set history=1000
+" If tabpagemax is set to less than 50:
+"set tabpagemax=50
+" If autocmd functionality is available, also enable language and indentation detection
+" based on the file type. This is also required by scrooloose/nerdtree, minus the indent.
+"filetype plugin indent on
+" If the syntax feature is available and g:syntax_on is set:
+"syntax enable
+" Use <C-L> to clear the highlighting of :set hlsearch, unless it is already mapped.
+"nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 Plug 'tpope/vim-sensible'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-fugitive'
-" Use <A-j> and <A-k> to move line/selection up/down with proper indenting
-Plug 'matze/vim-move'
-Plug 'terryma/vim-expand-region'
+" }
 Plug 'altercation/vim-colors-solarized'
+" Support for commenting/uncommenting in most languages.
+Plug 'scrooloose/nerdcommenter'
+" Tree explorer plugin for navigating the filesystem and opening files/directories.
+Plug 'scrooloose/nerdtree'
+"Plug 'tpope/vim-fugitive'
+" Use <A-j> and <A-k> to move line/selection up/down with proper indenting
+"Plug 'matze/vim-move'
+"Plug 'terryma/vim-expand-region'
 "Plug 'ervandew/supertab'
 "Plug 'bling/vim-airline'
 call plug#end()
@@ -38,20 +86,6 @@ let g:move_key_modifier='C'
 
 " Vim-session & vim-misc settings to automatically reload a default session
 let g:session_autosave='yes'
-
-" Vim-expand-region settings
-let g:expand_region_text_objects={
-      \ 'iw'  :0,
-      \ 'iW'  :0,
-      \ 'i"'  :1,
-      \ 'i''' :1,
-      \ 'i]'  :1,
-      \ 'ib'  :1,
-      \ 'iB'  :1,
-      \ 'il'  :0,
-      \ 'ip'  :1,
-      \ 'ie'  :0,
-      \ }
 
 "" Airline
 let g:airline_theme='solarized'
@@ -121,13 +155,15 @@ set number
 syntax on
 " Highlight current line
 set cursorline
-" Always use spaces instead of tabs
+" Always use spaces instead of tabs.
 set expandtab
-" One tab/indentation level is 4 spaces
+" Set the width of the TAB character to 4 characters.
 set tabstop=4
+" The number of characters to insert/delete when pressing <Tab> or <BS>.
 set softtabstop=4
+" The number of characters to shift left/right when pressing <<, >> or ==.
 set shiftwidth=4
-" Show “invisible” characters
+" Show 'invisible' characters.
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set nolist
 " Highlight searches
@@ -138,7 +174,7 @@ set ignorecase
 set smartcase
 " Highlight dynamically as pattern is typed
 set incsearch
-" Enable mouse in all modes
+" Enable mouse in all modes.
 set mouse=a
 " Disable error bells
 set noerrorbells
@@ -210,48 +246,67 @@ inoremap ö <ESC>
 "" Text manipulation
 noremap <Leader>ss :call StripWhitespace()<CR>
 
-"" Select & Paste
-noremap gV `[v`] " Select pasted text
-nnoremap <Leader>P :pu!<CR> " Paste above current line
-nnoremap <Leader>p :pu<CR> " Paste below current line
+" {{{ Select & Paste
+" Indentation can get messed when pasting into vim. When that happens, press F2 before pasting.
+set pastetoggle=<F2>
+" Select pasted text.
+noremap gV `[v`]
+" Paste above current line.
+nnoremap <Leader>P :pu!<CR>
+" Paste below current line
+nnoremap <Leader>p :pu<CR>
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 noremap <Leader>nh :nohl<CR>
+" }}}
 
 "" Search and replace (see http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/)
 vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
     \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
 omap s :normal vs<CR>
 
-"" Tabs
+
 " Go to last active tab
 let g:lasttab=1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab=tabpagenr()
 
 " Repeat last command.
-noremap ö :<Up><CR>
-noremap <Space>ö @:<CR>
 " Quickly replay the q macro.
 noremap <Space>q @q
-" ESC is a buzzkill
-noremap ä <ESC>
-inoremap ä <ESC>
 
-" Navigation
-noremap <Space>j }
-noremap <Space>k {
-noremap <Space>ge `.
-noremap <Space>gc ``
+" {{{ Navigation
+" Move by display lines instead of physical lines, e.g. when the wrap option is set and one line is broken into many.
+" See http://yubinkim.com/?p=6.
+nnoremap k gk
+nnoremap j gj
+nnoremap gk k
+nnoremap gj j
+" }}}
 
-" Tell vim to remember certain things when we exit
+" {{{ Mappings for the german keyboard.
+" Repeat the last command. This is equivalent to :<Up><CR>.
+noremap <Space>ö @:<CR>
+" Pinkie of right hand rests on ö which is wasted space, really.
+noremap ö <ESC>
+inoremap ö <ESC>
+" {, } and ` are also very inconvenient to type (AltGr+8/9 and Shift+` (left of BS))
+"noremap <Space>j }
+"noremap <Space>k {
+"noremap <Space>ge `.
+"noremap <Space>gc ``
+" }}}
+
+" {{{ Save information for next vim session.
 "  '10  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
 "  :20  :  up to 20 lines of command-line history will be remembered
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
 set viminfo='10,\"100,:20,%
+" }}}
 
+" {{{ Restore cursor position from last time we visited this file.
 function! ResCur()
     if line("'\"") <= line("$")
         normal! g`"
@@ -263,8 +318,11 @@ augroup resCur
     autocmd!
     autocmd BufWinEnter * call ResCur()
 augroup END
+" }}}
 
+" {{{ Load local config file, if it exists.
 let $LOCALFILE=expand("~/.vimrc.local")
 if filereadable($LOCALFILE)
     source $LOCALFILE
 endif
+" }}}
