@@ -1,37 +1,59 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # {{{ Configuration
-LOGFILE="post-up.log"
+VIM_DIR="${HOME}/.vim"
+PLUG_DIR="${VIM_DIR}/autoload"
+PLUG_URI="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+VUNDLE_DIR="${VIM_DIR}/bundle/vundle"
+VUNDLE_URI="https://github.com/gmarik/vundle.git"
 # }}}
 
 # {{{ Utilities
-logger() { echo "$(date +'[ %d %b %Y %H %M ]') :: $*" | tee -a $log; }
+logger() { echo "$@"; }
+
+sync_repo() {
+    local repo_path="$1"
+    local repo_uri="$2"
+    local repo_branch="$3"
+
+    logger "Trying to install/update ${repo_path} from ${repo_uri} (${repo_branch})"
+
+    if [[ ! -e "$repo_path" ]]; then
+        mkdir -p "$repo_path"
+        git clone -b "$repo_branch" "$repo_uri" "$repo_path" &&
+        logger "Successfully cloned ${repo_name}."
+    else
+        cd "$repo_path" && git pull origin "$repo_branch" &&
+        logger "Successfully updated ${repo_name}."
+    fi
+}
 # }}}
 
 fix_permissions() {
-    local arg
-
-    for arg; do
-        logger "Fixing permissions for $arg"
-        setfacl -b "$arg"
-        if [ -d "$arg" ]; then
-            chmod 0700 "$arg"
-        elif [ -f "$arg" ]; then
-            chmod 0600 "$arg"
+    for arg in "$@"; do
+        logger "Fixing permissions for ${arg}"
+        setfacl -b "${arg}"
+        if [[ -d "${arg}" ]]; then
+            chmod 0700 "${arg}"
+        elif [[ -f "${arg}" ]]; then
+            chmod 0600 "${arg}"
         fi
     done
 }
 
-configure_vim() {
-    local vim_dir="$HOME/.vim"
-    local plug_file="$vim_dir/autoload/plug.vim"
-
-    mkdir -p "$vim_dir/swaps" "$vim_dir/backups"
-    if [ ! -f "$plug_file" ]; then
-        curl -fLo "$plug_file" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+install_vimplug() {
+    mkdir -p "${VIM_DIR}/{swaps,backups}"
+    if [[ ! -f "${PLUG_DIR}/plug.vim" ]]; then
+        curl -fLo "${PLUG_DIR}/plug.vim" --create-dirs "${PLUG_URI}"
     fi
 
-    vim +PlugInstall! +qa
+    vim -u "NORC" "+set nomore" "+PlugInstall!" "+PlugClean" "+qall"
+}
+
+install_vundle() {
+    mkdir -p "${VUNDLE_DIR}"
+    sync_repo "${VUNDLE_DIR}" "${VUNDLE_URI}" "master"
+    vim -u "NORC" "+set nomore" "+BundleInstall!" "+BundleClean" "+qall"
 }
 
 install_cygwin_packages() {
@@ -46,34 +68,36 @@ install_cygwin_packages() {
     if [ $? -ne 0 ]; then
         logger "Could not install curl. You will need to install it via the Cygwin Installer"
     fi
-
-
 }
 
 apply_system_specific_setup() {
+    local system="$(uname -o)"
 
-    # Architecture specific actions
-    OS=$(uname -o)
-
-    case "$OS" in
+    case "$system" in
         Cygwin)
             install_cygwin_packages
-            echo "Remember to change the cygwin link to '.../mintty.exe /usr/bin/zsh -' to use zsh by default" 
+            echo "Remember to change the cygwin link to '.../mintty.exe /usr/bin/zsh -' to use zsh by default"
             ;;
         GNU/Linux)
             ;;
         Darwin)
             ;;
-        *) 
-            logger "Did not recognize Operating System $OS"
+        *)
+            logger "Did not recognize Operating System $system"
             ;;
     esac
 }
 
 main() {
     fix_permissions ~/.config/gnupg ~/.ssh ~/.ssh/config
+
     apply_system_specific_setup
-    configure_vim
+
+    if [[ -f "${HOME}/.vimrc.bundles" ]]; then
+        install_vundle
+    else
+        install_vimplug
+    fi
 }
 
 main
