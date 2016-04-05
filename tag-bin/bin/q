@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # spawn a process detached from shell
 
 "$@" &> /dev/null &

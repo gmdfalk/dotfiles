@@ -36,6 +36,7 @@ load_scripts() {
     done
 
 }
+
 # }}}
 
 # {{{ Source scripts

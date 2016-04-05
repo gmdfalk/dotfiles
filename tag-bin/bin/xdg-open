@@ -1,5 +1,4 @@
-#!/bin/bash
-# spawn a process detached from shell
+#!/usr/bin/env bash
 
 xdg-open "$@" &
 

@@ -1,14 +1,12 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
 
 usage() {
-    local script_name=$(basename $0)
     cat << EOF
 Description:
     Wrapper for scrot/import to create (window/thumbnail) screenshots
 
 Usage:
-    $script_name (all | window | thumb) <sleep-time>
+    $(basename $0) (all | window | thumb) <sleep-time>
 
 Arguments:
     all     Create screenshot of whole screen.

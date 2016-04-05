@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 pkgs=$(pacman -Qqe)
 foreign="$(pacman -Qqm)"

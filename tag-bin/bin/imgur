@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # imgur script by Bart Nagel <bart@tremby.net>
 # version 4

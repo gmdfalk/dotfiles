@@ -4,7 +4,7 @@ if empty(glob("~/.vim/autoload/plug.vim"))
     execute '!curl --create-dirs -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
-" {{{ Plugins
+" {{{ Plugin Loader
 call plug#begin()
 
 " { Sensible vim defaults (https://github.com/tpope/vim-sensible). These include:
@@ -101,14 +101,12 @@ Plug 'vim-airline/vim-airline-themes'
 " * <Leader>c<Space> (toggle comment state of selected lines)
 " * <Leader>cA (add comment delimiter at EOL and go into insert mode)
 " * <Leader>c$ (comment from cursor to EOL)
+" ...
 Plug 'scrooloose/nerdcommenter'
 " }
 
 " Tree explorer plugin for navigating the filesystem and opening files/directories.
 Plug 'scrooloose/nerdtree'
-
-" A wrapper for git (https://github.com/tpope/vim-fugitive).
-"Plug 'tpope/vim-fugitive'
 
 " Enhanced tab completion (https://github.com/ervandew/supertab).
 Plug 'ervandew/supertab'
@@ -117,10 +115,13 @@ Plug 'ervandew/supertab'
 Plug 'matze/vim-move'
 
 " Incrementally expand selection using the same key (https://github.com/terryma/vim-expand-region).
-"Plug 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region'
+
+" A wrapper for git (https://github.com/tpope/vim-fugitive).
+Plug 'tpope/vim-fugitive'
+
 call plug#end()
-
-
+" }}}
 
 " {{{ Plugin configuration
 " { NERDTree
@@ -139,10 +140,22 @@ let g:move_key_modifier='C'
 " }
 
 " { vim-expand-region
-"map K <Plug>(expand_region_expand)
-"map J <Plug>(expand_region_shrink)
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+
+" The text objects to use as anchors for selection.
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :1,
+      \ 'i''' :1,
+      \ 'i]'  :1,
+      \ 'ib'  :1,
+      \ 'iB'  :1,
+      \ 'il'  :0,
+      \ 'ip'  :1,
+      \ 'ie'  :0,
+      \ }
 " }
 
 " { vim-colors-solarized
@@ -164,7 +177,7 @@ let g:airline#extensions#tabline#fnamemod=':t' " Show just the filenameendif
 " }}}
 
 " {{{ Colors
-set t_Co=256
+"set t_Co=256
 set background=dark
 " Cygwin specific colorscheme
 if has("win32unix")
@@ -193,70 +206,77 @@ set encoding=utf-8 nobomb  " Use UTF-8 without BOM
 " When writing a file, restore the EOL char at the EOF if it is missing.
 "set fixeol
 
-" Centralize backups, swapfiles and undo history
+" Create a backup whenever writing to an existing file.
 set backup
-" Double trailing slash saves the path in the backup file name
+" Double trailing slash saves the path in the backup file name.
 set backupdir=~/.vim/backups//
 " Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
+set backupskip=/tmp/*,/private/tmp/*,~/.vim/backups/*,~/.vim/swaps/*
+
+" Create a swap file for every buffer to prevent multiple vim instances from editing the same file.
 set swapfile
 set directory=~/.vim/swaps//
+
 if exists("&undodir")
     set undodir=~/.vim/undo
 endif
 
-" Always change to current directory
+" Always change to current directory.
 set autochdir
 
-" Respect modeline in files
+" Respect modeline in files, e.g. vim: noai:ts=4:sw=4
 set modeline
-set modelines=4
-" Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
-set secure
-" Enable line numbers
+
+" Enable line numbers.
 set number
-" Enable syntax highlighting
-syntax on
+
 " Highlight current line
 set cursorline
+
 " Always use spaces instead of tabs.
 set expandtab
+
 " Set the width of the TAB character to 4 characters.
 set tabstop=4
+
 " The number of characters to insert/delete when pressing <Tab> or <BS>.
 set softtabstop=4
+
 " The number of characters to shift left/right when pressing <<, >> or ==.
 set shiftwidth=4
-" Show 'invisible' characters.
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+
+" By default, don't show listchars, e.g. tab, eol etc.
 set nolist
-" Highlight searches
+
+" Highlight search results.
 set hlsearch
-" Ignore case of searches
+
+" Ignore case in searches.
 set ignorecase
-" Unless there are capital letters in the search term
+
+" Dont' ignore case if there are capital letters in the search term.
 set smartcase
-" Highlight dynamically as pattern is typed
-set incsearch
+
 " Enable mouse in all modes.
 set mouse=a
+
 " Disable error bells
 set noerrorbells
+
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
-" Show the cursor position
-set ruler
+
 " Don’t show the intro message when starting Vim
 set shortmess=atI
+
 " Show the current mode
 set showmode
+
 " Show the filename in the window titlebar
 set title
+
 " Show the (partial) command as it’s being typed
 set showcmd
-
-
 
 " Strip trailing whitespace (<Leader>ss)
 function! StripWhitespace()
@@ -355,16 +375,15 @@ inoremap ö <ESC>
 "noremap <Space>gc ``
 " }}}
 
-" {{{ Save information for next vim session.
+" {{{ Restore cursor position from last time we visited this file.
+" See http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
 "  '10  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
 "  :20  :  up to 20 lines of command-line history will be remembered
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
 set viminfo='10,\"100,:20,%
-" }}}
 
-" {{{ Restore cursor position from last time we visited this file.
 function! ResCur()
     if line("'\"") <= line("$")
         normal! g`"
@@ -378,13 +397,6 @@ augroup resCur
 augroup END
 " }}}
 
-" {{{ Load local config file, if it exists.
-let $LOCALFILE=expand("~/.vimrc.local")
-if filereadable($LOCALFILE)
-    source $LOCALFILE
-endif
-" }}}
-
 " {{{ Relative line numbering
 if exists("&relativenumber")
     set relativenumber
@@ -396,5 +408,16 @@ if exists("&relativenumber")
     " But enable it any other mode.
     autocmd InsertLeave * :set relativenumber
 endif
+" }}}
 
+" Enable per-directory .vimrc files and disable unsafe commands in them. Set at the end of ~/.vimrc as per the
+" recommendations in :help secure.
+set exrc
+set secure
+
+" {{{ Load local config file, if it exists.
+let $LOCALFILE=expand("~/.vimrc.local")
+if filereadable($LOCALFILE)
+    source $LOCALFILE
+endif
 " }}}

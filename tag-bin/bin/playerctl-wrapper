@@ -1,29 +1,27 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
 
 usage() {
-    local script_name="$(basename $0)"
     cat << EOF
-Description:
-    Wrapper for playerctl to control media playback
-
 Usage:
-    $script_name (play-pause | pause | prev | next | status | mute)
+    $(basename $0) (play-pause | pause | prev | next | status | mute)
 
 EOF
-    exit
+    exit 0
 }
 [[ "$#" -lt 1 ]] && usage
 
 # Always execute mute on remote
-[[ $1 == mute ]] && ssh htpc "pamixer --toggle-mute" && exit 0
+if [[ "$1" == mute ]]; then
+    ssh htpc "pamixer --toggle-mute"
+    exit 0
+fi
 
 SPOTIFY_FOUND="$(pgrep spotify)"
 COMMAND="playerctl $1 --player=spotify"
+HOST="$(hostname)"
 
-if [[ $HOSTNAME != "htpc" ]] && [[ -z $SPOTIFY_FOUND ]]; then
-    echo "${COMMAND}"
-    ssh htpc ${COMMAND}
+if [[ "${HOST}" != "htpc" ]] && [[ -z "${SPOTIFY_FOUND}" ]]; then
+    ssh htpc "${COMMAND}"
 else
     eval $(${COMMAND})
 fi
