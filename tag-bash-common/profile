@@ -5,8 +5,9 @@ test "$DEBUG" && echo profile
 BASH_DIR="$HOME/.bash"
 ZSH_DIR="$HOME/.zsh"
 
-# SSH_IDENTITIES is used by the ssh-agent.sh script to automatically load identities from $HOME/.ssh/.
-SSH_IDENTITIES=(id_rsa)
+# SSH_IDENTITIES is used by the ssh-agent plugin to automatically load identities from $HOME/.ssh/. When no identities
+# are provided but the plugin is loaded, it will try to load the default keys, i.e. id_rsa and id_dsa.
+#SSH_IDENTITIES=()
 
 # Use BASH_SCRIPTS to load zsh modules from $BASH_DIR/scripts on-demand and in the order specified.
 BASH_SCRIPTS=(fasd archlinux common git laptop maintenance media proxy shortcuts systemd thinkpad overrides ssh-agent)
@@ -14,8 +15,7 @@ BASH_SCRIPTS=(fasd archlinux common git laptop maintenance media proxy shortcuts
 # Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
 ZSH_SCRIPTS=(common keybindings overrides)
 
-
-#  Source files
+# {{{  Source files
 # Source common bash configuration.
 test -r "$BASH_DIR/init.sh" && . "$BASH_DIR/init.sh"
 
@@ -26,5 +26,4 @@ fi
 
 # Source optional local configuration
 test -r "$HOME/.profile.local" && . "$HOME/.profile.local"
-
-
+# }}}

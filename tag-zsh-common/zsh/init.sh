@@ -2,19 +2,18 @@
 #
 # Load shared custom zsh configurations
 
-EXTENSION="sh"
+_BASE_DIR="${ZSH_DIR:-${HOME}/.zsh}"
+_SCRIPTS="${ZSH_SCRIPTS[@]}"
 [[ "${DEBUG}" ]] && echo init.zsh
 
 # {{{ Source scripts
 # Load auto scripts that need to be sourced first
-load_scripts_in_folder "${ZSH_DIR}/autoload"
+load_scripts "${ZSH_DIR}/autoload" "*"
 
 # Load on-demand scripts that need to be sourced first
-if [[ "${ZSH_SCRIPTS}" ]]; then
-    load_scripts_by_name "${ZSH_DIR}/scripts" "${ZSH_SCRIPTS[@]}"
-fi
+load_scripts "${ZSH_DIR}/scripts" "${ZSH_SCRIPTS[@]}"
 # }}}
 
 # {{{ Cleanup
-unset EXTENSION
+unset _BASE_DIR _SCRIPTS
 # }}}

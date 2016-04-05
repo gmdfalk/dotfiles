@@ -2,7 +2,7 @@
 #
 
 usage() {
-    local script_name=$(basename $0)
+    local script_name="$(basename $0)"
     cat << EOF
 Description:
     Wrapper for playerctl to control media playback
@@ -16,13 +16,14 @@ EOF
 [[ "$#" -lt 1 ]] && usage
 
 # Always execute mute on remote
-[[ $1 == mute ]] && ssh slave@htpc "pamixer --toggle-mute" && exit 0
+[[ $1 == mute ]] && ssh htpc "pamixer --toggle-mute" && exit 0
 
-SPOTIFY_FOUND=$(pgrep spotify)
+SPOTIFY_FOUND="$(pgrep spotify)"
 COMMAND="playerctl $1 --player=spotify"
-echo $COMMAND
+
 if [[ $HOSTNAME != "htpc" ]] && [[ -z $SPOTIFY_FOUND ]]; then
-    ssh slave@htpc ${COMMAND}
+    echo "${COMMAND}"
+    ssh htpc ${COMMAND}
 else
     eval $(${COMMAND})
 fi

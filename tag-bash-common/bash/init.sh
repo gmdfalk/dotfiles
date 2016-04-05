@@ -2,36 +2,40 @@
 #
 # Load shared custom bash configurations
 
-EXTENSION="sh"
+_BASE_DIR="${BASH_DIR:-${HOME}/.bash}"
+_SCRIPTS="${BASH_SCRIPTS[@]}"
 [[ "$DEBUG" ]] && echo init.bash
 
 # {{{ Helper functions
-load_scripts_by_name() {
-    local directory="$1"
-    [[ ! -d "$directory" ]] && return 1
+myread() {
+    if [[ "${ZSH_VERSION}" ]]; then
+        read -A "$@"
+    else
+        read -a "$@"
+    fi
 
-    # Read all arguments after $1 into array
-    local scripts=("${@:2}")
-
-    local file
-    for script in "${scripts[@]}"; do
-        file="${directory}/${script}.${EXTENSION}"
-        if [[ -r "${file}" ]]; then
-            [[ "$DEBUG" ]] && echo "${file}"
-            source "${file}"
-        fi
-    done
 }
 
-load_scripts_in_folder() {
+load_scripts() {
     local directory="$1"
-    [[ ! -d "${directory}" ]] && return 1
+    [[ -d "${directory}" ]] && shift || return 1
+    local extension="sh"
+    local -a scripts
 
     # Ignore 0 results on glob expansion
     [[ "${ZSH_VERSION}" ]] && setopt null_glob || shopt -s nullglob
 
-    for script in "${directory}"/*.${EXTENSION}; do
-        if [[ -r "${script}" ]];then
+    cd "${directory}"
+    if [[ "$@" == "*" ]]; then
+        scripts=(*.$extension)
+    else
+        while read -rd ' ' script || [[ "${script}" ]]; do
+            scripts+=("${script}.${extension}");
+        done <<< "$@"
+    fi
+
+    for script in "${scripts[@]}"; do
+        if [[ -r "${script}" ]]; then
             [[ "${DEBUG}" ]] && echo "${script}"
             source "${script}"
         fi
@@ -43,12 +47,10 @@ load_scripts_in_folder() {
 
 # {{{ Source scripts
 # Load auto scripts that need to be sourced first
-load_scripts_in_folder "${BASH_DIR}/autoload"
+load_scripts "${_BASE_DIR}/autoload" "*"
 
 # Load on-demand scripts that need to be sourced first
-if [[ "${BASH_SCRIPTS}" ]]; then
-    load_scripts_by_name "${BASH_DIR}/scripts" "${BASH_SCRIPTS[@]}"
-fi
+load_scripts "${_BASE_DIR}/scripts" "${_SCRIPTS[@]}"
 # }}}
 
 # {{{ Post config
@@ -57,5 +59,5 @@ have fasd && eval "$(fasd --init auto)"
 # }}}
 
 # {{{ Cleanup
-unset EXTENSION
+unset _BASE_DIR _SCRIPTS
 # }}}

@@ -68,3 +68,4 @@ map <leader>rr :source ~/.ideavimrc<CR>
 " Source local overriding configuration file, if it exists
 source ~/.ideavimrc.local
 
+set relativenumber

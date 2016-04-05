@@ -12,7 +12,7 @@ if [[ "$OSTYPE" == darwin* ]] || ! have ssh-agent; then
 fi
 
 # Set the path to the SSH directory.
-_ssh_dir="$HOME/.ssh"
+_ssh_dir="${_ssh_dir:-${HOME}/.ssh}"
 
 # Set the path to the environment file if not set by another module.
 _ssh_agent_env="${_ssh_agent_env:-${TMPDIR:-/tmp}/ssh-agent.env}"
@@ -39,7 +39,7 @@ fi
 
 # Load identities.
 if ssh-add -l 2>&1 | grep -q 'The agent has no identities'; then
-  if (( ${#SSH_IDENTITIES} > 0 )); then
+  if [[ ${#SSH_IDENTITIES} > 0 ]]; then
     for identity in "${SSH_IDENTITIES[@]}"; do
         echo "${_ssh_dir}/${identity}"
         ssh-add "${_ssh_dir}/${identity}" 2> /dev/null
