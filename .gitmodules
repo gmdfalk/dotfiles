@@ -10,6 +10,6 @@
 [submodule "tag-bash-bash-it/bash-it"]
     path = tag-bash-bash-it/bash-it
     url = https://github.com/Bash-it/bash-it
-[submodule "tag-vim-spf13"]
-    path = tag-vim-spf13/spf13-vim-3
-    url = https://github.com/spf13/spf13-vim
+#[submodule "tag-vim-spf13"]
+ #   path = tag-vim-spf13/spf13-vim-3
+ #   url = https://github.com/spf13/spf13-vim
