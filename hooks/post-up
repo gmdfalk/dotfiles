@@ -29,6 +29,7 @@ sync_repo() {
 }
 # }}}
 
+# {{{ Routines
 fix_permissions() {
     for arg in "$@"; do
         logger "Fixing permissions for ${arg}"
@@ -87,6 +88,7 @@ apply_system_specific_setup() {
             ;;
     esac
 }
+# }}}
 
 main() {
     fix_permissions ~/.config/gnupg ~/.ssh ~/.ssh/config

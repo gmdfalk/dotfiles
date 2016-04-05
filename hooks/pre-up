@@ -1,36 +1,26 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-# {{{ Configuration
-LOGFILE="post-up.log"
-# }}}
-
-# {{{ Utilities
-logger() { echo "$(date +'[ %d %b %Y %H %M ]') :: $*" | tee -a $log; }
-# }}}
-
+logger() { echo "$@"; }
 
 apply_cygwin_settings() {
     # Use native NTFS symlinks instead of "fake" cygwin symlinks.
     export CYGWIN="winsymlinks:native"
 }
 
-
 apply_system_specific_setup() {
+    local system="$(uname -o)"
 
-    # Architecture specific actions
-    OS=$(uname -o)
-
-    case "$OS" in
+    case "$system" in
         Cygwin)
             apply_cygwin_settings
-            ;;
+        ;;
         GNU/Linux)
-            ;;
+        ;;
         Darwin)
-            ;;
-        *) 
-            logger "Did not recognize Operating System $OS"
-            ;;
+        ;;
+        *)
+            logger "Did not recognize Operating System $system"
+        ;;
     esac
 }
 
