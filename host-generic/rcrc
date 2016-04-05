@@ -1,3 +1,3 @@
 EXCLUDES="README.md" 
-TAGS="bin git theme-solarized-dark tmux vim bash-common bash-bash-it zsh-common zsh-prezto"
+TAGS="bin git theme-solarized-dark tmux vim-minimal bash-common bash-bash-it zsh-common zsh-prezto"
 UNDOTTED="bin"
