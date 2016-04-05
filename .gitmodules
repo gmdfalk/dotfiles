@@ -5,8 +5,11 @@
     path = tag-zsh-oh-my-zsh/oh-my-zsh
     url = https://github.com/robbyrussell/oh-my-zsh
 [submodule "tag-zsh-prezto/zprezto"]
-	path = tag-zsh-prezto/zprezto
-	url = https://github.com/sorin-ionescu/prezto
+    path = tag-zsh-prezto/zprezto
+    url = https://github.com/sorin-ionescu/prezto
 [submodule "tag-bash-bash-it/bash-it"]
-	path = tag-bash-bash-it/bash-it
-	url = https://github.com/Bash-it/bash-it
+    path = tag-bash-bash-it/bash-it
+    url = https://github.com/Bash-it/bash-it
+[submodule "tag-vim-spf13"]
+    path = tag-vim-spf13/spf13-vim-3
+    url = https://github.com/spf13/spf13-vim
