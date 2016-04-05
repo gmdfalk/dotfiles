@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-have() {
-    type "$@" &>/dev/null
-}
-
 count() {
     local seconds
     case "$1" in
@@ -23,8 +19,8 @@ count() {
         sleep 1 &>/dev/null
         secs=$(( $secs $operator 1 ))
     }
-    if [[ "$seconds" -gt 0 ]]; then
-        while [[ "${secs}" -ge 0 ]]; do
+    if (( seconds > 0 )); then
+        while (( secs >= 0 )); do
             do_count "\r%02d/${seconds}s" -
         done
     else # count up

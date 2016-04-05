@@ -23,9 +23,8 @@ fi
 
 # GUI
 [[ -n "$DISPLAY" ]] && BROWSER="firefox" || BROWSER="lynx"
-# }}}
 
-# {{{ Export environment
+[[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
 export BROWSER \
        EDITOR \
        LESS \
@@ -33,8 +32,6 @@ export BROWSER \
        PATH \
        TMPDIR \
        VISUAL
-
-[[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
 # }}}
 
 # {{{ Cygwin
@@ -61,11 +58,14 @@ if [[ "$OSTYPE" == "darwin"* ]];then
 fi
 # }}}
 
+# {{{ Development
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=setting'
+# }}}
+
 # {{{ Various Settings
 # Supress warnings about accessibility bus
 NO_AT_BRIDGE=1
 # }}}
-
 
 # {{{ Custom variables
 _HTPC="192.168.0.2"
@@ -78,5 +78,6 @@ _VIDEO="vlc"
 # If the last character of the alias value is a space or tab character, then the next command word following the alias
 # is also checked for alias expansion (http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo).
 alias sudo='sudo '
+# Prefix commands that require root privileges with $_SUDO so that they work when logged in as root, too.
 [[ "$UID" == 0 ]] || _SUDO="sudo"
 # }}}

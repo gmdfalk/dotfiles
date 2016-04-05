@@ -5,8 +5,6 @@ sysbackup() {
     rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/docker/btrfs/subvolumes","/lost+found","/home/*/.thumbnails","/home/*/.cache/spotify","/home/*/.cache/mozilla","/home/*/.cache/chromium","/home/*/.local/share/Trash/*","/home/*/.gvfs","/.snapshots"} / /media/backup
 }
 
-
-
 slpin() { count "$1" && systemctl suspend; }
 
 # Update rcm configuration
@@ -14,7 +12,7 @@ rcupd() {
     cd ~/.dotfiles
     git pull
     rcup -v "$@"
-    popd
+    cd "${OLDPWD}"
 }
 
 alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
@@ -30,10 +28,10 @@ alias laold="ls --color=auto -lAht"
 alias lasmall="ls --color=auto -lASh"
 
 alias pingg="ping www.google.com"
-f() { find . | grep -is "$@"; }
-ff() { find . -type f | xargs grep -is "$@"; }
-fp() { find $(sed 's/:/ /g' <<< "${PATH}") | grep -is "$@"; }
-psf() { ps aux | grep "$@"; }
+ff() { find . | grep -is "$@"; }
+ffc() { find . -type f | xargs grep -is "$@"; }
+ffp() { find $(sed 's/:/ /g' <<< "${PATH}") | grep -is "$@"; }
+psf() { ps aux | grep "$@" | grep -v grep; }
 wgp() { wgetpaste -X "$@"; }
 grab() { sudo chown -R ${USER}:${USER} ${1-.}; }
 alias vn="${VISUAL} ${HOME}/.note"

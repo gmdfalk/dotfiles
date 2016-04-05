@@ -24,7 +24,7 @@ alias paclsorphans="${_SUDO} pacman -Qdt"
 alias pacrmorphans="${_SUDO} pacman -Rs $(pacman -Qtdq)"
 alias pacupd="${_SUDO} pacman -Sy"                 # Update and refresh the local package database against repositories
 [[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Sy && ${_SUDO} abs"
-[[ "${_have_pacupg}" ]] && alias pacupg="${_SUDO} pacman -Syu" # Synchronize with repositories before upgrading packages that are out of date on the local system.
+[[ "${_have_pacupg}" ]] || alias pacupg="${_SUDO} pacman -Syu" # Synchronize with repositories before upgrading packages that are out of date on the local system.
 # }}}
 
 # {{{ Yaourt/AUR Helper

@@ -7,30 +7,24 @@ _SCRIPTS="${BASH_SCRIPTS[@]}"
 [[ "$DEBUG" ]] && echo init.bash
 
 # {{{ Helper functions
-myread() {
-    if [[ "${ZSH_VERSION}" ]]; then
-        read -A "$@"
-    else
-        read -a "$@"
-    fi
-
+have() {
+    type "$@" &>/dev/null
 }
 
+# Loads scripts/plugins and takes two arguments:
+# - directory: The folder to load scripts from.
+# - scripts: A space separated list of script names or "*" for all scripts in the folder.
 load_scripts() {
     local directory="$1"
     [[ -d "${directory}" ]] && shift || return 1
     local extension="sh"
     local -a scripts
 
-    # Ignore 0 results on glob expansion
-    [[ "${ZSH_VERSION}" ]] && setopt null_glob || shopt -s nullglob
-
-    cd "${directory}"
     if [[ "$@" == "*" ]]; then
-        scripts=(*.$extension)
+        scripts=(${directory}/*.$extension) # &>/dev/null
     else
         while read -rd ' ' script || [[ "${script}" ]]; do
-            scripts+=("${script}.${extension}");
+            scripts+=("${directory}/${script}.${extension}");
         done <<< "$@"
     fi
 
@@ -41,7 +35,6 @@ load_scripts() {
         fi
     done
 
-    [[ "$ZSH_VERSION" ]] && unsetopt null_glob || shopt -u nullglob
 }
 # }}}
 
