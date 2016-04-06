@@ -12,7 +12,7 @@ PAGER=less
 LESS="-F -g -i -M -R -S -w -X -z-4"
 
 if [[ -z "${VISUAL}" ]]; then
-    have vim && VISUAL="vim" || VISUAL="vi"
+    have vim && VISUAL="vim -p" || VISUAL="vi"
 fi
 EDITOR="${VISUAL}"
 
