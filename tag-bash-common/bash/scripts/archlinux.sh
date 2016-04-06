@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Based on https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/archlinux/archlinux.plugin.zsh
 
-cmds=( yaourt pacupg pacaur abs aur expac )
+cmds=("yaourt" "pacupg" "pacaur" "abs" "aur" "expac")
 for cmd in "${cmds[@]}"; do
     have "${cmd}" && export "_have_${cmd}"=1
 done
@@ -10,7 +10,7 @@ done
 alias pac="pacman"
 alias pacin="${_SUDO} pacman -S"    # Install specific package(s) from the repositories
 alias pacind="${_SUDO} pacman -S --asdeps" # Install given package(s) as dependencies of another package
-alias pacinf="${_SUDO} pacman -U"   # Install specific package not from the repositories but from a file
+alias pacins="${_SUDO} pacman -U"   # Install specific package not from the repositories but from a file
 alias pacre="${_SUDO} pacman -R"    # Remove the specified package(s), retaining its configuration(s) and required dependencies
 alias pacrem="${_SUDO} pacman -Rns" # Remove the specified package(s), its configuration(s) and unneeded dependencies
 alias pacrep="pacman -Si"           # Display information about a given package in the repositories
@@ -22,8 +22,8 @@ alias paclocs="pacman -Qs"          # Search for package(s) in the local databas
 alias pacmir="${_SUDO} pacman -Syy" # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
 alias paclsorphans="${_SUDO} pacman -Qdt"
 alias pacrmorphans="${_SUDO} pacman -Rs $(pacman -Qtdq)"
-alias pacupd="${_SUDO} pacman -Sy"                 # Update and refresh the local package database against repositories
-[[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Sy && ${_SUDO} abs"
+alias pacupd="${_SUDO} pacman -Syu" # Update and refresh the local package database against repositories
+[[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Syu && ${_SUDO} abs"
 [[ "${_have_pacupg}" ]] || alias pacupg="${_SUDO} pacman -Syu" # Synchronize with repositories before upgrading packages that are out of date on the local system.
 # }}}
 
@@ -44,7 +44,7 @@ if [[ "${_have_yaourt}" ]]; then
     alias yaorph="yaourt -Qtd"  # Remove orphans using yaourt
     alias yainsd="yaourt -S --asdeps" # Install given package(s) as dependencies of another package
     alias yamir="yaourt -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
-    alias yaupd="yaourt -Sy"    # Update and refresh the local package database against repositories
+    alias yaupd="yaourt -Syu"   # Update and refresh the local package database against repositories
     alias yaupg="yaourt -Syua"  # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
     [[ "${_have_aur}" ]] && alias yaupd="yaourt -Sy && ${_SUDO} aur"
     [[ "${_have_pacupg}" ]] && alias yaupg="pacupg -a"
@@ -55,7 +55,7 @@ fi
 if [[ "${_have_pacaur}" ]]; then
     alias pa="pacaur"
     alias pain="pacaur -S"      # Install specific package(s) from the repositories
-    alias painf="pacaur -U"     # Install specific package not from the repositories but from a file
+    alias pains="pacaur -U"     # Install specific package not from the repositories but from a file
     alias pare="pacaur -R"      # Remove the specified package(s), retaining its configuration(s) and required dependencies
     alias parem="pacaur -Rns"   # Remove the specified package(s), its configuration(s) and unneeded dependencies
     alias parep="pacaur -Si"    # Display information about a given package in the repositories
@@ -66,7 +66,7 @@ if [[ "${_have_pacaur}" ]]; then
     alias paorph="pacaur -Qtd"  # List orphans using pacaur
     alias painsd="pacaur -S --asdeps" # Install given package(s) as dependencies of another package
     alias pamir="pacaur -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
-    alias paupd="pacaur -Sy"    # Update and refresh the local package database against repositories
+    alias paupd="pacaur -Syu"   # Update and refresh the local package database against repositories
     alias paupg="pacaur -Syua"  # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
     [[ "${_have_aur}" ]] && alias paupd="pacaur -Sy && ${_SUDO} aur"
     [[ "${_have_pacupg}" ]] && alias paupg="pacupg -a"
