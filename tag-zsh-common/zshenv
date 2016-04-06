@@ -6,6 +6,10 @@
 
 [[ "$DEBUG" ]] && echo zshenv
 
+# Make sure TMPDIR is defined. Otherwise, temp file creation during shell initialization might fail, e.g. with
+# 'can't create temp file for here document: permission denied'.
+TMPDIR="${TMPDIR:-/tmp}"
+
 # Source optional local configuration file.
 [[ -f "$HOME/.zshenv.local" ]] && . "$HOME/.zshenv.local"
 

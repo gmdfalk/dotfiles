@@ -11,6 +11,10 @@ have() {
     type "$@" &>/dev/null
 }
 
+load_bash_scripts() {
+    load_scripts "${BASH_DIR}" "$@"
+}
+
 # Loads scripts/plugins and takes two arguments:
 # - directory: The folder to load scripts from.
 # - scripts: A space separated list of script names or "*" for all scripts in the folder.
@@ -24,7 +28,7 @@ load_scripts() {
         scripts=(${directory}/*.$extension) # &>/dev/null
     else
         while read -rd ' ' script || [[ "${script}" ]]; do
-            scripts+=("${directory}/${script}.${extension}");
+            scripts+=("${directory}/${script}.${extension}")
         done <<< "$@"
     fi
 
@@ -34,9 +38,7 @@ load_scripts() {
             source "${script}"
         fi
     done
-
 }
-
 # }}}
 
 # {{{ Source scripts

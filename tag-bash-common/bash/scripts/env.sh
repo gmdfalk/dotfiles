@@ -5,8 +5,8 @@
 # Add scripts directory to $PATH, if it's missing.
 BIN_DIR="${HOME}/bin"
 case ":$PATH:" in
-  *":$BIN_DIR:"*) :;; # already there
-  *) PATH="$BIN_DIR:$PATH";; # or PATH="$PATH:$new_entry"
+    *":$BIN_DIR:"*) :;; # already there
+    *) PATH="$BIN_DIR:$PATH";; # or PATH="$PATH:$new_entry"
 esac
 PAGER=less
 LESS="-F -g -i -M -R -S -w -X -z-4"
@@ -17,8 +17,8 @@ fi
 EDITOR="${VISUAL}"
 
 if [[ ! -d "$TMPDIR" ]]; then
-  TMPDIR="/tmp/${LOGNAME}"
-  mkdir -p -m 700 "${TMPDIR}"
+    TMPDIR="/tmp/${LOGNAME}"
+    mkdir -p -m 700 "${TMPDIR}"
 fi
 
 # GUI
