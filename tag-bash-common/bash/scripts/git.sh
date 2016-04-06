@@ -15,7 +15,7 @@ g() {
 # {{{ Basics
 alias ga="git add"
 alias gb="git branch"
-alias gc="git commit -v"
+alias gc="git commit"
 alias gcl="git clone"
 alias gch="git checkout"
 alias gcp="git cherry-pick"
@@ -41,12 +41,8 @@ gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 # }}}
 
 # {{{ Commit
-gcdate() {
-    [[ "$#" -lt 1 ]] && echo "Usage: gcdate <hours>" && exit
-    local commit_date=$(date -R -d "$1 hours")
-    shift
-    git commit --date="${commit_date}" "$@"
-}
+alias gcs="git commit -S"  # sign a commit with your gpg key.
+
 # Quick commit all changes (excluding newly added files)
 alias gcm="git commit -v -m $1"
 alias gci="git commit --interactive"
@@ -57,10 +53,15 @@ alias gcaa="git add -A && git commit -av"
 alias gcam="git commit --amend --reuse-message=HEAD"
 # Amend staged and unstaged files to the latest commit
 alias gcama="git commit -a --amend --reuse-message=HEAD"
-# Quick commit all changes (excluding newly added files)
+# Quick commit all changes (excluding newly added files).
 gcma() { git commit -am "$1"; }
-# Credit an author on the latest commit
-gcredit() { git commit --amend --author "$1 <$2>" --reuse-message=HEAD; }
+# Credit an author on the latest commit.
+gccredit() { git commit --amend --author "$1 <$2>" --reuse-message=HEAD; }
+# Create a commit with a different date by specifying the offset in hours, e.g. gcdate +24.
+gcdate() {
+    [[ "$#" -lt 1 ]] && echo "Usage: gcdate <hours>" && exit
+    git commit --date="$(date -R -d "$1 hours")" "${@:2}"
+}
 # }}}
 
 # {{{ Branch
