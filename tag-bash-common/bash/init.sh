@@ -12,7 +12,7 @@ have() {
 }
 
 load_bash_scripts() {
-    load_scripts "${BASH_DIR}" "$@"
+    load_scripts "${BASH_DIR}/scripts" "$@"
 }
 
 # Loads scripts/plugins and takes two arguments:

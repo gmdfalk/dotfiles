@@ -6,12 +6,18 @@ _BASE_DIR="${ZSH_DIR:-${HOME}/.zsh}"
 _SCRIPTS="${ZSH_SCRIPTS[@]}"
 [[ "${DEBUG}" ]] && echo init.zsh
 
+# {{{ Helper functions
+load_zsh_scripts() {
+    load_scripts "${ZSH_DIR}/scripts" "$@"
+}
+# }}}
+
 # {{{ Source scripts
 # Load auto scripts that need to be sourced first
-load_scripts "${ZSH_DIR}/autoload" "*"
+load_scripts "${_BASE_DIR}/autoload" "*"
 
 # Load on-demand scripts that need to be sourced first
-load_scripts "${ZSH_DIR}/scripts" "${ZSH_SCRIPTS[@]}"
+load_scripts "${_BASE_DIR}/scripts" "${_SCRIPTS[@]}"
 # }}}
 
 # {{{ Cleanup
