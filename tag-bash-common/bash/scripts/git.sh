@@ -41,8 +41,9 @@ gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 # }}}
 
 # {{{ Commit
-alias gcs="git commit -S"  # sign a commit with your gpg key.
-
+# Create a signed commit. A key id must be provided, either by setting user.signingkey in the git configuration or by
+# appending the key id to this command directly.
+alias gcs="git commit -S"
 # Quick commit all changes (excluding newly added files)
 alias gcm="git commit -v -m $1"
 alias gci="git commit --interactive"
