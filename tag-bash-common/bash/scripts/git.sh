@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 
+# {{{ Preparation
+# Hub is a fully compatible wrapper for git that adds GitHub support, e.g. creating issues and pull requests.
 if have hub; then
     alias git="hub"
 fi
-
-g() {
-  if [[ $# -gt 0 ]]; then
-    git "$@"
-  else
-    git status
-  fi
-}
+# }}}
 
 # {{{ Basics
+# When no arguments are given, do git status.
+g() { [[ "$#" -gt 0 ]] && git "$@" || git status; }
 alias ga="git add"
 alias gb="git branch"
 alias gc="git commit"
