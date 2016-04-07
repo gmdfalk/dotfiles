@@ -94,3 +94,18 @@ alias cdser="cd ~/htpc/ser"
 alias mntm="cd && ${_SUDO} mount ~/htpc"
 alias umntm="cd && ${_SUDO} umount ~/htpc"
 slpin() { count "$1" && pkill vlc; sudo umount -l ~/htpc ; systemctl suspend; }
+
+
+# Show or set system volume.
+vol() {
+    [[ "$#" -gt 1 ]] && echo "Usage: vol [<volume>]" && return 0
+    if have pamixer; then
+        [[ "$#" == 1 ]] && pamixer --set-volume "$1"
+        pamixer --get-volume
+    elif have amixer; then
+        [[ "$#" == 1 ]] && amixer -q set Master "${1}%"
+        amixer get Master "$1"
+    else
+        echo "Could not find amixer or pamixer."
+    fi
+}
