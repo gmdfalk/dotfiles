@@ -9,7 +9,7 @@ fi
 
 # {{{ Basics
 # When no arguments are given, do git status.
-g() { [[ "$#" -gt 0 ]] && git "$@" || git status; }
+g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
 alias ga="git add"
 alias gb="git branch"
 alias gc="git commit"
