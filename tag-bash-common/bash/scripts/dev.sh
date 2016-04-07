@@ -16,7 +16,7 @@ alias cdc="cd ${HOME}/code"
 # }}}
 
 # {{{ Utilities
-# Get or set keyboard layout.
+# Get or set keyboard layout. For a full list of layouts and variants look here: http://pastebin.com/v2vCPHjs.
 # The german layout is horrible for programming, which is why i often switch to GB or US.
 # Note for us -altgr-intl: AltGr+p=ö, AltGr+q=ä.
 kbd() {

@@ -95,3 +95,7 @@ debug() { bash -x $(which "$1") "${@:1}"; }
 
 alias cm="chmod"
 alias cmx="chmod +x"
+
+# {{{ Editing
+alias sv="${_SUDO} ${EDITOR}"
+# }}}
