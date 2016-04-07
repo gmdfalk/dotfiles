@@ -2,26 +2,33 @@
 
 Modular cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
 
-This project is currently under heavy development.
+*This project is under development and probably won't leave alpha state before 2017*.
 
 ## About
 
 I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (w/ Cygwin64).
-If you are a developer, need cross-platform dotfiles and/or like the vim/solarized combo, these dotfiles might be for you!
+It integrates some of the best and most popular frameworks for each component into a well-rounded and modular package tailored to developer needs.
+
+If you
+  + are a developer
+  + like the command-line
+  + like the vim/solarized combo and/or
+  + need a cross-platform development environment
+these dotfiles might be for you!
 
 Features:
+  * Shared configuration between bash and zsh (only bash available on the server? clone the dotfiles and use bash)
   * Portable between OSX, Linux and Windows
-  * Shared configuration between bash and zsh
   * Vim-centric key bindings
   * Solarized colors, when possible
 
 Frameworks/Libraries:
   * zsh: [prezto](https://github.com/sorin-ionescu/prezto)/[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
   * bash: [bash-it](https://github.com/Bash-it/bash-it)
-  * tmux: [tpm](https://github.com/tmux-plugins/tpm)
-  * vim: [vim-plug](https://github.com/junegunn/vim-plug)
-  * firefox: [pentadactyl](https://github.com/5digits/dactyl)/[vimperator](https://github.com/vimperator/vimperator-labs)
   * shell: [fasd](https://github.com/clvv/fasd)
+  * vim: [spf13-vim](https://github.com/spf13/spf13-vim)
+  * tmux: [tpm](https://github.com/tmux-plugins/tpm)
+  * firefox: [pentadactyl](https://github.com/5digits/dactyl)/[vimperator](https://github.com/vimperator/vimperator-labs)
 
 Inspirations:
   * [mathiasbynens](https://github.com/mathiasbynens/dotfiles)
