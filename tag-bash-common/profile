@@ -10,10 +10,10 @@ ZSH_DIR="$HOME/.zsh"
 #SSH_IDENTITIES=()
 
 # Use BASH_SCRIPTS to load zsh modules from $BASH_DIR/scripts on-demand and in the order specified.
-BASH_SCRIPTS=(fasd archlinux common git laptop maintenance media proxy shortcuts systemd thinkpad overrides ssh-agent)
+BASH_SCRIPTS=("util" "env" "fasd" "archlinux" "common" "dev" "git" "laptop" "maintenance" "media" "proxy" "systemd" "thinkpad" "overrides" "ssh-agent")
 
 # Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
-ZSH_SCRIPTS=(common keybindings overrides)
+ZSH_SCRIPTS=("common" "keybindings" "overrides")
 
 # {{{  Source files
 # Source common bash configuration.

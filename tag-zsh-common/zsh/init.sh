@@ -2,14 +2,10 @@
 #
 # Load shared custom zsh configurations
 
+# {{{ Preparation
 _BASE_DIR="${ZSH_DIR:-${HOME}/.zsh}"
 _SCRIPTS="${ZSH_SCRIPTS[@]}"
 [[ "${DEBUG}" ]] && echo init.zsh
-
-# {{{ Helper functions
-load_zsh_scripts() {
-    load_scripts "${ZSH_DIR}/scripts" "$@"
-}
 # }}}
 
 # {{{ Source scripts

@@ -66,19 +66,32 @@ alias l1="ls -1"
 
 alias irc="$IRC_CLIENT"
 
-# Language aliases
-alias rb="ruby"
-alias py="python"
-alias py2="python2"
-alias py3="python3"
-alias ipy="ipython"
-alias ipy2="ipython2"
-alias ipy3="ipython3"
-
-# Tree
-if ! have tree; then
-    alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-fi
 
 
 alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
+alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
+alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
+alias dfh="btrfs filesystem df -h /"
+
+alias lnew="ls --color=auto -lhrt"
+alias lold="ls --color=auto -lht"
+alias lsmall="ls --color=auto -lSh"
+alias labig="ls --color=auto -lArSh"
+alias lanew="ls --color=auto -lAhrt"
+alias laold="ls --color=auto -lAht"
+alias lasmall="ls --color=auto -lASh"
+
+alias pingg="ping www.google.com"
+ff() { find . | grep -is "$@"; }
+ffc() { find . -type f | xargs grep -is "$@"; }
+ffp() { find $(sed 's/:/ /g' <<< "${PATH}") | grep -is "$@"; }
+psf() { ps aux | grep "$@" | grep -v grep; }
+wgp() { wgetpaste -X "$@"; }
+grab() { sudo chown -R ${USER}:${USER} ${1-.}; }
+alias vn="${VISUAL} ${HOME}/.note"
+alias vnn="${VISUAL} ${HOME}/.notemed"
+alias raw='grep -Ev "^\s*(;|#|$)"'
+debug() { bash -x $(which "$1") "${@:1}"; }
+
+alias cm="chmod"
+alias cmx="chmod +x"

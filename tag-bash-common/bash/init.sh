@@ -2,17 +2,15 @@
 #
 # Load shared custom bash configurations
 
+# {{{ Preparation
 _BASE_DIR="${BASH_DIR:-${HOME}/.bash}"
 _SCRIPTS="${BASH_SCRIPTS[@]}"
 [[ "$DEBUG" ]] && echo init.bash
+# }}}
 
 # {{{ Helper functions
 have() {
     type "$@" &>/dev/null
-}
-
-load_bash_scripts() {
-    load_scripts "${BASH_DIR}/scripts" "$@"
 }
 
 # Loads scripts/plugins and takes two arguments:

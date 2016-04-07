@@ -1,1 +1,0 @@
-../scripts/detachments.sh
