@@ -8,10 +8,9 @@ BT="${ACPI}/bluetooth_enable"
 # }}}
 
 # {{{ Network
-alias wol2="wol 40:61:86:87:F3:FE"
-alias wol2i="wol -i ${_HTPC} 40:61:86:87:F3:FE"
-alias ssh2="ssh ${_HTPC}"
-alias ping2="ping 192.168.0.2"
+alias wolh="wol 40:61:86:87:F3:FE"
+alias sshh="ssh ${_HTPC}"
+alias pingh="ping 192.168.0.2"
 # }}}
 
 # {{{ Display

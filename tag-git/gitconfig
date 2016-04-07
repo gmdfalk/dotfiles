@@ -1,48 +1,48 @@
 [alias]
     # {{{ Basics
-    a = add
-    b = branch
-    c = commit -v
-    cl = clone
-    ch = checkout
-    cp = cherry-pick
-    d = diff -w
-    f = fetch
-    r = reset
-    rb = rebase
-    m = merge
-    p = pull
-    ps = push
-    s = status
-    su = submodule
-    t = tag
-    w = whatchanged
+    a = "add"
+    b = "branch"
+    c = "commit"
+    cl = "clone"
+    ch = "checkout"
+    cp = "cherry-pick"
+    d = "diff -w"
+    f = "fetch"
+    log = "log --show-signature"
+    r = "reset"
+    rb = "rebase"
+    m = "merge"
+    p = "pull"
+    ps = "push"
+    s = "status"
+    su = "submodule"
+    t = "tag"
+    w = "whatchanged"
     # }}}
 
     # {{{ Tag
-    ta = tag -a  # Add tag
-    td = tag -d  # Delete tag
-    tl = tag -l  # List tags
+    ta = "tag -a"  # Add tag
+    td = "tag -d"  # Delete tag
+    tl = "tag -l"  # List tags
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
     # }}}
 
-
     # {{{ Commit
     # Quick commit all changes (excluding newly added files)
-    cm = "!f() { git commit -v -m \"$1\"; }; f"
+    cm = "!f() { git commit -v -m \"$@\"; }; f"
     cda = "!f() { local commit_date=$(date -R -d \"$1 hours\"); shift; git commit --date=\"${commit_date}\" \"$@\"; }; f"
-    ci = commit --interactive
-    ca = commit -v -a
+    ci = "commit --interactive"
+    ca = "commit -v -a"
 
     # Commit all changes (including newly added files)
     caa = !git add -A && git commit -av
 
     # Amend staged files to the latest commit
-    cam = commit --amend --reuse-message=HEAD
+    cam = "commit --amend --reuse-message=HEAD"
 
     # Amend staged and unstaged files to the latest commit
-    cama = commit -a --amend --reuse-message=HEAD
+    cama = "commit -a --amend --reuse-message=HEAD"
 
     # Quick commit all changes (excluding newly added files)
     cma = "!f() { git commit -avm \"$1\"; }; f"
@@ -52,35 +52,35 @@
     # }}}
 
     # {{{ Branch
-    ba = branch -a
-    bt = branch --track
-    bd = branch -D
+    ba = "branch --all"       # List all branches (local and remote).
+    bt = "branch --track"
+    bd = "branch -D"       # Shortcut for --delete --force
     # Remove branches that have already been merged with master
     # a.k.a. ‘delete merged’
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
     # Switch to a branch, creating it if necessary
     cb = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-    ct = checkout --track
+    ct = "checkout --track"
     # }}}
 
     # {{{ Fetch
     # Fetch and remove any remote-tracking references that no longer exist on the remote.
-    fp = fetch --all --prune --verbose
+    fp = "fetch --all --prune --verbose"
 
     # Fetch including remote tags. Tags are not pruned.
-    ftag = fetch --all --prune --tags --verbose
+    ftag = "fetch --all --prune --tags --verbose"
     # }}}
 
     # {{{ Info
     # Show verbose output about tags, branches or remotes
-    tags = tag -l
-    branches = branch -a
-    remotes = remote -v
-    count = shortlog --summary --numbered
+    tags = "tag -l"
+    branches = "branch -a"
+    remotes = "remote -v"
+    count = "shortlog --summary --numbered"
 
     # View the current working tree status using the short format
-    ss = status -s
+    ss = "status -s"
 
     # Show the diff between the latest commit and the current state.
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
@@ -108,40 +108,40 @@
     #l = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
 
     # View abbreviated SHA, description, and history graph (of the latest 20 commits)
-    ll = log --pretty=oneline --graph --abbrev-commit
-    ls = log --pretty=oneline --graph --abbrev-commit -n 20
+    ll = "log --pretty=oneline --graph --abbrev-commit"
+    ls = "log --pretty=oneline --graph --abbrev-commit -n 20"
 
     # Show commits since last pull
-    lnew = log HEAD@{1}..HEAD@{0}
+    lnew = "log HEAD@{1}..HEAD@{0}"
     # }}}
 
     # {{{ Push & Pull
-    pr = pull --rebase
-    pp = pull && git push
-    up = fetch && git rebase
-    po = push origin
-    pu = push --set-upstream
-    pom = push origin master
+    pr = "pull --rebase"
+    pp = "pull && git push"
+    up = "fetch && git rebase"
+    po = "push origin"
+    pu = "push --set-upstream"
+    pom = "push origin master"
 
     # Pull in remote changes for the current repository and all its submodules
     pa = !"git pull; git submodule foreach git pull origin master"
 
     # Push origin to master
-    pm = push origin master
+    pm = "push origin master"
 
     # Interactive rebase with the given number of latest commits
     reb = "!r() { git rebase -i HEAD~$1; }; r"
 
     # Initialize and update all submodules recursively
-    su = submodule update --init --recursive
+    su = "submodule update --init --recursive"
 
     # Merge upstream
     mu = "!f() { git fetch origin -v; git fetch upstream -v; git merge upstream/master; }; f"
     # }}}
 
     # {{{ Various
-    aa = add -A
-    clr = clone --recursive
+    aa = "add -A"
+    clr = "clone --recursive"
     # Diff in vim, ignoring whitespace
     dv = "!f() { git diff -w "$@" | vim -R -; }; f"
 
@@ -161,73 +161,73 @@
 [apply]
 
     # Detect whitespace errors when applying a patch
-    whitespace = fix
+    whitespace = "fix"
 
 [core]
 
     # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = ~/.gitignore.global
-    #attributesfile = ~/.gitattributes
+    excludesfile = "~/.gitignore.global"
+    #attributesfile = "~/.gitattributes"
 
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
     # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
-    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+    whitespace = "space-before-tab,-indent-with-non-tab,trailing-space"
 
     # Make `git rebase` safer on OS X
     # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-    trustctime = false
+    trustctime = "false"
 
     # Prevent showing files whose names contain non-ASCII symbols as unversioned.
     # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-    precomposeunicode = false
+    precomposeunicode = "false"
 
 [color]
 
     # Use colors in Git commands that are capable of colored output when
     # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-    ui = auto
+    ui = "auto"
 
 [color "branch"]
 
-    current = yellow reverse
-    local = yellow
-    remote = green
+    current = "yellow reverse"
+    local = "yellow"
+    remote = "green"
 
 [color "diff"]
 
-    meta = yellow bold
-    frag = magenta bold # line info
-    old = red # deletions
-    new = green # additions
+    meta = "yellow bold"
+    frag = "magenta bold"
+    old = "red"             # deletions
+    new = "green"           # additions
 
 [color "status"]
 
-    added = yellow
-    changed = green
-    untracked = cyan
+    added = "yellow"
+    changed = "green"
+    untracked = "cyan"
 
 [diff]
 
     # Detect copies as well as renames
-    renames = copies
+    renames = "copies"
 
 [help]
 
     # Automatically correct and execute mistyped commands
-    autocorrect = 1
+    autocorrect = "1"
 
 [merge]
 
     # Include summaries of merged commits in newly created merge commit messages
-    log = true
+    log = "true"
 
 [push]
 
     # Use the Git 1.x.x default to avoid errors on machines with old Git
     # installations. To use `simple` instead, add this to your `~/.extra` file:
     # `git config --global push.default simple`. See http://git.io/mMah-w.
-    default = matching
+    default = "matching"
 
 # URL shorthands
 
@@ -255,5 +255,5 @@
     signingkey = "A3753845"
 
 [include]
-    path = ~/.gitconfig.local
+    path = "~/.gitconfig.local"
 

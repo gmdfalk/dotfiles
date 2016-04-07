@@ -90,5 +90,5 @@ fi
 
 # {{{ Makepkg/Building
 # Update PKGBUILD with new checksums and create/update .SRCINFO file for AUR.
-alias mkupd="updpkgsums && mksrcinfo"
+alias updpkg="updpkgsums && mksrcinfo"
 # }}}

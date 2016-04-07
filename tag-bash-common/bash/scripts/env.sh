@@ -68,7 +68,7 @@ NO_AT_BRIDGE=1
 # }}}
 
 # {{{ Custom variables
-_HTPC="192.168.0.2"
+_HTPC="htpc"
 _OPEN="xdg-open"
 _VIDEO="vlc"
 # }}}

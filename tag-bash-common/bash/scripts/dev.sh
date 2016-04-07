@@ -32,5 +32,8 @@ kbd() {
         *)
             setxkbmap "$@";;
     esac
+    # Reapply any customizations to the layout.
+    have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
+    #have xbindkeys && xbindkeys
 }
 # }}}
