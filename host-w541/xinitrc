@@ -23,8 +23,11 @@ fi
 # Automatically configure monitor setup (docked/undocked)
 autorandr -c &
 
+# Suspend after n minutes when idle.
+#xautolock -time 30 -locker "systemctl suspend" -detectsleep &
+
 # {{{ Apps
-copyq &
+#copyq &
 nm-applet --sm-disable &
 pidgin &
 konversation &

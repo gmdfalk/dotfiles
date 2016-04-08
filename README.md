@@ -14,6 +14,7 @@ If you
   + like the command-line
   + like the vim/solarized combo and/or
   + need a cross-platform development environment
+
 these dotfiles might be for you!
 
 Features:

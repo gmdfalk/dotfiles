@@ -104,7 +104,9 @@ alias cdmov="cdn ~/htpc/mov"
 alias cdser="cdn ~/htpc/ser"
 alias mntm="cd && ${_SUDO} mount ~/htpc"
 alias umntm="cd && ${_SUDO} umount ~/htpc"
-slpin() { count "$1" && pkill vlc; sudo umount -l ~/htpc ; systemctl suspend; }
+
+# Vlc sometimes completely blocks the suspend process so we have to force it into submission.
+slpin() { count "$1" && kill -9 $(pgrep vlc); sudo umount -l ~/htpc ; systemctl suspend; }
 
 
 # Show or set system volume.

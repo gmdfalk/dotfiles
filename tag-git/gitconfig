@@ -119,9 +119,9 @@
     pr = "pull --rebase"
     pp = "pull && git push"
     up = "fetch && git rebase"
-    po = "push origin"
-    pu = "push --set-upstream"
-    pom = "push origin master"
+    pso = "push origin"
+    psu = "push --set-upstream"
+    psom = "push origin master"
 
     # Pull in remote changes for the current repository and all its submodules
     pa = !"git pull; git submodule foreach git pull origin master"
