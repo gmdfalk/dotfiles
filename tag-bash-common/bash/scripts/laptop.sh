@@ -41,9 +41,10 @@ idlesuspend() {
         on|enable)
             xautolock -enable;;
         [0-9]*)
-            [[ "$(pgrep xautolock)" ]] && xautolock -exit
-            sleep 1
-            xautolock -time "$1" -locker "systemctl suspend" -detectsleep &;;
+            [[ "$(pgrep xautolock)" ]] && (xautolock -exit || pkill xautolock) && sleep 1
+            xautolock -time "$1" -locker "systemctl suspend" -detectsleep &>/dev/null &;;
+        exit|quit)
+            (xautolock -exit || pkill "xautolock") && sleep 1;;
         toggle)
             xautolock -toggle;;
         '');;
