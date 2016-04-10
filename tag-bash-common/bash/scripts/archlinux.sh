@@ -24,7 +24,6 @@ alias paclsorphans="${_SUDO} pacman -Qdt"
 alias pacrmorphans="${_SUDO} pacman -Rs $(pacman -Qtdq)"
 alias pacupd="${_SUDO} pacman -Syu" # Update and refresh the local package database against repositories
 [[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Syu && ${_SUDO} abs"
-[[ "${_have_pacupg}" ]] || alias pacupg="${_SUDO} pacman -Syu" # Synchronize with repositories before upgrading packages that are out of date on the local system.
 # }}}
 
 # {{{ Yaourt/AUR Helper
@@ -44,8 +43,7 @@ if [[ "${_have_yaourt}" ]]; then
     alias yaorph="yaourt -Qtd"  # Remove orphans using yaourt
     alias yainsd="yaourt -S --asdeps" # Install given package(s) as dependencies of another package
     alias yamir="yaourt -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
-    alias yaupd="yaourt -Syu"   # Update and refresh the local package database against repositories
-    alias yaupg="yaourt -Syua"  # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
+    alias yaupd="yaourt -Syua"   # Update and refresh the local package database against repositories
     [[ "${_have_aur}" ]] && alias yaupd="yaourt -Sy && ${_SUDO} aur"
     [[ "${_have_pacupg}" ]] && alias yaupg="pacupg -a"
 fi
@@ -66,9 +64,8 @@ if [[ "${_have_pacaur}" ]]; then
     alias paorph="pacaur -Qtd"  # List orphans using pacaur
     alias painsd="pacaur -S --asdeps" # Install given package(s) as dependencies of another package
     alias pamir="pacaur -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
-    alias paupd="pacaur -Syu"   # Update and refresh the local package database against repositories
-    alias paupg="pacaur -Syua"  # Synchronize with repositories before upgrading packages (AUR packages too) that are out of date on the local system.
-    [[ "${_have_aur}" ]] && alias paupd="pacaur -Sy && ${_SUDO} aur"
+    alias paupd="pacaur -Syua"  # Update and refresh the local package database against repositories
+    [[ "${_have_aur}" ]] && alias paupd="pacaur -Syua && ${_SUDO} aur"
     [[ "${_have_pacupg}" ]] && alias paupg="pacupg -a"
 fi
 # }}}

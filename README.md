@@ -10,14 +10,16 @@ I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/
 It integrates some of the best and most popular frameworks for each component into a well-rounded and modular package tailored to developer needs.
 
 If you
-  + are a developer
-  + like the command-line
-  + like the vim/solarized combo and/or
-  + need a cross-platform development environment
+
+  * are a developer
+  * like the command-line
+  * like the vim/solarized combo and/or
+  * need a cross-platform development environment
 
 these dotfiles might be for you!
 
 Features:
+  * Combines the best frameworks per component (vim, zsh, tmux, ...)
   * Shared configuration between bash and zsh (only bash available on the server? clone the dotfiles and use bash)
   * Portable between OSX, Linux and Windows
   * Vim-centric key bindings

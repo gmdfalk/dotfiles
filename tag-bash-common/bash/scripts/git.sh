@@ -4,6 +4,12 @@
 # Hub is a fully compatible wrapper for git that adds GitHub support, e.g. creating issues and pull requests.
 if have hub; then
     alias git="hub"
+    alias gcr="git create"        # Create a new public GH repository
+    alias gbr="git browse"        # Open GH repository in systems default browser.
+    alias gco="git compare"       # Opens a GH compare view for up to two arguments which can be commits, branches, tags.
+    alias gfo="git fork"          # Fork the original project (remote origin) under own GH name.
+    alias greq="git pull-request" # Create a pull request for the original project (remote origin).
+    alias gcis="git ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
 fi
 # }}}
 

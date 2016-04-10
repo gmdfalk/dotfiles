@@ -47,7 +47,7 @@ idlesuspend() {
             (xautolock -exit || pkill "xautolock") && sleep 1;;
         toggle)
             xautolock -toggle;;
-        '');;
+        '');; # No arguments -> Do nothing, i.e. fall through to printing xautolock process state to stdout.
         *)
             echo "Usage: idlesuspend [ off | toggle | <time> ]";;
     esac
