@@ -145,6 +145,8 @@ alias gmu='git fetch origin -v; git fetch upstream -v; git merge upstream/master
 alias gaa="git add -A"
 alias gclr="git clone --recursive"
 alias gdv='git diff -w "$@" | vim -R -'
+alias gremadd="git remote add"
+
 # Merge GitHub pull request on top of the `master` branch
 gmpr() {
     if [ $(printf "%s" "$1" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then

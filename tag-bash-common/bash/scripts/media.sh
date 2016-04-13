@@ -105,6 +105,8 @@ alias cdser="cdn ~/htpc/ser"
 alias mntm="cd && ${_SUDO} mount ~/htpc"
 alias umntm="cd && ${_SUDO} umount ~/htpc"
 
+alias cdbox="cd ~/box"
+
 # Vlc sometimes completely blocks the suspend process so we have to force it into submission.
 slpin() { count "$1" && kill -9 $(pgrep vlc); sudo umount -l ~/htpc ; systemctl suspend; }
 

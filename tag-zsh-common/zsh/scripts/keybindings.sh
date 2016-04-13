@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 #
 # Key bindings for ZSH
 # Alt+Up/j: Backward history search

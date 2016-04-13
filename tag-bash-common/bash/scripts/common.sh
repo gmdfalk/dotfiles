@@ -98,3 +98,7 @@ alias cmx="chmod +x"
 # {{{ Editing
 alias sv="${_SUDO} ${EDITOR}"
 # }}}
+
+# {{{ Navigation
+alias cdt="cd ${TMPDIR}"
+alias cdv="cd /var"

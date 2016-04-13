@@ -24,6 +24,7 @@ alias paclsorphans="${_SUDO} pacman -Qdt"
 alias pacrmorphans="${_SUDO} pacman -Rs $(pacman -Qtdq)"
 alias pacupd="${_SUDO} pacman -Syu" # Update and refresh the local package database against repositories
 [[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Syu && ${_SUDO} abs"
+paccheck() { [[ "$#" == 0 ]] && pacman -Qk | grep -v "0 missing" || pacman -Qk "$@"; }
 # }}}
 
 # {{{ Yaourt/AUR Helper
@@ -44,7 +45,7 @@ if [[ "${_have_yaourt}" ]]; then
     alias yainsd="yaourt -S --asdeps" # Install given package(s) as dependencies of another package
     alias yamir="yaourt -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
     alias yaupd="yaourt -Syua"   # Update and refresh the local package database against repositories
-    [[ "${_have_aur}" ]] && alias yaupd="yaourt -Sy && ${_SUDO} aur"
+    [[ "${_have_aur}" ]] && alias yaupd="yaourt -Syua && ${_SUDO} aur"
     [[ "${_have_pacupg}" ]] && alias yaupg="pacupg -a"
 fi
 # }}}
@@ -88,4 +89,5 @@ fi
 # {{{ Makepkg/Building
 # Update PKGBUILD with new checksums and create/update .SRCINFO file for AUR.
 alias updpkg="updpkgsums && mksrcinfo"
+alias cdabs="cd /var/abs"
 # }}}
