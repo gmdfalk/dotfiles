@@ -10,7 +10,8 @@ BT="${ACPI}/bluetooth_enable"
 # {{{ Network
 alias wolh="wol 40:61:86:87:F3:FE"
 alias sshh="ssh ${_HTPC}"
-alias pingh="ping 192.168.0.2"
+alias pingh="ping ${_HTPC}"
+alias hlth="sshh 'systemctl halt'"
 # }}}
 
 # {{{ Display
