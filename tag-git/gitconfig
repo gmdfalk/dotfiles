@@ -2,7 +2,7 @@
     # {{{ Basics
     a = "add"
     b = "branch"
-    c = "commit"
+    c = "commit -S"  # Always sign commits by default.
     cl = "clone"
     ch = "checkout"
     cp = "cherry-pick"
