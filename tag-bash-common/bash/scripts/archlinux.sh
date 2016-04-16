@@ -54,6 +54,7 @@ fi
 
 # {{{ Pacaur
 if [[ "${_have_pacaur}" ]]; then
+    alias cdaur="cd ${XDG_CACHE_HOME:-${HOME}/.cache}/pacaur"
     alias pa="pacaur"
     alias paget="pacaur -d"     # Get PKGBUILD of package.
     alias pain="pacaur -S"      # Install specific package(s) from the repositories

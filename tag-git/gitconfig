@@ -1,8 +1,9 @@
 [alias]
     # {{{ Basics
+    commit = "commit -S -v"  # Always sign commits by default and show detailed commit messages.
     a = "add"
     b = "branch"
-    c = "commit -S"  # Always sign commits by default.
+    c = "commit -S -v"
     cl = "clone"
     ch = "checkout"
     cp = "cherry-pick"
@@ -49,6 +50,8 @@
 
     # Credit an author on the latest commit
     credit = "!f() { git commit --amend --author \"$1 <$2>\" --reuse-message=HEAD; }; f"
+    resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
+
     # }}}
 
     # {{{ Branch
@@ -257,3 +260,5 @@
 [include]
     path = "~/.gitconfig.local"
 
+[commit]
+	gpgsign = True

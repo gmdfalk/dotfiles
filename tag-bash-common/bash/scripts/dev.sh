@@ -42,3 +42,11 @@ source /usr/bin/virtualenvwrapper_lazy.sh
 # {{{ Utilities
 
 # }}}
+
+# {{{ Kafka+Storm
+ZOO="/usr/share/zookeeper"
+alias cdzoo="cd ${ZOO}"
+alias zoostart="${_SUDO} ${ZOO}/bin/zkServer.sh start"
+alias zooconnect="${_SUDO} ${ZOO}/bin/zkCli.sh -server 127.0.0.1:2181"
+STORM="/usr/share/storm"
+alias cdstorm="cd ${STORM}"

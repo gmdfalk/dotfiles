@@ -18,7 +18,9 @@ fi
 g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
 alias ga="git add"
 alias gb="git branch"
-alias gc="git commit"
+# Create a signed commit. A key id must be provided, either by setting user.signingkey in the git configuration or by
+# appending the key id to this command directly.
+alias gc="git commit -S -v"
 alias gcl="git clone"
 alias gch="git checkout"
 alias gcp="git cherry-pick"
@@ -30,6 +32,7 @@ alias gm="git merge"
 alias gp="git pull"
 alias gps="git push"
 alias gs="git status"
+alias gst="git stash"
 alias gsu="git submodule"
 alias gt="git tag"
 alias gw="git whatchanged"
@@ -44,27 +47,17 @@ gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 # }}}
 
 # {{{ Commit
-# Create a signed commit. A key id must be provided, either by setting user.signingkey in the git configuration or by
-# appending the key id to this command directly.
-alias gcs="git commit -S"
-# Quick commit all changes (excluding newly added files)
-gcm() { git commit -m "$@"; }
-alias gci="git commit --interactive"
-alias gca="git commit -v -a"
-# Commit all changes (including newly added files)
-alias gcaa="git add -A && git commit -a"
-# Amend staged files to the latest commit
-alias gcam="git commit --amend"
-alias gcamr="git commit --amend --reuse-message=HEAD"
-alias gresign="git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop"
-# Quick commit all changes (excluding newly added files).
-gcma() { git commit -am "$1"; }
-# Credit an author on the latest commit.
-gccredit() { git commit --amend --author "$1 <$2>" --reuse-message=HEAD; }
-# Create a commit with a different date by specifying the offset in hours, e.g. gcdate +24.
+alias gca="gc -a"             # Commit unstaged changes, i.e. perform git add and git rm as necessary.
+alias gcaa="ga -A && gca"     # Commit all changes (including untracked files).
+alias gci="gc --interactive"  # Select which files/hunks should be part of the commit.
+alias gcam="gc --amend" # Amend staged files to the latest commit (prompts to edit message).
+alias gcamr="gc --amend --reuse-message=HEAD"
+alias gresign="gst && gcamr --gpg-sign && gst pop"
+gccredit() { git commit --amend --author "$1 <$2>" --reuse-message=HEAD; } # Credit an author on the latest commit.
+# Create a commit with a different date by specifying the offset in hours, e.g. gcdate -2 backdates the commit by 2 hours.
 gcdate() {
     [[ "$#" -lt 1 ]] && echo "Usage: gcdate <hours>" && exit
-    git commit --date="$(date -R -d "$1 hours")" "${@:2}"
+    gc --date="$(date -R -d "$1 hours")" "${@:2}"
 }
 # }}}
 
