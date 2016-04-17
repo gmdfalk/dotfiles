@@ -1,9 +1,9 @@
 [alias]
     # {{{ Basics
-    commit = "commit -S -v"  # Always sign commits by default and show detailed commit messages.
     a = "add"
     b = "branch"
-    c = "commit -S -v"
+    c = "commit --verbose --gpg-sign"
+    commit = "commit --verbose --gpg-sign"
     cl = "clone"
     ch = "checkout"
     cp = "cherry-pick"
@@ -260,5 +260,6 @@
 [include]
     path = "~/.gitconfig.local"
 
-[commit]
-	gpgsign = True
+#[commit]
+	#gpgsign = True
+	#verbose = True
