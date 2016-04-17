@@ -5,6 +5,7 @@ alias cdb="cd ${HOME}/build"
 alias cdc="cd ${HOME}/code"
 # }}}
 
+
 # {{{ Ruby
 alias rb="ruby"
 # }}}
@@ -43,10 +44,20 @@ source /usr/bin/virtualenvwrapper_lazy.sh
 
 # }}}
 
+# {{{ Java
+export JAVA_HOME="/usr/lib/jvm/default"
+# }}}
+
 # {{{ Kafka+Storm
 ZOO="/usr/share/zookeeper"
 alias cdzoo="cd ${ZOO}"
 alias zoostart="${_SUDO} ${ZOO}/bin/zkServer.sh start"
 alias zooconnect="${_SUDO} ${ZOO}/bin/zkCli.sh -server 127.0.0.1:2181"
+
 STORM="/usr/share/storm"
 alias cdstorm="cd ${STORM}"
+alias nimbusstart="${_SUDO} ${STORM}/bin/storm nimbus"
+alias supervisorstart="${_SUDO} ${STORM}/bin/storm supervisor"
+# The UI can be accessed by navigating your web browser to http://{ui host}:8080.
+alias uistart="${_SUDO} ${STORM}/bin/storm ui"
+# }}}

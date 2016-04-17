@@ -1,12 +1,38 @@
 # dotfiles
 
-Modular cross-platform multi-host configuration files managed with [rcm](https://github.com/thoughtbot/rcm).
+Modular cross-platform multi-host configuration files for developers managed with [rcm](https://github.com/thoughtbot/rcm).
 
 *This project is under development and probably won't leave alpha state before 2017*.
 
+## Table of Contents
+
+  * [About](#About)
+  * [Quick intro to rcm](#Quick intro to rcm)
+  * [Installation](#Installation)
+    * [Linux](#Linux)
+      * [ArchLinux](#ArchLinux)
+    * [OSX](#OSX)
+    * [Windows](#Windows)
+    * [Portable installation script](#Portable installation script)
+  * [Post-Install](#Post-Install)
+    * [Maintenance](#Maintenance)
+    * [Configuration](#Configuration)
+      * [Git](#Git)
+    * [Customization](#Customization)
+  * [Features](#Features)
+    * [Solarized](#Solarized)
+    * [Fasd](#Fasd)
+    * [Bash](#Bash)
+    * [Zsh](#Zsh)
+    * [Vim](#Vim)
+    * [Scripts](#Scripts)
+    * [Tmux](#Tmux)
+    * [Awesome](#Awesome)
+    * [OSX](#OSX)
+
 ## About
 
-I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (w/ Cygwin64).
+I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (currently with Cygwin64, hopefully soon replaced by [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
 It integrates some of the best and most popular frameworks for each component into a well-rounded and modular package tailored to developer needs.
 
 If you
@@ -19,11 +45,11 @@ If you
 these dotfiles might be for you!
 
 Features:
-  * Combines the best frameworks per component (vim, zsh, tmux, ...)
-  * Shared configuration between bash and zsh (only bash available on the server? clone the dotfiles and use bash)
+  * Combines some of the best frameworks for components like bash, zsh, vim, tmux etc.
+  * Shared configuration (e.g. aliases) between bash and zsh (only bash available on the server? clone the dotfiles and use bash-it)
   * Portable between OSX, Linux and Windows
   * Vim-centric key bindings
-  * Solarized colors, when possible
+  * Solarized colors, where possible
 
 Frameworks/Libraries:
   * zsh: [prezto](https://github.com/sorin-ionescu/prezto)/[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
@@ -73,7 +99,9 @@ Adding and deleting files:
 
 ## Installation
 
-### On ArchLinux
+### Linux
+
+#### ArchLinux
 
 ```bash
     cd $HOME &&
@@ -83,7 +111,7 @@ Adding and deleting files:
     rcup -B generic -v
 ```
 
-### On OSX
+### OSX
 
 ```bash
     cd $HOME &&
@@ -93,7 +121,7 @@ Adding and deleting files:
     rcup -B generic -v
 ```
 
-### On Windows
+### Windows
 
 Cygwin doesn't come with a rcm package so we'll have to build it.
 
