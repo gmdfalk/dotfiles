@@ -7,6 +7,9 @@ BL="/sys/class/backlight/intel_backlight/brightness"
 BT="${ACPI}/bluetooth_enable"
 # }}}
 
+# {{{ Battery
+alias powertop="${_SUDO} powertop"
+
 # {{{ Network
 alias wolh="wol 40:61:86:87:F3:FE"
 alias sshh="ssh ${_HTPC}"

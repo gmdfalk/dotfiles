@@ -1,11 +1,13 @@
 [alias]
+	alias = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
+    commit = "commit --verbose --gpg-sign"
+
     # {{{ Basics
     a = "add"
     b = "branch"
-    c = "commit --verbose --gpg-sign"
-    commit = "commit --verbose --gpg-sign"
+    c = "commit"
     cl = "clone"
-    ch = "checkout"
+    co = "checkout"
     cp = "cherry-pick"
     d = "diff -w"
     f = "fetch"
@@ -257,9 +259,9 @@
     email = "gmdfalk@gmail.com"
     signingkey = "A3753845"
 
-[include]
-    path = "~/.gitconfig.local"
-
 #[commit]
 	#gpgsign = True
-	#verbose = True
+	#verbose = True  # NYI, see http://thread.gmane.org/gmane.comp.version-control.git/288820.
+
+[include]
+    path = "~/.gitconfig.local"

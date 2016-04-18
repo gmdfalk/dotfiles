@@ -11,6 +11,7 @@ if have hub; then
     alias greq="git pull-request" # Create a pull request for the original project (remote origin).
     alias gcis="git ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
 fi
+alias galias="git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'"
 # }}}
 
 # {{{ Basics
