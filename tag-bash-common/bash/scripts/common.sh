@@ -87,8 +87,6 @@ ffp() { find $(sed 's/:/ /g' <<< "${PATH}") | grep -is "$@"; }
 psf() { ps aux | grep "$@" | grep -v grep; }
 wgp() { wgetpaste -X "$@"; }
 grab() { sudo chown -R ${USER}:${USER} ${1-.}; }
-alias vn="${VISUAL} ${HOME}/.note"
-alias vnn="${VISUAL} ${HOME}/.notemed"
 alias raw='grep -Ev "^\s*(;|#|$)"'
 debug() { bash -x $(which "$1") "${@:1}"; }
 
@@ -96,7 +94,15 @@ alias cm="chmod"
 alias cmx="chmod +x"
 
 # {{{ Editing
-alias sv="${_SUDO} ${EDITOR}"
+alias vn="${VISUAL} ${HOME}/.note"
+alias vnn="${VISUAL} ${HOME}/.notemed"
+# }}}
+
+# {{{ Privileged
+_privileged_commands=("${EDITOR}" "rm" "cp" "mv")
+for _command in "${_privileged_commands[@]}"; do
+    alias "sd${_command}"="${_SUDO} ${_command}"
+done
 # }}}
 
 # {{{ Navigation
