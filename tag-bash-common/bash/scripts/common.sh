@@ -103,6 +103,7 @@ _privileged_commands=("${EDITOR}" "rm" "cp" "mv")
 for _command in "${_privileged_commands[@]}"; do
     alias "sd${_command}"="${_SUDO} ${_command}"
 done
+unset _privileged_commands _command
 # }}}
 
 # {{{ Navigation

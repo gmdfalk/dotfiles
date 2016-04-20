@@ -16,7 +16,8 @@ alias galias="git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's
 
 # {{{ Basics
 # When no arguments are given, do git status.
-g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
+#g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
+alias g="git"
 alias ga="git add"
 alias gb="git branch"
 # Create a signed commit. A key id must be provided, either by setting user.signingkey in the git configuration or by

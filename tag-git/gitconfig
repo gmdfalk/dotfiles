@@ -3,6 +3,7 @@
     commit = "commit --verbose --gpg-sign"
 
     # {{{ Basics
+    # { Git
     a = "add"
     b = "branch"
     c = "commit"
@@ -21,7 +22,18 @@
     su = "submodule"
     t = "tag"
     w = "whatchanged"
+    # }
+
+    # { Hub
+    cr = "create"        # Create a new public GH repository
+    br = "browse"        # Open GH repository in systems default browser.
+    co = "compare"       # Opens a GH compare view for up to two arguments which can be commits, branches, tags.
+    fo = "fork"          # Fork the original project (remote origin) under own GH name.
+    req = "pull-request" # Create a pull request for the original project (remote origin).
+    cis = "ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
+    # }
     # }}}
+
 
     # {{{ Tag
     ta = "tag -a"  # Add tag
