@@ -6,7 +6,7 @@ Modular cross-platform multi-host configuration files for developers managed wit
 
 ## Table of Contents
 
-  * [About](##About)
+  * [About](#about)
   * [Quick intro to rcm](#Quick-intro-to-rcm)
   * [Installation](#Installation)
     * [Linux](#Linux)
