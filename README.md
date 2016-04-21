@@ -6,14 +6,14 @@ Modular cross-platform multi-host configuration files for developers managed wit
 
 ## Table of Contents
 
-  * [About](#About)
-  * [Quick intro to rcm](#Quick intro to rcm)
+  * [About](##About)
+  * [Quick intro to rcm](#Quick-intro-to-rcm)
   * [Installation](#Installation)
     * [Linux](#Linux)
       * [ArchLinux](#ArchLinux)
     * [OSX](#OSX)
     * [Windows](#Windows)
-    * [Portable installation script](#Portable installation script)
+    * [Portable installation script](#Portable-installation-script)
   * [Post-Install](#Post-Install)
     * [Maintenance](#Maintenance)
     * [Configuration](#Configuration)
