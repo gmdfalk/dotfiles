@@ -1,6 +1,8 @@
 [alias]
-	alias = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
-    #commit = "commit --verbose --gpg-sign"
+    # Show all aliases.
+	aliases = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
+
+    commit = "commit --verbose --gpg-sign"
 
     # {{{ Basics
     # { Git

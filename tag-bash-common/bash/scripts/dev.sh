@@ -31,12 +31,14 @@ alias pptupload="python setup.py sdist upload -r pypitest"
 # { Virtualenv
 # Virtualenvwrapper workflow: mkvirtualenv foo, workon foo, deactivate, rmvirtualenv foo
 # Other useful commands: lsvirtualenv (list all environments), cdvirtualenv (cd into one), cdsitepackages, lssitepackages
-export PROJECT_HOME="${HOME}/code/python"
-export WORKON_HOME="${HOME}/build/python/venv"
-export VIRTUALENVWRAPPER_SCRIPT=/usr/bin/virtualenvwrapper.sh
-# Isolate new environments from system site packages. Opposite would be --system-site-packages.
-#export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-source /usr/bin/virtualenvwrapper_lazy.sh
+if [[ -x /usr/bin/virtualenvwrapper_lazy.sh ]]; then
+    export PROJECT_HOME="${HOME}/code/python"
+    export WORKON_HOME="${HOME}/build/python/venv"
+    export VIRTUALENVWRAPPER_SCRIPT=/usr/bin/virtualenvwrapper.sh
+    # Isolate new environments from system site packages. Opposite would be --system-site-packages.
+    #export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+    source /usr/bin/virtualenvwrapper_lazy.sh
+fi
 # }
 # }}}
 
