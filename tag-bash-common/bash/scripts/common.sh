@@ -98,16 +98,6 @@ alias vn="${VISUAL} ${HOME}/.note"
 alias vnn="${VISUAL} ${HOME}/.notemed"
 # }}}
 
-# {{{ Privileged
-if [[ "${UID}" != 0 ]];then
-    _privileged_commands=("${EDITOR}" "rm" "cp" "mv" "v")
-    for _command in "${_privileged_commands[@]}"; do
-        alias "sd${_command}"="sudo ${_command}"
-    done
-    unset _privileged_commands _command
-fi
-# }}}
-
 # {{{ Navigation
 alias cdt="cd ${TMPDIR}"
 alias cdv="cd /var"
