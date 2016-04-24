@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Media control {
 # Blockify shortcuts
 bb() {
     usage() { echo "Usage: bb ( b[lock] | u[nblock] | p[revious] | n[ext] | t[oggle] | t[oggle]b[lock] | ... )"; }
@@ -8,7 +9,7 @@ bb() {
     [[ "$1" == "--host" ]] && cmd="ssh $2 " && shift 2
     case "$1" in
         ""|g|get|status)
-            cmd+="blockify-dbus get";;
+            cmd+="blockify-dbus get $2";;
         ex|exit)
             signal='TERM';;       # Exit
         b|block)
@@ -33,12 +34,11 @@ bb() {
             signal='RTMIN+13';;   # Toggle interlude resume
         *) usage && return 0;;
     esac
-    [[ -z "${cmd}" ]] && cmd+="pkill --signal ${signal} -f '/usr/bin/blockify'"
+    [[ "${signal}" ]] && cmd+="pkill --signal ${signal} -f '/usr/bin/blockify'"
     echo "${cmd}"
     eval "${cmd}"
 }
-
-bbh() { bb --host "htpc" "$@"; }
+bbh() { bb --host "${_HTPC}" "$@"; }
 
 # Playerctl shortcuts
 pc() {
@@ -58,21 +58,27 @@ pc() {
     echo "${cmd}"
     eval "${cmd}"
 }
-pch() { pc --host htpc "$@" ; }
+pch() { pc --host "${_HTPC}" "$@" ; }
 
-note() { # Write a note to a target file
-    local target=$1
-    [[ -f "${target}" ]] || touch "${target}"
-    if [[ "$#" == 0 ]];then
-        echo "Usage: note <filename> <message>"
-    elif [[ "$#" == 1 ]];then
-        cat "${target}" | tail -n 20
+# Show or set system volume.
+vol() {
+    [[ "$#" -gt 1 ]] && echo "Usage: vol [<volume>]" && return 0
+    if have pamixer; then
+        [[ "$#" == 1 ]] && pamixer --set-volume "$1"
+        pamixer --get-volume
+    elif have amixer; then
+        [[ "$#" == 1 ]] && amixer -q set Master "${1}%"
+        amixer get Master "$1"
     else
-        shift
-        echo "$@" >> "${target}"
+        echo "Could not find amixer or pamixer."
     fi
 }
 
+# Vlc sometimes completely blocks the suspend process so we have to force it into submission.
+slpin() { count "$1" && kill -9 $(pgrep vlc); sudo umount -l ~/htpc ; systemctl suspend; }
+# }
+
+# Record {
 twitch() { # stream my shit on twitch
     [[ -z "$INRES" ]] && INRES=1920x1200
     [[ -z "$OUTRES" ]] && OUTRES=1920x1200
@@ -97,31 +103,36 @@ twitchw() { # stream (only) a selected screen region
 
 alias soundrecord="ffmpeg -f alsa -ac 2 -i hw:0 -vn -acodec libmp3lame -ab 196k capture.mp3"
 alias soundtest="aplay /usr/share/sounds/alsa/Front_Center.wav"
+# }
 
-
+# Media {
 alias cdm="cd ~/htpc"
 alias cdinc="cdn ~/htpc/inc"
 alias cdmov="cdn ~/htpc/mov"
 alias cdser="cdn ~/htpc/ser"
 alias mntm="cd && ${_SUDO} mount ~/htpc"
 alias umntm="cd && ${_SUDO} umount ~/htpc"
+# }
 
+# Dropbox {
 alias cdbox="cd ~/box"
 alias cdaus="cd ~/box/ausbildung"
+# }
 
-# Vlc sometimes completely blocks the suspend process so we have to force it into submission.
-slpin() { count "$1" && kill -9 $(pgrep vlc); sudo umount -l ~/htpc ; systemctl suspend; }
 
-# Show or set system volume.
-vol() {
-    [[ "$#" -gt 1 ]] && echo "Usage: vol [<volume>]" && return 0
-    if have pamixer; then
-        [[ "$#" == 1 ]] && pamixer --set-volume "$1"
-        pamixer --get-volume
-    elif have amixer; then
-        [[ "$#" == 1 ]] && amixer -q set Master "${1}%"
-        amixer get Master "$1"
+# Notes {
+note() { # Write a note to a target file
+    local target=$1
+    [[ -f "${target}" ]] || touch "${target}"
+    if [[ "$#" == 0 ]];then
+        echo "Usage: note <filename> <message>"
+    elif [[ "$#" == 1 ]];then
+        cat "${target}" | tail -n 20
     else
-        echo "Could not find amixer or pamixer."
+        shift
+        echo "$@" >> "${target}"
     fi
 }
+# }
+
+
