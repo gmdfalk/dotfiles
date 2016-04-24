@@ -2,63 +2,23 @@
 
 # {{{ Preparation
 # Hub is a fully compatible wrapper for git that adds GitHub support, e.g. creating issues and pull requests.
-if have hub; then
-    alias git="hub"
-    alias gcr="git create"        # Create a new public GH repository
-    alias gbr="git browse"        # Open GH repository in systems default browser.
-    alias gco="git compare"       # Opens a GH compare view for up to two arguments which can be commits, branches, tags.
-    alias gfo="git fork"          # Fork the original project (remote origin) under own GH name.
-    alias greq="git pull-request" # Create a pull request for the original project (remote origin).
-    alias gcis="git ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
-fi
-alias galias="git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'"
+have hub && alias git="hub"
 # }}}
 
 # {{{ Basics
 # When no arguments are given, do git status.
 #g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
 alias g="git"
-alias ga="git add"
-alias gb="git branch"
-# Create a signed commit. A key id must be provided, either by setting user.signingkey in the git configuration or by
-# appending the key id to this command directly.
-alias gc="git commit -S -v"
-alias gcl="git clone"
-alias gch="git checkout"
-alias gcp="git cherry-pick"
-alias gd='git diff -w'
-alias gf="git fetch"
-alias gr="git reset"
-alias grb="git rebase"
-alias gm="git merge"
-alias gp="git pull"
-alias gps="git push"
-alias gs="git status"
-alias gst="git stash"
-alias gsu="git submodule"
-alias gt="git tag"
-alias gw="git whatchanged"
-# }}}
-
-# {{{ Tag
-alias gta="git tag -a"  # Add tag
-alias gtd="git tag -d"  # Delete tag
-alias gtl="git tag -l"  # List tag(s)
-# Remove the old tag with this name and tag the latest commit with it.
-gretag() { git tag -d "$1" && git push origin :refs/tags/"$1" && git tag "$1"; }
 # }}}
 
 # {{{ Commit
-alias gca="gc -a"             # Commit unstaged changes, i.e. perform git add and git rm as necessary.
-alias gcaa="ga -A && gca"     # Commit all changes (including untracked files).
-alias gci="gc --interactive"  # Select which files/hunks should be part of the commit.
 alias gcam="gc --amend" # Amend staged files to the latest commit (prompts to edit message).
 alias gcamr="gc --amend --reuse-message=HEAD"
 alias gresign="gst && gcamr --gpg-sign && gst pop"
 gccredit() { git commit --amend --author "$1 <$2>" --reuse-message=HEAD; } # Credit an author on the latest commit.
 # Create a commit with a different date by specifying the offset in hours, e.g. gcdate -2 backdates the commit by 2 hours.
 gcdate() {
-    [[ "$#" -lt 1 ]] && echo "Usage: gcdate <hours>" && exit
+    [[ "$#" -lt 1 ]] && echo "Usage: gcdate <hours>" && return
     gc --date="$(date -R -d "$1 hours")" "${@:2}"
 }
 # }}}

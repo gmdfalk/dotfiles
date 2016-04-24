@@ -1,11 +1,14 @@
+# vim: set sw=4 ts=4 sts=4 et tw=78 foldlevel=0 foldmethod=marker spell:
+
+# alias {{{
 [alias]
-    # Show all aliases.
-	aliases = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
+    # Remaps {{{
+    commit = "commit --verbose"  # --gpg-sign
+    log = "log --show-signature"
+    # }}}
 
-    commit = "commit --verbose --gpg-sign"
-
-    # {{{ Basics
-    # { Git
+    # Basics {{{
+    # Git {{{
     a = "add"
     b = "branch"
     c = "commit"
@@ -14,30 +17,30 @@
     cp = "cherry-pick"
     d = "diff -w"
     f = "fetch"
-    log = "log --show-signature"
+    l = "log"
     r = "reset"
     rb = "rebase"
     m = "merge"
     p = "pull"
     ps = "push"
     s = "status"
+    st = "stash"
     su = "submodule"
     t = "tag"
-    w = "whatchanged"
-    # }
+    w = "whatchanged"    # Show logs with difference each commit introduces.
+    # }}}
 
-    # { Hub
+    # Hub {{{
     cr = "create"        # Create a new public GH repository
     br = "browse"        # Open GH repository in systems default browser.
     co = "compare"       # Opens a GH compare view for up to two arguments which can be commits, branches, tags.
     fo = "fork"          # Fork the original project (remote origin) under own GH name.
     req = "pull-request" # Create a pull request for the original project (remote origin).
     cis = "ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
-    # }
+    # }}}
     # }}}
 
-
-    # {{{ Tag
+    # tag {{{
     ta = "tag -a"  # Add tag
     td = "tag -d"  # Delete tag
     tl = "tag -l"  # List tags
@@ -45,18 +48,20 @@
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
     # }}}
 
-    # {{{ Commit
-    # Quick commit all changes (excluding newly added files)
-    cm = "!f() { git commit -v -m \"$@\"; }; f"
+    # commit {{{
+    ci = "commit --interactive"            # Select which files/hunks should be part of the commit.
+    ca = "commit -a"                       # Commit unstaged changes, i.e. perform git add and git rm as necessary.
+    caa = "!git add -A && git commit -a "  # Commit all changes (including untracked files).
+    cam = "commit --amend --reuse-message=HEAD" # Amend staged files to the latest commit
+
     cda = "!f() { local commit_date=$(date -R -d \"$1 hours\"); shift; git commit --date=\"${commit_date}\" \"$@\"; }; f"
     ci = "commit --interactive"
-    ca = "commit -v -a"
 
-    # Commit all changes (including newly added files)
-    caa = !git add -A && git commit -av
-
-    # Amend staged files to the latest commit
-    cam = "commit --amend --reuse-message=HEAD"
+    # Create a commit with a different date by specifying the offset in hours, e.g. gcdate -2 backdates the commit by 2 hours.
+    cdate = "!f() { \
+        [[ $# -lt 1 ]] && echo 'Usage: gcdate <hours>' && return; \
+        git commit --date=\"$(date -R -d \"$1 hours\")\" \"${@:2}\"; \
+    }; f"
 
     # Amend staged and unstaged files to the latest commit
     cama = "commit -a --amend --reuse-message=HEAD"
@@ -67,10 +72,9 @@
     # Credit an author on the latest commit
     credit = "!f() { git commit --amend --author \"$1 <$2>\" --reuse-message=HEAD; }; f"
     resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
-
     # }}}
 
-    # {{{ Branch
+    # branch {{{
     ba = "branch --all"       # List all branches (local and remote).
     bt = "branch --track"
     bd = "branch -D"       # Shortcut for --delete --force
@@ -83,7 +87,7 @@
     ct = "checkout --track"
     # }}}
 
-    # {{{ Fetch
+    # fetch {{{
     # Fetch and remove any remote-tracking references that no longer exist on the remote.
     fp = "fetch --all --prune --verbose"
 
@@ -91,7 +95,7 @@
     ftag = "fetch --all --prune --tags --verbose"
     # }}}
 
-    # {{{ Info
+    # info {{{
     # Show verbose output about tags, branches or remotes
     tags = "tag -l"
     branches = "branch -a"
@@ -121,7 +125,7 @@
 
     # }}}
 
-    # {{{ Log
+    # log {{{
     # View abbreviated SHA, description, author and time of commits
     l = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
     #l = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
@@ -134,7 +138,7 @@
     lnew = "log HEAD@{1}..HEAD@{0}"
     # }}}
 
-    # {{{ Push & Pull
+    # push/pull {{{
     pr = "pull --rebase"
     pp = "pull && git push"
     up = "fetch && git rebase"
@@ -158,30 +162,26 @@
     mu = "!f() { git fetch origin -v; git fetch upstream -v; git merge upstream/master; }; f"
     # }}}
 
-    # {{{ Various
+    # various {{{
+    # Show all aliases.
+    aliases = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
+
     aa = "add -A"
     clr = "clone --recursive"
     # Diff in vim, ignoring whitespace
     dv = "!f() { git diff -w "$@" | vim -R -; }; f"
-
-    # Merge GitHub pull request on top of the `master` branch
-    mpr = "!f() { \
-        if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-            git fetch origin refs/pull/$1/head:pr/$1 && \
-            git rebase master pr/$1 && \
-            git checkout master && \
-            git merge pr/$1 && \
-            git branch -D pr/$1 && \
-            git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-        fi \
-    }; f"
     # }}}
+# }}}
 
+# apply {{{
 [apply]
 
     # Detect whitespace errors when applying a patch
     whitespace = "fix"
 
+# }}}
+
+# core {{{
 [core]
 
     # Use custom `.gitignore` and `.gitattributes`
@@ -200,7 +200,9 @@
     # Prevent showing files whose names contain non-ASCII symbols as unversioned.
     # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
     precomposeunicode = "false"
+# }}}
 
+# color {{{
 [color]
 
     # Use colors in Git commands that are capable of colored output when
@@ -225,22 +227,30 @@
     added = "yellow"
     changed = "green"
     untracked = "cyan"
+# }}}
 
+# diff {{{
 [diff]
 
     # Detect copies as well as renames
     renames = "copies"
+# }}}
 
+# help {{{
 [help]
 
     # Automatically correct and execute mistyped commands
     autocorrect = "1"
+# }}}
 
+# merge {{{
 [merge]
 
     # Include summaries of merged commits in newly created merge commit messages
     log = "true"
+# }}}
 
+# push {{{
 [push]
 
     # Use the Git 1.x.x default to avoid errors on machines with old Git
@@ -248,8 +258,9 @@
     # `git config --global push.default simple`. See http://git.io/mMah-w.
     default = "matching"
 
-# URL shorthands
+# }}}
 
+# url {{{
 [url "git@github.com:"]
 
     insteadOf = "gh:"
@@ -267,15 +278,9 @@
 
 [url "git://gist.github.com/"]
     insteadOf = "gist:"
+# }}}
 
-[user]
-    name = "Max Falk"
-    email = "gmdfalk@gmail.com"
-    #signingkey = "A3753845"
-
-[commit]
-	#gpgsign = True
-	#verbose = True  # NYI, see http://thread.gmane.org/gmane.comp.version-control.git/288820.
-
+# include {{{
 [include]
     path = "~/.gitconfig.local"
+# }}}
