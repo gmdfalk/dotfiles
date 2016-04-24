@@ -2,11 +2,13 @@
 
 # Blockify shortcuts
 bb() {
+    usage() { echo "Usage: bb ( b[lock] | u[nblock] | p[revious] | n[ext] | t[oggle] | t[oggle]b[lock] | ... )"; }
     local signal
     local cmd
-    [[ "$#" -lt 1 ]] && echo "Usage: bb ( b[lock] | u[nblock] | p[revious] | n[ext] | t[oggle] | t[oggle]b[lock] |...)"  && return 0
+    [[ "$1" == "--host" ]] && cmd="ssh $2 " && shift 2
     case "$1" in
-        "")  blockify-dbus get 2>/dev/null && return 0;;
+        ""|g|get|status)
+            cmd+="blockify-dbus get";;
         ex|exit)
             signal='TERM';;       # Exit
         b|block)
@@ -29,35 +31,34 @@ bb() {
             signal='RTMIN+12';;   # Toggle play interlude song
         itr|itoggleresume)
             signal='RTMIN+13';;   # Toggle interlude resume
-        *) echo "Bad option" && return 0;;
+        *) usage && return 0;;
     esac
-    cmd="pkill --signal $signal -f 'python.*blockify'"
-    [[ $2 ]] && cmd="ssh $2 \"${cmd}\""
+    [[ -z "${cmd}" ]] && cmd+="pkill --signal ${signal} -f '/usr/bin/blockify'"
+    echo "${cmd}"
     eval "${cmd}"
 }
 
-bbr() {
-    bb "$1" "htpc"
-}
+bbh() { bb --host "htpc" "$@"; }
 
 # Playerctl shortcuts
 pc() {
-    [[ "$#" -lt 1 ]] && echo "Usage: pc [ p[revious] | n[ext] | t[oggle] | v[olume] | s[top] ]" && return 0
+    usage() { echo "Usage: pc [ p[revious] | n[ext] | t[oggle] | v[olume] | s[top] ]"; }
+    local cmd
+    [[ "$1" == "--host" ]] && cmd="ssh $2 " && shift 2
     case "$1" in
-        "") arg="status";;
+        ''|g|get|state|status) arg="status";;
         p|previous) arg="previous";;
         n|next) arg="next";;
         t|toggle) arg="play-pause";;
         v|volume) arg="volume $2";;
         s|stop) arg="stop";;
-        *) echo "Bad option" && return 0;;
+        *) usage && return 0;;
     esac
-    if have playerctl-wrapper; then
-        playerctl-wrapper "$arg"
-    else
-        playerctl "$arg"
-    fi
+    cmd+="playerctl-wrapper ${arg}"
+    echo "${cmd}"
+    eval "${cmd}"
 }
+pch() { pc --host htpc "$@" ; }
 
 note() { # Write a note to a target file
     local target=$1

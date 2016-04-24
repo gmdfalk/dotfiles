@@ -57,7 +57,6 @@ dock() {
     xrandr --output eDP1 --mode 1920x1080
     xrandr --output DP2-1 --mode 1920x1200 --right-of eDP1
     xrandr --output DP2-2 --mode 1920x1200 --right-of DP2-1
-    xrandr --output DP2-3 --mode 1920x1200 --right-of DP2-2
 }
 
 undock() {

@@ -52,6 +52,7 @@ Host htpc 192.168.0.2
     StrictHostKeyChecking no
     ServerAliveInterval 10
     ServerAliveCountMax 2
+    #ForwardX11 yes
     #~ ControlMaster auto
     #~ ControlPersist yes
     #~ ControlPath ~/.ssh/socket-%r@%h:%p

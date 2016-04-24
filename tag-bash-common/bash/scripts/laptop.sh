@@ -59,8 +59,3 @@ idlesuspend() {
     [[ "${xautolock_process}" ]] && echo "running: ${xautolock_process}" || echo "xautolock is not running."
 }
 # }}}
-
-
-
-
-

@@ -3,25 +3,54 @@
 usage() {
     cat << EOF
 Usage:
-    $(basename $0) (play-pause | pause | prev | next | status | mute)
+$(basename $0) (play-pause | pause | prev | next | status | mute | volume [<perc>])
 
 EOF
     exit 0
 }
-[[ "$#" -lt 1 ]] && usage
+
+HOST="$(hostname)"
+SPOTIFY_FOUND="$(pgrep spotify)"
+HTPC_FOUND="$(ping -W 1 -c 1 htpc)" &>/dev/null
+[[ -z "${PLAYER}" ]] && PLAYER="spotify"
 
 # Always execute mute on remote
-if [[ "$1" == mute ]]; then
-    ssh htpc "pamixer --toggle-mute"
-    exit 0
-fi
+case "$1" in
+    h|help|-h|--help)
+        usage
+        ;;
+    m|mute) 
+        COMMAND="pamixer --toggle-mute"
+        ;;
+    v|vol|volume)
+        COMMAND="pamixer --set-volume $2"
+        [[ -z "$2" ]] && COMMAND="pamixer --get-volume"
+        ;;
+    p|prev|previous)
+        COMMAND="playerctl previous"
+        ;;
+    n|next)
+        COMMAND="playerctl next"
+        ;;
+    t|toggle|pp|playpause|play-pause)
+        COMMAND="playerctl play-pause"
+        ;;
+    s|stop)
+        COMMAND="playerctl stop"
+        ;;
+    ""|status|get|g)
+        COMMAND="playerctl status"
+        ;;
+    *) 
+        usage
+        ;;
+esac
 
-SPOTIFY_FOUND="$(pgrep spotify)"
-COMMAND="playerctl $1 --player=spotify"
-HOST="$(hostname)"
+# If PLAYER was set, append it to all playerctl commands.
+[[ "${COMMAND}" == playerctl* && "${PLAYER}" ]] && COMMAND+=" --player=${PLAYER}"
+# Execute the command remotely if necessary.
+[[ "${HTPC_FOUND}" && -z "${SPOTIFY_FOUND}" ]] && COMMAND="ssh htpc ${COMMAND}"
 
-if [[ "${HOST}" != "htpc" ]] && [[ -z "${SPOTIFY_FOUND}" ]]; then
-    ssh htpc "${COMMAND}"
-else
-    eval $(${COMMAND})
-fi
+# Do the needful.
+echo "${COMMAND}"
+eval "${COMMAND}"

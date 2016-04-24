@@ -56,21 +56,11 @@ if have fasd; then
 fi
 
 # List directory contents
+[[ "${OSTYPE}" == "linux-gnu" ]] && ls="ls --color=auto"
 alias l="ls"
 alias ll="ls -lh"
 alias la="ls -lAh"
 alias l1="ls -1"
-
-[[ "$(uname)" == "Linux" ]] && ls="ls --color=auto"
-
-alias irc="$IRC_CLIENT"
-
-
-
-alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
-alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
-alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
-alias dfh="btrfs filesystem df -h /"
 
 alias lnew="ls --color=auto -lhrt"
 alias lold="ls --color=auto -lht"
@@ -79,6 +69,11 @@ alias labig="ls --color=auto -lArSh"
 alias lanew="ls --color=auto -lAhrt"
 alias laold="ls --color=auto -lAht"
 alias lasmall="ls --color=auto -lASh"
+
+alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
+alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
+alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
+alias dfbtrfs="btrfs filesystem df -h /"
 
 alias pingg="ping www.google.com"
 ff() { find . | grep -is "$@"; }

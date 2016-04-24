@@ -7,6 +7,7 @@ for cmd in "${cmds[@]}"; do
 done
 
 # {{{ Pacman
+alias cdpkg="cd /var/cache/pacman/pkg"
 alias pac="pacman"
 pacget() { ${_SUDO} abs && cd "$(find /var/abs -type d -iname "$@")"; } # Update abs and cd to PKGBUILD of a package.
 alias pacin="${_SUDO} pacman -S"    # Install specific package(s) from the repositories
