@@ -49,13 +49,14 @@
     # }}}
 
     # commit {{{
-    ci = "commit --interactive"            # Select which files/hunks should be part of the commit.
-    ca = "commit -a"                       # Commit unstaged changes, i.e. perform git add and git rm as necessary.
-    caa = "!git add -A && git commit -a "  # Commit all changes (including untracked files).
+    ci = "commit --interactive"                 # Select which files/hunks should be part of the commit.
+    ca = "commit -a"                            # Commit unstaged changes, i.e. perform git add and git rm as necessary.
+    caa = "!git add -A && git commit -a "       # Commit all changes (including untracked files).
     cam = "commit --amend --reuse-message=HEAD" # Amend staged files to the latest commit
+    cama = "commit -a --amend --reuse-message=HEAD" # Amend staged and unstaged files to the latest commit
 
-    cda = "!f() { local commit_date=$(date -R -d \"$1 hours\"); shift; git commit --date=\"${commit_date}\" \"$@\"; }; f"
-    ci = "commit --interactive"
+    # Credit an author on the latest commit. Argument example: "Bernie Sanders <feelthebern@elections.gov>"
+    ccredit = "!f() { git commit --amend --author \"$@\" --reuse-message=HEAD; }; f"
 
     # Create a commit with a different date by specifying the offset in hours, e.g. gcdate -2 backdates the commit by 2 hours.
     cdate = "!f() { \
@@ -63,36 +64,22 @@
         git commit --date=\"$(date -R -d \"$1 hours\")\" \"${@:2}\"; \
     }; f"
 
-    # Amend staged and unstaged files to the latest commit
-    cama = "commit -a --amend --reuse-message=HEAD"
-
-    # Quick commit all changes (excluding newly added files)
-    cma = "!f() { git commit -avm \"$1\"; }; f"
-
-    # Credit an author on the latest commit
-    credit = "!f() { git commit --amend --author \"$1 <$2>\" --reuse-message=HEAD; }; f"
+    # Sign the most recent commit with your gpg key. The config variable user.signingkey has to be set.
     resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
     # }}}
 
-    # branch {{{
+    # branch & checkout {{{
     ba = "branch --all"       # List all branches (local and remote).
-    bt = "branch --track"
-    bd = "branch -D"       # Shortcut for --delete --force
-    # Remove branches that have already been merged with master
-    # a.k.a. ‘delete merged’
-    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    bt = "branch --track"     # Set remote and merge configuration entries when creating a new branch.
+    bd = "branch -D"          # Shortcut for --delete --force
+
+    # Remove branches that have already been merged with master.
+    bdm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+    cot = "checkout --track"  # Similar to branch --track. Sets the upstream configuration.
 
     # Switch to a branch, creating it if necessary
-    cb = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-    ct = "checkout --track"
-    # }}}
-
-    # fetch {{{
-    # Fetch and remove any remote-tracking references that no longer exist on the remote.
-    fp = "fetch --all --prune --verbose"
-
-    # Fetch including remote tags. Tags are not pruned.
-    ftag = "fetch --all --prune --tags --verbose"
+    cob = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
     # }}}
 
     # info {{{
@@ -122,23 +109,22 @@
 
     # Find commits by commit message
     fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-
     # }}}
 
     # log {{{
     # View abbreviated SHA, description, author and time of commits
-    l = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
-    #l = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
+    lg = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
+    #lg = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
 
     # View abbreviated SHA, description, and history graph (of the latest 20 commits)
     ll = "log --pretty=oneline --graph --abbrev-commit"
-    ls = "log --pretty=oneline --graph --abbrev-commit -n 20"
+    ls = "log --pretty=oneline --graph --abbrev-commit -n 18"
 
     # Show commits since last pull
     lnew = "log HEAD@{1}..HEAD@{0}"
     # }}}
 
-    # push/pull {{{
+    # push/pull/fetch {{{
     pr = "pull --rebase"
     pp = "pull && git push"
     up = "fetch && git rebase"
@@ -149,14 +135,19 @@
     # Pull in remote changes for the current repository and all its submodules
     pa = !"git pull; git submodule foreach git pull origin master"
 
-    # Push origin to master
-    pm = "push origin master"
-
     # Interactive rebase with the given number of latest commits
     reb = "!r() { git rebase -i HEAD~$1; }; r"
 
+    suu = "submodule update --init"
+
     # Initialize and update all submodules recursively
-    su = "submodule update --init --recursive"
+    suur = "submodule update --init --recursive"
+
+    # Fetch and remove any remote-tracking references that no longer exist on the remote.
+    fp = "fetch --all --prune --verbose"
+
+    # Fetch including remote tags. Tags are not pruned.
+    ftag = "fetch --all --prune --tags --verbose"
 
     # Merge upstream
     mu = "!f() { git fetch origin -v; git fetch upstream -v; git merge upstream/master; }; f"
@@ -166,7 +157,7 @@
     # Show all aliases.
     aliases = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
 
-    aa = "add -A"
+    aa = "add -A"  # Add all unstaged files.
     clr = "clone --recursive"
     # Diff in vim, ignoring whitespace
     dv = "!f() { git diff -w "$@" | vim -R -; }; f"
@@ -175,15 +166,12 @@
 
 # apply {{{
 [apply]
-
     # Detect whitespace errors when applying a patch
     whitespace = "fix"
-
 # }}}
 
 # core {{{
 [core]
-
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = "~/.gitignore.global"
     #attributesfile = "~/.gitattributes"
@@ -204,26 +192,22 @@
 
 # color {{{
 [color]
-
     # Use colors in Git commands that are capable of colored output when
     # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
     ui = "auto"
 
 [color "branch"]
-
     current = "yellow reverse"
     local = "yellow"
     remote = "green"
 
 [color "diff"]
-
     meta = "yellow bold"
     frag = "magenta bold"
     old = "red"             # deletions
     new = "green"           # additions
 
 [color "status"]
-
     added = "yellow"
     changed = "green"
     untracked = "cyan"
@@ -231,44 +215,37 @@
 
 # diff {{{
 [diff]
-
     # Detect copies as well as renames
     renames = "copies"
 # }}}
 
 # help {{{
 [help]
-
     # Automatically correct and execute mistyped commands
     autocorrect = "1"
 # }}}
 
 # merge {{{
 [merge]
-
     # Include summaries of merged commits in newly created merge commit messages
     log = "true"
 # }}}
 
 # push {{{
 [push]
-
     # Use the Git 1.x.x default to avoid errors on machines with old Git
     # installations. To use `simple` instead, add this to your `~/.extra` file:
     # `git config --global push.default simple`. See http://git.io/mMah-w.
     default = "matching"
-
 # }}}
 
 # url {{{
 [url "git@github.com:"]
-
     insteadOf = "gh:"
     pushInsteadOf = "github:"
     pushInsteadOf = "git://github.com/"
 
 [url "git://github.com/"]
-
     insteadOf = "github:"
 
 [url "git@gist.github.com:"]
