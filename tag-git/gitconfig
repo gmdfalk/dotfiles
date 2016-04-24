@@ -2,22 +2,17 @@
 
 # alias {{{
 [alias]
-    # Remaps {{{
-    commit = "commit --verbose"  # --gpg-sign
-    log = "log --show-signature"
-    # }}}
-
     # Basics {{{
     # Git {{{
     a = "add"
     b = "branch"
-    c = "commit"
+    c = "commit --verbose"
     cl = "clone"
     co = "checkout"
     cp = "cherry-pick"
     d = "diff -w"
     f = "fetch"
-    l = "log"
+    l = "log --show-signature --abbrev-commit"
     r = "reset"
     rb = "rebase"
     m = "merge"
@@ -49,9 +44,9 @@
     # }}}
 
     # commit {{{
-    ci = "commit --interactive"                 # Select which files/hunks should be part of the commit.
-    ca = "commit -a"                            # Commit unstaged changes, i.e. perform git add and git rm as necessary.
-    caa = "!git add -A && git commit -a "       # Commit all changes (including untracked files).
+    ci = "commit --interactive"                # Select which files/hunks should be part of the commit.
+    ca = "commit -a"                           # Commit unstaged changes, i.e. perform git add and git rm as necessary.
+    caa = "!git add -A && git commit -a"       # Commit all changes (including untracked files).
     cam = "commit --amend --reuse-message=HEAD" # Amend staged files to the latest commit
     cama = "commit -a --amend --reuse-message=HEAD" # Amend staged and unstaged files to the latest commit
 
