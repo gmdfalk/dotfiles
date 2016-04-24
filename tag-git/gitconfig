@@ -15,6 +15,7 @@
     l = "log --show-signature --abbrev-commit"
     r = "reset"
     rb = "rebase"
+    rem = "remote"
     m = "merge"
     p = "pull"
     ps = "push"
