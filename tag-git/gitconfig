@@ -109,11 +109,11 @@
 
     # log {{{
     # View abbreviated SHA, description, author and time of commits
-    lg = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
-    #lg = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit --date=relative; }; f"
+    ll = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
+    ll2 = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit; }; f"
 
     # View abbreviated SHA, description, and history graph (of the latest 20 commits)
-    ll = "log --pretty=oneline --graph --abbrev-commit"
+    la = "log --pretty=oneline --graph --abbrev-commit"
     ls = "log --pretty=oneline --graph --abbrev-commit -n 18"
 
     # Show commits since last pull
