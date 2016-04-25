@@ -9,5 +9,6 @@ have hub && alias git="hub"
 # When no arguments are given, do git status.
 #g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
 alias g="git"
+alias gs="git status -s"
 # }}}
 
