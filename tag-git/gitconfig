@@ -8,7 +8,7 @@
     b = "branch"
     c = "commit --verbose"
     cl = "clone"
-    co = "checkout"
+    ch = "checkout"
     cp = "cherry-pick"
     d = "diff -w"
     f = "fetch"
@@ -34,14 +34,50 @@
     req = "pull-request" # Create a pull request for the original project (remote origin).
     cis = "ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
     # }}}
+
+    # Common Operations {{{
+    unstage = "reset -q HEAD --"
+    discard = "checkout --"
+    uncommit = "reset --mixed HEAD~"
+    amend = "commit --amend"
+    nuke = "!git reset --hard HEAD && git clean -d -f"  # Not that common, hopefully.
+
+    # Switch to a branch, creating it if necessary.
+    switch = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+    # Remove the old tag with this name and tag the latest commit with it.
+    retag = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
+
+    # Sign the most recent commit with your gpg key. The config variable user.signingkey has to be set.
+    resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
+
+    # Remove branches that have already been merged with master.
+    clean-branches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+    # Initialize and update all submodules recursively
+    update-modules = "submodule update --init --recursive"
+
+    # Diff in vim, ignoring whitespace.
+    vimdiff = "!f() { git diff -w "$@" | vim -R -; }; f"
+    # }}}
+
+    # Common Infos {{{
+    precommit = "diff --cached --diff-algorithm=minimal -w"
+
+    tags = "tag -l"
+    branches = "branch -a"
+    remotes = "remote -v"
+    stashes = "stash list"
+    commits = "shortlog --summary --numbered"
+
+    graph = "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order"
+    # }}}
     # }}}
 
     # tag {{{
     ta = "tag -a"  # Add tag
     td = "tag -d"  # Delete tag
     tl = "tag -l"  # List tags
-    # Remove the old tag with this name and tag the latest commit with it.
-    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
     # }}}
 
     # commit {{{
@@ -59,9 +95,6 @@
         [[ $# -lt 1 ]] && echo 'Usage: gcdate <hours>' && return; \
         git commit --date=\"$(date -R -d \"$1 hours\")\" \"${@:2}\"; \
     }; f"
-
-    # Sign the most recent commit with your gpg key. The config variable user.signingkey has to be set.
-    resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
     # }}}
 
     # branch & checkout {{{
@@ -69,29 +102,18 @@
     bt = "branch --track"     # Set remote and merge configuration entries when creating a new branch.
     bd = "branch -D"          # Shortcut for --delete --force
 
-    # Remove branches that have already been merged with master.
-    bdm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
-    cot = "checkout --track"  # Similar to branch --track. Sets the upstream configuration.
-
-    # Switch to a branch, creating it if necessary
-    cob = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    cht = "checkout --track"  # Similar to branch --track. Sets the upstream configuration.
     # }}}
 
     # info {{{
-    # Show verbose output about tags, branches or remotes
-    tags = "tag -l"
-    branches = "branch -a"
-    remotes = "remote -v"
-    count = "shortlog --summary --numbered"
-
     # View the current working tree status using the short format
     ss = "status -s"
 
     # Show the diff between the latest commit and the current state.
-    d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+    d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
+    dw = "diff --cached --diff-algorithm=minimal -w"
 
-    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+    # `git di $number` shows the diff between the state `$number` revisions ago and the current state.
     di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
     # Find branches containing commit
@@ -136,9 +158,6 @@
 
     suu = "submodule update --init"
 
-    # Initialize and update all submodules recursively
-    suur = "submodule update --init --recursive"
-
     # Fetch and remove any remote-tracking references that no longer exist on the remote.
     fp = "fetch --all --prune --verbose"
 
@@ -155,8 +174,6 @@
 
     aa = "add -A"  # Add all unstaged files.
     clr = "clone --recursive"
-    # Diff in vim, ignoring whitespace
-    dv = "!f() { git diff -w "$@" | vim -R -; }; f"
     # }}}
 # }}}
 
