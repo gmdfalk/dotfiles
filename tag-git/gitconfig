@@ -12,7 +12,7 @@
     cp = "cherry-pick"
     d = "diff -w"
     f = "fetch"
-    l = "log --show-signature --abbrev-commit"
+    ll = "log --show-signature --abbrev-commit"
     r = "reset"
     rb = "rebase"
     rem = "remote"
@@ -131,8 +131,8 @@
 
     # log {{{
     # View abbreviated SHA, description, author and time of commits
-    ll = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
-    ll2 = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit; }; f"
+    l = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
+    l2 = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit; }; f"
 
     # View abbreviated SHA, description, and history graph (of the latest 20 commits)
     la = "log --pretty=oneline --graph --abbrev-commit"

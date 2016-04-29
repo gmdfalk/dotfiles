@@ -148,10 +148,11 @@ nnoremap <Leader>bb :sidebar Bookmarks<CR>
 nnoremap <Leader>bh :sidebar History<CR>
 nnoremap <Leader>bd :sidebar Downloads<CR>
 
-" Jump to previous buffer
-map <Leader><Space> :buffer #<CR>
+" Jump to last/previous buffer
+nnoremap <Leader><Space> :buffer #<CR>
+nnoremap <Leader>l :buffer #<CR>
 
-" Disable Pentadactyl extension
+" Disable extension
 nnoremap <Leader>d :extdisable Vimperator<CR>
 
 " Proxy
