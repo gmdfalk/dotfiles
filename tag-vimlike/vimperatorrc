@@ -150,7 +150,7 @@ nnoremap <Leader>bd :sidebar Downloads<CR>
 
 " Jump to last/previous buffer
 nnoremap <Leader><Space> :buffer #<CR>
-nnoremap <Leader>l :buffer #<CR>
+nnoremap <Leader>v :buffer #<CR>
 
 " Disable extension
 nnoremap <Leader>d :extdisable Vimperator<CR>
