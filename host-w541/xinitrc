@@ -27,11 +27,11 @@ autorandr -c &
 xautolock -time 30 -locker "systemctl suspend" -detectsleep &
 
 # {{{ Apps
-copyq &
-nm-applet --sm-disable &
+nm-applet &
 blueman-applet &
-pidgin &
+copyq &
 konversation &
+pidgin &
 thunderbird &
 firefox &
 (sleep 10 && dropbox) &
