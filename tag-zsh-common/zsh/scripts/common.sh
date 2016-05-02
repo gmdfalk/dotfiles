@@ -28,20 +28,13 @@ alias -g X="| xargs"
 ## aliases and functions
 autoload -U zmv
 alias mmv="noglob zmv -W"
-alias ls0="ls **/*(ND.L0m+0m-2) **/*.bak"
-alias rm0="rm -i *(.L0) *.bak(.)"
 
 # edit
 alias vnew="v *(.om[1])"         # edit newest file
-alias vnew3="v -p *(.om[1,3])"   # open 3 newest files in tabs
 alias vtoday="v p *(m0)"        # re-edit all files changed today!
 alias mnew="m *(.om[1])"
-alias mnew3="m *(.om[1,3])"
 alias mtoday="m *(m0)"
 
-# ls hidden
-alias lh="ls -d .*"            # list hidden files/directories
-alias llh="ls -lhd .*"         # list details of hidden files/directories
 alias llhd="ls -lhd .*(-/N)"       # list details of hidden directories
 alias llhf="ls -lh .*(-.N)"        # list details of hidden files
 
@@ -83,7 +76,6 @@ mmvspecial() { # remove  / : ; * = " ' ( ) < > | from filenames
     unwanted="[(:);*?\"<>|']"
     zmv -Q "(**/)(*$~unwanted*)(D)" '$1${2//$~unwanted/}'
 }
-
 
 # {{{ Navigation
 preexec() {

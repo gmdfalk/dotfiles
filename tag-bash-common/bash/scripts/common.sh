@@ -56,19 +56,22 @@ if have fasd; then
 fi
 
 # List directory contents
-[[ "${OSTYPE}" == "linux-gnu" ]] && ls="ls --color=auto"
+[[ "${OSTYPE}" == "linux-gnu" ]] && alias ls="ls --group-directories-first --color=auto --time-style=long-iso"
 alias l="ls"
 alias ll="ls -lh"
 alias la="ls -lAh"
 alias l1="ls -1"
 
-alias lnew="ls --color=auto -lhrt"
-alias lold="ls --color=auto -lht"
-alias lsmall="ls --color=auto -lSh"
-alias labig="ls --color=auto -lArSh"
-alias lanew="ls --color=auto -lAhrt"
-alias laold="ls --color=auto -lAht"
-alias lasmall="ls --color=auto -lASh"
+alias lh="ls -d .*"            # list hidden files/directories
+alias llh="ls -lhd .*"         # list details of hidden files/directories
+alias lnew="ls -lhrt"
+alias lanew="ls -lAhrt"
+alias lold="ls -lht"
+alias laold="ls -lAht"
+alias lbig="ls -lrSh"
+alias labig="ls -lArSh"
+alias lsmall="ls -lSh"
+alias lasmall="ls -lASh"
 
 alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
 alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "

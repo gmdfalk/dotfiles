@@ -8,6 +8,9 @@ alias cdc="cd ${HOME}/code"
 
 # {{{ Ruby
 alias rb="ruby"
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+export GEM_HOME=$(ruby -e 'print Gem.user_dir')
+export GEM_PATH="${GEM_HOME}"
 # }}}
 
 # {{{ Python
