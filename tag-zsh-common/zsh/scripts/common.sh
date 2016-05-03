@@ -40,6 +40,7 @@ alias llhf="ls -lh .*(-.N)"        # list details of hidden files
 
 # ls directories
 alias lsd="ls -d *(-/N)"        # list visible directories
+alias lsf="ls -d *(-.N)"        # list visible directories
 alias lhd="ls -d .*(-/N)"      # list hidden directories
 alias lad="ls -d *(-/DN)"      # list all directories
 alias lld="ll -d *(-/N)"       # list details of visible directories
