@@ -54,7 +54,7 @@ install_vimplug() {
 install_vundle() {
     mkdir -p "${VUNDLE_DIR}"
     sync_repo "${VUNDLE_DIR}" "${VUNDLE_URI}" "master"
-    vim "+set nomore" "+BundleInstall!" "+BundleClean" "+qall"
+    vim "+set nomore" "+BundleInstall" "+BundleClean" "+qall"
 }
 
 install_cygwin_packages() {
