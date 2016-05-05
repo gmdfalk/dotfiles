@@ -48,7 +48,7 @@ install_vimplug() {
         curl -fLo "${PLUG_DIR}/plug.vim" --create-dirs "${PLUG_URI}"
     fi
 
-    vim -u "NORC" "+set nomore" "+PlugInstall!" "+PlugClean" "+qall"
+    vim "+set nomore" "+PlugInstall" "+PlugClean" "+qall"
 }
 
 install_vundle() {
