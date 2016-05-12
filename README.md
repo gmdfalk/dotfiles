@@ -31,7 +31,7 @@ Modular cross-platform multi-host configuration files for developers managed wit
 
 ## About
 
-I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (currently with Cygwin64, hopefully soon replaced by [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
+I use these dotfiles on all my machines running OSX, (Arch-)Linux and Windows 7/10 (currently with Cygwin64, hopefully soon replaced by [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)).
 It integrates some of the best and most popular frameworks for each component into a well-rounded and modular package tailored to developer needs.
 
 If you
