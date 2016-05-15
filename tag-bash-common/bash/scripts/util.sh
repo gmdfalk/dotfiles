@@ -57,3 +57,34 @@ kbd() {
     have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
     #have xbindkeys && xbindkeys
 }
+
+# From https://zxq9.com/archives/795:
+#YY-MM-DD_hh:mm:ss             | date +%F_%T                | 2013-05-17_10:16:09
+#YYMMDD_hhmmss                 | date +%Y%m%d_%H%M%S        | 20130517_101609
+#YYMMDD_hhmmss (with local TZ) | date +%Y%m%d_%H%M%S%Z      | 20130517_101609JST
+#YYMMDD_hhmmss (UTC version)   | date --utc +%Y%m%d_%H%M%SZ | 20130517_011609Z
+#YYMMSShhmmss                  | date +%Y%m%d%H%M%S         | 20130517101609
+#YYMMSShhmmssnnnnnnnnn         | date +%Y%m%d%H%M%S%N       | 20130517101609418928482
+#Seconds since UNIX epoch:     | date +%s                   | 1368753369
+#Nanoseconds since UNIX epoch: | date +%s%N                 | 1368753369431083605
+#ISO8601 Local TZ timestamp    | date +%FT%T%Z              | 2013-05-17T10:16:09JST
+#ISO8601 UTC timestamp         | date --utc +%FT%TZ         | 2013-05-17T01:16:09Z
+timestamp() {
+    local date
+    case "$@" in
+        ft)     date="$(date +%F_%T)" ;;
+        "")     date="$(date +%Y%m%d_%H%M%S)" ;;
+        tz)     date="$(date +%Y%m%d_%H%M%S%Z)" ;;
+        utc)    date="$(date --utc +%Y%m%d_%H%M%SZ)" ;;
+        long)   date="$(date +%Y%m%d%H%M%S)" ;;
+        full)   date="$(date +%Y%m%d%H%M%S%N)" ;;
+        s)      date="$(date +%s)" ;;
+        ns)     date="$(date +%s%N)" ;;
+        iso)    date="$(date +%FT%T%Z)" ;;
+        isoutc) date="$(date --utc +%FT%TZ)" ;;
+        *)      echo "Usage: timestamp [ ft | tz | utc | long | full | s | ns | iso | isoutc ]" && return ;;
+    esac
+    echo "${date}"
+}
+
+
