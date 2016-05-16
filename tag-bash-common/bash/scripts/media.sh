@@ -75,7 +75,7 @@ vol() {
 }
 
 # Vlc sometimes completely blocks the suspend process so we have to force it into submission.
-slpin() { count "$1" && kill -9 $(pgrep vlc); sudo umount -l ~/htpc ; systemctl suspend; }
+slpin() { count "$1" && (kill -9 $(pgrep vlc); sudo umount -l ~/htpc ; systemctl suspend); }
 # }
 
 # Record {
