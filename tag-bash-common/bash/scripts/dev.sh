@@ -69,4 +69,9 @@ KAFKA="/usr/share/kafka"
 alias cdkafka="cd ${KAFKA}"
 alias kafkastart="${_SUDO} ${KAFKA}/bin/kafka-server-start.sh"
 alias kafkastop="${_SUDO} ${KAFKA}/bin/kafka-server-stop.sh"
+
+CASS="/usr/share/cassandra"
+alias cdcass="cd ${CASS}"
+alias cassstart="cassandra"
+alias cassstop="pkill cassandra"
 # }}}

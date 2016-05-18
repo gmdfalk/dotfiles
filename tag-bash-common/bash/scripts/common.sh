@@ -6,8 +6,8 @@ alias rd="rmdir"
 alias d="dirs -v | head -10"
 
 # Push and pop directories on directory stack
-alias pu="pushd"
-alias po="popd"
+alias pp="pushd"
+alias p="popd"
 
 # Move through directory stack.
 alias -- -="cd -"
@@ -33,7 +33,6 @@ alias k=kill
 alias m="${VIDEO}"
 alias n="note $HOME/.note"
 alias nn="note $HOME/.notemed"
-alias p=pacman
 alias s=sudo
 alias v="${VISUAL}"
 alias x=exit
