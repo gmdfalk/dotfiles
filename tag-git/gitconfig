@@ -272,10 +272,21 @@
     insteadOf = "gist:"
 # }}}
 
+# user {{{
+[user]
+    email = "gmdfalk@gmail.com"
+    name = "Max Falk"
+    signingkey = "A3753845"
+# }}} 
+
+# commit {{{
+[commit]
+    gpgsign = True
+    verbose = True  # NYI, see http://thread.gmane.org/gmane.comp.version-control.git/288820
+# }}}
+
 # include {{{
 [include]
     path = "~/.gitconfig.local"
 # }}}
-[user]
-	email = gmdfalk@gmail.com
-	name = Max Falk
+

@@ -1,5 +1,0 @@
-[http]
-    proxy = http://idproxy.id.dvag.com:3128
-
-[https]
-    proxy = http://idproxy.id.dvag.com:3128

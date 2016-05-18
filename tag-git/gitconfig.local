@@ -1,8 +1,0 @@
-[user]
-	name = "Max Falk"
-	email = "gmdfalk@gmail.com"
-	signingkey = "A3753845"
-
-[commit]
-    gpgsign = True
-    verbose = True  # NYI, see http://thread.gmane.org/gmane.comp.version-control.git/288820.
