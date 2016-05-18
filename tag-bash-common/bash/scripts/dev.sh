@@ -11,7 +11,7 @@ alias rb="ruby"
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 export GEM_HOME=$(ruby -e 'print Gem.user_dir')
 export GEM_PATH="${GEM_HOME}"
-# }}}
+# }}}                     /home/max/Dropbox/dev/demo
 
 # {{{ Python
 # { Basics
@@ -57,12 +57,17 @@ export JAVA_HOME="/usr/lib/jvm/default"
 ZOO="/usr/share/zookeeper"
 alias cdzoo="cd ${ZOO}"
 alias zoostart="${_SUDO} ${ZOO}/bin/zkServer.sh start"
-alias zooconnect="${_SUDO} ${ZOO}/bin/zkCli.sh -server 127.0.0.1:2181"
+alias zooconnect="${ZOO}/bin/zkCli.sh -server 127.0.0.1:2181"
 
 STORM="/usr/share/storm"
 alias cdstorm="cd ${STORM}"
-alias nimbusstart="${_SUDO} ${STORM}/bin/storm nimbus"
-alias supervisorstart="${_SUDO} ${STORM}/bin/storm supervisor"
+alias stormnimbus="${_SUDO} ${STORM}/bin/storm nimbus"
+alias stormsupervisor="${_SUDO} ${STORM}/bin/storm supervisor"
 # The UI can be accessed by navigating your web browser to http://{ui host}:8080.
-alias uistart="${_SUDO} ${STORM}/bin/storm ui"
+alias stormui="${_SUDO} ${STORM}/bin/storm ui"
+
+KAFKA="/usr/share/kafka"
+alias cdkafka="cd ${KAFKA}"
+alias kafkastart="${_SUDO} ${KAFKA}/bin/kafka-server-start.sh"
+alias kafkastop="${_SUDO} ${KAFKA}/bin/kafka-server-stop.sh"
 # }}}

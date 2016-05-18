@@ -4,9 +4,9 @@
 ## Ensure that the D-Bus Communication System is running properly to fix
 #
 ## File management, authentication, and other essential system processes
-if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
-    eval "$(dbus-launch --sh-syntax --exit-with-session)"
-fi
+#if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
+    #eval "$(dbus-launch --sh-syntax --exit-with-session)"
+#fi
 
 ## Ensure that GTK themes are applied uniformly in the Desktop Environment
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
@@ -21,17 +21,16 @@ if test -r "$HOME/.xprofile"; then
 fi
 
 # {{{ Apps
-copyq &
-nm-applet --sm-disable &
-pidgin &
-konversation &
+#copyq &
+#pidgin &
+#konversation &
 #thunderbird &
 firefox &
 #(sleep 10 && dropbox) &
 # }}}
 
 # Resolution update on window resize
-xrandr -s 1920x1200 &
+#xrandr -s 1920x1200 &
 vmware-user-suid-wrapper &
 
 exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err

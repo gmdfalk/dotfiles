@@ -276,3 +276,6 @@
 [include]
     path = "~/.gitconfig.local"
 # }}}
+[user]
+	email = gmdfalk@gmail.com
+	name = Max Falk
