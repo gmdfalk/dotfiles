@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-alias sc="systemctl"
+export SYSTEMD_EDITOR="${EDITOR}"
 
-system_state() {
+scstate() {
     journalctl -p 0..3 -xn
     echo "\nFailed systemctl units:"
     systemctl --failed
 }
+
+alias sc="systemctl"
 
 user_commands=(
   list-units is-active status show help list-unit-files
