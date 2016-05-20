@@ -98,3 +98,15 @@ alias vnn="${VISUAL} ${HOME}/.notemed"
 # {{{ Navigation
 alias cdt="cd ${TMPDIR}"
 alias cdv="cd /var"
+# }}}
+
+# Swap two files/directories.
+swap() {
+    [[ "$#" != 2 ]] && echo "need 2 arguments" && return 1
+    [[ ! -e "$1" ]] && echo "target $1 does not exist" && return 1
+    [[ ! -e "$2" ]] && echo "target $2 does not exist" && return 1
+    local tmpfile="tmp.$$"
+    mv "$1" "${tmpfile}"
+    mv "$2" "$1"
+    mv "${tmpfile}" "$2"
+}
