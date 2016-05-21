@@ -41,21 +41,38 @@ count() {
 # On OS X, you can use xkbswitch (https://github.com/myshov/xkbswitch-macosx) as an alternative to setxkbmap.
 # Umlauts for US altgr-intl: ä=AltGr+q,  ö=AltGr+p,  ü=AltGr+y,  ß=AltGr+s.
 kbd() {
-    case "$@" in
-        den|DEN)
-            setxkbmap de -variant nodeadkeys;;
-        usi|USI)
-            setxkbmap us -variant altgr-intl;;
-        gb|GB|uk|UK|en|EN)
-            setxkbmap gb;;
-        '')
-            setxkbmap -query;;
+
+    case "$(tty)" in
+        # We're using the virtual console.
+        /dev/tty[0-9]*)
+            case "$@" in
+                den|DEN)
+                    ${_SUDO} localectl set-keymap --no-convert de-latin1-nodeadkeys
+                    loadkeys de-latin1-nodeadkeys;;
+                gb|GB|uk|UK|en|EN)
+                    ${_SUDO} localectl set-keymap --no-convert uk
+                    loadkeys uk;;
+                '') localectl status;;
+                *)
+                    ${_SUDO} localectl set-keymap --no-convert "$@"
+                    loadkeys "$@";;
+            esac
+        ;;
+        # We're probably using a pseudo terminal.
         *)
-            setxkbmap "$@";;
-    esac
-    # Reapply any customizations to the layout.
-    have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
-    #have xbindkeys && xbindkeys
+            case "$@" in
+                den|DEN) setxkbmap de -variant nodeadkeys;;
+                usi|USI) setxkbmap us -variant altgr-intl;;
+                gb|GB|uk|UK|en|EN) setxkbmap gb;;
+                '') setxkbmap -query;;
+                *) setxkbmap "$@";;
+            esac
+            # Reapply any customizations to the layout.
+            have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
+            #have xbindkeys && xbindkeys
+        ;;
+esac
+
 }
 
 # From https://zxq9.com/archives/795:
