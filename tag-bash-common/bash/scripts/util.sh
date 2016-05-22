@@ -41,38 +41,41 @@ count() {
 # On OS X, you can use xkbswitch (https://github.com/myshov/xkbswitch-macosx) as an alternative to setxkbmap.
 # Umlauts for US altgr-intl: ä=AltGr+q,  ö=AltGr+p,  ü=AltGr+y,  ß=AltGr+s.
 kbd() {
-
     case "$(tty)" in
         # We're using the virtual console.
         /dev/tty[0-9]*)
-            case "$@" in
-                den|DEN)
+            case "$1" in
+                den)
                     ${_SUDO} localectl set-keymap --no-convert de-latin1-nodeadkeys
-                    loadkeys de-latin1-nodeadkeys;;
-                gb|GB|uk|UK|en|EN)
+                    ${_SUDO} loadkeys de-latin1-nodeadkeys;;
+                gb|uk|en)
                     ${_SUDO} localectl set-keymap --no-convert uk
-                    loadkeys uk;;
+                    ${_SUDO} loadkeys uk;;
+                gbi|uki|eni) setxkbmap gb -variant intl;;
                 '') localectl status;;
+                ls) localectl list-keymaps;;
                 *)
                     ${_SUDO} localectl set-keymap --no-convert "$@"
-                    loadkeys "$@";;
+                    ${_SUDO} loadkeys "$@";;
             esac
         ;;
         # We're probably using a pseudo terminal.
         *)
-            case "$@" in
-                den|DEN) setxkbmap de -variant nodeadkeys;;
-                usi|USI) setxkbmap us -variant altgr-intl;;
-                gb|GB|uk|UK|en|EN) setxkbmap gb;;
+            case "$1" in
+                den) setxkbmap de -variant nodeadkeys;;
+                usi) setxkbmap us -variant altgr-intl;;
+                gb|uk|en) setxkbmap gb;;
+                gbi|uki|eni) setxkbmap gb -variant intl;;
                 '') setxkbmap -query;;
+                ls) localectl list-x11-keymap-layouts;;
+                lsvar) [[ -z "$2" ]] && localectl list-x11-keymap-variants || localectl list-x11-keymap-variants "$2";;
                 *) setxkbmap "$@";;
             esac
             # Reapply any customizations to the layout.
             have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
             #have xbindkeys && xbindkeys
         ;;
-esac
-
+    esac
 }
 
 # From https://zxq9.com/archives/795:
