@@ -44,34 +44,13 @@ fi
 # }
 # }}}
 
-# {{{ Utilities
-
-# }}}
-
 # {{{ Java
 export JAVA_HOME="/usr/lib/jvm/default"
 # }}}
 
-# {{{ Kafka+Storm
+# {{{ Paths
 ZOO="/usr/share/zookeeper"
-alias cdzoo="cd ${ZOO}"
-alias zoostart="${_SUDO} ${ZOO}/bin/zkServer.sh start"
-alias zooconnect="${ZOO}/bin/zkCli.sh -server 127.0.0.1:2181"
-
 STORM="/usr/share/storm"
-alias cdstorm="cd ${STORM}"
-alias stormnimbus="${_SUDO} ${STORM}/bin/storm nimbus"
-alias stormsupervisor="${_SUDO} ${STORM}/bin/storm supervisor"
-# The UI can be accessed by navigating your web browser to http://{ui host}:8080.
-alias stormui="${_SUDO} ${STORM}/bin/storm ui"
-
 KAFKA="/usr/share/kafka"
-alias cdkafka="cd ${KAFKA}"
-alias kafkastart="${_SUDO} ${KAFKA}/bin/kafka-server-start.sh"
-alias kafkastop="${_SUDO} ${KAFKA}/bin/kafka-server-stop.sh"
-
 CASS="/usr/share/cassandra"
-alias cdcass="cd ${CASS}"
-alias cassstart="cassandra"
-alias cassstop="pkill cassandra"
 # }}}
