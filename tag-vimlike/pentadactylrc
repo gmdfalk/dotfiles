@@ -35,7 +35,7 @@ set guioptions=rs
 js <<EOM
 switch (services.runtime.OS) {
    case "WINNT":
-     options.editor = 'C:/Program\\ Files\\ (x86)/Vim/vim74/gvim.exe -f +<line> +"sil! call cursor(0, <column>)" <file>';
+     options.editor = 'C:\\\Program\\ Files\\ (x86)/Vim/vim74/gvim.exe -f +<line> +"sil! call cursor(0, <column>)" <file>';
      break;
    case "Darwin": 
      options.editor = 'open -a macvim -f +<line> +"sil! call cursor(0, <column>)" <file>';
