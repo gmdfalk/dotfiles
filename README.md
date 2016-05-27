@@ -127,7 +127,7 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
 ```bash
     cd $HOME &&
     gem install mustache &&
-    git clone --recursive https://github.com.com/thoughtbot/rcm &&
+    git clone --recursive https://github.com/thoughtbot/rcm.git &&
     cd rcm &&
     ./autogen.sh &&
     ./configure &&
