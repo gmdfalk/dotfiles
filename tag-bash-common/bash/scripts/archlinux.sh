@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Based on https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/archlinux/archlinux.plugin.zsh
 
+[[ $OSTYPE != "linux-gnu" ]] && return 0
+
 cmds=("yaourt" "pacupg" "pacaur" "abs" "aur" "expac")
 for cmd in "${cmds[@]}"; do
     have "${cmd}" && export "_have_${cmd}"=1

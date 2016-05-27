@@ -32,7 +32,20 @@ set suggestengines=
 set guioptions=rs
 
 " Use vim as editor (see C-i)
-set editor="urxvt -name URxvt -e vim -f"
+js <<EOM
+switch (services.runtime.OS) {
+   case "WINNT":
+     options.editor = 'C:/Program\\ Files\\ (x86)/Vim/vim74/gvim.exe -f +<line> +"sil! call cursor(0, <column>)" <file>';
+     break;
+   case "Darwin": 
+     options.editor = 'open -a macvim -f +<line> +"sil! call cursor(0, <column>)" <file>';
+     break;
+   case "Linux":
+   options.editor = 'gvim -f +<line> +"sil! call cursor(0, <column>)" <file>';
+   //options.editor = 'urxvt -name URxvt -e vim -f +<line> +"sil! call cursor(0, <column>)" <file>';
+     break;
+}
+EOM
 
 " No beeping please
 set visualbell
