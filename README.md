@@ -125,6 +125,7 @@ Adding and deleting files:
 Cygwin doesn't come with a rcm package so we'll have to build it.
 
 ```bash
+    export CYGWIN="winsymlinks:native" &&
     cd $HOME &&
     gem install mustache &&
     git clone --recursive https://github.com/thoughtbot/rcm.git &&
@@ -137,15 +138,15 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     rcup -B generic -v
 ```
 
-A note on symlinks:  
-Please note that Cygwin creates "fake" symlinks by default which Windows cannot read.
-So, if, like me, you want to be able to use the dotfiles both in Cygwin and in normal Windows applications (e.g. git/ssh/gpg configs), you have two options:
-1) Use the `COPY_ALWAYS` option in .rcrc, for instance with the entry `COPY_ALWAYS="*"` to match every file.
-   The obvious drawback is that any changes you make will not be automatically registered with the dotfiles repository. It's also slower when synchronizing.
-2) Tell Cygwin to use native NTFS symlinks. To do that, you'll have to `export CYGWIN="winsymlinks:native"` before running `rcup`.
-   This is the method i use but it has two caveats:
-   a) it requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator" and
-   b) it requires Windows Vista/2008 or later. Even then, native NTFS symlinks might behave strangely but this method is what works for me.
+A note on symlinks:    
+Cygwin creates "fake" symlinks by default which Windows cannot read.  
+So, if, like me, you want to be able to use the dotfiles both in Cygwin and in normal Windows applications (e.g. git/ssh/gpg configs), you have two options:  
+  1) Use the `COPY_ALWAYS` option in .rcrc, for instance with the entry `COPY_ALWAYS="*"` to match every file.  
+   The obvious drawback is that any changes you make will not be automatically registered with the dotfiles repository. It's also slower when synchronizing.  
+  2) Tell Cygwin to use native NTFS symlinks. To do that, you'll have to `export CYGWIN="winsymlinks:native"` before running `rcup`.  
+   This is the method i use but it has two caveats:  
+    a) it requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator" and  
+    b) it requires Windows Vista/2008 or later. Even then, native NTFS symlinks might behave strangely but this method is what works for me.  
 
 A word on `$PATH`:
 You  might want to remove applications from `$PATH` that provide Windows versions of unix tools e.g. Git for Windows.
