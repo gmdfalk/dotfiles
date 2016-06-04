@@ -2,7 +2,7 @@
 
 # Detach these processes from shell by default
 if have q; then
-    declare -a processes=(firefox thunderbird eog spotify hexchat vlc geany gedit medit gvim pcmanfm mplayer smplayer)
+    declare -a processes=(firefox thunderbird eog spotify hexchat vlc geany gedit medit gvim pcmanfm mplayer smplayer evince)
     for process in "${processes[@]}"; do
         alias ${process}="q $process"
     done
