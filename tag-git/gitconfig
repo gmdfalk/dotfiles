@@ -93,9 +93,10 @@
     ccredit = "!f() { git commit --amend --author \"$@\" --reuse-message=HEAD; }; f"
 
     # Create a commit with a different date by specifying the offset in hours, e.g. gcdate -2 backdates the commit by 2 hours.
-    cdate = "!f() { \
+   cdate = "!f() { \
         [[ $# -lt 1 ]] && echo 'Usage: gcdate <hours>' && return; \
-        git commit --date=\"$(date -R -d \"$1 hours\")\" \"${@:2}\"; \
+        local newDate=\"$(date -R -d \"$1 hours\")\" && shift; \
+        GIT_COMMITTER_DATE=\"${newDate}\" git commit --date=\"${newDate}\" \"$@\"; \
     }; f"
     # }}}
 
