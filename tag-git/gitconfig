@@ -280,6 +280,6 @@
 
 # include {{{
 [include]
-    path = "~/.gitconfig.local"
+    path = ".gitconfig.local"
 # }}}
 
