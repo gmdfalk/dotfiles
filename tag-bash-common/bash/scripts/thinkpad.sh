@@ -53,6 +53,23 @@ trackpoint() {
     echo "${speed}"
 }
 
+# Toggle touchpad.
+touchpad() {
+    local touchpads=($(xinput | grep "TouchPad" | grep -oP "(?<=id=)\d+"))
+    local enabled
+    for touchpad in "${touchpads[@]}"; do
+        enabled="$(xinput --list-props "${touchpad}" | grep "Device Enabled" | awk '{print $4}')"
+        if [[ "${enabled}" == 0 ]]; then
+            xinput enable "${touchpad}" &&
+            enabled=1
+        else
+            xinput disable "${touchpad}" &&
+            enabled=0
+        fi
+        echo "${touchpad}: ${enabled}"
+    done
+}
+
 dock() {
     xrandr --output eDP1 --mode 1920x1080
     xrandr --output DP2-1 --mode 1920x1200 --right-of eDP1
