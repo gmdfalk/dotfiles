@@ -110,3 +110,10 @@ swap() {
     mv "$2" "$1"
     mv "${tmpfile}" "$2"
 }
+
+# Sanitize permissions, i.e. apply 022 umask (755 for directories and 644 for files),
+# and change owner to me:users.
+sanitize() {
+    ${_SUDO} chmod -R u=rwX,go=rX "$@"
+    ${_SUDO} chown -R ${USER}:users "$@"
+}
