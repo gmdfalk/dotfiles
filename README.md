@@ -9,25 +9,26 @@ Modular cross-platform multi-host configuration files for developers managed wit
   * [About](#about)
   * [Quick intro to rcm](#quick-intro-to-rcm)
   * [Installation](#installation)
-    * [Linux](#linux)
-      * [ArchLinux](#archlinux)
-    * [OSX](#osx)
-    * [Windows](#windows)
+    * [On ArchLinux](#on-archlinux)
+    * [On OSX](#on-osx)
+    * [On Windows](#on-windows)
     * [Portable installation script](#portable-installation-script)
   * [Post-Install](#post-install)
-    * [Maintenance](#maintenance)
     * [Configuration](#configuration)
       * [Git](#git)
     * [Customization](#customization)
+    * [Maintenance](#maintenance)
+    * [Startup Files](#startup-files)
   * [Features](#features)
     * [Solarized](#solarized)
-    * [Fasd](#fasd)
-    * [Bash](#bash)
-    * [Zsh](#zsh)
     * [Vim](#vim)
-    * [Common](#common)
     * [Tmux](#tmux)
     * [Awesome](#awesome)
+    * [Shell](#shell)
+        * [Fasd](#fasd)
+        * [Common](#common)
+        * [Bash](#bash)
+        * [Zsh](#zsh)
 
 ## About
 
@@ -58,22 +59,6 @@ Frameworks/Libraries:
   * tmux: [tpm](https://github.com/tmux-plugins/tpm)
   * firefox: [pentadactyl](https://github.com/5digits/dactyl)/[vimperator](https://github.com/vimperator/vimperator-labs)
 
-Inspirations:
-  * [mathiasbynens](https://github.com/mathiasbynens/dotfiles)
-  * [pbrisbin](https://github.com/pbrisbin/dotfiles)
-  * [thoughtbot](https://github.com/thoughtbot/dotfiles)
-  * [skwp/yadr](https://github.com/skwp/dotfiles)
-  * [holman](https://github.com/holman/dotfiles)
-  * [tpope](https://github.com/tpope/tpope)
-  * [dotphiles](https://github.com/dotphiles/dotphiles)
-  * [cowboy](https://github.com/cowboy/dotfiles)
-  * [paulmillr](https://github.com/paulmillr/dotfiles)
-  * [eduardolundgren](https://github.com/eduardolundgren/dotfiles)
-  * [xero](https://github.com/xero/dotfiles)
-  * [atomantic](https://github.com/atomantic/dotfiles)
-  * [andschwa](https://github.com/andschwa/dotfiles)
-  * and many more
-
 ## Quick intro to rcm
 
 rcm is a management suite for dotfiles. It works by creating symlinks from a source folder (e.g. this repository) to your $HOME directory based on the configuration you provide.
@@ -98,9 +83,7 @@ Adding and deleting files:
 
 ## Installation
 
-### Linux
-
-#### ArchLinux
+### On ArchLinux
 
 ```bash
     cd $HOME &&
@@ -110,7 +93,7 @@ Adding and deleting files:
     rcup -B generic -v
 ```
 
-### OSX
+### On OSX
 
 ```bash
     cd $HOME &&
@@ -120,9 +103,28 @@ Adding and deleting files:
     rcup -B generic -v
 ```
 
-### Windows
+### On Windows
 
-Cygwin doesn't come with a rcm package so we'll have to build it.
+Until the [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) is widely available, i'm using and supporting Cygwin.
+Some notes on Cygwin you should read before continuing:
+
+    I. Path:
+    You  might want to remove applications from `$PATH` that provide Windows versions of unix tools e.g. Git for Windows.
+    The latter will autocrlf, for instance, which means trying to read these CRLF files in a unix environment like Cygwin leads to headaches unless you `dos2unix` each file.  
+    
+    II. Symlinks:
+    Cygwin creates "fake" symlinks by default which Windows cannot read.
+    So, if, like me, you want to be able to use the dotfiles both in Cygwin and in normal Windows applications (e.g. git/ssh/gpg configs), you have two options:
+      1) Use the `COPY_ALWAYS` option in .rcrc, for instance with the entry `COPY_ALWAYS="*"` to match every file.
+       The obvious drawback is that any changes you make will not be automatically registered with the dotfiles repository. It's also slower when synchronizing.
+      2) Tell Cygwin to use native NTFS symlinks. To do that, you'll have to `export CYGWIN="winsymlinks:native"` before running `rcup`.
+       This is the method i use but it has two caveats:
+        a) it requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator" and
+        b) it requires Windows Vista/2008 or later. Even then, native NTFS symlinks might behave strangely but this method is what works for me.
+
+
+Since Cygwin doesn't come with an rcm package we'll have to build it manually.  
+Please note that if you want your cygwin dotfiles to be usable by Windows applications, the following commands will need to be executed in a terminal with _elevated privileges_.
 
 ```bash
     export CYGWIN="winsymlinks:native" &&
@@ -138,20 +140,6 @@ Cygwin doesn't come with a rcm package so we'll have to build it.
     rcup -B generic -v
 ```
 
-A note on symlinks:    
-Cygwin creates "fake" symlinks by default which Windows cannot read.  
-So, if, like me, you want to be able to use the dotfiles both in Cygwin and in normal Windows applications (e.g. git/ssh/gpg configs), you have two options:  
-  1) Use the `COPY_ALWAYS` option in .rcrc, for instance with the entry `COPY_ALWAYS="*"` to match every file.  
-   The obvious drawback is that any changes you make will not be automatically registered with the dotfiles repository. It's also slower when synchronizing.  
-  2) Tell Cygwin to use native NTFS symlinks. To do that, you'll have to `export CYGWIN="winsymlinks:native"` before running `rcup`.  
-   This is the method i use but it has two caveats:  
-    a) it requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator" and  
-    b) it requires Windows Vista/2008 or later. Even then, native NTFS symlinks might behave strangely but this method is what works for me.  
-
-A word on `$PATH`:
-You  might want to remove applications from `$PATH` that provide Windows versions of unix tools e.g. Git for Windows.
-The latter will autocrlf, for instance, which means trying to read these CRLF files in a unix environment like Cygwin leads to headaches unless you `dos2unix` each file.
-
 ### Portable installation script
 
 You can create a portable installation script (e.g. for machines where you don't want to or can't install rcm) like this:
@@ -159,34 +147,34 @@ You can create a portable installation script (e.g. for machines where you don't
 ```bash
     rcup -B 0 -g -K > install.sh
 ```
+It records all symlinks and install actions, apart from pre- and post-up-hooks, into a static script you can take with you.  
 
 ## Post-Install
 
-### Maintenance
-
-Once a configuration is installed, e.g. via `rcup -B mbpro` the corresponding rcrc file (`~/.dotfiles/host-mbpro/rcrc`)
-will be symlinked to `~/.rcrc` so that you don't have to specify the dotfiles directory or host name anymore.
-Maintenance then simply becomes:
-```
-cd ~/.dotfiles
-git pull
-rcup -v
-```
-
 ### Configuration
 
-There are a couple of configurations you probably want to do after installing this repository as outlined above.
+There are a couple of settings you probably want to take a look at or modify after installing these dotfiles.
 
-#### Git
+#### Gitconfig
 
-Add a `~/.gitconfig.local` with your name, email and whatever else you want to add to your local gitconfig.  
+Create or overwrite `~/.gitconfig.local` using your name, email and other personalized settings (e.g. gpg signing key).
 ```
 [user]
     name = Your Name Here
     email = your@email.here
 ```
 
-## Customization
+#### Profile
+
+The file ~/.profile is sourced by both ZSH and Bash and is used to configure which modules are loaded, among other things.    
+Make sure it suits your needs.  
+
+#### Non-generic hosts
+
+Some host configurations also come with X11 settings, found in ~/.xinitrc and ~/.xprofile as well as ssh, gnupg and other somewhat individualized configuration.  
+If you're not using the `generic` profile, make sure you check those settings to avoid unexpected surprises.
+
+### Customization
 
 You can make your own customizations, of course, by editing files directly or alternatively by adding a new file with 
 `.local` appended to the file name. These `.local` files will take precedence over their counterparts as they are loaded last.
@@ -203,7 +191,22 @@ Additionally, there are a couple of special directories from which configuration
   * ~/.bash/autoload/
   * ~/.zsh/autoload/
   * ~/.vim/autoload/
+  
+### Maintenance
+  
+Once a configuration is installed, e.g. via `rcup -B mbpro` the corresponding rcrc file (`~/.dotfiles/host-mbpro/rcrc`)
+will be symlinked to `~/.rcrc` so that you don't have to specify the dotfiles directory or host name anymore.
+Maintenance then simply becomes:
+```
+  cd ~/.dotfiles
+  git pull
+  rcup -v
+  ```
+There is also a shell alias which does that for you: `rcupd`.  
 
+## Startup files
+
+### Bash
 Load order for (interactive, non-login) bash is:
    1. ~/.bashrc
    2. ~/.profile
@@ -211,6 +214,7 @@ Load order for (interactive, non-login) bash is:
    4. ~/.profile.local
    5. ~/.bashrc.local
 
+### Zsh
 Load order for (interactive, non-login) zsh is:
    1. ~/.zshenv
    2. ~/.zshenv.local
@@ -228,12 +232,29 @@ Load order for (interactive, non-login) zsh is:
 Coming soon.
 
 ### Solarized
-### Fasd
-### Bash
-### Zsh
 ### Vim
-### Scripts
 ### Tmux
 ### Awesome
 ### OSX
+### Shell
+#### Fasd
+#### Bash
+#### Zsh
+
+## Inspirations
+There are a lot of great dotfiles repository already out there, some of which have had a strong influence on this project.  
+Whether you are looking for inspiration or just want to shop around for alternatives, be sure to check out these remarkable dotfiles:  
+  * [mathiasbynens](https://github.com/mathiasbynens/dotfiles)
+  * [pbrisbin](https://github.com/pbrisbin/dotfiles)
+  * [thoughtbot](https://github.com/thoughtbot/dotfiles)
+  * [skwp/yadr](https://github.com/skwp/dotfiles)
+  * [holman](https://github.com/holman/dotfiles)
+  * [tpope](https://github.com/tpope/tpope)
+  * [dotphiles](https://github.com/dotphiles/dotphiles)
+  * [cowboy](https://github.com/cowboy/dotfiles)
+  * [paulmillr](https://github.com/paulmillr/dotfiles)
+  * [eduardolundgren](https://github.com/eduardolundgren/dotfiles)
+  * [xero](https://github.com/xero/dotfiles)
+  * [atomantic](https://github.com/atomantic/dotfiles)
+  * [andschwa](https://github.com/andschwa/dotfiles)  
 

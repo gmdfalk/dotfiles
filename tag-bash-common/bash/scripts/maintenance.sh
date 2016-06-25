@@ -2,6 +2,7 @@
 
 backup() {
     [[ "$#" -lt 2 ]] && echo "Usage: backup <src>... <dest>" && return 1
+
     # Save all arguments but the last one into the src array.
     local length=$(( $# - 1 ))
     local src=(${@:1:${length}})

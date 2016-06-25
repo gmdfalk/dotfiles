@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
+# general {{{
 ZCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ ! -d "$ZCACHE" ]] && mkdir -p "${ZCACHE}"
 
-# general {{{
 DIRSTACKSIZE=${DIRSTACKSIZE:-20}
 DIRSTACKFILE="${DIRSTACKFILE:-${ZCACHE}/dirs}"
 
