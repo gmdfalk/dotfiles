@@ -13,7 +13,7 @@ ZSH_DIR="$HOME/.zsh"
 BASH_SCRIPTS=("util" "env" "archlinux" "common" "dev" "git" "gui" "laptop" "maintenance" "media" "proxy" "systemd" "thinkpad" "overrides" "ssh-agent")
 
 # Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
-ZSH_SCRIPTS=("common" "keybindings" "overrides")
+ZSH_SCRIPTS=("common" "keybindings" "completion" "navigation" "overrides")
 
 # {{{  Source files
 # Source common bash configuration.
