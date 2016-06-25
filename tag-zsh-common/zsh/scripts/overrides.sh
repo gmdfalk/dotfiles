@@ -8,7 +8,7 @@ alias calc="noglob calc"
 # If you are using 'sudo ' to allow usage of sudo with aliases, it can choke when trying to evaluate
 # shell reserved words like 'nocorrect'.
 # See http://superuser.com/questions/749314/how-do-you-set-alias-sudo-nocorrect-sudo-correctly.
-alias sudo='noglob do_sudo '
+alias sudo="noglob do_sudo "
 do_sudo() {
     integer glob=1
     local -a run

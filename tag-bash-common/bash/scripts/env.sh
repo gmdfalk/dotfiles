@@ -77,7 +77,7 @@ _VIDEO="vlc"
 # Bash only checks the first word of a command for an alias, any words after that are not checked.
 # If the last character of the alias value is a space or tab character, then the next command word following the alias
 # is also checked for alias expansion (http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo).
-alias sudo='sudo '
+#alias sudo='sudo '
 # Prefix commands that require root privileges with $_SUDO so that they work when logged in as root, too.
 [[ "$UID" == 0 ]] || _SUDO="sudo"
 # }}}

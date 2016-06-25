@@ -1,9 +1,11 @@
 #!/usr/bin/env zsh
 
+ZCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[[ ! -d "$ZCACHE" ]] && mkdir -p "${ZCACHE}"
 
 # general {{{
 DIRSTACKSIZE=${DIRSTACKSIZE:-20}
-DIRSTACKFILE="${DIRSTACKFILE:-${XDG_CACHE_HOME:-$HOME/.cache}/zsh/dirs}"
+DIRSTACKFILE="${DIRSTACKFILE:-${ZCACHE}/dirs}"
 
 # Automatically track directories used.
 setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME PUSHD_MINUS
@@ -40,5 +42,5 @@ alias {cda,cdl,cdn}="cd"
 # terminal emulators within one session.
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
-zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/chpwd-recent-dirs"
+zstyle ':chpwd:*' recent-dirs-file "${ZCACHE}/chpwd-recent-dirs"
 # }}}

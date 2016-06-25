@@ -43,4 +43,4 @@ export SCM_CHECK=true
 # Bind Alt+Up/Down to search history based on what's already written at the prompt
 bind '"\e[1;3A":history-search-backward'
 bind '"\e[1;3B":history-search-forward'
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+alias sudo="sudo "
