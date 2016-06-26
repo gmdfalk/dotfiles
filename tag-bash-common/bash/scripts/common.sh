@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Navigation {{{
-alias d="dirs -v | head -10"
-_COMPLETION_ALIASES+=("g:git")
+alias d="dirs -v -l"
 
 # Push and pop directories on directory stack
 alias pu="pushd"
@@ -32,7 +31,7 @@ alias cdv="cd /var"
 alias md="mkdir -p"
 alias rd="rmdir"
 
-alias cm="chmod"
+add_completion_alias "cm" "chmod"
 alias cmx="chmod +x"
 alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
 alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
@@ -68,17 +67,15 @@ sanitize() {
 # Shortcuts {{{
 alias c=cat
 alias cl=clear
-alias h=history
-alias f=find
-alias k=kill
-alias m="${VIDEO}"
+add_completion_alias "h" "history"
+add_completion_alias "f" "find"
+add_completion_alias "k" "kill"
+alias m="${_VIDEO}"
 alias n="note $HOME/.note"
 alias nn="note $HOME/.notemed"
-alias s="sudo"
+add_completion_alias "s" "sudo"
 alias v="${VISUAL}"
 alias x=exit
-alias y=yaourt
-alias _=sudo
 # }}}
 
 # fasd {{{
@@ -100,7 +97,7 @@ fi
 
 # ls {{{
 [[ "${OSTYPE}" == "linux-gnu" ]] && alias ls="ls --group-directories-first --color=auto --time-style=long-iso"
-alias l="ls"
+add_completion_alias "l" "ls"
 alias ll="ls -lh"
 alias la="ls -lAh"
 alias l1="ls -1"
@@ -124,7 +121,6 @@ psf() { ps aux | grep "$@" | grep -v grep; }
 wgp() { wgetpaste -X "$@"; }
 debug() { bash -x $(which "$1") "${@:1}"; }
 # }}}
-
 
 # Editing {{{ 
 alias vn="${VISUAL} ${HOME}/.note"

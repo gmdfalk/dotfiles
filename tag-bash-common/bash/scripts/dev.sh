@@ -7,16 +7,16 @@ alias cdc="cd ${HOME}/code"
 
 # {{{ Git
 # Hub is a fully compatible wrapper for git that adds GitHub support, e.g. creating issues and pull requests.
-have hub && alias git="hub"
+have hub && add_completion_alias "git" "hub"
 
 # When no arguments are given, do git status.
 #g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
-alias g="git"
+add_completion_alias "g" "git"
 alias gs="git status -s"
 # }}}
 
 # Ruby {{{
-alias rb="ruby"
+add_completion_alias "rb" "ruby"
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 export GEM_HOME=$(ruby -e 'print Gem.user_dir')
 export GEM_PATH="${GEM_HOME}"
@@ -24,9 +24,9 @@ export GEM_PATH="${GEM_HOME}"
 
 # {{{ Python
 # Basics {
-alias py="python"
-alias py2="python2"
-alias py3="python3"
+add_completion_alias "py" "python"
+add_completion_alias "py2" "python2"
+add_completion_alias "py3" "python3"
 alias ipy="ipython"
 alias ipy2="ipython2"
 alias ipy3="ipython3"

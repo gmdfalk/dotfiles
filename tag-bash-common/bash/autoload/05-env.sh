@@ -71,7 +71,6 @@ NO_AT_BRIDGE=1
 _HTPC="htpc"
 _OPEN="xdg-open"
 _VIDEO="vlc"
-_COMPLETION_ALIASES=()
 # }}}
 
 # {{{ Sudo
@@ -82,3 +81,15 @@ _COMPLETION_ALIASES=()
 # Prefix commands that require root privileges with $_SUDO so that they work when logged in as root, too.
 [[ "$UID" == 0 ]] || _SUDO="sudo"
 # }}}
+
+# Completion {{{
+_COMPLETION_ALIASES=()
+# Adds a straightforward alias, something like `alias g=git` while also marking that alias for the common shell framework
+# to add to the shell completion mechanism. 
+add_completion_alias() {
+    local alias="$1"
+    local command="$2"
+
+    alias "${alias}"="${command}"
+    _COMPLETION_ALIASES+=("${alias}:${command}")
+}

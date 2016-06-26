@@ -9,7 +9,7 @@ scstate() {
     systemctl --failed
 }
 
-alias sc="systemctl"
+add_completion_alias "sc" "systemctl"
 
 user_commands=(
   list-units is-active status show help list-unit-files
