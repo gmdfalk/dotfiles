@@ -10,11 +10,10 @@
 # 'can't create temp file for here document: permission denied'.
 TMPDIR="${TMPDIR:-/tmp}"
 
-# Source optional local configuration file.
-[[ -f "$HOME/.zshenv.local" ]] && . "$HOME/.zshenv.local"
-
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   . "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
+# Source optional local configuration file.
+[[ -f "$HOME/.zshenv.local" ]] && . "$HOME/.zshenv.local"
