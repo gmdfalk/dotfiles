@@ -17,10 +17,10 @@ proxy() {  # print proxy settings
 
 proxy_on() {
     local proxy="$1"
-    local nproxy="$2"
+    local noproxy="$2"
     [[ -z "${proxy}" ]] && proxy="${DEFAULT_PROXY}"
-    [[ -z "${no_proxy}" ]] && nproxy="${DEFAULT_NO_PROXY}"
-    export_proxy "${proxy}" "${nproxy}"
+    [[ -z "${noproxy}" ]] && noproxy="${DEFAULT_NO_PROXY}"
+    export_proxy "${proxy}" "${noproxy}"
 }
 
 proxy_off() {
