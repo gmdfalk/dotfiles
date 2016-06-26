@@ -119,7 +119,7 @@ Some notes on Cygwin you should read before continuing:
        The obvious drawback is that any changes you make will not be automatically registered with the dotfiles repository. It's also slower when synchronizing.
       2) Tell Cygwin to use native NTFS symlinks. To do that, you'll have to `export CYGWIN="winsymlinks:native"` before running `rcup`.
        This is the method i use but it has two caveats:
-        a) it requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator" and
+        a) it requires administrator rights (i.e. start the Cygwin terminal emulator with "Run as administrator")
         b) it requires Windows Vista/2008 or later. Even then, native NTFS symlinks might behave strangely but this method is what works for me.
 
 
@@ -202,7 +202,15 @@ Maintenance then simply becomes:
   git pull
   rcup -v
   ```
-There is also a shell alias which does that for you: `rcupd`.  
+There is also a shell alias `rcupd` which does that for you and can be used exactly like `rcup`:
+```bash
+    rcupd() {
+        cd ~/.dotfiles
+        git pull
+        rcup -v "$@"
+        cd -
+    }
+```
 
 ## Startup files
 

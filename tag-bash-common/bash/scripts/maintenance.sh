@@ -36,7 +36,7 @@ rcupd() {
     cd ~/.dotfiles
     git pull
     rcup -v "$@"
-    cd "${OLDPWD}"
+    cd -
 }
 # }}}
 

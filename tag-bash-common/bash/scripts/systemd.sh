@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Systemd, for some reason, does not honor the $EDITOR variable by default, when using e.g. `systemctl edit foo`.
 export SYSTEMD_EDITOR="${EDITOR}"
 
 scstate() {
@@ -20,10 +21,10 @@ sudo_commands=(
   link load cancel set-environment unset-environment
   edit)
 
-for c in "${user_commands}"; do
+for c in "${user_commands[@]}"; do
     alias sc-${c}="systemctl ${c}"
 done
 
-for c in "${sudo_commands}"; do
+for c in "${sudo_commands[@]}"; do
     alias sc-${c}="${_SUDO} systemctl ${c}"
 done

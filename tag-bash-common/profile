@@ -7,13 +7,13 @@ ZSH_DIR="$HOME/.zsh"
 
 # SSH_IDENTITIES is used by the ssh-agent plugin to automatically load identities from $HOME/.ssh/. When no identities
 # are provided but the plugin is loaded, it will try to load the default keys, i.e. id_rsa and id_dsa.
-#SSH_IDENTITIES=()
+#SSH_IDENTITIES="id_rsa"
 
 # Use BASH_SCRIPTS to load zsh modules from $BASH_DIR/scripts on-demand and in the order specified.
-BASH_SCRIPTS=("util" "env" "archlinux" "common" "dev" "git" "gui" "laptop" "maintenance" "media" "proxy" "systemd" "thinkpad" "overrides" "ssh-agent")
+BASH_SCRIPTS="util env archlinux common dev git gui laptop maintenance media proxy systemd thinkpad overrides ssh-agent"
 
 # Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
-ZSH_SCRIPTS=("common" "keybindings" "completion" "navigation" "overrides")
+ZSH_SCRIPTS="common keybindings completion navigation overrides"
 
 # {{{  Source files
 # Source common bash configuration.
