@@ -7,7 +7,7 @@ alias cdc="cd ${HOME}/code"
 
 # {{{ Git
 # Hub is a fully compatible wrapper for git that adds GitHub support, e.g. creating issues and pull requests.
-have hub && add_completion_alias "git" "hub"
+have hub && alias git="hub"
 
 # When no arguments are given, do git status.
 #g() { [[ "$#" -gt 0 ]] && git "$@" || git status --short; }
