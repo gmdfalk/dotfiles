@@ -16,10 +16,12 @@ alias gs="git status -s"
 # }}}
 
 # Ruby {{{
-add_completion_alias "rb" "ruby"
-export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
-export GEM_HOME=$(ruby -e 'print Gem.user_dir')
-export GEM_PATH="${GEM_HOME}"
+if have ruby; then
+    add_completion_alias "rb" "ruby"
+    export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+    export GEM_HOME=$(ruby -e 'print Gem.user_dir')
+    export GEM_PATH="${GEM_HOME}"
+fi
 # }}}
 
 # {{{ Python
