@@ -9,10 +9,10 @@ _SCRIPTS="${ZSH_SCRIPTS[@]}"
 # }}}
 
 # {{{ Source scripts
-# Load auto scripts that need to be sourced first
-load_scripts "${_BASE_DIR}/autoload" "*"
+# Load scripts from autoload folder.
+load_scripts "${_BASE_DIR}/autoload"
 
-# Load on-demand scripts that need to be sourced first
+# Load on-demand scripts as defined via $ZSH_SCRIPTS.
 load_scripts "${_BASE_DIR}/scripts" "${_SCRIPTS[@]}"
 # }}}
 

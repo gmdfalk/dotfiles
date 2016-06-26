@@ -22,12 +22,14 @@ load_scripts() {
     local extension="sh"
     local -a scripts
 
-    if [[ "$@" == "*" ]]; then
-        scripts=(${directory}/*.$extension) # &>/dev/null
-    else
+    if [[ "$@" ]]; then
+        # Only load the files passed as arguments after $directory.
         while read -rd ' ' script || [[ "${script}" ]]; do
             scripts+=("${directory}/${script}.${extension}")
         done <<< "$@"
+    else
+        # Load all files in the given $directory, as long as they end with .$extension.
+        scripts=(${directory}/*.$extension) # &>/dev/null
     fi
 
     for script in "${scripts[@]}"; do
@@ -40,15 +42,15 @@ load_scripts() {
 # }}}
 
 # {{{ Source scripts
-# Load auto scripts that need to be sourced first
-load_scripts "${_BASE_DIR}/autoload" "*"
+# Load scripts from autoload folder.
+load_scripts "${_BASE_DIR}/autoload"
 
-# Load on-demand scripts that need to be sourced first
+# Load on-demand scripts as defined via $BASH_SCRIPTS.
 load_scripts "${_BASE_DIR}/scripts" "${_SCRIPTS[@]}"
 # }}}
 
 # {{{ Post config
-# Initialize fasd, the command-line productivity booster (https://github.com/clvv/fasd)
+# Initialize fasd, the command-line productivity booster (https://github.com/clvv/fasd).
 have fasd && eval "$(fasd --init auto)"
 # }}}
 

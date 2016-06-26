@@ -71,7 +71,7 @@ NO_AT_BRIDGE=1
 _HTPC="htpc"
 _OPEN="xdg-open"
 _VIDEO="vlc"
-_COMPLETION_ALIASES=""
+_COMPLETION_ALIASES=()
 # }}}
 
 # {{{ Sudo

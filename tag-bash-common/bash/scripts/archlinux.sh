@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Based on https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/archlinux/archlinux.plugin.zsh
 
-[[ $OSTYPE != "linux-gnu" ]] && return 0
+# Loading this module only makes sense on linux.
+[[ $OSTYPE != "linux-gnu" ]] && return 1
 
 cmds=("yaourt" "pacupg" "pacaur" "abs" "aur" "expac")
 for cmd in "${cmds[@]}"; do
@@ -10,7 +11,7 @@ done
 
 # {{{ Pacman
 alias cdpkg="cd /var/cache/pacman/pkg"
-alias pac="pacman"
+alias pac="pacman" && _COMPLETION_ALIASES+=("pac:pacman")
 pacget() { ${_SUDO} abs && cd "$(find /var/abs -type d -iname "$@")"; } # Update abs and cd to PKGBUILD of a package.
 alias pacin="${_SUDO} pacman -S"    # Install specific package(s) from the repositories
 alias pacind="${_SUDO} pacman -S --asdeps" # Install given package(s) as dependencies of another package
@@ -33,7 +34,7 @@ paccheck() { [[ "$#" == 0 ]] && pacman -Qk | grep -v "0 missing" || pacman -Qk "
 
 # {{{ Yaourt/AUR Helper
 if [[ "${_have_yaourt}" ]]; then
-    alias ya="yaourt"
+    alias ya="yaourt" && _COMPLETION_ALIASES+=("ya:yaourt")
     alias yaget="yaourt -G"     # Get PKGBUILD of package.
     alias yaconf="yaourt -C"    # Fix all configuration files with vimdiff
     alias yasu="yaourt --sucre" # Same as yaourt -Syua, but without confirmation
@@ -58,7 +59,7 @@ fi
 # {{{ Pacaur
 if [[ "${_have_pacaur}" ]]; then
     alias cdaur="cd ${XDG_CACHE_HOME:-${HOME}/.cache}/pacaur"
-    alias pa="pacaur"
+    alias pa="pacaur" && _COMPLETION_ALIASES+=("pa:pacaur")
     alias paget="pacaur -d"     # Get PKGBUILD of package.
     alias pain="pacaur -S"      # Install specific package(s) from the repositories
     alias pains="pacaur -U"     # Install specific package not from the repositories but from a file

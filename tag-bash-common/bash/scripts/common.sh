@@ -2,6 +2,7 @@
 
 # Navigation {{{
 alias d="dirs -v | head -10"
+_COMPLETION_ALIASES+=("g:git")
 
 # Push and pop directories on directory stack
 alias pu="pushd"

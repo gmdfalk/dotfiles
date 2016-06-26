@@ -1,40 +1,38 @@
 #!/usr/bin/env bash
 
-# {{{ Vars
+# Vars {{{
 ACPI="/sys/devices/platform/thinkpad_acpi"
 BAT="/sys/devices/platform/smapi/BAT0"
 BL="/sys/class/backlight/intel_backlight/brightness"
 BT="${ACPI}/bluetooth_enable"
 # }}}
 
-# {{{ Battery
+# Battery {{{
 alias powertop="${_SUDO} powertop"
+# }}}
 
-# {{{ Network
+# Network {{{
 alias wolh="wol 40:61:86:87:F3:FE"
 alias sshh="ssh ${_HTPC}"
 alias pingh="ping ${_HTPC}"
 alias hlth="sshh 'systemctl halt'"
 # }}}
 
-# {{{ Display
+# Display {{{
 if have backlight; then
     alias bl=backlight
 fi
 
-doff() {
+disp() { # Turn the display on or off.
     local cmd
-    [[ "$1" ]] && cmd="ssh ${_HTPC} DISPLAY=:0 "
-    cmd+="xset dpms force off"
+    [[ "$2" ]] && cmd="ssh ${_HTPC} DISPLAY=:0 "
+    cmd+="xset dpms force "
+    [[ "$1" ]] && cmd+=" $1" || cmd+="off"
     eval ${cmd}
 }
-don() {
-    local cmd
-    [[ "$1" ]] && cmd="ssh ${_HTPC} DISPLAY=:0 "
-    cmd+="xset dpms force on"
-    eval ${cmd}
-}
+# }}}
 
+# Suspend {{{
 # Small script to control idle sleep/suspend/standby. Xautolock can be toggled on the fly
 # but does not support a status feedback besides "process exists" so it's best to use on/off instead of toggle.
 idlesuspend() {

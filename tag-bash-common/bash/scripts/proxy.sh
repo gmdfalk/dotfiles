@@ -5,7 +5,6 @@ NO_PROXY_VARS=("no_proxy" "NO_PROXY")
 DEFAULT_PROXY="idproxy.id.dvag.com:3128"
 DEFAULT_NO_PROXY="localhost,127.0.0.1,dvag.com,dvag.net"
 
-
 export_proxy(){
     set_variables "$1" "${PROXY_VARS[@]}"
     set_variables "$2" "${NO_PROXY_VARS[@]}"
@@ -18,10 +17,10 @@ proxy() {  # print proxy settings
 
 proxy_on() {
     local proxy="$1"
-    local no_proxy="$2"
+    local nproxy="$2"
     [[ -z "${proxy}" ]] && proxy="${DEFAULT_PROXY}"
-    [[ -z "${no_proxy}" ]] && no_proxy="${DEFAULT_NO_PROXY}"
-    export_proxy "${proxy}" "${no_proxy}"
+    [[ -z "${no_proxy}" ]] && nproxy="${DEFAULT_NO_PROXY}"
+    export_proxy "${proxy}" "${nproxy}"
 }
 
 proxy_off() {

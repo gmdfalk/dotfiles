@@ -10,7 +10,7 @@ ZSH_DIR="$HOME/.zsh"
 #SSH_IDENTITIES="id_rsa"
 
 # Use BASH_SCRIPTS to load zsh modules from $BASH_DIR/scripts on-demand and in the order specified.
-BASH_SCRIPTS="util env archlinux common dev git gui laptop maintenance media proxy systemd thinkpad overrides ssh-agent"
+BASH_SCRIPTS="util archlinux common dev gui laptop maintenance media proxy systemd thinkpad overrides ssh-agent"
 
 # Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
 ZSH_SCRIPTS="common keybindings completion navigation overrides"
