@@ -46,9 +46,9 @@ fi
 # {{{ Msys
 if [[ "$OSTYPE" != "msys" ]];then
     # Disable scroll locking the terminal via ^s and ^q.
-    stty -ixon
-    # Colors for ls
-    [[ -r "$HOME/.dircolors" ]] && eval "$(dircolors $HOME/.dircolors)"
+    have stty && stty -ixon
+
+    have dircolors && [[ -f "$HOME/.dircolors" ]] && eval "$(dircolors --sh "$HOME/.dircolors")"
 fi
 # }}}
 
