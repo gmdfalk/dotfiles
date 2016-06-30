@@ -15,6 +15,10 @@ BASH_SCRIPTS="util common archlinux awesome dev laptop maintenance media proxy s
 # Use ZSH_SCRIPTS to load zsh modules from $ZSH_DIR/scripts on-demand and in the order specified.
 ZSH_SCRIPTS="common keybindings navigation overrides"
 
+if [ "$OSTYPE" = cygwin ]; then
+    export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin"
+fi
+
 # {{{  Source files
 # Source common bash configuration.
 test -f "$BASH_DIR/init.sh" && . "$BASH_DIR/init.sh"
