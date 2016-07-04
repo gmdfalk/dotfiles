@@ -4,7 +4,7 @@
 if have q; then
     declare -a processes=(
         firefox thunderbird eog spotify hexchat vlc geany gedit medit gvim pcmanfm mplayer smplayer
-        evince libreoffice lowriter localc
+        evince libreoffice lowriter localc intellij-idea-ultimate-edition jetbrains-rubymine webstorm pycharm
     )
     for process in "${processes[@]}"; do
         alias ${process}="q $process"
