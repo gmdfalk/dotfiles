@@ -146,6 +146,7 @@
     # }}}
 
     # push/pull/fetch {{{
+    pom = "pull origin master"
     pr = "pull --rebase"
     pp = "pull && git push"
     up = "fetch && git rebase"
