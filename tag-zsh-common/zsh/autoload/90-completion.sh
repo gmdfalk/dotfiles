@@ -13,7 +13,7 @@ apply_completion_aliases() {
     local alias command
     for pair in "${_COMPLETION_ALIASES[@]}"; do
         IFS=: read alias command <<< "${pair}"
-        compdef "$alias"="$command"
+        compdef "$alias"="$command" &>/dev/null
     done
 }
 apply_completion_aliases
