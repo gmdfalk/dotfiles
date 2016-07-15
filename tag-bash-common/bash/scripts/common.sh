@@ -40,7 +40,7 @@ alias dfbtrfs="btrfs filesystem df -h /"
 
 ff() { find . | grep -is "$@"; }
 ffc() { find . -type f | xargs grep -is "$@"; }
-ffp() { find $(sed 's/:/ /g' <<< "${PATH}") | grep -is "$@"; }
+ffp() { find $(sed 's/:/ /g' <<< "${PATH}") 2>/dev/null | grep -is "$@"; }
 
 # Swap two files/directories.
 swap() {
