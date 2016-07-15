@@ -34,7 +34,7 @@ bb() {
             signal='RTMIN+13';;   # Toggle interlude resume
         *) usage && return 0;;
     esac
-    [[ "${signal}" ]] && cmd+="pkill --signal ${signal} -f '/usr/bin/blockify'"
+    [[ -n "${signal}" ]] && cmd+="pkill --signal ${signal} -f '/usr/bin/blockify'"
     echo "${cmd}"
     eval "${cmd}"
 }

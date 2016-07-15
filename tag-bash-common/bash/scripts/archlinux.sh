@@ -4,10 +4,12 @@
 # Loading this module only makes sense on linux.
 [[ $OSTYPE != "linux-gnu" ]] && return 1
 
-cmds=("yaourt" "pacupg" "pacaur" "abs" "aur" "expac")
+cmds=("pacman" "yaourt" "pacupg" "pacaur" "abs" "aur" "expac")
 for cmd in "${cmds[@]}"; do
     have "${cmd}" && export "_have_${cmd}"=1
 done
+
+[[ -z "${_have_pacman}" ]] && return 1  # This doesn't seem to be an ArchLinux system.
 
 # {{{ Pacman
 alias cdpkg="cd /var/cache/pacman/pkg"
