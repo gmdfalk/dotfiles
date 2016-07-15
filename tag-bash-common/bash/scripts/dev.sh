@@ -28,19 +28,10 @@ fi
 if have python; then
     # Basics {
     add_completion_alias "py" "python"
-    add_completion_alias "py2" "python2"
-    add_completion_alias "py3" "python3"
-    alias ipy="ipython"
-    alias ipy2="ipython2"
-    alias ipy3="ipython3"
-    # }
-
-    # PyPI {
-    # See http://peterdowns.com/posts/first-time-with-pypi.html for a quick intro on how to use PyPI.
-    alias ppregister="python setup.py register -r pypi"
-    alias ppupload="python setup.py sdist upload -r pypi"
-    alias pptregister="python setup.py register -r pypitest"
-    alias pptupload="python setup.py sdist upload -r pypitest"
+    if have python2; then
+        add_completion_alias "py2" "python2"
+        add_completion_alias "py3" "python3"
+    fi
     # }
 
     # Virtualenv {
@@ -54,8 +45,8 @@ if have python; then
         #export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
         source /usr/bin/virtualenvwrapper_lazy.sh
     fi
+    # }
 fi
-# }
 # }}}
 
 # Java {{{

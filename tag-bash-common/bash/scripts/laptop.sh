@@ -54,6 +54,6 @@ idlesuspend() {
             echo "Usage: idlesuspend [ off | toggle | <time> ]";;
     esac
     local xautolock_process="$(pgrep -a "xautolock")"
-    [[ "${xautolock_process}" ]] && echo "running: ${xautolock_process}" || echo "xautolock is not running."
+    [[ -n "${xautolock_process}" ]] && echo "running: ${xautolock_process}" || echo "xautolock is not running."
 }
 # }}}
