@@ -87,8 +87,18 @@ Adding and deleting files:
 
 ```bash
     cd $HOME &&
-    git clone https://aur.archlinux.org/rcm-git.git && cd rcm-git &&
-    makepkg -i &&
+    git clone https://aur.archlinux.org/rcm-git.git && cd rcm-git && makepkg -i &&
+    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    rcup -B generic -v
+```
+
+### On Ubuntu
+
+```bash
+    cd $HOME &&
+    sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm &&
+    sudo apt-get update &&
+    sudo apt-get install rcm &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
     rcup -B generic -v
 ```
