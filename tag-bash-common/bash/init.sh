@@ -22,9 +22,9 @@ load_scripts() {
     local extension="sh"
     local -a scripts
 
-    if [[ "$@" ]]; then
+    if [[ -n "$@" ]]; then
         # Only load the files passed as arguments after $directory.
-        while read -rd ' ' script || [[ "${script}" ]]; do
+        while read -rd ' ' script || [[ -n "${script}" ]]; do
             scripts+=("${directory}/${script}.${extension}")
         done <<< "$@"
     else
@@ -34,7 +34,7 @@ load_scripts() {
 
     for script in "${scripts[@]}"; do
         if [[ -r "${script}" ]]; then
-            [[ "${DEBUG}" ]] && echo "${script}"
+            [[ -n "${DEBUG}" ]] && echo "${script}"
             source "${script}"
         fi
     done

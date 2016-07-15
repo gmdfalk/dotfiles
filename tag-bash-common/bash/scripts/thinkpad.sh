@@ -17,7 +17,7 @@ execute_with_display() {
         fi
 
         # Execute the command as the X11 user.
-        [[ "$x11_user" ]] && DISPLAY=":$display" su -c "${@}" "$x11_user"
+        [[ -n "$x11_user" ]] && DISPLAY=":$display" su -c "${@}" "$x11_user"
     done
 }
 

@@ -25,9 +25,9 @@ fi
 
 disp() { # Turn the display on or off.
     local cmd
-    [[ "$2" ]] && cmd="ssh ${_HTPC} DISPLAY=:0 "
+    [[ -n "$2" ]] && cmd="ssh ${_HTPC} DISPLAY=:0 "
     cmd+="xset dpms force "
-    [[ "$1" ]] && cmd+=" $1" || cmd+="off"
+    [[ -n "$1" ]] && cmd+=" $1" || cmd+="off"
     eval ${cmd}
 }
 # }}}

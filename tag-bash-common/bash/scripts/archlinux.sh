@@ -28,12 +28,12 @@ alias pacmir="${_SUDO} pacman -Syy" # Force refresh of all package lists after u
 alias paclsorphans="${_SUDO} pacman -Qdt"
 alias pacrmorphans="${_SUDO} pacman -Rs $(pacman -Qtdq)"
 alias pacupd="${_SUDO} pacman -Syu" # Update and refresh the local package database against repositories
-[[ "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Syu && ${_SUDO} abs"
+[[ -n "${_have_abs}" ]] && alias pacupd="${_SUDO} pacman -Syu && ${_SUDO} abs"
 paccheck() { [[ "$#" == 0 ]] && pacman -Qk | grep -v "0 missing" || pacman -Qk "$@"; }
 # }}}
 
 # {{{ Yaourt/AUR Helper
-if [[ "${_have_yaourt}" ]]; then
+if [[ -n "${_have_yaourt}" ]]; then
     add_completion_alias "ya" "yaourt"
     alias yaget="yaourt -G"     # Get PKGBUILD of package.
     alias yaconf="yaourt -C"    # Fix all configuration files with vimdiff
@@ -51,13 +51,13 @@ if [[ "${_have_yaourt}" ]]; then
     alias yainsd="yaourt -S --asdeps" # Install given package(s) as dependencies of another package
     alias yamir="yaourt -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
     alias yaupd="yaourt -Syua"   # Update and refresh the local package database against repositories
-    [[ "${_have_aur}" ]] && alias yaupd="yaourt -Syua && ${_SUDO} aur"
-    [[ "${_have_pacupg}" ]] && alias yaupg="pacupg -a"
+    [[ -n "${_have_aur}" ]] && alias yaupd="yaourt -Syua && ${_SUDO} aur"
+    [[ -n "${_have_pacupg}" ]] && alias yaupg="pacupg -a"
 fi
 # }}}
 
 # {{{ Pacaur
-if [[ "${_have_pacaur}" ]]; then
+if [[ -n "${_have_pacaur}" ]]; then
     alias cdaur="cd ${XDG_CACHE_HOME:-${HOME}/.cache}/pacaur"
     add_completion_alias "pa" "pacaur"
     alias paget="pacaur -d"     # Get PKGBUILD of package.
@@ -74,13 +74,13 @@ if [[ "${_have_pacaur}" ]]; then
     alias painsd="pacaur -S --asdeps" # Install given package(s) as dependencies of another package
     alias pamir="pacaur -Syy"   # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
     alias paupd="pacaur -Syua"  # Update and refresh the local package database against repositories
-    [[ "${_have_aur}" ]] && alias paupd="pacaur -Syua && ${_SUDO} aur"
-    [[ "${_have_pacupg}" ]] && alias paupg="pacupg -a"
+    [[ -n "${_have_aur}" ]] && alias paupd="pacaur -Syua && ${_SUDO} aur"
+    [[ -n "${_have_pacupg}" ]] && alias paupg="pacupg -a"
 fi
 # }}}
 
 # {{{ Expac
-if [[ "${_have_expac}" ]]; then
+if [[ -n "${_have_expac}" ]]; then
     # Show sorted installation date of all installed packages.
     pacdate() { expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort --numeric-sort; }
     # Show sorted installation date of explicitly installed packages.

@@ -37,6 +37,6 @@ set_variables() {
 
 print_variables() {
     for var in "$@"; do
-        [[ "${ZSH_VERSION}" ]] && echo "${var}: ${(P)var}" || echo "${var}: ${!var}"
+        [[ -n "${ZSH_VERSION}" ]] && echo "${var}: ${(P)var}" || echo "${var}: ${!var}"
     done
 }

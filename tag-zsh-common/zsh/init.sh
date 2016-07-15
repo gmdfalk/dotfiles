@@ -5,7 +5,7 @@
 # {{{ Preparation
 _BASE_DIR="${ZSH_DIR:-${HOME}/.zsh}"
 _SCRIPTS="${ZSH_SCRIPTS[@]}"
-[[ "${DEBUG}" ]] && echo init.zsh
+[[ -n "${DEBUG}" ]] && echo init.zsh
 # }}}
 
 # {{{ Source scripts

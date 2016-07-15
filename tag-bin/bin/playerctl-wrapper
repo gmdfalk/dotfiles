@@ -47,9 +47,9 @@ case "$1" in
 esac
 
 # If PLAYER was set, append it to all playerctl commands.
-[[ "${COMMAND}" == playerctl* && "${PLAYER}" ]] && COMMAND+=" --player=${PLAYER}"
+[[ -n "${COMMAND}" == playerctl* && "${PLAYER}" ]] && COMMAND+=" --player=${PLAYER}"
 # Execute the command remotely if necessary.
-[[ "${HTPC_FOUND}" && -z "${SPOTIFY_FOUND}" ]] && COMMAND="ssh htpc ${COMMAND}"
+[[ -n "${HTPC_FOUND}" && -z "${SPOTIFY_FOUND}" ]] && COMMAND="ssh htpc ${COMMAND}"
 
 # Do the needful.
 echo "${COMMAND}"

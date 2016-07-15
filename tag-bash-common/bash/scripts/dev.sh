@@ -57,5 +57,5 @@ fi
 # }}}
 
 # Java {{{
-[[ "${JAVA_HOME}" ]] || export JAVA_HOME="/usr/lib/jvm/default"
+[[ -n "${JAVA_HOME}" ]] || export JAVA_HOME="/usr/lib/jvm/default"
 # }}}
