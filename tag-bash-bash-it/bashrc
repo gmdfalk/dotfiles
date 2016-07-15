@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[[ "$DEBUG" ]] && echo bashrc
+[[ -n "$DEBUG" ]] && echo bashrc
 
 # Path to the bash it configuration
 export BASH_IT="$HOME/.bash-it"

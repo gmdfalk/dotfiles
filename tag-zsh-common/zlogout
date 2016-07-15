@@ -2,7 +2,7 @@
 #
 # `.zlogout' is sourced when a login shells exit.
 
-[[ "$DEBUG" ]] && echo zlogout
+[[ -n "$DEBUG" ]] && echo zlogout
 
 # Source optional local configuration file.
 [[ -f "$HOME/.zlogout.local" ]] && . "$HOME/.zlogout.local"

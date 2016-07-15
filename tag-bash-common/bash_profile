@@ -3,7 +3,7 @@
 # This script is sourced when bash is started as an interactive login shell
 
 
-[[ "$DEBUG" ]] && echo bash_profile
+[[ -n "$DEBUG" ]] && echo bash_profile
 
 # Source optional local configuration
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"

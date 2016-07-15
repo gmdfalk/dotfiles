@@ -5,7 +5,7 @@
 # {{{ Preparation
 _BASE_DIR="${BASH_DIR:-${HOME}/.bash}"
 _SCRIPTS="${BASH_SCRIPTS[@]}"
-[[ "$DEBUG" ]] && echo init.bash
+[[ -n "$DEBUG" ]] && echo init.bash
 # }}}
 
 # {{{ Helper functions

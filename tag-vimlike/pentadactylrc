@@ -231,6 +231,9 @@ group -locations http://pr0gramm.com/* pr0gramm
 map x -j $('.stream-prev').click();
 map c -j $('.stream-next').click();
 group user
+
+" cloud9 keys
+set passkeys+=ide.c9.io
 " }}}
 
 " Style {{{

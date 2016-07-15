@@ -6,7 +6,7 @@
 # Note that on ArchLinux ~/.zprofile sources /etc/zsh/zprofile which in turn sources /etc/profile and overrides $PATH.
 # Consequently, PATH (or any /etc/profile overrides) should be made in ~/.zshrc.
 
-[[ "$DEBUG" ]] && echo zprofile
+[[ -n "$DEBUG" ]] && echo zprofile
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path

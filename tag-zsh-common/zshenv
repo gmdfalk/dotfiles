@@ -4,7 +4,7 @@
 # the command search path, plus other important environment variables. It should not contain commands that produce
 # output or assume the shell is attached to a tty.
 
-[[ "$DEBUG" ]] && echo zshenv
+[[ -n "$DEBUG" ]] && echo zshenv
 
 # Make sure TMPDIR is defined. Otherwise, temp file creation during shell initialization might fail, e.g. with
 # 'can't create temp file for here document: permission denied'.

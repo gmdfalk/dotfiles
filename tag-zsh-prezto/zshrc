@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
 
-[[ "$DEBUG" ]] && echo zshrc
+[[ -n "$DEBUG" ]] && echo zshrc
 
 # {{{ Source configurations
 # Source Prezto.

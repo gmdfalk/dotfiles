@@ -5,7 +5,7 @@
 # should not change the shell environment at all. Rather, it should be used to set the terminal type and run a series
 # of external commands (fortune, msgs, etc).
 
-[[ "$DEBUG" ]] && echo zlogin
+[[ -n "$DEBUG" ]] && echo zlogin
 
 # Execute code that does not affect the current session in the background.
 {
