@@ -158,6 +158,9 @@ map <Leader>tl :tablast<CR>
 map <Leader>tf :tabfirst<CR>
 map <Leader>tt :tabdetach<CR>
 map <Leader>tT :tabattach 1<CR>
+" Move tab to first/last position in buffer list.
+map <Leader>tF :tabmove 0<CR>
+map <Leader>tL :tabmove 999<CR>
 map <C-h> :tabmove! -1<CR>
 map <C-l> :tabmove! +1<CR>
 map <C-j> :tabprevious<CR>
@@ -233,7 +236,7 @@ map c -j $('.stream-next').click();
 group user
 
 " cloud9 keys
-set passkeys+=ide.c9.io
+"set passkeys+=ide.c9.io:<pass-all-keys>
 " }}}
 
 " Style {{{
