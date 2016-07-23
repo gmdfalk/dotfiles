@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# {{{ Configuration
+# Configuration {{{
 VIM_DIR="${HOME}/.vim"
 PLUG_DIR="${VIM_DIR}/autoload"
 PLUG_URI="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
@@ -8,8 +8,12 @@ VUNDLE_DIR="${VIM_DIR}/bundle/vundle"
 VUNDLE_URI="https://github.com/VundleVim/Vundle.vim.git"
 # }}}
 
-# {{{ Utilities
-logger() { echo "$@"; }
+# Utilities {{{
+logger() { echo; echo "$@"; echo; }
+
+have() {
+    type "$@" &>/dev/null
+}
 
 sync_repo() {
     local repo_path="$1"
@@ -27,22 +31,26 @@ sync_repo() {
         logger "Successfully cloned to ${repo_path}."
     fi
 }
-# }}}
 
-# {{{ Routines
-fix_permissions() {
-    for arg in "$@"; do
-        logger "Fixing permissions for ${arg}"
-        setfacl -b "${arg}"
-        if [[ -d "${arg}" ]]; then
-            chmod 0700 "${arg}"
-        elif [[ -f "${arg}" ]]; then
-            chmod 0600 "${arg}"
-        fi
-    done
+# On cygwin (at least) setfacl does not have the -R switch (recursive) so we have to implement it ourselves.
+fix_acls() {
+    setfacl -b "${path}"
+    [[ -d "${path}" ]] && fix_acls "${path}"/*
 }
 
+fix_permissions() {
+    for arg in "$@"; do
+        logger "Fixing permissions for ${arg} recursively."
+        find "${arg}" -type d -exec chmod 0700 {} \;
+        find "${arg}" -type f -exec chmod 0600 {} \;
+        have setfacl && fix_acls "${arg}"
+    done
+}
+# }}}
+
+# Install Routines {{{
 install_vimplug() {
+    logger "Installing vimplug"
     mkdir -p "${VIM_DIR}/{swaps,backups}"
     if [[ ! -f "${PLUG_DIR}/plug.vim" ]]; then
         curl -fLo "${PLUG_DIR}/plug.vim" --create-dirs "${PLUG_URI}"
@@ -52,23 +60,48 @@ install_vimplug() {
 }
 
 install_vundle() {
+    logger "Installing vundle"
     mkdir -p "${VUNDLE_DIR}"
     sync_repo "${VUNDLE_DIR}" "${VUNDLE_URI}" "master"
     vim "+set nomore" "+BundleInstall" "+BundleClean" "+qall"
 }
 
-install_cygwin_packages() {
-    logger "Installing apt-cyg and curl"
-    #lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > /bin/apt-cyg &&
-    svn --force export http://apt-cyg.googlecode.com/svn/trunk/ /bin/ 
-    chmod +x /bin/apt-cyg
-    # Install some essential packages
-    apt-cyg install chere ctags gcc-g++ make mintty mysql mysqld openssl screen tar vim vim-common wget which ncurses ruby git
-    gem install hub
-    apt-cyg install curl
-    if [ $? -ne 0 ]; then
-        logger "Could not install curl. You will need to install it via the Cygwin Installer"
+# Cygwin switched to sha512 sums for verifying packages but apt-cyg as of late still uses md5 so we fix the binary here.
+patch_apt_cyg_binary() {
+    logger "Patching the apt-cyg binary."
+    sed -i 's/md5sum/sha512sum/g' /bin/apt-cyg
+}
+
+update_apt_cyg() {
+    if ! have apt-cyg; then
+        logger "Installing apt-cyg."
+        have lynx && lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > /bin/apt-cyg
+        have apt-cyg || wget  -O /bin/apt-cyg rawgit.com/transcode-open/apt-cyg/master/apt-cyg
+        chmod +x /bin/apt-cyg
     fi
+    patch_apt_cyg_binary
+    logger "Updating apt-cyg."
+    apt-cyg update
+}
+
+install_cygwin_packages() {
+    update_apt_cyg
+
+    local packages=(
+        ctags gcc-g++ vim-common ncurses ruby-devel # meta packages
+        chere curl mintty openssl ruby screen tar tmux wget which zsh # base packages
+        git make mysql mysqld vim # dev packages
+    )
+
+    logger "Installing cygwin packages: ${packages[@]}"
+    apt-cyg install "${packages[@]}"
+}
+
+install_gems() {
+    local packages=(hub rdoc)
+
+    logger "Installing gems: ${packages[@]}"
+    gem install "${packages[@]}"
 }
 
 apply_system_specific_setup() {
@@ -76,30 +109,25 @@ apply_system_specific_setup() {
 
     case "$system" in
         Cygwin)
+            logger "Applying system specific setup for Cygwin."
             install_cygwin_packages
+            install_gems
             echo "Remember to change the cygwin link to '.../mintty.exe /usr/bin/zsh -' to use zsh by default"
             ;;
-        GNU/Linux)
-            ;;
-        Darwin)
-            ;;
-        *)
-            logger "Did not recognize Operating System $system"
-            ;;
+        GNU/Linux) ;;
+        Darwin) ;;
+        *) logger "Did not recognize Operating System: $system" ;;
     esac
 }
 # }}}
 
 main() {
-    fix_permissions ~/.config/gnupg ~/.ssh ~/.ssh/config
+    fix_permissions ~/.gnupg ~/.ssh
 
     apply_system_specific_setup
 
-    if [[ -f "${HOME}/.vimrc.bundles" ]]; then
-        install_vundle
-    else
-        install_vimplug
-    fi
+    # Vimplug is used for the vim-minimal tag and vundle is used by vim-spf13.
+    [[ -f "${HOME}/.vimrc.bundles" ]] && install_vundle || install_vimplug
 }
 
 main

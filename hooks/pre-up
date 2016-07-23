@@ -11,16 +11,10 @@ apply_system_specific_setup() {
     local system="$(uname -o)"
 
     case "$system" in
-        Cygwin)
-            apply_cygwin_settings
-        ;;
-        GNU/Linux)
-        ;;
-        Darwin)
-        ;;
-        *)
-            logger "Did not recognize Operating System $system"
-        ;;
+        Cygwin) apply_cygwin_settings ;;
+        GNU/Linux) ;;
+        Darwin) ;;
+        *) logger "Did not recognize Operating System $system" ;;
     esac
 }
 
