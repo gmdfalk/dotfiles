@@ -6,5 +6,6 @@
     signingkey = "A3753845"
 
 [commit]
-    gpgsign = True
+    gpgsign = False
+    verbose = True
 
