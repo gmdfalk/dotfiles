@@ -167,7 +167,23 @@ map s :open g<Space>
 map S :tabopen g<Space>
 " }
 
-map <C-h> :set hud!<CR>
+" Tab control {
 map <Leader>td :duplicate<CR>
+map <Leader>tt :tabdetach<CR>
+map <Leader>tT :tabattach 1<CR>
+map <Leader>tf 0%
+map <Leader>tl 999%
+
+" Pentadactyl behaviour
+map w :winopen<Space>
+map R gR
+" Toggle focus between last two tabs.
+map <Leader><Space> <C-6>
+
+map <C-i> editWithVim
+
+let qmark b = [ 'http://www.reddit.com/r/coding', 'http://www.reddit.com/r/programming', 'http://www.reddit.com/r/learnprogramming']
+
+" }
 
 " }}}

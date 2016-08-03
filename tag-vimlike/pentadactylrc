@@ -119,6 +119,12 @@ map ö <Esc>
 map s :open g<Space>
 map S :tabopen g<Space>
 
+" cVim behaviour
+map x :tabclose<CR>
+map X :undo<CR>
+map -builtin d <C-d>
+map -builtin u <C-u>
+
 " Unmap annoying keys
 nmap -builtin <bs> <Nop>
 map -builtin <f1> <Nop>
@@ -149,8 +155,8 @@ nmap k -builtin 5k
 nmap l -builtin 5l
 
 " Switch buffers
-nmap J gt
-nmap K gT
+nmap K gt
+nmap J gT
 
 " Tab control
 map <Leader>td :tabduplicate<CR>
@@ -161,16 +167,12 @@ map <Leader>tT :tabattach 1<CR>
 " Move tab to first/last position in buffer list.
 map <Leader>tF :tabmove 0<CR>
 map <Leader>tL :tabmove 999<CR>
-map <C-h> :tabmove! -1<CR>
-map <C-l> :tabmove! +1<CR>
-map <C-j> :tabprevious<CR>
-map <C-k> :tabnext<CR>
+map < :tabmove! -1<CR>
+map > :tabmove! +1<CR>
 
 " Tab groups
 map <Leader>gg :bmarks! -T
 map <Leader>gn :bmarks! -T news<CR>
-map <Leader>gd :bmarks! -T dvagit<CR>
-map <Leader>gm :bmarks! -T dvagnews<CR>
 
 " Firefox dialogues
 nmap <Leader>fa :dialog addons<CR>
@@ -224,15 +226,15 @@ set passkeys=
 " Imgur keys
 set passkeys+=imgur.com:<Left>,<Right>
 group -locations http://imgur.com/* imgur
-map x -j $('.navPrev')[0].click();
-map c -j $('.navNext')[0].click();
+map c -j $('.navPrev')[0].click();
+map v -j $('.navNext')[0].click();
 group user
 
 " pr0gramm keys
 set passkeys+=pr0gramm.com:<Return>,<Left>,<Right>
 group -locations http://pr0gramm.com/* pr0gramm
-map x -j $('.stream-prev').click();
-map c -j $('.stream-next').click();
+map c -j $('.stream-prev').click();
+map v -j $('.stream-next').click();
 group user
 
 " cloud9 keys
