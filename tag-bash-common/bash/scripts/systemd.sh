@@ -10,6 +10,7 @@ scstate() {
 }
 
 add_completion_alias "sc" "systemctl"
+add_completion_alias "jc" "journalctl"
 
 user_commands=(
   list-units is-active status show help list-unit-files

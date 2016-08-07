@@ -28,12 +28,12 @@ xautolock -time 30 -locker "systemctl suspend" -detectsleep &
 
 # {{{ Apps
 nm-applet &
-blueman-applet &
-copyq &
+#blueman-applet &
 konversation &
 pidgin &
 thunderbird &
 firefox &
 # }}}
 
-exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err
+systemd-cat awesome
+#exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err
