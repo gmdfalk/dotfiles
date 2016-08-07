@@ -34,7 +34,6 @@ konversation &
 pidgin &
 thunderbird &
 firefox &
-(sleep 10 && dropbox) &
 # }}}
 
 exec /usr/bin/awesome >> ~/.logs/awe_out 2>> ~/.logs/awe_err
