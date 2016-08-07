@@ -90,7 +90,7 @@ Adding and deleting files:
     cd $HOME &&
     git clone https://aur.archlinux.org/rcm-git.git && cd rcm-git && makepkg -i &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    rcup -B generic -K && rcup -B generic -v
 ```
 
 ### On Ubuntu
@@ -101,7 +101,7 @@ Adding and deleting files:
     sudo apt-get update &&
     sudo apt-get install rcm &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    rcup -B generic -K && rcup -B generic -v
 ```
 
 ### On OSX
@@ -111,7 +111,7 @@ Adding and deleting files:
     brew tap thoughtbot/formulae &&
     brew install rcm &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    rcup -B generic -K && rcup -B generic -v
 ```
 
 ### On Windows
@@ -148,7 +148,7 @@ Please note that if you want your cygwin dotfiles to be usable by Windows applic
     make &&
     make install &&
     git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
-    rcup -B generic -v
+    rcup -B generic -K && rcup -B generic -v
 ```
 
 ### Portable installation script
