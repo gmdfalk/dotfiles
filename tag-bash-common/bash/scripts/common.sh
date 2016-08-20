@@ -38,8 +38,8 @@ alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
 alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
 alias dfbtrfs="btrfs filesystem df -h /"
 
-ff() { find . | grep -is "$@"; }
-ffc() { find . -type f | xargs grep -is "$@"; }
+ff() { find . 2>/dev/null | grep -is "$@"; }
+ffc() { find . -type f 2>/dev/null | xargs grep -is "$@"; }
 ffp() { find $(sed 's/:/ /g' <<< "${PATH}") 2>/dev/null | grep -is "$@"; }
 
 # Swap two files/directories.
