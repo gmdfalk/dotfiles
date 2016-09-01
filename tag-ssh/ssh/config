@@ -46,8 +46,7 @@
 #   ServerAliveInterval 30
 #   ServerAliveCountMax 120
 
-Host htpc 192.168.0.2
-    Port 21397
+Host htpc 192.168.1.10
     User slave
     StrictHostKeyChecking no
     ServerAliveInterval 10
