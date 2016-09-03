@@ -1,0 +1,10 @@
+#!/bin/sh
+# ~/.xprofile
+#
+
+# X11 environment
+xrdb -merge ~/.Xresources
+setxkbmap uk
+xmodmap ~/.Xmodmap
+#xbindkeys
+
