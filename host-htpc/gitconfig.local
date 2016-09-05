@@ -2,10 +2,9 @@
 
 [user]
     name = "Max Falk"
-    email = "gmdfalk@gmail.com"
+    email = "serialoverflow@gmail.com"
     signingkey = "A3753845"
 
 [commit]
     gpgsign = False
-    verbose = True
 
