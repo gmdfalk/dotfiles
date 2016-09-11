@@ -112,9 +112,8 @@
     # View the current working tree status using the short format
     ss = "status -s"
 
-    # Show the diff between the latest commit and the current state.
-    d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
-    dw = "diff --cached --diff-algorithm=minimal -w"
+    dc = "diff --cached --diff-algorithm=minimal -w"
+    ds = "diff --staged -w"
 
     # `git di $number` shows the diff between the state `$number` revisions ago and the current state.
     di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
