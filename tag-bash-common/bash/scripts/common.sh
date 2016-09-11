@@ -128,3 +128,6 @@ alias vnn="${VISUAL} ${HOME}/.notemed"
 # }}}
 
 
+# Networking {{{
+myip() { curl ipinfo.io; }
+# }}}
