@@ -77,13 +77,23 @@ temp='/tmp/hosts'
 
 # array of 'host::ip'; will be added at top of file (after localhost)
 lanips=( 
-  'router::192.168.0.1'
-  'htpc::192.168.0.2'
-  'felix::192.168.0.3'
-  'kristin::192.168.0.4'
-  'patrick::192.168.0.5'
-  'printer::192.168.0.99'
-  'ap::192.168.1.1'
+    'router-felix::192.168.1.1'
+    'router-max::192.168.1.2'
+    'htpc::192.168.1.10'
+    'pc-max ::192.168.1.20'
+    'pc-felix::192.168.1.21'
+    'pc-kristin ::192.168.1.22'
+    'pc-mieter::192.168.1.23'
+    'laptop-max::192.168.1.40'
+    'laptop-felix::192.168.1.41'
+    'laptop-kristin::192.168.1.42'
+    'laptop-mieter::192.168.1.43'
+    'laptop-max-eth::192.168.1.60'
+    'handy-max::192.168.1.80'
+    'handy-felix ::192.168.1.81'
+    'handy-kristin ::192.168.1.82'
+    'handy-mieter::192.168.1.83'
+    'printer::192.168.1.99'
   )
 
 $verbose                   && logger "backing up current $hosts..."
