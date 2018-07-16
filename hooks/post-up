@@ -105,7 +105,7 @@ install_gems() {
 }
 
 apply_system_specific_setup() {
-    local system="$(uname -o)"
+    local system="$(uname)"
 
     case "$system" in
         Cygwin)

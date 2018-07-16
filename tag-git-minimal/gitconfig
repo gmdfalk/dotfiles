@@ -1,0 +1,149 @@
+[alias]
+    a = "add"
+    b = "branch"
+    c = "commit --verbose"
+    ch = "checkout"
+    cp = "cherry-pick"
+    d = "diff -w"
+    f = "fetch"
+    l = "log --show-signature --abbrev-commit"
+    m = "merge"
+    p = "pull"
+    ps = "push"
+    s = "status"
+    st = "stash"
+    su = "submodule"
+    t = "tag"
+    w = "whatchanged"    # Show logs with difference each commit introduces.
+
+    switch = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    retag = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
+    resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
+    vimdiff = "!f() { git diff -w "$@" | vim -R -; }; f"
+
+    tags = "tag -l"
+    branches = "branch -a"
+    remotes = "remote -v"
+    stashes = "stash list"
+    commits = "shortlog --summary --numbered"
+
+    psom = "push origin master"
+    psod = "push origin develop"
+
+
+    ci = "commit --interactive"                # Select which files/hunks should be part of the commit.
+    ca = "commit -a"                           # Commit unstaged changes, i.e. perform git add and git rm as necessary.
+    caa = "!git add -A && git commit -a"       # Commit all changes (including untracked files).
+
+    ss = "status -s"
+    dc = "diff --cached --diff-algorithm=minimal -w"
+    ds = "diff --staged -w"
+    # `git di $number` shows the diff between the state `$number` revisions ago and the current state.
+    di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+    # Find branches containing commit
+    fb = "!f() { git branch -a --contains $1; }; f"
+    # Find tags containing commit
+    ft = "!f() { git describe --always --contains $1; }; f"
+    # Find commits by source code
+    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+    # Find commits by commit message
+    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+    # }}}
+
+    ll = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f" # View abbreviated SHA, description, author and time of commits
+    la = "log --pretty=oneline --graph --abbrev-commit"
+    ls = "log --pretty=oneline --graph --abbrev-commit -n 18"
+    lnew = "log HEAD@{1}..HEAD@{0}" # Show commits since last pull
+
+
+# apply {{{
+[apply]
+    # Detect whitespace errors when applying a patch
+    whitespace = "fix"
+# }}}
+
+# core {{{
+[core]
+    # Use custom `.gitignore` and `.gitattributes`
+	  excludesfile = ~/.gitignore.global
+    attributesfile = ~/.gitattributes
+
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    # [default] trailing-space: looks for spaces at the end of a line
+    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+    whitespace = "space-before-tab,-indent-with-non-tab,trailing-space"
+
+    # Make `git rebase` safer on OS X
+    # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+    trustctime = "false"
+
+    # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+    # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+    precomposeunicode = "false"
+
+# }}}
+
+# color {{{
+[color]
+    # Use colors in Git commands that are capable of colored output when
+    # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+    ui = "auto"
+
+[color "branch"]
+    current = "yellow reverse"
+    local = "yellow"
+    remote = "green"
+
+[color "diff"]
+    meta = "yellow bold"
+    frag = "magenta bold"
+    old = "red"             # deletions
+    new = "green"           # additions
+
+[color "status"]
+    added = "yellow"
+    changed = "green"
+    untracked = "cyan"
+# }}}
+
+# diff {{{
+[diff]
+    # Detect copies as well as renames
+    renames = "copies"
+# }}}
+
+# help {{{
+[help]
+    # Automatically correct and execute mistyped commands
+    autocorrect = "1"
+# }}}
+
+# merge {{{
+[merge]
+    # Include summaries of merged commits in newly created merge commit messages
+    log = "true"
+# }}}
+
+# push {{{
+[push]
+    # Use the Git 1.x.x default to avoid errors on machines with old Git
+    # installations. To use `simple` instead, add this to your `~/.extra` file:
+    # `git config --global push.default simple`. See http://git.io/mMah-w.
+    default = "matching"
+# }}}
+
+# commit {{{
+[commit]
+    verbose = True  # Available since git v2.9.
+# }}}
+
+# user {{{
+[user]
+	email = max.falk@dvag.com
+	name = Max Falk
+# }}}
+
+# include {{{
+[include]
+    path = "~/.gitconfig.local"
+# }}}
