@@ -40,7 +40,7 @@ count() {
 # Umlauts for Mac GB:        ä=Alt+ua,   ö=Alt+uo,   ü=Alt+uu,   ß=Alt+s.
 # On OS X, you can use xkbswitch (https://github.com/myshov/xkbswitch-macosx) as an alternative to setxkbmap.
 # Umlauts for US altgr-intl: ä=AltGr+q,  ö=AltGr+p,  ü=AltGr+y,  ß=AltGr+s.
-kbd() {
+keys() {
     case "$(tty)" in
         # We're using the virtual console.
         /dev/tty[0-9]*)
@@ -107,4 +107,15 @@ timestamp() {
     echo "${date}"
 }
 
-
+note() { # Write a note to a target file
+    local target=$1
+    [[ -f "${target}" ]] || touch "${target}"
+    if [[ "$#" == 0 ]];then
+        echo "Usage: note <filename> <message>"
+    elif [[ "$#" == 1 ]];then
+        cat "${target}" | tail -n 20
+    else
+        shift
+        echo "$@" >> "${target}"
+    fi
+}

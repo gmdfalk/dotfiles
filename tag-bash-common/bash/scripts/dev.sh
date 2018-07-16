@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Navigation {{{ 
+# Navigation {{{
 alias cdb="cd ${HOME}/build"
 alias cdc="cd ${HOME}/code"
 # }}}
@@ -52,3 +52,20 @@ fi
 # Java {{{
 [[ -n "${JAVA_HOME}" ]] || export JAVA_HOME="/usr/lib/jvm/default"
 # }}}
+
+if have kubectl; then
+  add_completion_alias "kb" "kubectl"
+  alias kbew="k8 -n entwicklung-wserver"
+  alias kbei="k8 -n entwicklung-innolab"
+fi
+
+if have idea; then
+    # On OSX with Jetbrains Toolbox, the idea app is sandboxed and tries to open files with the sandbox location as root and fails.
+    # Instead substitute pwd so we can use 'idea some/dir/file.txt'.
+    ideao() {
+        local target="$@"
+        [[ ${target} =~ ^/.* ]] || target="${PWD}/${target}"
+        echo "Opening ${target} with $(which idea)".
+        idea "${target}" > /dev/null 2>&1
+    }
+fi

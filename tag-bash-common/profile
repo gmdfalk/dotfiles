@@ -31,3 +31,8 @@ fi
 
 # Source optional local configuration
 test -f "$HOME/.profile.local" && . "$HOME/.profile.local"
+
+# Customizations
+#export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+export JAVA_HOME="$(/usr/libexec/java_home -v 10)"
+proxy_on

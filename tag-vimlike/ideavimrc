@@ -43,7 +43,7 @@ nnoremap gO O<Esc>j
 " from http://vimbits.com/bits/356
 nnoremap U <C-r>
 
-inoremap ö <Esc>
+#inoremap ö <Esc>
 
 " Clear search
 noremap <leader>n :nohls<CR>

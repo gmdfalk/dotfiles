@@ -17,3 +17,7 @@ apply_completion_aliases() {
     done
 }
 apply_completion_aliases
+
+# if [[ -x "$(command -v kubectl)"  ]]; then
+#       source <(kubectl completion zsh)
+# fi

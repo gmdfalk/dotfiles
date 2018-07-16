@@ -189,8 +189,9 @@
 # core {{{
 [core]
     # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = "~/.gitignore.global"
-    #attributesfile = "~/.gitattributes"
+	#excludesfile = /Users/i13pccb/.gitignore.global
+	excludesfile = ~/.gitignore.global
+    attributesfile = ~/.gitattributes
 
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
@@ -204,6 +205,7 @@
     # Prevent showing files whose names contain non-ASCII symbols as unversioned.
     # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
     precomposeunicode = "false"
+	autocrlf = input
 # }}}
 
 # color {{{
@@ -276,6 +278,7 @@
 # commit {{{
 [commit]
     verbose = True  # Available since git v2.9.
+	template = /Users/i13pccb/.stCommitMsg
 # }}}
 
 # include {{{
@@ -283,3 +286,12 @@
     path = ".gitconfig.local"
 # }}}
 
+[user]
+	email = max.falk@dvag.com
+	name = Max Falk
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

@@ -1,4 +1,7 @@
-
+project.xcworkspace/
+xcuserdata/
+Carthage/Checkouts/
+*.bcsymbolmap
 # Created by https://www.gitignore.io/api/linux,windows,osx,jetbrains,vim,eclipse
 
 ### Linux ###
@@ -131,7 +134,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
 .loadpath
 
 # Eclipse Core

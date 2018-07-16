@@ -2,9 +2,9 @@
 
 [user]
     name = "Max Falk"
-    email = "gmdfalk@gmail.com"
-    signingkey = "A3753845"
+    email = "max.falk@dvag.com"
+#    signingkey = "A3753845"
 
 [commit]
-    gpgsign = True
+    gpgsign = False
 
