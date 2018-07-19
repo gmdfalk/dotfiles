@@ -6,7 +6,8 @@
     cp = "cherry-pick"
     d = "diff -w"
     f = "fetch"
-    l = "log --show-signature --abbrev-commit"
+    l = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f" # View abbreviated SHA, description, author and time of commits
+    ll = "log --show-signature --abbrev-commit"
     m = "merge"
     p = "pull"
     ps = "push"
@@ -50,7 +51,6 @@
     fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
     # }}}
 
-    ll = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f" # View abbreviated SHA, description, author and time of commits
     la = "log --pretty=oneline --graph --abbrev-commit"
     ls = "log --pretty=oneline --graph --abbrev-commit -n 18"
     lnew = "log HEAD@{1}..HEAD@{0}" # Show commits since last pull
