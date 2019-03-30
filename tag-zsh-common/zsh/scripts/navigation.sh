@@ -24,11 +24,11 @@ preexec() {
 
 chpwd() {
     case "${LS_USED}" in
-        cd)     ls --color=auto --group-directories-first -hF;;
-        cda)    ls --color=auto --group-directories-first -hlAF;;
-        cdl)    ls --color=auto --group-directories-first -hlF;;
+        cd)     ls -hF;;
+        cda)    ls -hlAF;;
+        cdl)    ls -hlF;;
         cdn)    ;;
-        *)      ls --color=auto --group-directories-first -hF;;
+        *)      ls -hF;;
     esac
     # Write dirstack to file.
 #    print -l $PWD ${(u)dirstack} >| "${DIRSTACKFILE}"

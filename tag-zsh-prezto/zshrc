@@ -19,3 +19,6 @@ fi
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"
+
+export PATH="$HOME/.bin:$PATH"
+source /Users/max/.asdf/asdf.sh
