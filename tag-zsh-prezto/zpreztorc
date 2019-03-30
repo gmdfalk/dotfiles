@@ -27,14 +27,24 @@ zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 # The order matters.
 zstyle ':prezto:load' pmodule \
   'environment' \
+  'osx' \
   'terminal' \
   'editor' \
   'history' \
   'directory' \
   'spectrum' \
   'utility' \
+  'docker' \
+  'fasd' \
+  'git' \
+  'gpg' \
+  'ssh' \
+  'utility' \
   'completion' \
   'prompt'
+#    'node' \
+#    'python' \
+#    'ruby' \
 
 #
 # Editor

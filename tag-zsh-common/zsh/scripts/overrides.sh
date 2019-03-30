@@ -29,6 +29,6 @@ do_sudo() {
     if ((glob)); then
         PATH="/sbin:/usr/sbin:/usr/local/sbin:$PATH" $run $~==*
     else
-    PATH="/sbin:/usr/sbin:/usr/local/sbin:$PATH" $run $==*
+        PATH="/sbin:/usr/sbin:/usr/local/sbin:$PATH" $run $==*
     fi
 }
