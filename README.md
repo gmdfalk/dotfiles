@@ -71,7 +71,7 @@ Status information:
 
 Installing and deleting symlinks/tags:
 * `rcup -v` (create/update all symlinks for ~/.rcrc or ~/.dotfiles/rcrc (and be verbose about it))
-* `rcup -B mbpro` (create all symlinks for the host mbro (i.e. read ~/.dotfiles/host-mbpro/rcrc))
+* `rcup -B macos` (create all symlinks for the host mbro (i.e. read ~/.dotfiles/host-macos/rcrc))
 * `rcup -d ~/company_dotfiles` (install from a non-default dotfile directory)
 * `rcup -t zsh -t vim` (only install the vim and zsh configurations)
 * The same commands work with `rcdn` to unlink/deinstall tags or whole repositories.  
@@ -204,7 +204,7 @@ Additionally, there are a couple of special directories from which configuration
   
 ### Maintenance
   
-Once a configuration is installed, e.g. via `rcup -B mbpro` the corresponding rcrc file (`~/.dotfiles/host-mbpro/rcrc`)
+Once a configuration is installed, e.g. via `rcup -B macos` the corresponding rcrc file (`~/.dotfiles/host-macos/rcrc`)
 will be symlinked to `~/.rcrc` so that you don't have to specify the dotfiles directory or host name anymore.
 Maintenance then simply becomes:
 ```
