@@ -97,5 +97,5 @@ A set of themes with the aim of making [awesome] appearance awesome too!
   [amouly]: https://bbs.archlinux.org/viewtopic.php?pid=1307158#p1307158
   [switch-theme.sh]: https://github.com/copycat-killer/awesome-copycats/issues/36
   [BY-NC-SA]: http://creativecommons.org/licenses/by-nc-sa/4.0/
-  [dotfiles-awesome]: https://github.com/mikar/dotfiles-awesome
+  [dotfiles-awesome]: https://github.com/serialoverflow/dotfiles-awesome
 

@@ -88,7 +88,7 @@ Adding and deleting files:
 ```bash
     cd $HOME &&
     git clone https://aur.archlinux.org/rcm-git.git && cd rcm-git && makepkg -i &&
-    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive https://github.com/serialoverflow/dotfiles.git $HOME/.dotfiles &&
     rcup -B generic -K && rcup -B generic -v
 ```
 
@@ -99,7 +99,7 @@ Adding and deleting files:
     sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm &&
     sudo apt-get update &&
     sudo apt-get install rcm &&
-    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive https://github.com/serialoverflow/dotfiles.git $HOME/.dotfiles &&
     rcup -B generic -K && rcup -B generic -v
 ```
 
@@ -109,7 +109,7 @@ Adding and deleting files:
     cd $HOME &&
     brew tap thoughtbot/formulae &&
     brew install rcm &&
-    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive https://github.com/serialoverflow/dotfiles.git $HOME/.dotfiles &&
     rcup -B generic -K && rcup -B generic -v
 ```
 
@@ -146,7 +146,7 @@ Please note that if you want your cygwin dotfiles to be usable by Windows applic
     ./configure &&
     make &&
     make install &&
-    git clone --recursive https://github.com/mikar/dotfiles.git $HOME/.dotfiles &&
+    git clone --recursive https://github.com/serialoverflow/dotfiles.git $HOME/.dotfiles &&
     rcup -B generic -K && rcup -B generic -v
 ```
 
