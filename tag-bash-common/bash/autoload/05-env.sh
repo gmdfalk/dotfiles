@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
-
 # {{{ Basic environment
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export GNUPGHOME="$XDG_CONFIG_HOME"/gnupg
+export GPG_TTY="$(tty)"
+HISTSIZE=500000
+SAVEHIST=$HISTSIZE
+
+
 # Add scripts directory to $PATH, if it's missing.
 BIN_DIR="${HOME}/bin"
 case ":$PATH:" in
