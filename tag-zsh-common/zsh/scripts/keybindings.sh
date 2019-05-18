@@ -49,9 +49,11 @@ bindkey -v
 bindkey "^s" sudo-command-line
 
 # Alt+k/Up: Forward history search
+bindkey "^k" history-beginning-search-backward
 bindkey "^[k" history-beginning-search-backward
 bindkey "^[[1;3A" history-beginning-search-backward
 # Alt+j/Down: Backward history search
+bindkey "^j" history-beginning-search-forward
 bindkey "^[j" history-beginning-search-forward
 bindkey "^[[1;3B" history-beginning-search-forward
 
