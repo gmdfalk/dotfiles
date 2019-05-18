@@ -49,13 +49,13 @@ bindkey -v
 bindkey "^s" sudo-command-line
 
 # Alt+k/Up: Forward history search
-bindkey "^k" history-beginning-search-backward
-bindkey "^[k" history-beginning-search-backward
-bindkey "^[[1;3A" history-beginning-search-backward
+bindkey "^k" history-substring-search-up
+bindkey "^[k" history-substring-search-up
+bindkey "^[[1;3A" history-substring-search-up
 # Alt+j/Down: Backward history search
-bindkey "^j" history-beginning-search-forward
-bindkey "^[j" history-beginning-search-forward
-bindkey "^[[1;3B" history-beginning-search-forward
+bindkey "^j" history-substring-search-down
+bindkey "^[j" history-substring-search-down
+bindkey "^[[1;3B" history-substring-search-down
 
 # Restore emacs functionality:
 bindkey '^p' up-history

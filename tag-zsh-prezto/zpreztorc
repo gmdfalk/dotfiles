@@ -31,16 +31,17 @@ zstyle ':prezto:load' pmodule \
   'terminal' \
   'editor' \
   'history' \
+  'history-substring-search' \
   'directory' \
   'spectrum' \
   'utility' \
   'prompt' \
-  'fasd' \
   'git' \
   'ssh' \
   'osx' \
   'docker' \
   'contrib-kubernetes' \
+  'fasd'
 #    'node' \
 #    'python' \
 #    'ruby' \
