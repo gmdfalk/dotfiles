@@ -47,6 +47,7 @@
 #   ServerAliveCountMax 120
 
 Host *
+  Protocol 2
   IgnoreUnknown UseKeychain
   AddKeysToAgent yes
   UseKeychain yes
