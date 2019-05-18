@@ -3,8 +3,8 @@
 [user]
     name = "Max Falk"
     email = "gmdfalk@gmail.com"
-    #signingkey = "A3753845"
+    signingkey = "A3753845"
 
-#[commit]
-    #gpgsign = True
-
+[commit]
+    gpgsign = True
+    verbose = True
