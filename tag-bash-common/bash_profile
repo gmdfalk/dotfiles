@@ -2,8 +2,7 @@
 # 
 # This script is sourced when bash is started as an interactive login shell
 
-
-[[ -n "$DEBUG" ]] && echo bash_profile
+#[[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
 
 # Source optional local configuration
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"

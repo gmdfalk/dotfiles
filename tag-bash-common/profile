@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-test "$DEBUG" && echo profile
-
 BASH_DIR="$HOME/.bash"
 ZSH_DIR="$HOME/.zsh"
 

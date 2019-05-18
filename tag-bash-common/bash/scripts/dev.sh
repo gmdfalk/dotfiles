@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Navigation {{{ 
-alias cdb="cd ${HOME}/build"
-alias cdc="cd ${HOME}/code"
-# }}}
-
 # {{{ Git
 # Hub is a fully compatible wrapper for git that adds GitHub support, e.g. creating issues and pull requests.
 have hub && alias git="hub"
@@ -33,22 +28,24 @@ if have python; then
         add_completion_alias "py3" "python3"
     fi
     # }
-
-    # Virtualenv {
-    # Virtualenvwrapper workflow: mkvirtualenv foo, workon foo, deactivate, rmvirtualenv foo
-    # Other useful commands: lsvirtualenv (list all environments), cdvirtualenv (cd into one), cdsitepackages, lssitepackages
-    if [[ -x /usr/bin/virtualenvwrapper_lazy.sh ]]; then
-        export PROJECT_HOME="${HOME}/code/python"
-        export WORKON_HOME="${HOME}/build/python/venv"
-        export VIRTUALENVWRAPPER_SCRIPT=/usr/bin/virtualenvwrapper.sh
-        # Isolate new environments from system site packages. Opposite would be --system-site-packages.
-        #export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-        source /usr/bin/virtualenvwrapper_lazy.sh
-    fi
-    # }
 fi
 # }}}
 
 # Java {{{
 [[ -n "${JAVA_HOME}" ]] || export JAVA_HOME="/usr/lib/jvm/default"
+# }}}
+
+
+# Various {{{
+alias pingg="ping www.google.com"
+alias raw='grep -Ev "^\s*(;|#|$)"'
+psf() { ps aux | grep "$@" | grep -v grep; }
+wgp() { wgetpaste -X "$@"; }
+debug() { bash -x $(which "$1") "${@:1}"; }
+#sprunge() { curl -F 'sprunge=<-' http://sprunge.us }
+# }}}
+
+# Networking {{{
+myip() { curl ipinfo.io; }
+speedtest() { curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python - }
 # }}}

@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+# Notes {{{
+note() { # Write a note to a target file
+    local target=$1
+    [[ -f "${target}" ]] || touch "${target}"
+    if [[ "$#" == 0 ]];then
+        echo "Usage: note <filename> <message>"
+    elif [[ "$#" == 1 ]];then
+        cat "${target}" | tail -n 20
+    else
+        shift
+        echo "$@" >> "${target}"
+    fi
+}
+# }}}
+
 # Navigation {{{
 alias d="dirs -v -l"
 
@@ -9,34 +24,31 @@ alias po="popd"
 alias pp="pushd \$(pwd)"
 
 # Move through directory stack ($(dirs)).
-alias -- -="cd -"
-alias 1="cd -"
-alias 2="cd -2"
-alias 3="cd -3"
-alias 4="cd -4"
-alias 5="cd -5"
-alias 6="cd -6"
-alias 7="cd -7"
-alias 8="cd -8"
-alias 9="cd -9"
 alias ..="cd .."         # Go up one directory
 alias ...="cd ../.."     # Go up two directories
 alias ....="cd ../../.." # Go up three directories
-
-alias cdt="cd ${TMPDIR}"
-alias cdv="cd /var"
 # }}}
 
 # File Manager {{{
-alias md="mkdir -p"
-alias rd="rmdir"
+[[ "${OSTYPE}" == "linux-gnu" ]] && alias ls="ls --group-directories-first --color=auto --time-style=long-iso"
+add_completion_alias "l" "ls"
+alias ll="ls -lh"
+alias la="ls -lAh"
+alias l1="ls -1"
+alias lh="ls -d .*"            # list hidden files/directories
+alias llh="ls -lhd .*"         # list details of hidden files/directories
+alias lnew="ls -lhrt"
+alias lanew="ls -lAhrt"
+alias lold="ls -lht"
+alias laold="ls -lAht"
+alias lbig="ls -lrSh"
+alias labig="ls -lArSh"
+alias lsmall="ls -lSh"
+alias lasmall="ls -lASh"
 
-add_completion_alias "cm" "chmod"
-alias cmx="chmod +x"
 alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
 alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
 alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
-alias dfbtrfs="btrfs filesystem df -h /"
 
 ff() { find . 2>/dev/null | grep -is "$@"; }
 ffc() { find . -type f 2>/dev/null | xargs grep -is "$@"; }
@@ -95,39 +107,7 @@ if have fasd; then
 fi
 # }}}
 
-# ls {{{
-[[ "${OSTYPE}" == "linux-gnu" ]] && alias ls="ls --group-directories-first --color=auto --time-style=long-iso"
-add_completion_alias "l" "ls"
-alias ll="ls -lh"
-alias la="ls -lAh"
-alias l1="ls -1"
-
-alias lh="ls -d .*"            # list hidden files/directories
-alias llh="ls -lhd .*"         # list details of hidden files/directories
-alias lnew="ls -lhrt"
-alias lanew="ls -lAhrt"
-alias lold="ls -lht"
-alias laold="ls -lAht"
-alias lbig="ls -lrSh"
-alias labig="ls -lArSh"
-alias lsmall="ls -lSh"
-alias lasmall="ls -lASh"
-# }}}
-
-# Various {{{
-alias pingg="ping www.google.com"
-alias raw='grep -Ev "^\s*(;|#|$)"'
-psf() { ps aux | grep "$@" | grep -v grep; }
-wgp() { wgetpaste -X "$@"; }
-debug() { bash -x $(which "$1") "${@:1}"; }
-# }}}
-
-# Editing {{{ 
-alias vn="${VISUAL} ${HOME}/.note"
-alias vnn="${VISUAL} ${HOME}/.notemed"
-# }}}
 
 
-# Networking {{{
-myip() { curl ipinfo.io; }
-# }}}
+
+

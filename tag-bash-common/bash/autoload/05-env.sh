@@ -22,7 +22,7 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 # GUI
-[[ -n "$DISPLAY" ]] && BROWSER="firefox" || BROWSER="lynx"
+[[ -n "$DISPLAY" ]] && BROWSER="chromium" || BROWSER="lynx"
 
 [[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
 export BROWSER \
@@ -32,24 +32,6 @@ export BROWSER \
        PATH \
        TMPDIR \
        VISUAL
-# }}}
-
-# {{{ Cygwin
-if [[ $OSTYPE == "cygwin" ]];then
-    # By default, cygwin creates "fake" symlinks which are just regular files with the path of the linked file as content.
-    # This only works inside Cygwin, breaking e.g. .gitconfig functionality if it should be sourced outside of Cygwin.
-    # Thus, we tell Cygwin to use native NTFS symlinks (but beware as they can behave different to unix symlinks).
-    export CYGWIN="winsymlinks:native"
-fi
-# }}}
-
-# {{{ Msys
-if [[ "$OSTYPE" != "msys" ]];then
-    # Disable scroll locking the terminal via ^s and ^q.
-    have stty && stty -ixon
-
-    have dircolors && [[ -f "$HOME/.dircolors" ]] && eval "$(dircolors --sh "$HOME/.dircolors")"
-fi
 # }}}
 
 # {{{ OSX
@@ -68,7 +50,6 @@ NO_AT_BRIDGE=1
 # }}}
 
 # {{{ Custom variables
-_HTPC="htpc"
 _OPEN="xdg-open"
 _VIDEO="vlc"
 # }}}

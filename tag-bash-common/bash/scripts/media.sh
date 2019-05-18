@@ -1,64 +1,25 @@
 #!/usr/bin/env bash
 
 # Media control {
-# Blockify shortcuts
-bb() {
-    usage() { echo "Usage: bb ( b[lock] | u[nblock] | p[revious] | n[ext] | t[oggle] | t[oggle]b[lock] | ... )"; }
-    local signal
-    local cmd
-    [[ "$1" == "--host" ]] && cmd="ssh $2 " && shift 2
-    case "$1" in
-        ""|g|get|status)
-            cmd+="blockify-dbus get $2";;
-        ex|exit)
-            signal='TERM';;       # Exit
-        b|block)
-            signal='USR1';;       # Block
-        u|unblock)
-            signal='USR2';;       # Unblock
-        p|previous)
-            signal='RTMIN';;      # Previous song
-        n|next)
-            signal='RTMIN+1';;    # Next song
-        t|toggle)
-            signal='RTMIN+2';;    # Toggle play song
-        tb|toggleblock)
-            signal='RTMIN+3';;    # Toggle block song
-        ip|iprevious)
-            signal='RTMIN+10';;   # Previous interlude song
-        in|inext)
-            signal='RTMIN+11';;   # Next interlude song
-        it|itoggle)
-            signal='RTMIN+12';;   # Toggle play interlude song
-        itr|itoggleresume)
-            signal='RTMIN+13';;   # Toggle interlude resume
-        *) usage && return 0;;
-    esac
-    [[ -n "${signal}" ]] && cmd+="pkill --signal ${signal} -f '/usr/bin/blockify'"
-    echo "${cmd}"
-    eval "${cmd}"
-}
-bbh() { bb --host "${_HTPC}" "$@"; }
-
 # Playerctl shortcuts
-pc() {
-    usage() { echo "Usage: pc [ p[revious] | n[ext] | t[oggle] | v[olume] | s[top] ]"; }
+player() {
+    usage() { echo "Usage: player [i[nfo] | t[oggle] | s[top] | p[revious] | n[ext] | v[olume] [<perc>] | m[ute]]"; }
     local cmd
-    [[ "$1" == "--host" ]] && cmd="ssh $2 " && shift 2
+    local player
+    [[ -n $(pgrep spotify) ]] && player="spotify"
     case "$1" in
-        ''|g|get|state|status) arg="status";;
-        p|previous) arg="previous";;
-        n|next) arg="next";;
-        t|toggle) arg="play-pause";;
-        v|volume) arg="volume $2";;
-        s|stop) arg="stop";;
+        ''|g|get|state|status) cmd="playerctl status";;
+        p|previous) cmd="playerctl previous";;
+        n|next) cmd="playerctl next";;
+        t|toggle) cmd="playerctl play-pause";;
+        v|volume) [[ -z "$2" ]] && cmd="pamixer --get-volume" || cmd="pamixer --set-volume $2";;
+        m|mute) cmd="pamixer --toggle-mute";;
+        s|stop) cmd="playerctl stop";;
         *) usage && return 0;;
     esac
-    cmd+="playerctl-wrapper ${arg}"
-    echo "${cmd}"
+    [[ "${cmd}" == playerctl* && -n "${player}" ]] && cmd+=" --player=${player}"
     eval "${cmd}"
 }
-pch() { pc --host "${_HTPC}" "$@" ; }
 
 # Show or set system volume.
 vol() {
@@ -73,15 +34,12 @@ vol() {
         echo "Could not find amixer or pamixer."
     fi
 }
-
-# Vlc sometimes completely blocks the suspend process so we have to force it into submission.
-slpin() { count "$1" && (kill -9 $(pgrep vlc); ${_SUDO} umount -l ~/htpc ; systemctl suspend); }
 # }
 
 # Record {
 twitch() { # stream my shit on twitch
-    [[ -z "$INRES" ]] && INRES=1920x1200
-    [[ -z "$OUTRES" ]] && OUTRES=1920x1200
+    [[ -z "$INRES" ]] && INRES=1920x1080
+    [[ -z "$OUTRES" ]] && OUTRES=1920x1080
     [[ -z "$FPS" ]] && FPS=30
     [[ -z "$SERVER" ]] && SERVER=live-fra
     [[ -z "$TWITCHKEY" ]] && TWITCHKEY=$(cat ~/.twitchkey)
@@ -92,7 +50,7 @@ twitch() { # stream my shit on twitch
     [[ -z "$THREADS" ]] && THREADS=4             # 4 or 6 for good CPUs
     # -vf scale=$GETX:-1
     # for audio add: -f alsa -ac 2 -i "$AUDIOSRC" -b:v 650k -b:a 64k -acodec libmp3lame -ar 44100 -ab 64k
-    ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0+"$TOPXY" -ss 2 -vcodec libx264 -preset "$PRESET" -pix_fmt yuv420p -threads "$THREADS" -f flv rtmp://"$SERVER".justin.tv/app/"$TWITCHKEY"
+    ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0+"$TOPXY" -ss 2 -vcodec libx264 -preset "$PRESET" -pix_fmt yuv420p -threads "$THREADS" -f flv rtmp://"$SERVER".twitch.tv/app/"$TWITCHKEY"
 }
 
 twitchw() { # stream (only) a selected screen region
@@ -105,34 +63,7 @@ alias soundrecord="ffmpeg -f alsa -ac 2 -i hw:0 -vn -acodec libmp3lame -ab 196k 
 alias soundtest="aplay /usr/share/sounds/alsa/Front_Center.wav"
 # }
 
-# Media {
-alias cdm="cd ~/htpc"
-alias cdinc="cdn ~/htpc/inc"
-alias cdmov="cdn ~/htpc/mov"
-alias cdser="cdn ~/htpc/ser"
-alias mntm="cd && ${_SUDO} mount ~/htpc"
-alias umntm="cd && ${_SUDO} umount ~/htpc"
-# }
-
-# Dropbox {
-alias cdbox="cd ~/box"
-alias cdaus="cd ~/box/ausbildung"
-# }
 
 
-# Notes {
-note() { # Write a note to a target file
-    local target=$1
-    [[ -f "${target}" ]] || touch "${target}"
-    if [[ "$#" == 0 ]];then
-        echo "Usage: note <filename> <message>"
-    elif [[ "$#" == 1 ]];then
-        cat "${target}" | tail -n 20
-    else
-        shift
-        echo "$@" >> "${target}"
-    fi
-}
-# }
 
 
