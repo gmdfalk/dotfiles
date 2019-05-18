@@ -33,4 +33,4 @@ fi
 test -f "$HOME/.profile.local" && . "$HOME/.profile.local"
 
 export PATH="$HOME/bin:/usr/local/opt:$PATH"
-[ -s "$HOME/.asdf/asdf.sh" ] && . $HOME/.asdf/asdf.sh
+[ -s "$HOME/.asdf/asdf.sh" ] && . $HOME/.asdf/asdf.sh && . $HOME/.asdf/completions/asdf.bash
