@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-setopt inc_append_history
+setopt share_history
 
 # {{{ Globals
 alias -g ...="../.."
