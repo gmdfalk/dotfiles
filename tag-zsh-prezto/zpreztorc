@@ -26,22 +26,21 @@ zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 # Set the Prezto modules to load (browse modules).
 # The order matters.
 zstyle ':prezto:load' pmodule \
+  'completion' \
   'environment' \
-  'osx' \
   'terminal' \
   'editor' \
   'history' \
   'directory' \
   'spectrum' \
   'utility' \
-  'docker' \
+  'prompt' \
   'fasd' \
   'git' \
-  'gpg' \
   'ssh' \
-  'utility' \
-  'completion' \
-  'prompt'
+  'osx' \
+  'docker' \
+  'contrib-kubernetes' \
 #    'node' \
 #    'python' \
 #    'ruby' \
