@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+setopt inc_append_history
+
 # {{{ Globals
 alias -g ...="../.."
 alias -g ....="../../.."

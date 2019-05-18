@@ -27,7 +27,9 @@ read -r mimetype < \
     audio/*)         mplayer "$file"  ;;
     video/*)         mplayer "$file"  ;;
     image/*)         mirage  "$file"  ;;
-    text/*)          urxvtc -e $EDITOR "$file" ;;
+    #text/*)          urxvt -e $EDITOR "$file" ;;
+    text/*)          idea "$file" ;;
+    inode/x-empty)   idea "$file" ;;
     *)
       echo "$file: unmatched mimetype, $mimetype" >&2
       exit 1

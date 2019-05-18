@@ -47,5 +47,5 @@ debug() { bash -x $(which "$1") "${@:1}"; }
 
 # Networking {{{
 myip() { curl ipinfo.io; }
-speedtest() { curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python - }
+speedtest() { curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -; }
 # }}}

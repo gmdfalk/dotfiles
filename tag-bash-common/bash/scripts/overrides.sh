@@ -2,7 +2,7 @@
 
 # Detach these processes from shell by default
 if have q; then
-    declare -a processes=( spotify hexchat vlc pcmanfm )
+    declare -a processes=( spotify pcmanfm zathura vlc mplayer mirage )
     for process in "${processes[@]}"; do
         alias ${process}="q $process"
     done
