@@ -32,18 +32,11 @@ sync_repo() {
     fi
 }
 
-# On cygwin (at least) setfacl does not have the -R switch (recursive) so we have to implement it ourselves.
-fix_acls() {
-    setfacl -b "${path}"
-    [[ -d "${path}" ]] && fix_acls "${path}"/*
-}
-
 fix_permissions() {
     for arg in "$@"; do
         logger "Fixing permissions for ${arg} recursively."
         find "${arg}" -type d -exec chmod 0700 {} \;
         find "${arg}" -type f -exec chmod 0600 {} \;
-        have setfacl && fix_acls "${arg}"
     done
 }
 # }}}
@@ -66,65 +59,8 @@ install_vundle() {
     vim "+set nomore" "+BundleInstall" "+BundleClean" "+qall"
 }
 
-# Cygwin switched to sha512 sums for verifying packages but apt-cyg as of late still uses md5 so we fix the binary here.
-patch_apt_cyg_binary() {
-    logger "Patching the apt-cyg binary."
-    sed -i 's/md5sum/sha512sum/g' /bin/apt-cyg
-}
-
-update_apt_cyg() {
-    if ! have apt-cyg; then
-        logger "Installing apt-cyg."
-        have lynx && lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > /bin/apt-cyg
-        have apt-cyg || wget  -O /bin/apt-cyg rawgit.com/transcode-open/apt-cyg/master/apt-cyg
-        chmod +x /bin/apt-cyg
-    fi
-    patch_apt_cyg_binary
-    logger "Updating apt-cyg."
-    apt-cyg update
-}
-
-install_cygwin_packages() {
-    update_apt_cyg
-
-    local packages=(
-        ctags gcc-g++ vim-common ncurses ruby-devel # meta packages
-        chere curl mintty openssl ruby screen tar tmux wget which zsh # base packages
-        git make mysql mysqld vim # dev packages
-    )
-
-    logger "Installing cygwin packages: ${packages[@]}"
-    apt-cyg install "${packages[@]}"
-}
-
-install_gems() {
-    local packages=(hub rdoc)
-
-    logger "Installing gems: ${packages[@]}"
-    gem install "${packages[@]}"
-}
-
-apply_system_specific_setup() {
-    local system="$(uname)"
-
-    case "$system" in
-        Cygwin)
-            logger "Applying system specific setup for Cygwin."
-            install_cygwin_packages
-            install_gems
-            echo "Remember to change the cygwin link to '.../mintty.exe /usr/bin/zsh -' to use zsh by default"
-            ;;
-        GNU/Linux) ;;
-        Darwin) ;;
-        *) logger "Did not recognize Operating System: $system" ;;
-    esac
-}
-# }}}
-
 main() {
     fix_permissions ~/.gnupg ~/.ssh
-
-    apply_system_specific_setup
 
     # Vimplug is used for the vim-minimal tag and vundle is used by vim-spf13.
     [[ -f "${HOME}/.vimrc.bundles" ]] && install_vundle || install_vimplug
