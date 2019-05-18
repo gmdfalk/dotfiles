@@ -110,6 +110,13 @@ fi
 # }}}
 
 
+rootkit_check() {
+  /usr/bin/rkhunter --versioncheck --nocolors
+  /usr/bin/rkhunter --update --nocolors
+  /usr/bin/rkhunter --cronjob --nocolors --report-warnings-only
+  /usr/bin/freshclam
+  /usr/bin/clamscan --recursive --infected /home
+}
 
 
 
