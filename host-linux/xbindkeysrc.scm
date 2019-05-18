@@ -9,6 +9,6 @@
 (xbindkey '("XF86Tools") "")
 (xbindkey '("XF86Search") "")
 (xbindkey '("XF86LaunchA") "")
-(xbindkey '("XF86Explorer") "spacefm")
+(xbindkey '("XF86Explorer") "pcmanfm")
 (xbindkey '("XF86Calculator") "gnome-calculator")
-(xbindkey '("XF86HomePage") "firefox")
+(xbindkey '("XF86HomePage") "chromium")

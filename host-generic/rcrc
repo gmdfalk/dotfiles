@@ -1,5 +1,5 @@
 EXCLUDES="README.md install.sh"
-TAGS="bin git theme-solarized-dark tmux vim-spf13 bash-common bash-bash-it zsh-common zsh-prezto"
+TAGS="bin git theme-solarized-light tmux vim-spf13 bash-common bash-bash-it zsh-common zsh-prezto"
 SYMLINK_DIRS="bash-it oh-my-zsh zprezto"
 COPY_ALWAYS="gitconfig.local"
 UNDOTTED="bin"
