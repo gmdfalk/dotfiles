@@ -13,6 +13,8 @@ note() { # Write a note to a target file
         echo "$@" >> "${target}"
     fi
 }
+alias vn="${VISUAL} ${HOME}/.note"
+alias vnn="${VISUAL} ${HOME}/.notemed"
 # }}}
 
 # Navigation {{{
