@@ -1,70 +1,25 @@
-# vim: set sw=4 ts=4 sts=4 et tw=78 foldlevel=0 foldmethod=marker spell:
-
-# aliases {{{
 [alias]
-    # Basics {{{
-    # Git {{{
-    a = "add"
-    b = "branch"
     c = "commit --verbose"
-    cl = "clone"
-    ch = "checkout"
+    co = checkout
     cp = "cherry-pick"
     d = "diff -w"
-    f = "fetch"
-    ll = "log --show-signature --abbrev-commit"
-    r = "reset"
-    rb = "rebase"
-    rem = "remote"
-    m = "merge"
-    p = "pull"
-    ps = "push"
+    dc = "diff -w --cached"
+    ds = "diff -w --staged"
+    l = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
+    ls = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -n 18; }; f"
+    la = "log --abbrev-commit --pretty=fuller --show-signature"
+    lm = "log --abbrev-commit --pretty=medium"
+    ll = "log --pretty=format:'%Cred%h%Creset %s (%C(yellow)%ci%Creset) <%Cblue%cE%Creset> [%G?]'"
+    lnew = "log HEAD@{1}..HEAD@{0}"
+    lout = "log @{u}.."
+    p = pull
+    pr = "pull --rebase"
     s = "status"
-    st = "stash"
-    su = "submodule"
+    ss = "status -s"
     t = "tag"
     w = "whatchanged"    # Show logs with difference each commit introduces.
-    # }}}
-
-    # Hub {{{
-    br = "browse"        # Open GH repository in systems default browser.
-    co = "compare"       # Opens a GH compare view for up to two arguments which can be commits, branches, tags.
-    cr = "create"        # Create a new public GH repository
-    fo = "fork"          # Fork the original project (remote origin) under own GH name.
-    is = "issue"         # List GitHub issues.
-    isc = "issue create" # Create an issue. E.g. "git isc -m 'issue title' -l 'label'". Opens editor without arguments.
-    req = "pull-request" # Create a pull request for the original project (remote origin).
-    cis = "ci-status"    # Look up the SHA for COMMIT (or HEAD, if no commit is given) in the GH CI Status API.
-    # }}}
-
-    # Common Operations {{{
-    unstage = "reset -q HEAD --"
-    discard = "checkout --"
-    uncommit = "reset --mixed HEAD~"
-    amend = "commit --amend"
-    nuke = "!git reset --hard HEAD && git clean -d -f"  # Not that common, hopefully.
-
-    # Switch to a branch, creating it if necessary.
-    switch = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-
-    # Remove the old tag with this name and tag the latest commit with it.
-    retag = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
-
-    # Sign the most recent commit with your gpg key. The config variable user.signingkey has to be set.
-    resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
-
-    # Remove branches that have already been merged with master.
-    clean-branches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
-    # Initialize and update all submodules recursively
-    update-modules = "submodule update --init --recursive"
-
-    # Diff in vim, ignoring whitespace.
-    vimdiff = "!f() { git diff -w "$@" | vim -R -; }; f"
-    # }}}
-
-    # Common Infos {{{
-    precommit = "diff --cached --diff-algorithm=minimal -w"
+    up = "fetch && git rebase"
+    l3 = "log --color=always --all --topo-order --abbrev-commit --date=human"
 
     tags = "tag -l"
     branches = "branch -a"
@@ -72,214 +27,82 @@
     stashes = "stash list"
     commits = "shortlog --summary --numbered"
 
-    graph = "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order"
-    # }}}
-    # }}}
-
-    # tag {{{
-    ta = "tag -a"  # Add tag
-    td = "tag -d"  # Delete tag
-    tl = "tag -l"  # List tags
-    # }}}
-
-    # commit {{{
     ci = "commit --interactive"                # Select which files/hunks should be part of the commit.
     ca = "commit -a"                           # Commit unstaged changes, i.e. perform git add and git rm as necessary.
     caa = "!git add -A && git commit -a"       # Commit all changes (including untracked files).
     cam = "commit --amend --reuse-message=HEAD" # Amend staged files to the latest commit
     cama = "commit -a --amend --reuse-message=HEAD" # Amend staged and unstaged files to the latest commit
-
-    # Credit an author on the latest commit. Argument example: "Bernie Sanders <feelthebern@elections.gov>"
-    ccredit = "!f() { git commit --amend --author \"$@\" --reuse-message=HEAD; }; f"
-
-    # Create a commit with a different date by specifying the offset in hours, e.g. gcdate -2 backdates the commit by 2 hours.
-   cdate = "!f() { \
-        [[ $# -lt 1 ]] && echo 'Usage: gcdate <hours>' && return; \
-        local newDate=\"$(date -R -d \"$1 hours\")\" && shift; \
-        GIT_COMMITTER_DATE=\"${newDate}\" git commit --date=\"${newDate}\" \"$@\"; \
-    }; f"
-    # }}}
-
-    # branch & checkout {{{
-    ba = "branch --all"       # List all branches (local and remote).
-    bt = "branch --track"     # Set remote and merge configuration entries when creating a new branch.
-    bd = "branch -D"          # Shortcut for --delete --force
-
-    cht = "checkout --track"  # Similar to branch --track. Sets the upstream configuration.
-    # }}}
-
-    # info {{{
-    # View the current working tree status using the short format
-    ss = "status -s"
-
-    dc = "diff --cached --diff-algorithm=minimal -w"
-    ds = "diff --staged -w"
-
     # `git di $number` shows the diff between the state `$number` revisions ago and the current state.
     di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+    fb = "!f() { git branch -a --contains $1; }; f" # Find branches containing commit
+    ft = "!f() { git describe --always --contains $1; }; f" # Find tags containing commit
+    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f" # Find commits by source code
+    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f" # Find commits by commit message
 
-    # Find branches containing commit
-    fb = "!f() { git branch -a --contains $1; }; f"
+    undo = reset --soft HEAD^
+    stash-all = stash save --include-untracked
+    unstage = "reset -q HEAD --"
+    discard = "checkout --"
+    uncommit = "reset --mixed HEAD~"
+    amend = "commit --amend"
+    nuke = "!git reset --hard HEAD && git clean -d -f"  # Not that common, hopefully.
+    # Switch to a branch, creating it if necessary.
+    switch = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    # Remove the old tag with this name and tag the latest commit with it.
+    retag = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
+    # Sign the most recent commit with your gpg key. The config variable user.signingkey has to be set.
+    resign = "!f() { git stash && git commit --amend --reuse-message=HEAD --gpg-sign && git stash pop; }; f"
+    # Remove branches that have already been merged with master.
+    clean-branches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    # Initialize and update all submodules recursively
+    update-modules = "submodule update --init --recursive"
+    # Diff in vim, ignoring whitespace.
+    vimdiff = "!f() { git diff -w "$@" | vim -R -; }; f"
 
-    # Find tags containing commit
-    ft = "!f() { git describe --always --contains $1; }; f"
-
-    # Find commits by source code
-    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-
-    # Find commits by commit message
-    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-    # }}}
-
-    # log {{{
-    # View abbreviated SHA, description, author and time of commits
-    l = "!f() { git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; }; f"
-    l2 = "!f() { git log --graph --pretty=format:'%C(bold)%h%Creset%C(yellow)%d%Creset %s %C(yellow)%an %C(cyan)%cr%Creset' --abbrev-commit; }; f"
-
-    # View abbreviated SHA, description, and history graph (of the latest 20 commits)
-    la = "log --pretty=oneline --graph --abbrev-commit"
-    ls = "log --pretty=oneline --graph --abbrev-commit -n 18"
-
-    # Show commits since last pull
-    lnew = "log HEAD@{1}..HEAD@{0}"
-    # }}}
-
-    # push/pull/fetch {{{
-    pom = "pull origin master"
-    pr = "pull --rebase"
-    pp = "pull && git push"
-    up = "fetch && git rebase"
-    pso = "push origin"
-    psu = "push --set-upstream"
-    psom = "push origin master"
-
-    # Pull in remote changes for the current repository and all its submodules
-    pa = !"git pull; git submodule foreach git pull origin master"
-
-    # Interactive rebase with the given number of latest commits
-    reb = "!r() { git rebase -i HEAD~$1; }; r"
-
-    suu = "submodule update --init"
-
-    # Fetch and remove any remote-tracking references that no longer exist on the remote.
-    fp = "fetch --all --prune --verbose"
-
-    # Fetch including remote tags. Tags are not pruned.
-    ftag = "fetch --all --prune --tags --verbose"
-
-    # Merge upstream
-    mu = "!f() { git fetch origin -v; git fetch upstream -v; git merge upstream/master; }; f"
-    # }}}
-
-    # various {{{
-    # Show all aliases.
-    aliases = "!f() { git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'; }; f"
-
-    aa = "add -A"  # Add all unstaged files.
-    clr = "clone --recursive"
-    # }}}
-# }}}
-
-# apply {{{
 [apply]
-    # Detect whitespace errors when applying a patch
     whitespace = "fix"
-# }}}
-
-# core {{{
 [core]
-    # Use custom `.gitignore` and `.gitattributes`
     excludesfile = "~/.gitignore.global"
     #attributesfile = "~/.gitattributes"
-
-    # Treat spaces before tabs and all kinds of trailing whitespace as an error
-    # [default] trailing-space: looks for spaces at the end of a line
-    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
     whitespace = "space-before-tab,-indent-with-non-tab,trailing-space"
-
-    # Make `git rebase` safer on OS X
-    # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
     trustctime = "false"
-
-    # Prevent showing files whose names contain non-ASCII symbols as unversioned.
-    # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
     precomposeunicode = "false"
-# }}}
-
-# color {{{
-[color]
-    # Use colors in Git commands that are capable of colored output when
-    # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-    ui = "auto"
-
+[diff]
+    renames = copies
+    mnemonicprefix = true
+[help]
+    autocorrect = 1
+[fetch]
+    prune = true
+[commit]
+    verbose = True  # Available since git v2.9.
+[merge]
+    log = "true"
+    ff = only
+    conflictstyle = diff3
+[rebase]
+    autoStash = true
+    stat = true
+[push]
+    default = simple
+    followTags = true
+[status]
+    showUntrackedFiles = all
+[transfer]
+    fsckobjects = true
 [color "branch"]
     current = "yellow reverse"
     local = "yellow"
     remote = "green"
-
 [color "diff"]
     meta = "yellow bold"
     frag = "magenta bold"
     old = "red"             # deletions
     new = "green"           # additions
-
 [color "status"]
     added = "yellow"
     changed = "green"
     untracked = "cyan"
-# }}}
-
-# diff {{{
-[diff]
-    # Detect copies as well as renames
-    renames = "copies"
-# }}}
-
-# help {{{
-[help]
-    # Automatically correct and execute mistyped commands
-    autocorrect = "1"
-# }}}
-
-# merge {{{
-[merge]
-    # Include summaries of merged commits in newly created merge commit messages
-    log = "true"
-# }}}
-
-# push {{{
-[push]
-    # Use the Git 1.x.x default to avoid errors on machines with old Git
-    # installations. To use `simple` instead, add this to your `~/.extra` file:
-    # `git config --global push.default simple`. See http://git.io/mMah-w.
-    default = "matching"
-# }}}
-
-# url {{{
-[url "git@github.com:"]
-    insteadOf = "gh:"
-    pushInsteadOf = "github:"
-    pushInsteadOf = "git://github.com/"
-
-[url "git://github.com/"]
-    insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-    insteadOf = "gst:"
-    pushInsteadOf = "gist:"
-    pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-    insteadOf = "gist:"
-# }}}
-
-# commit {{{
-[commit]
-    verbose = True  # Available since git v2.9.
-# }}}
-
-# include {{{
 [include]
     path = ".gitconfig.local"
-# }}}
 

@@ -5,6 +5,9 @@
     email = "gmdfalk@gmail.com"
     signingkey = "A3753845"
 
+[core]
+    autocrlf = True
+
 [commit]
     gpgsign = True
 
