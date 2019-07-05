@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Media control {
-# Playerctl shortcuts
+# Linux {{{
 player() {
     usage() { echo "Usage: player [i[nfo] | t[oggle] | s[top] | p[revious] | n[ext] | v[olume] [<perc>] | m[ute]]"; }
     local cmd
@@ -21,7 +20,6 @@ player() {
     eval "${cmd}"
 }
 
-# Show or set system volume.
 vol() {
     [[ "$#" -gt 1 ]] && echo "Usage: vol [<volume>]" && return 0
     if have pamixer; then
@@ -34,9 +32,7 @@ vol() {
         echo "Could not find amixer or pamixer."
     fi
 }
-# }
 
-# Record {
 twitch() { # stream my shit on twitch
     [[ -z "$INRES" ]] && INRES=1920x1080
     [[ -z "$OUTRES" ]] && OUTRES=1920x1080
@@ -61,9 +57,57 @@ twitchw() { # stream (only) a selected screen region
 
 alias soundrecord="ffmpeg -f alsa -ac 2 -i hw:0 -vn -acodec libmp3lame -ab 196k capture.mp3"
 alias soundtest="aplay /usr/share/sounds/alsa/Front_Center.wav"
-# }
 
 
+# Change the keyboard layout. For a full list of available layouts and variants look here: http://pastebin.com/v2vCPHjs.
+# The german layout is horrible for programming, which is why i often switch to GB (sometimes US international).
+# Umlauts for GB:            ä=AltGr+[a, ö=AltGr+[o, ü=AltGr+[u, ß=AltGr+s.
+# Umlauts for Mac GB:        ä=Alt+ua,   ö=Alt+uo,   ü=Alt+uu,   ß=Alt+s.
+# On OS X, you can use xkbswitch (https://github.com/myshov/xkbswitch-macosx) as an alternative to setxkbmap.
+# Umlauts for US altgr-intl: ä=AltGr+q,  ö=AltGr+p,  ü=AltGr+y,  ß=AltGr+s.
+keyboard() {
+    case "$(tty)" in
+        # We're using the virtual console.
+        /dev/tty[0-9]*)
+            case "$1" in
+                den)
+                     localectl set-keymap --no-convert de-latin1-nodeadkeys
+                     loadkeys de-latin1-nodeadkeys;;
+                gb|uk|en)
+                     localectl set-keymap --no-convert uk
+                     loadkeys uk;;
+                gbi|uki|eni) setxkbmap gb -variant intl;;
+                '') localectl status;;
+                ls) localectl list-keymaps;;
+                *)
+                     localectl set-keymap --no-convert "$@"
+                     loadkeys "$@";;
+            esac
+        ;;
+        # We're probably using a pseudo terminal.
+        *)
+            case "$1" in
+                den) setxkbmap de -variant nodeadkeys;;
+                usi) setxkbmap us -variant altgr-intl;;
+                gb|uk|en) setxkbmap gb;;
+                gbi|uki|eni) setxkbmap gb -variant intl;;
+                '') setxkbmap -query;;
+                ls) localectl list-x11-keymap-layouts;;
+                lsvar) [[ -z "$2" ]] && localectl list-x11-keymap-variants || localectl list-x11-keymap-variants "$2";;
+                *) setxkbmap "$@";;
+            esac
+            # Reapply any customizations to the layout.
+            have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
+            #have xbindkeys && xbindkeys
+        ;;
+    esac
+}
 
-
-
+rootkit_check() {
+  /usr/bin/rkhunter --versioncheck --nocolors
+  /usr/bin/rkhunter --update --nocolors
+  /usr/bin/rkhunter --cronjob --nocolors --report-warnings-only
+  /usr/bin/freshclam
+  /usr/bin/clamscan --recursive --infected /home
+}
+# }}}

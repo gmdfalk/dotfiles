@@ -41,10 +41,3 @@ print_variables() {
     done
 }
 
-# VPN {{{
-# Over PPTP.
-alias pon="${_SUDO} pon"
-pond() { pon "$1" debug dump logfd 2 nodetach "${@:2}"; } 
-alias poff="${_SUDO} poff"
-# }}}
-

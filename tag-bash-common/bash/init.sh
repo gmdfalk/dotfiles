@@ -8,9 +8,7 @@ _SCRIPTS="${BASH_SCRIPTS[@]}"
 # }}}
 
 # {{{ Helper functions
-have() {
-    type "$@" &>/dev/null
-}
+have() { command -v "$@" &>/dev/null; }
 
 # Loads scripts/plugins and takes two arguments:
 # - directory: The folder to load scripts from.
@@ -33,26 +31,16 @@ load_scripts() {
 
     for script in "${scripts[@]}"; do
         if [[ -r "${script}" ]]; then
-            [[ -n "${DEBUG}" ]] && echo "${script}"
             source "${script}"
         fi
     done
 }
 # }}}
 
-# {{{ Source scripts
-# Load scripts from autoload folder.
-load_scripts "${_BASE_DIR}/autoload"
+main() {
+    load_scripts "${_BASE_DIR}/scripts" "${_SCRIPTS[@]}"
+    #have fasd && eval "$(fasd --init auto)"
+    unset _BASE_DIR _SCRIPTS
+}
 
-# Load on-demand scripts as defined via $BASH_SCRIPTS.
-load_scripts "${_BASE_DIR}/scripts" "${_SCRIPTS[@]}"
-# }}}
-
-# {{{ Post config
-# Initialize fasd, the command-line productivity booster (https://github.com/clvv/fasd).
-have fasd && eval "$(fasd --init auto)"
-# }}}
-
-# {{{ Cleanup
-unset _BASE_DIR _SCRIPTS
-# }}}
+main

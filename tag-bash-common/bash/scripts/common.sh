@@ -1,44 +1,63 @@
 #!/usr/bin/env bash
 
-# Notes {{{
-note() { # Write a note to a target file
-    local target=$1
-    [[ -f "${target}" ]] || touch "${target}"
-    if [[ "$#" == 0 ]];then
-        echo "Usage: note <filename> <message>"
-    elif [[ "$#" == 1 ]];then
-        cat "${target}" | tail -n 20
-    else
-        shift
-        echo "$@" >> "${target}"
-    fi
-}
-alias vn="${VISUAL} ${HOME}/.note"
-alias vnn="${VISUAL} ${HOME}/.notemed"
+# Config {{{
+HISTSIZE=500000
+SAVEHIST=$HISTSIZE
+
+## Add scripts directory to $PATH, if it's missing.
+BIN_DIR="${HOME}/bin"
+case ":$PATH:" in
+    *":$BIN_DIR:"*) :;; # already there
+    *) PATH="$BIN_DIR:$PATH";; # or PATH="$PATH:$new_entry"
+esac
+PAGER=less
+LESS="-F -g -i -M -R -S -w -X -z-4"
+
+if [[ -z "${VISUAL}" ]]; then
+    have vim && VISUAL="vim -p" || VISUAL="vi"
+fi
+EDITOR="${VISUAL}"
+
+#if [[ ! -d "$TMPDIR" ]]; then
+#    TMPDIR="/tmp"
+#    mkdir -p -m 700 "${TMPDIR}"
+#fi
+#
+## GUI
+#[[ -n "$DISPLAY" ]] && BROWSER="chromium" || BROWSER="lynx"
+#
+#[[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
+#export BROWSER \
+#       EDITOR \
+#       LESS \
+#       PAGER \
+#       PATH \
+#       TMPDIR \
+#       VISUAL
 # }}}
 
-# Navigation {{{
-alias d="dirs -v -l"
-
-# Push and pop directories on directory stack
-alias pu="pushd"
-alias po="popd"
-alias pp="pushd \$(pwd)"
-
-# Move through directory stack ($(dirs)).
-alias ..="cd .."         # Go up one directory
-alias ...="cd ../.."     # Go up two directories
-alias ....="cd ../../.." # Go up three directories
+# Shortcuts {{{
+alias c=cat
+alias cl=clear
+alias h="history"
+alias f="find"
+alias k="kill"
+alias m="${VIDEO}"
+alias s="sudo "
+alias v="${VISUAL}"
+alias x=exit
 # }}}
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 # File Manager {{{
 [[ "${OSTYPE}" == "linux-gnu" ]] && alias ls="ls --group-directories-first --color=auto --time-style=long-iso"
-add_completion_alias "l" "ls"
 alias ll="ls -lh"
 alias la="ls -lAh"
-alias l1="ls -1"
-alias lh="ls -d .*"            # list hidden files/directories
-alias llh="ls -lhd .*"         # list details of hidden files/directories
+alias lh="ls -lhd .*"         # list details of hidden files/directories
 alias lnew="ls -lhrt"
 alias lanew="ls -lAhrt"
 alias lold="ls -lht"
@@ -51,63 +70,5 @@ alias lasmall="ls -lASh"
 alias cpv="rsync -Ph" # use rsync as cp alternative due to more information
 alias cpr="rsync --partial --progress --append --rsh=ssh -r -h "
 alias mvr="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
-
-ff() { find . 2>/dev/null | grep -is "$@"; }
-ffc() { find . -type f 2>/dev/null | xargs grep -is "$@"; }
-ffp() { find $(sed 's/:/ /g' <<< "${PATH}") 2>/dev/null | grep -is "$@"; }
-
-# Swap two files/directories.
-swap() {
-    [[ "$#" != 2 ]] && echo "need 2 arguments" && return 1
-    [[ ! -e "$1" ]] && echo "target $1 does not exist" && return 1
-    [[ ! -e "$2" ]] && echo "target $2 does not exist" && return 1
-    local tmpfile="tmp.$$"
-    mv "$1" "${tmpfile}"
-    mv "$2" "$1"
-    mv "${tmpfile}" "$2"
-}
-
-# Take ownership of a file or directory.
-grab() { ${_SUDO} chown -R ${USER}:${USER} ${1-.}; }
-
-# Sanitize permissions, i.e. apply 022 umask (755 for directories and 644 for files),
-# and change owner to me:users.
-sanitize() {
-    ${_SUDO} chmod -R u=rwX,go=rX "$@"
-    ${_SUDO} chown -R ${USER}:users "$@"
-}
 # }}}
-
-# Shortcuts {{{
-alias c=cat
-alias cl=clear
-add_completion_alias "h" "history"
-add_completion_alias "f" "find"
-add_completion_alias "k" "kill"
-alias m="${_VIDEO}"
-alias n="note $HOME/.note"
-alias nn="note $HOME/.notemed"
-add_completion_alias "s" "sudo"
-alias v="${VISUAL}"
-alias x=exit
-# }}}
-
-# fasd {{{
-if have fasd; then
-    #alias v="f -e ${VISUAL}" # quick opening files with vim
-    alias m="f -e ${_VIDEO}" # quick opening files with mplayer
-    alias o="a -e ${_OPEN}" # quick opening files with xdg-open
-fi
-# }}}
-
-
-rootkit_check() {
-  /usr/bin/rkhunter --versioncheck --nocolors
-  /usr/bin/rkhunter --update --nocolors
-  /usr/bin/rkhunter --cronjob --nocolors --report-warnings-only
-  /usr/bin/freshclam
-  /usr/bin/clamscan --recursive --infected /home
-}
-
-
 

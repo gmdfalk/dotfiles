@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
 
+ff() { find . 2>/dev/null | grep -is "$@"; }
+ffc() { find . -type f 2>/dev/null | xargs grep -is "$@"; }
+ffp() { find $(sed 's/:/ /g' <<< "${PATH}") 2>/dev/null | grep -is "$@"; }
+
+# Swap two files/directories.
+swap() {
+    [[ "$#" != 2 ]] && echo "need 2 arguments" && return 1
+    [[ ! -e "$1" ]] && echo "target $1 does not exist" && return 1
+    [[ ! -e "$2" ]] && echo "target $2 does not exist" && return 1
+    local tmpfile="tmp.$$"
+    mv "$1" "${tmpfile}"
+    mv "$2" "$1"
+    mv "${tmpfile}" "$2"
+}
+
+# Take ownership of a file or directory.
+grab() { chown -R ${USER}:${USER} ${1-.}; }
+
+# Sanitize permissions, i.e. apply 022 umask (755 for directories and 644 for files),
+# and change owner to me:users.
+sanitize() {
+    chmod -R u=rwX,go=rX "$@"
+    chown -R ${USER}:users "$@"
+}
+
 # Count down (if argument is given) or up and continually print progress into the same line.
 # Usage: count [<amount>[<unit>]].
 # Example: count 3 (seconds is default); count 1h && echo "Wow, that took a while"
@@ -34,49 +59,7 @@ count() {
     echo
 }
 
-# Change the keyboard layout. For a full list of available layouts and variants look here: http://pastebin.com/v2vCPHjs.
-# The german layout is horrible for programming, which is why i often switch to GB (sometimes US international).
-# Umlauts for GB:            ä=AltGr+[a, ö=AltGr+[o, ü=AltGr+[u, ß=AltGr+s.
-# Umlauts for Mac GB:        ä=Alt+ua,   ö=Alt+uo,   ü=Alt+uu,   ß=Alt+s.
-# On OS X, you can use xkbswitch (https://github.com/myshov/xkbswitch-macosx) as an alternative to setxkbmap.
-# Umlauts for US altgr-intl: ä=AltGr+q,  ö=AltGr+p,  ü=AltGr+y,  ß=AltGr+s.
-keyboard() {
-    case "$(tty)" in
-        # We're using the virtual console.
-        /dev/tty[0-9]*)
-            case "$1" in
-                den)
-                    ${_SUDO} localectl set-keymap --no-convert de-latin1-nodeadkeys
-                    ${_SUDO} loadkeys de-latin1-nodeadkeys;;
-                gb|uk|en)
-                    ${_SUDO} localectl set-keymap --no-convert uk
-                    ${_SUDO} loadkeys uk;;
-                gbi|uki|eni) setxkbmap gb -variant intl;;
-                '') localectl status;;
-                ls) localectl list-keymaps;;
-                *)
-                    ${_SUDO} localectl set-keymap --no-convert "$@"
-                    ${_SUDO} loadkeys "$@";;
-            esac
-        ;;
-        # We're probably using a pseudo terminal.
-        *)
-            case "$1" in
-                den) setxkbmap de -variant nodeadkeys;;
-                usi) setxkbmap us -variant altgr-intl;;
-                gb|uk|en) setxkbmap gb;;
-                gbi|uki|eni) setxkbmap gb -variant intl;;
-                '') setxkbmap -query;;
-                ls) localectl list-x11-keymap-layouts;;
-                lsvar) [[ -z "$2" ]] && localectl list-x11-keymap-variants || localectl list-x11-keymap-variants "$2";;
-                *) setxkbmap "$@";;
-            esac
-            # Reapply any customizations to the layout.
-            have xmodmap && xmodmap "${HOME}/.Xmodmap" &>/dev/null
-            #have xbindkeys && xbindkeys
-        ;;
-    esac
-}
+
 
 # From https://zxq9.com/archives/795:
 #YY-MM-DD_hh:mm:ss             | date +%F_%T                | 2013-05-17_10:16:09
@@ -107,4 +90,22 @@ timestamp() {
     echo "${date}"
 }
 
+# Notes {{{
+note() { # Write a note to a target file
+    local target=$1
+    [[ -f "${target}" ]] || touch "${target}"
+    if [[ "$#" == 0 ]];then
+        echo "Usage: note <filename> <message>"
+    elif [[ "$#" == 1 ]];then
+        cat "${target}" | tail -n 20
+    else
+        shift
+        echo "$@" >> "${target}"
+    fi
+}
+alias n="note $HOME/.note"
+alias nn="note $HOME/.notemed"
+alias vn="${VISUAL} ${HOME}/.note"
+alias vnn="${VISUAL} ${HOME}/.notemed"
+# }}}
 
