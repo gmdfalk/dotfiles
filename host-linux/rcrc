@@ -1,5 +1,6 @@
 EXCLUDES="README.md install.sh"
-TAGS="awesome bin git gpg ssh theme-solarized-light tmux vim-spf13 vimlike bash-common bash-bash-it zsh-common zsh-prezto"
-SYMLINK_DIRS="awesome bin bash zsh bash-it oh-my-zsh zprezto"
+TAGS="bin git gpg ssh theme-solarized-light tmux vim-bootstrap vimlike bash-common bash-bash-it zsh-common zsh-prezto"
+SYMLINK_DIRS="bash zsh bash-it oh-my-zsh zprezto"
 COPY_ALWAYS="gitconfig.local"
 UNDOTTED="bin"
+

@@ -2,11 +2,11 @@
 
 [user]
     name = "Max Falk"
-    email = "gmdfalk@gmail.com"
-    signingkey = "A3753845"
+    #email = "gmdfalk@gmail.com"
+    #signingkey = "A3753845"
 
 [core]
     autocrlf = input
 
 [commit]
-    gpgsign = True
+    gpgsign = False

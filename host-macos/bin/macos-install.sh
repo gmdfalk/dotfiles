@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# Compare: https://raw.githubusercontent.com/thoughtbot/laptop/master/mac
 
 # Welcome to the thoughtbot laptop script!
 # Be prepared to turn your laptop (or desktop, no haters here)
@@ -35,8 +36,8 @@ trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
 
 set -e
 
-if [ ! -d "$HOME/bin/" ]; then
-  mkdir "$HOME/bin"
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
 fi
 
 if [ ! -f "$HOME/.zshrc" ]; then
@@ -44,7 +45,7 @@ if [ ! -f "$HOME/.zshrc" ]; then
 fi
 
 # shellcheck disable=SC2016
-append_to_zshrc 'export PATH="$HOME/bin:$PATH"'
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
 HOMEBREW_PREFIX="/usr/local"
 
@@ -114,7 +115,6 @@ tap "thoughtbot/formulae"
 tap "homebrew/services"
 tap "universal-ctags/universal-ctags"
 tap "caskroom/cask"
-tap "heroku/brew"
 
 # Unix
 brew "universal-ctags", args: ["HEAD"]
@@ -128,10 +128,6 @@ brew "vim"
 brew "watchman"
 brew "zsh"
 
-# Heroku
-brew "heroku/brew/heroku"
-brew "parity"
-
 # GitHub
 brew "hub"
 
@@ -143,15 +139,7 @@ brew "libyaml" # should come after openssl
 brew "coreutils"
 brew "yarn"
 cask "gpg-suite"
-
-# Databases
-brew "postgres", restart_service: :changed
-brew "redis", restart_service: :changed
 EOF
-
-fancy_echo "Update heroku binary ..."
-brew unlink heroku
-brew link --force heroku
 
 fancy_echo "Configuring asdf version manager ..."
 if [ ! -d "$HOME/.asdf" ]; then
@@ -190,7 +178,6 @@ install_asdf_language() {
 fancy_echo "Installing latest Ruby ..."
 install_asdf_language "ruby"
 gem update --system
-gem_install_or_update "bundler"
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 

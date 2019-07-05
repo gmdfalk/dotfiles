@@ -7,7 +7,7 @@ if [ -f "$HOME/.xprofile" ]; then
 fi
 
 ## Startup {{{
-have() { command -v "$@"; }
+have() { command -v "$@" &>/dev/null; }
 apps="nm-applet chromium urxvt"
 for app in $apps; do
     have $app && $app &
