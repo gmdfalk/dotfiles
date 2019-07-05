@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[[ -n "$DEBUG" ]] && echo bashrc
-
 # Path to the bash it configuration
 export BASH_IT="$HOME/.bash-it"
 
@@ -10,7 +8,7 @@ export BASH_IT="$HOME/.bash-it"
 export BASH_IT_THEME='binaryanomaly'
 
 # Your place for hosting Git repos. I use this for private repos.
-export GIT_HOSTING='git@git.domain.com'
+export GIT_HOSTING='git@github.com'
 
 # Don't check mail when opening terminal.
 unset MAILCHECK
@@ -35,12 +33,19 @@ export SCM_CHECK=true
 
 # Load Bash It
 . $BASH_IT/bash_it.sh
+bash-it enable plugin alias-completion \
+    base \
+    edit-mode-vi \
+    git \
+    history \
+    ssh \
+    fasd &>/dev/null
+#    autojump \
+#    dirs \
+
 
 # Source optional local configuration file
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
 # }}}
 
-# Bind Alt+Up/Down to search history based on what's already written at the prompt
-bind '"\e[1;3A":history-search-backward'
-bind '"\e[1;3B":history-search-forward'
-alias sudo="sudo "
+
