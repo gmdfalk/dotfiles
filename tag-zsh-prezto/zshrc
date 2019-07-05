@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 #
 
-[[ -n "$DEBUG" ]] && echo zshrc
-
 # {{{ Source configurations
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -19,3 +17,4 @@ fi
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zshrc.local" ]] && . "${HOME}/.zshrc.local"
+

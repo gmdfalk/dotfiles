@@ -5,8 +5,6 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-[[ -n "$DEBUG" ]] && echo zpreztorc
-
 #
 # General
 #
@@ -40,18 +38,17 @@ zstyle ':prezto:load' pmodule \
   'ssh' \
   'osx' \
   'docker' \
+  'fasd' \
   'contrib-kubernetes' \
-  'fasd'
-#    'node' \
-#    'python' \
-#    'ruby' \
+  'node'
 
 #
 # Editor
 #
 
 # Set the key mapping style to 'emacs' or 'vi'.
-zstyle ':prezto:module:editor' key-bindings 'emacs'
+#zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:editor' key-bindings 'vi'
 
 # Auto convert .... to ../..
 # zstyle ':prezto:module:editor' dot-expansion 'yes'
