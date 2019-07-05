@@ -10,10 +10,7 @@ VUNDLE_URI="https://github.com/VundleVim/Vundle.vim.git"
 
 # Utilities {{{
 logger() { echo; echo "$@"; echo; }
-
-have() {
-    type "$@" &>/dev/null
-}
+have() { command -v "$@" &>/dev/null; }
 
 sync_repo() {
     local repo_path="$1"
