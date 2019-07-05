@@ -1,8 +1,6 @@
-#!/usr/bin/env zsh
-#
+#!/usr/bin/env bash
 
-# Vi Mode {{{
-
+# Keybindings {{{
 # The default wait time after pressing ESC is 4 deciseconds (400 milliseconds). Let's change that to 1.
 export KEYTIMEOUT=1
 
@@ -17,8 +15,24 @@ zle-line-init zle-keymap-select() {
     # Redraw the current prompt.
     zle reset-prompt
 }
-zle -N zle-line-init
-zle -N zle-keymap-select
+
+# Emacs bindings mode is default for ZSH. Let's change that to vi.
+bindkey -v
+
+# Restore emacs functionality:
+bindkey '^p' up-history
+bindkey '^n' down-history
+bindkey '^?' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-search-backward  # Note that Ctrl-r still works as expected in vi normal mode.
+
+# History
+bindkey "^k" history-substring-search-up
+bindkey "^[k" history-substring-search-up
+bindkey "^[[1;3A" history-substring-search-up
+bindkey "^j" history-substring-search-down
+bindkey "^[j" history-substring-search-down
+bindkey "^[[1;3B" history-substring-search-down
 # }}}
 
 # Sudo {{{
@@ -33,35 +47,5 @@ sudo-command-line() {
     fi
 }
 zle -N sudo-command-line
-# }}}
-
-# Keybinds {{{
-# Key bindings for ZSH
-# Not listed here but also useful:
-# Alt/Ctrl+q: Push line.
-# Alt+e: Expand cmd path.
-# Alt+m: Copy previous word.
-
-# Emacs bindings mode is default for ZSH. Let's change that to vi.
-bindkey -v
-
-# Ctrl+s: Execute current command (or previous one if line editor is empty) with sudo.
 bindkey "^s" sudo-command-line
-
-# Alt+k/Up: Forward history search
-bindkey "^k" history-substring-search-up
-bindkey "^[k" history-substring-search-up
-bindkey "^[[1;3A" history-substring-search-up
-# Alt+j/Down: Backward history search
-bindkey "^j" history-substring-search-down
-bindkey "^[j" history-substring-search-down
-bindkey "^[[1;3B" history-substring-search-down
-
-# Restore emacs functionality:
-bindkey '^p' up-history
-bindkey '^n' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward  # Note that Ctrl-r still works as expected in vi normal mode.
 # }}}
