@@ -62,7 +62,7 @@
 [apply]
     whitespace = "fix"
 [core]
-    excludesfile = "~/.gitignore.global"
+	excludesfile = "~/.gitignore.global"
     #attributesfile = "~/.gitattributes"
     whitespace = "space-before-tab,-indent-with-non-tab,trailing-space"
     trustctime = "false"
@@ -88,8 +88,6 @@
     followTags = true
 [status]
     showUntrackedFiles = all
-[transfer]
-    fsckobjects = true
 [color "branch"]
     current = "yellow reverse"
     local = "yellow"
