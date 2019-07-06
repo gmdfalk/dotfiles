@@ -35,7 +35,7 @@ NODE_VERSION_CURRENT=v12.6.0
 NODE_VERSION_LTS=v8.16.0
 BASE_PACKAGES=(
     ctags git git-lfs wrk rcm reattach-to-user-namespace the_silver_searcher watchman hub
-    bash bash-completion2 zsh zsh-completions python2 python3
+    bash bash-completion2 zsh zsh-completions zsh-syntax-highlighting python2 python3
     coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc unzip curl wget moreutils findutils gnu-sed
     gnupg ffmpeg cloc jq htop ncdu nginx sloccount telnet tmux wgetpaste
     irssi httpie dos2unix vim neovim grep openssh screen php gmp
