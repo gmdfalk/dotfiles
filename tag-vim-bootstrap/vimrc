@@ -411,6 +411,8 @@ endif
 "" Copy/Paste/Cut
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
+else
+  set clipboard^=unnamed,unnamedplus " Use a cross-platform value (works on macOS)
 endif
 
 noremap YY "+y<CR>
