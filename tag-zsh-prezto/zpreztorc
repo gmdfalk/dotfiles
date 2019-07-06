@@ -82,8 +82,8 @@ zstyle ':prezto:module:autosuggestions:color' found 'fg=110'
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vi_mode status root_indicator background_jobs time)
-POWERLEVEL9K_VI_INSERT_MODE_STRING=""
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_VI_INSERT_MODE_STRING=""
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zpreztorc.local" ]] && . "${HOME}/.zpreztorc.local"
