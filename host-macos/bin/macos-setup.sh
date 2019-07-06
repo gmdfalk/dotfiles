@@ -10,7 +10,7 @@ Usage:
 
 Arguments:
   configure         Configures OSX with sane defaults based on https://mths.be/macos.
-  install [<arg>]   Installs packages, either all of them or one of 'backend', 'frontend' or 'gui'.
+  install [<arg>]   Installs brew packages, e.g. 'base', 'backend', 'frontend' or 'gui'. Defaults to all packages.
 
 EOF
     exit 127
@@ -43,7 +43,7 @@ BASE_PACKAGES=(
     imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
 )
 BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark)
-FRONTEND_PACKAGES=(node nvm)
+FRONTEND_PACKAGES=(ruby cmake node nvm)
 BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
 BACKEND_CASK_PACKAGES=(minikube robo-3t dbeaver-community)
 GUI_CASK_PACKAGES=(firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements)
@@ -75,12 +75,12 @@ install_asdf_language() {
   fi
 }
 
-errorout() {
-    echo "ERROR: $@" && exit 1
+exit_with() {
+    echo "$@" && exit 1
 }
 
 ctrl_c() {
-    errorout "Cancelled"
+    exit_with "ERROR: Cancelled"
 }
 # }}}
 
@@ -1087,8 +1087,11 @@ install_backend_packages() {
         sdk install java $JAVA_VERSION_CURRENT
         sdk install java $JAVA_VERSION_LTS
         sdk install maven
+        sdk install gradle
         sdk install groovy
         sdk install kotlin
+        sdk install scala
+        sdk install sbt
     fi
 }
 
@@ -1096,6 +1099,16 @@ install_frontend_packages() {
     for package in "${FRONTEND_PACKAGES[@]}"; do
        brew install ${package}
     done
+
+    #xcode-select --install
+    xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+    #npm install -g ionic@3.17.0 cordova@7.1.0 typescript@2.3.4 ios-sim ios-deploy @ionic/cli-plugin-proxy@1.5.5
+    npm i -g cordova@8.1.2 ionic typescript ios-sim ios-deploy @ionic/cli-plugin-proxy
+
+    gem install xcodeproj bundle
+    bundle update
+    bundle install
 
     if [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
         . "/usr/local/opt/nvm/nvm.sh" &&
@@ -1115,7 +1128,7 @@ install_all_packages() {
 install_packages() {
     install_homebrew
     case "$1" in
-        '') install_all_packages;;
+        '' | all) install_all_packages;;
         base) install_base_packages;;
         backend) install_backend_packages;;
         frontend) install_frontend_packages;;
@@ -1130,6 +1143,7 @@ main() {
     case "$1" in
         configure) configure_macos;;
         install) shift; install_packages "$@";;
+        version|--version) exit_with "0.1.0";;
         *) usage;;
     esac
 }
