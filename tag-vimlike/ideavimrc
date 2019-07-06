@@ -43,13 +43,11 @@ nnoremap gO O<Esc>j
 " from http://vimbits.com/bits/356
 nnoremap U <C-r>
 
-inoremap ö <Esc>
-
 " Clear search
 noremap <leader>n :nohls<CR>
 
 " Quickly switch to last buffer
-nnoremap <leader><Space> :e#<CR>
+"nnoremap <leader><Space> :e#<CR>
 
 " Split window vertically or horizontally *and* switch to the new split!
 nnoremap <silent> <leader>hs :split<CR>
@@ -60,8 +58,6 @@ nnoremap <silent> <leader>sc :close<CR>
 
 noremap <F1> <Esc>
 inoremap <F1> <Esc>
-
-nnoremap Q @@
 
 map <leader>rr :source ~/.ideavimrc<CR>
 
