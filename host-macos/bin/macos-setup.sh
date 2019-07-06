@@ -12,7 +12,10 @@ Usage:
 
 Arguments:
   configure         Configures OSX with sane defaults based on https://mths.be/macos.
-  install [<arg>]   Installs brew packages, e.g. 'base', 'backend', 'frontend' or 'gui'. Defaults to all packages.
+  install [<arg>]   Installs brew packages, e.g. 'base', 'asdf', 'backend', 'frontend' or 'gui'. Defaults to all packages.
+
+Examples:
+  $0 install backend
 
 EOF
     exit 127
