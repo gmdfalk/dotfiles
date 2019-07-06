@@ -3,29 +3,37 @@
 zstyle ':prezto:*:*' color 'yes'                       # Color output (auto set to 'no' on dumb terminals).
 zstyle ':prezto:load' pmodule-dirs $HOME/.zprezto-contrib   # Set the Zsh modules to load (man zshmodules).
 zstyle ':prezto:load' zfunction 'zargs' 'zmv'          # Set the Zsh functions to load (man zshcontrib).
+zstyle ':prezto:load' zmodule 'attr' 'stat'
 
 # Set the Prezto modules to load (browse modules). The order matters.
 zstyle ':prezto:load' pmodule \
-  'completion' \
-  'syntax-highlighting' \
   'environment' \
   'terminal' \
   'editor' \
   'history' \
-  'history-substring-search' \
   'directory' \
   'spectrum' \
   'utility' \
-  'prompt' \
-  'git' \
   'ssh' \
+  'gpg' \
+  'completion' \
+  'pacman' \
+  'homebrew' \
   'osx' \
+  'command-not-found' \
+  'node' \
+  'ruby' \
+  'haskell' \
+  'git' \
   'docker' \
   'fasd' \
-  'node' \
-  'python' \
   'contrib-clipboard' \
-  'contrib-kubernetes'
+  'contrib-kubernetes' \
+  'syntax-highlighting' \
+  'history-substring-search' \
+  'autosuggestions' \
+  'prompt'
+  #'python' \
 
 zstyle ':prezto:module:editor' key-bindings 'vi'
 zstyle ':prezto:module:editor' dot-expansion 'yes' # Auto convert .... to ../..
@@ -42,12 +50,12 @@ zstyle ':prezto:module:prompt' theme 'powerlevel10k' # Set to 'random' or 'off'.
 # zstyle ':prezto:module:screen:auto-start' remote 'yes' # Auto start a session when Zsh is launched in a SSH connection.
 zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa_work' 'id_rsa_private' # Set the SSH identities to load into the agent.
 
-#zstyle ':prezto:module:syntax-highlighting' highlighters \
-#   'main' \
-#   'brackets' \
-#   'pattern' \
-#   'cursor' \
-#   'root'
+zstyle ':prezto:module:syntax-highlighting' highlighters \
+   'main' \
+   'brackets' \
+   'pattern' \
+   'cursor' \
+   'root'
 
 #zstyle ':prezto:module:syntax-highlighting' styles \
 #  'builtin' 'bg=blue' \
@@ -62,13 +70,20 @@ zstyle ':prezto:module:terminal' auto-title 'yes' # Auto set the tab and window 
 zstyle ':prezto:module:tmux:iterm' integrate 'yes' # Integrate with iTerm2.
 zstyle ':prezto:module:utility' safe-ops no # Don't map rm to rm -i
 
-zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
-zstyle ':prezto:module:python' conda-init 'on'
+zstyle ':prezto:module:prompt' pwd-length 'short' # Set the working directory prompt display length, e.g. 'long'. Default: 'short'
+zstyle ':prezto:module:prompt' show-return-val 'yes' # Set the prompt to display the return code along with an indicator for non-zero return codes. This is not supported by all prompts.
+zstyle ':prezto:module:autosuggestions' color 'yes'
+zstyle ':prezto:module:autosuggestions:color' found 'fg=110'
+
+#zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
+#zstyle ':prezto:module:python:virtualenv' initialize 'yes'
+#zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
+#zstyle ':prezto:module:python' conda-init 'on'
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vi_mode status root_indicator background_jobs time)
 POWERLEVEL9K_VI_INSERT_MODE_STRING=""
-
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zpreztorc.local" ]] && . "${HOME}/.zpreztorc.local"
