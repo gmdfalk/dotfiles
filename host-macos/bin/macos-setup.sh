@@ -4,6 +4,7 @@ SCRIPT_VERSION=0.2.0
 # Docs {{{
 usage() {
     cat << EOF
+
 MacOS Setup.
 
 Usage:
@@ -35,14 +36,14 @@ BASE_PACKAGES=(
     hydra john knock netpbm nmap pngcheck socat sqlmap tcpflow tcpreplay tcptrace ucspi-tcp xpdf xz ack
     imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
 )
-BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark "caskroom/fonts/font-meslo-for-powerline")
 FRONTEND_PACKAGES=(ruby cmake node nvm)
 BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
-BACKEND_CASK_PACKAGES=(minikube robo-3t dbeaver-community)
-GUI_CASK_PACKAGES=(firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements)
-OPTIONAL_PACKAGES=(
-    anaconda  # Python/R data science platform, ~3GB
-    jupyter # Python data science notebook
+GUI_PACKAGES=(
+    firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements
+    adoptopenjdk ngrok wireshark "caskroom/fonts/font-meslo-for-powerline"
+    minikube robo-3t dbeaver-community
+    #anaconda  # Python/R data science platform, ~3GB
+    #jupyter # Python data science notebook
 )
 ASDF_PACKAGES=(ruby python kubectl helm minikube fluxctl haskell golang)
 SDKMAN_PACKAGES=("java:11.0.3-zulu" "java:8.0.212-zulu" maven gradle groovy kotlin scala sbt)
@@ -719,7 +720,7 @@ EOD
     defaults write com.apple.Terminal ShowLineMarks -int 0
 
     # Install the Solarized Dark theme for iTerm
-    open "${HOME}/init/Solarized Dark.itermcolors"
+    [ -s "${HOME}/init/Solarized Dark.itermcolors" ] && open "${HOME}/init/Solarized Dark.itermcolors"
 
     # Don’t display the annoying prompt when quitting iTerm
     defaults write com.googlecode.iterm2 PromptOnQuit -bool false
@@ -993,6 +994,9 @@ update_homebrew() {
         log "Homebrew not found. Installing..."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
+    if ! have brew; then
+        exit_with "ERROR: Could not find or install homebrew."
+    fi
     brew tap bramstein/webfonttools
     brew tap thoughtbot/formulae
     brew tap homebrew/services
@@ -1005,11 +1009,8 @@ update_homebrew() {
 # Compare https://github.com/mathiasbynens/dotfiles/blob/master/brew.sh
 install_base_packages() {
     BREW_PREFIX=$(brew --prefix)
+    update_homebrew
 
-    log "Installing base cask packages: ${BASE_CASK_PACKAGES[@]}"
-    for caskPackage in "${BASE_CASK_PACKAGES[@]}"; do
-       brew cask install ${caskPackage}
-    done
     log "Installing base packages: ${BASE_PACKAGES[@]}"
     for package in "${BASE_PACKAGES[@]}"; do
        brew install ${package}
@@ -1019,16 +1020,19 @@ install_base_packages() {
 
 #    if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
     if [[ "$SHELL" != */bin/zsh ]]; then
+      log "Changing default shell to ZSH."
       echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells;
       chsh -s "${BREW_PREFIX}/bin/zsh";
     fi
 
     if [[ -s "/usr/local/bin/python3" ]]; then
+        log "Switching to Python3 as system default."
         unlink /usr/local/bin/python
         ln -s /usr/local/bin/python3 /usr/local/bin/python
     fi
 
     if have gem; then
+        log "Updating ruby gems and bundles"
         gem update --system
         number_of_cores=$(sysctl -n hw.ncpu)
         bundle config --global jobs $((number_of_cores - 1))
@@ -1040,19 +1044,11 @@ install_base_packages() {
 }
 
 install_gui_packages() {
-    log "Installing GUI packages: ${GUI_CASK_PACKAGES[@]}"
-    for package in "${GUI_CASK_PACKAGES[@]}"; do
+    log "Installing GUI packages: ${GUI_PACKAGES[@]}"
+    for package in "${GUI_PACKAGES[@]}"; do
        brew cask install ${package}
     done
     log "Finished installing GUI packages"
-}
-
-install_optional_packages() {
-    log "Installing optional packages: ${OPTIONAL_PACKAGES[@]}"
-    for package in "${OPTIONAL_PACKAGES[@]}"; do
-       brew cask install ${package}
-    done
-    log "Finished installing optional packages"
 }
 
 install_backend_packages() {
@@ -1060,11 +1056,6 @@ install_backend_packages() {
     for package in "${BACKEND_PACKAGES[@]}"; do
        brew install ${package}
     done
-    log "Installing backend cask packages: ${BACKEND_CASK_PACKAGES[@]}"
-    for caskPackage in "${BACKEND_CASK_PACKAGES[@]}"; do
-       brew cask install ${caskPackage}
-    done
-
     log "Finished installing backend packages"
 }
 
@@ -1097,14 +1088,13 @@ install_all_packages() {
 }
 
 install_packages() {
-    update_homebrew
+    log "Installing packages: $@"
     case "$1" in
         ''| all) install_all_packages;;
         base) install_base_packages;;
         backend) install_base_packages; install_backend_packages;;
         frontend) install_base_packages; install_frontend_packages;;
-        gui) install_gui_packages;;
-        opt|optional) install_optional_packages;;
+        gui) update_homebrew; install_gui_packages;;
         *) usage;;
     esac
 }
@@ -1234,8 +1224,8 @@ install_environments() {
 perform_full_setup() {
     log "Performing a full system setup. This will require sudo privileges and might take up to 30 minutes."
     configure_system
-    install_packages
-    install_environments
+    install_packages all
+    install_environments all
     log "Finished the full system setup. You will need to reboot your system for all changes to take effect."
 }
 # }}}
