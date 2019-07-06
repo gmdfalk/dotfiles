@@ -33,21 +33,20 @@ JAVA_VERSION_LTS=8.0.212-zulu
 NODE_VERSION_CURRENT=v12.6.0
 NODE_VERSION_LTS=v8.16.0
 BASE_PACKAGES=(
-    "--HEAD universal-ctags/universal-ctags/universal-ctags"
-    wrk rcm reattach-to-user-namespace the_silver_searcher watchman hub
+    ctags git git-lfs wrk rcm reattach-to-user-namespace the_silver_searcher watchman hub
     bash zsh python2 python3 bash-completion2
     coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc unzip curl wget moreutils findutils gnu-sed
     gnupg ffmpeg cloc jq htop ncdu nginx sloccount telnet tmux wgetpaste
     irssi httpie dos2unix vim neovim grep openssh screen php gmp
     sfnt2woff sfnt2woff-zopfli woff2 aircrack-ng bfg binutils binwalk cifer dex2jar dns2tcp fcrackzip foremost hashpump
     hydra john knock netpbm nmap pngcheck socat sqlmap tcpflow tcpreplay tcptrace ucspi-tcp xpdf xz ack
-    git git-lfs imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
+    imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
 )
 BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark)
 FRONTEND_PACKAGES=(node nvm)
 BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
 BACKEND_CASK_PACKAGES=(minikube robo-3t dbeaver-community)
-GUI_PACKAGES=(firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver)
+GUI_CASK_PACKAGES=(firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements)
 ASDF_LANGUAGES=() #ruby python nodejs kubectl helm minikube fluxctl)
 
 
@@ -1020,9 +1019,9 @@ install_homebrew() {
     if ! have brew; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
+    brew tap "bramstein/webfonttools"
     brew tap "thoughtbot/formulae"
     brew tap "homebrew/services"
-    brew tap "universal-ctags/universal-ctags"
     brew tap "caskroom/cask"
     brew update
     brew upgrade
@@ -1031,7 +1030,6 @@ install_homebrew() {
 # Compare https://github.com/mathiasbynens/dotfiles/blob/master/brew.sh
 install_base_packages() {
     BREW_PREFIX=$(brew --prefix)
-    brew tap bramstein/webfonttools
 
     for caskPackage in "${BASE_CASK_PACKAGES[@]}"; do
        brew install ${caskPackage}
@@ -1070,8 +1068,8 @@ install_base_packages() {
 }
 
 install_gui_packages() {
-    for package in "${GUI_PACKAGES[@]}"; do
-       brew install ${package}
+    for caskPackage in "${GUI_CASK_PACKAGES[@]}"; do
+       brew cask install ${caskPackage}
     done
 }
 
