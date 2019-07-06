@@ -16,7 +16,8 @@
 zstyle ':prezto:*:*' color 'yes'
 
 # Set the Zsh modules to load (man zshmodules).
-# zstyle ':prezto:load' zmodule 'attr' 'stat'
+zstyle ':prezto:load' pmodule-dirs $HOME/.zprezto-contrib
+
 
 # Set the Zsh functions to load (man zshcontrib).
 zstyle ':prezto:load' zfunction 'zargs' 'zmv'
@@ -165,6 +166,9 @@ zstyle ':prezto:module:prompt' theme 'steeef'
 
 # Integrate with iTerm2.
 # zstyle ':prezto:module:tmux:iterm' integrate 'yes'
+
+# Don't map rm to rm -i
+zstyle ':prezto:module:utility' safe-ops no
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zpreztorc.local" ]] && . "${HOME}/.zpreztorc.local"
