@@ -7,7 +7,7 @@ usage() {
 MacOS Setup.
 
 Usage:
-  $0 (all | system | packages [<backend>|<frontend>|<gui>] | env [<asdf>|<nvm>|<sdkman>])
+  $0 ( all | system | packages [<backend>|<frontend>|<gui>] | env [<asdf>|<nvm>|<sdkman>] )
 
 Arguments:
   all               Perform a complete setup, i.e. configure macOS, install all packages and set up the dev environment.
