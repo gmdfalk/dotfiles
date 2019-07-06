@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SCRIPT_VERSION=0.1.0
 
 usage() {
     cat << EOF
@@ -34,7 +35,7 @@ NODE_VERSION_CURRENT=v12.6.0
 NODE_VERSION_LTS=v8.16.0
 BASE_PACKAGES=(
     ctags git git-lfs wrk rcm reattach-to-user-namespace the_silver_searcher watchman hub
-    bash zsh python2 python3 bash-completion2
+    bash bash-completion2 zsh zsh-completions python2 python3
     coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc unzip curl wget moreutils findutils gnu-sed
     gnupg ffmpeg cloc jq htop ncdu nginx sloccount telnet tmux wgetpaste
     irssi httpie dos2unix vim neovim grep openssh screen php gmp
@@ -42,7 +43,7 @@ BASE_PACKAGES=(
     hydra john knock netpbm nmap pngcheck socat sqlmap tcpflow tcpreplay tcptrace ucspi-tcp xpdf xz ack
     imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
 )
-BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark)
+BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark font-meslo-for-powerline)
 FRONTEND_PACKAGES=(ruby cmake node nvm)
 BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
 BACKEND_CASK_PACKAGES=(minikube robo-3t dbeaver-community)
@@ -1019,10 +1020,11 @@ install_homebrew() {
     if ! have brew; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
-    brew tap "bramstein/webfonttools"
-    brew tap "thoughtbot/formulae"
-    brew tap "homebrew/services"
-    brew tap "caskroom/cask"
+    brew tap bramstein/webfonttools
+    brew tap thoughtbot/formulae
+    brew tap homebrew/services
+    brew tap caskroom/cask
+    brew tap caskroom/fonts
     brew update
     brew upgrade
 }
@@ -1143,7 +1145,7 @@ main() {
     case "$1" in
         configure) configure_macos;;
         install) shift; install_packages "$@";;
-        version|--version) exit_with "0.1.0";;
+        version|--version) exit_with ${SCRIPT_VERSION};;
         *) usage;;
     esac
 }
