@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# Admin/Dev {{{
+alias g=git
+alias raw='grep -Ev "^\s*(;|#|$)"'
+psf() { ps aux | grep "$@" | grep -v grep; }
+wgp() { wgetpaste -X "$@"; }
+debug() { bash -x $(which "$1") "${@:1}"; }
+#sprunge() { curl -F 'sprunge=<-' http://sprunge.us }
+myip() { curl ipinfo.io; }
+speedtest() { curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -; }
+
 ff() { find . 2>/dev/null | grep -is "$@"; }
 ffc() { find . -type f 2>/dev/null | xargs grep -is "$@"; }
 ffp() { find $(sed 's/:/ /g' <<< "${PATH}") 2>/dev/null | grep -is "$@"; }
@@ -24,7 +34,9 @@ sanitize() {
     chmod -R u=rwX,go=rX "$@"
     chown -R ${USER}:users "$@"
 }
+# }}}
 
+# Media {{{
 # Count down (if argument is given) or up and continually print progress into the same line.
 # Usage: count [<amount>[<unit>]].
 # Example: count 3 (seconds is default); count 1h && echo "Wow, that took a while"
@@ -59,8 +71,6 @@ count() {
     echo
 }
 
-
-
 # From https://zxq9.com/archives/795:
 #YY-MM-DD_hh:mm:ss             | date +%F_%T                | 2013-05-17_10:16:09
 #YYMMDD_hhmmss                 | date +%Y%m%d_%H%M%S        | 20130517_101609
@@ -90,7 +100,6 @@ timestamp() {
     echo "${date}"
 }
 
-# Notes {{{
 note() { # Write a note to a target file
     local target=$1
     [[ -f "${target}" ]] || touch "${target}"

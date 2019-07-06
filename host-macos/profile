@@ -4,7 +4,7 @@ BASH_DIR="$HOME/.bash"
 ZSH_DIR="$HOME/.zsh"
 
 # Use BASH_SCRIPTS to load modules from $BASH_DIR/scripts in the order specified.
-BASH_SCRIPTS="common dev proxy util"
+BASH_SCRIPTS="common proxy util macos"
 ZSH_SCRIPTS="common keys navigation"
 
 [ -s "$BASH_DIR/init.sh" ] && . "$BASH_DIR/init.sh"

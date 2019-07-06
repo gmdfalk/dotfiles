@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-SCRIPT_VERSION=0.1.0
+SCRIPT_VERSION=0.1.1
 
+# Docs {{{
 usage() {
     cat << EOF
 MacOS Setup.
 
 Usage:
   $0 configure
-  $0 install [<base>|<backend>|<frontend>|<gui>]
+  $0 install [<base>|<backend>|<frontend>|<gui>|<asdf>]
 
 Arguments:
   configure         Configures OSX with sane defaults based on https://mths.be/macos.
@@ -28,7 +29,9 @@ All set. If you haven't done so already, please append the following to your ~/.
 
 EOF
 }
+# }}}
 
+# Config {{{
 JAVA_VERSION_CURRENT=11.0.3-zulu
 JAVA_VERSION_LTS=8.0.212-zulu
 NODE_VERSION_CURRENT=v12.6.0
@@ -48,33 +51,14 @@ FRONTEND_PACKAGES=(ruby cmake node nvm)
 BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
 BACKEND_CASK_PACKAGES=(minikube robo-3t dbeaver-community)
 GUI_CASK_PACKAGES=(firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements)
-ASDF_LANGUAGES=() #ruby python nodejs kubectl helm minikube fluxctl)
-
-
+ASDF_LANGUAGES=(ruby python kubectl helm minikube fluxctl haskell golang)
+OPTIONAL_PACKAGES=(
+    anaconda  # Python/R data science platform, ~3GB
+    jupyter # Python data science notebook
+)
+# }}}
 # Utilities {{{
 have() { command -v "$@" &>/dev/null; }
-
-add_or_update_asdf_plugin() {
-  local name="$1"
-  local url="$2"
-
-  if ! asdf plugin-list | grep -Fq "$name"; then
-    asdf plugin-add "$name" "$url"
-  else
-    asdf plugin-update "$name"
-  fi
-}
-
-install_asdf_language() {
-  local language="$1"
-  local version
-  version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
-
-  if ! asdf list "$language" | grep -Fq "$version"; then
-    asdf install "$language" "$version"
-    asdf global "$language" "$version"
-  fi
-}
 
 exit_with() {
     echo "$@" && exit 1
@@ -1015,7 +999,7 @@ EOD
 }
 # }}}
 
-# Install {{{
+# Packages {{{
 install_homebrew() {
     if ! have brew; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -1038,12 +1022,6 @@ install_base_packages() {
     done
     for package in "${BASE_PACKAGES[@]}"; do
        brew install ${package}
-    done
-
-    brew install asdf
-    for language in "${ASDF_LANGUAGES[@]}"; do
-        add_or_update_asdf_plugin ${language}
-        install_asdf_language ${language}
     done
 
     ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
@@ -1135,12 +1113,46 @@ install_packages() {
         backend) install_backend_packages;;
         frontend) install_frontend_packages;;
         gui) install_gui_packages;;
+        asdf|languages) install_asdf_languages;;
         *) usage;;
     esac
     print_version_manager_info
 }
 # }}}
 
+# ASDF {{{
+add_or_update_asdf_plugin() {
+  local name="$1"
+  local url="$2"
+
+  if ! asdf plugin-list | grep -Fq "$name"; then
+    asdf plugin-add "$name" "$url"
+  else
+    asdf plugin-update "$name"
+  fi
+}
+
+install_asdf_language() {
+  local language="$1"
+  local version
+  version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
+
+  if ! asdf list "$language" | grep -Fq "$version"; then
+    asdf install "$language" "$version"
+    asdf global "$language" "$version"
+  fi
+}
+
+install_asdf_languages() {
+    brew install asdf
+    for language in "${ASDF_LANGUAGES[@]}"; do
+        add_or_update_asdf_plugin ${language}
+        install_asdf_language ${language}
+    done
+}
+# }}}
+
+# Main {{{
 main() {
     case "$1" in
         configure) configure_macos;;
@@ -1149,6 +1161,7 @@ main() {
         *) usage;;
     esac
 }
+# }}}
 
 trap ctrl_c INT
 main "$@"
