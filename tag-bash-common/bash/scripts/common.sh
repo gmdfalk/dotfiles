@@ -17,23 +17,15 @@ if [[ -z "${VISUAL}" ]]; then
     have vim && VISUAL="vim -p" || VISUAL="vi"
 fi
 EDITOR="${VISUAL}"
-
-#if [[ ! -d "$TMPDIR" ]]; then
-#    TMPDIR="/tmp"
-#    mkdir -p -m 700 "${TMPDIR}"
-#fi
-#
-## GUI
-#[[ -n "$DISPLAY" ]] && BROWSER="chromium" || BROWSER="lynx"
-#
-#[[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
-#export BROWSER \
-#       EDITOR \
-#       LESS \
-#       PAGER \
-#       PATH \
-#       TMPDIR \
-#       VISUAL
+[[ -n "$DISPLAY" ]] && BROWSER="chromium" || BROWSER="lynx"
+[[ -z "$LANG" ]] && export LANG="en_US.UTF-8"
+export BROWSER \
+       EDITOR \
+       LESS \
+       PAGER \
+       PATH \
+       TMPDIR \
+       VISUAL
 # }}}
 
 # Shortcuts {{{
@@ -42,18 +34,16 @@ alias cl=clear
 alias h="history"
 alias f="find"
 alias k="kill"
-alias m="${VIDEO}"
 alias s="sudo "
 alias v="${VISUAL}"
 alias x=exit
 # }}}
 
+# File Manager {{{
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-
-# File Manager {{{
 [[ "${OSTYPE}" == "linux-gnu" ]] && alias ls="ls --group-directories-first --color=auto --time-style=long-iso"
 alias ll="ls -lh"
 alias la="ls -lAh"
