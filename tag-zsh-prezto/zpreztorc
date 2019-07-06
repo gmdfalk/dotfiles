@@ -23,6 +23,7 @@ zstyle ':prezto:load' pmodule \
   'docker' \
   'fasd' \
   'node' \
+  'python' \
   'contrib-clipboard' \
   'contrib-kubernetes'
 
@@ -61,9 +62,13 @@ zstyle ':prezto:module:terminal' auto-title 'yes' # Auto set the tab and window 
 zstyle ':prezto:module:tmux:iterm' integrate 'yes' # Integrate with iTerm2.
 zstyle ':prezto:module:utility' safe-ops no # Don't map rm to rm -i
 
+zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
+zstyle ':prezto:module:python' conda-init 'on'
+
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vi_mode status root_indicator background_jobs time)
 POWERLEVEL9K_VI_INSERT_MODE_STRING=""
+
 
 # Source optional local configuration file.
 [[ -f "${HOME}/.zpreztorc.local" ]] && . "${HOME}/.zpreztorc.local"
