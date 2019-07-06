@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCRIPT_VERSION=0.1.1
+SCRIPT_VERSION=0.2.0
 
 # Docs {{{
 usage() {
@@ -7,38 +7,24 @@ usage() {
 MacOS Setup.
 
 Usage:
-  $0 configure
-  $0 install [<base>|<backend>|<frontend>|<gui>|<asdf>]
+  $0 (all | system | packages [<backend>|<frontend>|<gui>] | env [<asdf>|<nvm>|<sdkman>])
 
 Arguments:
-  configure         Configures OSX with sane defaults based on https://mths.be/macos.
-  install [<arg>]   Installs brew packages, e.g. 'base', 'asdf', 'backend', 'frontend' or 'gui'. Defaults to all packages.
+  all               Perform a complete setup, i.e. configure macOS, install all packages and set up the dev environment.
+  system            Configures the macOS system with sane defaults.
+  packages [<grp>]  Installs package groups, e.g. 'backend' or 'frontend'. Defaults to all.
+  env [<env>]       Installs environment managers, e.g. 'asdf', 'nvm' or 'sdkman'. Defaults to all.
 
 Examples:
-  $0 install backend
+  $0 all
+  $0 env sdkman
 
 EOF
     exit 127
 }
-
-print_version_manager_info() {
-    cat <<'EOF'
-
-All set. If you haven't done so already, please append the following to your ~/.bashrc:
-[ -s "$HOME/.asdf/asdf.sh" ] && . $HOME/.asdf/asdf.sh && . $HOME/.asdf/completions/asdf.bash
-[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && export SDKMAN_DIR="$HOME/.sdkman" && . "$HOME/.sdkman/bin/sdkman-init.sh"
-[ -s "$HOME/.nvm/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -n "${JAVA_HOME}" ] || export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-
-EOF
-}
 # }}}
 
 # Config {{{
-JAVA_VERSION_CURRENT=11.0.3-zulu
-JAVA_VERSION_LTS=8.0.212-zulu
-NODE_VERSION_CURRENT=v12.6.0
-NODE_VERSION_LTS=v8.16.0
 BASE_PACKAGES=(
     ctags git git-lfs wrk rcm reattach-to-user-namespace the_silver_searcher watchman hub
     bash bash-completion2 zsh zsh-completions zsh-syntax-highlighting python2 python3
@@ -49,32 +35,30 @@ BASE_PACKAGES=(
     hydra john knock netpbm nmap pngcheck socat sqlmap tcpflow tcpreplay tcptrace ucspi-tcp xpdf xz ack
     imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
 )
-BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark font-meslo-for-powerline)
+BASE_CASK_PACKAGES=(adoptopenjdk ngrok wireshark "caskroom/fonts/font-meslo-for-powerline")
 FRONTEND_PACKAGES=(ruby cmake node nvm)
 BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
 BACKEND_CASK_PACKAGES=(minikube robo-3t dbeaver-community)
 GUI_CASK_PACKAGES=(firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements)
-ASDF_LANGUAGES=(ruby python kubectl helm minikube fluxctl haskell golang)
 OPTIONAL_PACKAGES=(
     anaconda  # Python/R data science platform, ~3GB
     jupyter # Python data science notebook
 )
+ASDF_PACKAGES=(ruby python kubectl helm minikube fluxctl haskell golang)
+SDKMAN_PACKAGES=("java:11.0.3-zulu" "java:8.0.212-zulu" maven gradle groovy kotlin scala sbt)
+NVM_PACKAGES=(v8.16.0 v12.6.0)
 # }}}
 # Utilities {{{
 have() { command -v "$@" &>/dev/null; }
-
-exit_with() {
-    echo "$@" && exit 1
-}
-
-ctrl_c() {
-    exit_with "ERROR: Cancelled"
-}
+log() { echo "$@"; }
+exit_with() { echo "$@" && exit 1; }
+ctrl_c() { exit_with "ERROR: Cancelled"; }
 # }}}
 
 # Configure {{{
 # Compare https://mths.be/macos
-configure_macos() {
+configure_system() {
+    log "Configuring macOS with sane system defaults"
     # Close any open System Preferences panes, to prevent them from overriding
     # settings we’re about to change
     osascript -e 'tell application "System Preferences" to quit'
@@ -998,13 +982,15 @@ EOD
         "iCal"; do
         killall "${app}" &> /dev/null
     done
-    echo "Done. Note that some of these changes require a logout/restart to take effect."
+    log "Finished configuring macOS. Some of the changes require a logout/restart to take effect."
 }
 # }}}
 
 # Packages {{{
-install_homebrew() {
+update_homebrew() {
+    log "Updating homebrew"
     if ! have brew; then
+        log "Homebrew not found. Installing..."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
     brew tap bramstein/webfonttools
@@ -1020,9 +1006,11 @@ install_homebrew() {
 install_base_packages() {
     BREW_PREFIX=$(brew --prefix)
 
+    log "Installing base cask packages: ${BASE_CASK_PACKAGES[@]}"
     for caskPackage in "${BASE_CASK_PACKAGES[@]}"; do
-       brew install ${caskPackage}
+       brew cask install ${caskPackage}
     done
+    log "Installing base packages: ${BASE_PACKAGES[@]}"
     for package in "${BASE_PACKAGES[@]}"; do
        brew install ${package}
     done
@@ -1048,37 +1036,40 @@ install_base_packages() {
 
     # Remove outdated versions from the cellar.
     brew cleanup
+    log "Finished installing base packages"
 }
 
 install_gui_packages() {
-    for caskPackage in "${GUI_CASK_PACKAGES[@]}"; do
-       brew cask install ${caskPackage}
+    log "Installing GUI packages: ${GUI_CASK_PACKAGES[@]}"
+    for package in "${GUI_CASK_PACKAGES[@]}"; do
+       brew cask install ${package}
     done
+    log "Finished installing GUI packages"
+}
+
+install_optional_packages() {
+    log "Installing optional packages: ${OPTIONAL_PACKAGES[@]}"
+    for package in "${OPTIONAL_PACKAGES[@]}"; do
+       brew cask install ${package}
+    done
+    log "Finished installing optional packages"
 }
 
 install_backend_packages() {
+    log "Installing backend packages: ${BACKEND_PACKAGES[@]}"
     for package in "${BACKEND_PACKAGES[@]}"; do
        brew install ${package}
     done
+    log "Installing backend cask packages: ${BACKEND_CASK_PACKAGES[@]}"
     for caskPackage in "${BACKEND_CASK_PACKAGES[@]}"; do
        brew cask install ${caskPackage}
     done
 
-    if ! have sdk; then
-        curl -s "https://get.sdkman.io" | bash
-        . "$HOME/.sdkman/bin/sdkman-init.sh"
-        sdk install java $JAVA_VERSION_CURRENT
-        sdk install java $JAVA_VERSION_LTS
-        sdk install maven
-        sdk install gradle
-        sdk install groovy
-        sdk install kotlin
-        sdk install scala
-        sdk install sbt
-    fi
+    log "Finished installing backend packages"
 }
 
 install_frontend_packages() {
+    log "Installing frontend packages: ${FRONTEND_PACKAGES[@]}"
     for package in "${FRONTEND_PACKAGES[@]}"; do
        brew install ${package}
     done
@@ -1093,37 +1084,61 @@ install_frontend_packages() {
     bundle update
     bundle install
 
-    if [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
-        . "/usr/local/opt/nvm/nvm.sh" &&
-        nvm install ${NODE_VERSION_CURRENT}
-        nvm install ${NODE_VERSION_LTS}
-        nvm alias default ${NODE_VERSION_LTS}
-    fi
+    log "Finished installing frontend packages"
 }
 
 install_all_packages() {
+    log "Installing all packages"
     install_base_packages
     install_backend_packages
     install_frontend_packages
     install_gui_packages
+    log "Finished installing all packages"
 }
 
 install_packages() {
-    install_homebrew
+    update_homebrew
     case "$1" in
-        '' | all) install_all_packages;;
+        ''| all) install_all_packages;;
         base) install_base_packages;;
-        backend) install_backend_packages;;
-        frontend) install_frontend_packages;;
+        backend) install_base_packages; install_backend_packages;;
+        frontend) install_base_packages; install_frontend_packages;;
         gui) install_gui_packages;;
-        asdf|languages) install_asdf_languages;;
+        opt|optional) install_optional_packages;;
         *) usage;;
     esac
-    print_version_manager_info
 }
 # }}}
 
-# ASDF {{{
+# Languages {{{
+install_sdkman_environment() {
+    if ! have sdk; then
+        log "Installing SDKMAN"
+        curl -s "https://get.sdkman.io" | bash
+    fi
+    . "$HOME/.sdkman/bin/sdkman-init.sh"
+    if have sdk; then
+        log "Installing SDKMAN packages: ${SDKMAN_PACKAGES[@]}"
+        for package in "${SDKMAN_PACKAGES[@]}"; do
+            IFS=: read -r package version <<< "${package}"
+            sdk install ${package} ${version}
+        done
+    else
+        log "ERROR: Could neither find nor install SDKMAN."
+    fi
+    print_sdkman_environment_info
+}
+install_nvm_environment() {
+    log "Installing NVM packages: ${NVM_PACKAGES[@]}"
+    if [[ -s "/usr/local/opt/nvm/nvm.sh" ]]; then
+        . "/usr/local/opt/nvm/nvm.sh" &&
+        for package in "${NVM_PACKAGES[@]}"; do
+            nvm install ${package}
+        done
+    fi
+    print_nvm_environment_info
+}
+
 add_or_update_asdf_plugin() {
   local name="$1"
   local url="$2"
@@ -1135,7 +1150,7 @@ add_or_update_asdf_plugin() {
   fi
 }
 
-install_asdf_language() {
+install_asdf_package() {
   local language="$1"
   local version
   version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
@@ -1146,20 +1161,92 @@ install_asdf_language() {
   fi
 }
 
-install_asdf_languages() {
+install_asdf_environment() {
+    log "Installing ASDF packages: ${ASDF_PACKAGES[@]}"
     brew install asdf
-    for language in "${ASDF_LANGUAGES[@]}"; do
-        add_or_update_asdf_plugin ${language}
-        install_asdf_language ${language}
+    for package in "${ASDF_PACKAGES[@]}"; do
+        log "Installing ASDF package: ${package}"
+        add_or_update_asdf_plugin ${package}
+        install_asdf_package ${package}
     done
+    log "Finished installing ASDF packages"
+    print_asdf_environment_info
+}
+
+install_all_environments() {
+    log "Installing all environments"
+    install_asdf_environment
+    install_nvm_environment
+    install_sdkman_environment
+    log "Finished installing all environments"
+    print_all_environments_info
+}
+
+print_all_environments_info() {
+    cat <<'EOF'
+
+All set. If you haven't done so already, please append the following to your ~/.bashrc:
+[ -s "$HOME/.asdf/asdf.sh" ] && . $HOME/.asdf/asdf.sh && . $HOME/.asdf/completions/asdf.bash
+[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && export SDKMAN_DIR="$HOME/.sdkman" && . "$HOME/.sdkman/bin/sdkman-init.sh"
+[ -s "$HOME/.nvm/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -n "${JAVA_HOME}" ] || export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+EOF
+}
+
+print_asdf_environment_info() {
+
+    cat <<'EOF'
+ASDF installed. Please append the following to your ~/.bashrc:
+[ -s "$HOME/.asdf/asdf.sh" ] && . $HOME/.asdf/asdf.sh && . $HOME/.asdf/completions/asdf.bash
+
+EOF
+}
+print_nvm_environment_info() {
+    cat <<'EOF'
+
+NVM installed. Please append the following to your ~/.bashrc:
+[ -s "$HOME/.nvm/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+EOF
+}
+print_sdkman_environment_info() {
+    cat <<'EOF'
+
+SDKMAN installed. Please append the following to your ~/.bashrc:
+[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && export SDKMAN_DIR="$HOME/.sdkman" && . "$HOME/.sdkman/bin/sdkman-init.sh"
+[ -n "${JAVA_HOME}" ] || export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+
+EOF
+}
+
+install_environments() {
+    case "$1" in
+        ''| all) install_all_environments;;
+        asdf) install_asdf_environment;;
+        nvm) install_nvm_environment;;
+        sdkman|sdk) install_sdkman_environment;;
+        *) usage;;
+    esac
+}
+# }}}
+
+# Full Setup {{{
+perform_full_setup() {
+    log "Performing a full system setup. This will require sudo privileges and might take up to 30 minutes."
+    configure_system
+    install_packages
+    install_environments
+    log "Finished the full system setup. You will need to reboot your system for all changes to take effect."
 }
 # }}}
 
 # Main {{{
 main() {
     case "$1" in
-        configure) configure_macos;;
-        install) shift; install_packages "$@";;
+        all) perform_full_setup;;
+        system) configure_system;;
+        packages) shift; install_packages "$@";;
+        env) shift; install_environments "$@";;
         version|--version) exit_with ${SCRIPT_VERSION};;
         *) usage;;
     esac
