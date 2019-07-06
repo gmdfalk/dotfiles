@@ -96,7 +96,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
 # Cygwin-Approved: pure, giddie, steeef
-zstyle ':prezto:module:prompt' theme 'steeef'
+zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 
 #
 # Ruby
