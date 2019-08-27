@@ -78,7 +78,6 @@
     verbose = True  # Available since git v2.9.
 [merge]
     log = "true"
-    ff = only
     conflictstyle = diff3
 [rebase]
     autoStash = true
