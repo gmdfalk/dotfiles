@@ -10,12 +10,11 @@ ZSH_SCRIPTS="common keys navigation"
 [ -s "$BASH_DIR/init.sh" ] && . "$BASH_DIR/init.sh"
 [ -s "$ZSH_DIR/init.sh" ] && . "$ZSH_DIR/init.sh"
 
-#export PATH="$HOME/bin:/usr/local/opt:$PATH"
-
 [ -s "$HOME/.asdf/asdf.sh" ] && . $HOME/.asdf/asdf.sh && . $HOME/.asdf/completions/asdf.bash
 [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && export SDKMAN_DIR="$HOME/.sdkman" && . "$HOME/.sdkman/bin/sdkman-init.sh"
 [ -s "$HOME/.nvm/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$HOME/.nvm/bash_completion" ] && . "$HOME/.nvm/bash_completion"  # This loads nvm bash_completion
-[ -n "${JAVA_HOME}" ] || export JAVA_HOME="$(/usr/libexec/java_home)"
+[ -n "$JAVA_HOME" ] || export JAVA_HOME="$(/usr/libexec/java_home)"
 
+#proxy_on
 
