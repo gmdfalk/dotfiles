@@ -5,6 +5,10 @@ Host *
   UseKeychain yes
   IdentityFile ~/.ssh/id_rsa
 
+Host github.com bitbucket.org
+    User serialoverflow
+    IdentityFile ~/.ssh/id_rsa_private
+
 Host *portos*.dvag.net
     User portos
     IdentityFile ~/.ssh/id_rsa_portos
@@ -13,10 +17,3 @@ Host *zob*.dvag.net
     User zob
     IdentityFile ~/.ssh/id_rsa_zob
 
-Host github.com
-    User serialoverflow
-    IdentityFile ~/.ssh/id_rsa_private
-
-Host bitbucket.com
-    User serialoverflow
-    IdentityFile ~/.ssh/id_rsa_bitbucket
