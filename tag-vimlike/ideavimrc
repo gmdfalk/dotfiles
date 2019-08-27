@@ -50,8 +50,8 @@ noremap <leader>n :nohls<CR>
 "nnoremap <leader><Space> :e#<CR>
 
 " Split window vertically or horizontally *and* switch to the new split!
-nnoremap <silent> <leader>hs :split<CR>
-nnoremap <silent> <leader>vs :vsplit<CR>
+nnoremap <silent> <leader>sh :split<CR>
+nnoremap <silent> <leader>sv :vsplit<CR>
 
 " Close the current window
 nnoremap <silent> <leader>sc :close<CR>
