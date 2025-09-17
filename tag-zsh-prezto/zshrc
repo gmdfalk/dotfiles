@@ -12,7 +12,9 @@ fi
 # }}}
 
 # {{{ Customizations here
-
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 # }}}
 
 # Source optional local configuration file.

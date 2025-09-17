@@ -47,5 +47,3 @@ bash-it enable plugin alias-completion \
 # Source optional local configuration file
 [[ -f "${BASH_SOURCE[0]}.local" ]] && . "${BASH_SOURCE[0]}.local"
 # }}}
-
-

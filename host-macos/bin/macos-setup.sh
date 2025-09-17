@@ -37,11 +37,11 @@ BASE_PACKAGES=(
     imagemagick lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli
 )
 FRONTEND_PACKAGES=(ruby cmake node nvm)
-BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm mongodb postgresql redis sonarqube sqlite terraform fluxctl)
+BACKEND_PACKAGES=(awscli azure-cli dnsmasq kubernetes-cli kubernetes-helm sqlite)
 GUI_PACKAGES=(
-    firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox microsoft-teams postman sourcetree the-unarchiver karabiner-elements
-    adoptopenjdk ngrok wireshark "caskroom/fonts/font-meslo-for-powerline"
-    minikube robo-3t dbeaver-community
+    firefox gimp google-chrome gpg-suite iterm2 jetbrains-toolbox postman the-unarchiver karabiner-elements
+    ngrok wireshark "caskroom/fonts/font-meslo-for-powerline"
+    dbeaver-community
     #anaconda  # Python/R data science platform, ~3GB
     #jupyter # Python data science notebook
 )
@@ -660,53 +660,6 @@ configure_system() {
     # Only use UTF-8 in Terminal.app
     defaults write com.apple.terminal StringEncodings -array 4
 
-    # Use a modified version of the Solarized Dark theme by default in Terminal.app
-    osascript <<EOD
-
-tell application "Terminal"
-
-    local allOpenedWindows
-    local initialOpenedWindows
-    local windowID
-    set themeName to "Solarized Dark xterm-256color"
-
-    (* Store the IDs of all the open terminal windows. *)
-    set initialOpenedWindows to id of every window
-
-    (* Open the custom theme so that it gets added to the list
-       of available terminal themes (note: this will open two
-       additional terminal windows). *)
-    do shell script "open '$HOME/init/" & themeName & ".terminal'"
-
-    (* Wait a little bit to ensure that the custom theme is added. *)
-    delay 1
-
-    (* Set the custom theme as the default terminal theme. *)
-    set default settings to settings set themeName
-
-    (* Get the IDs of all the currently opened terminal windows. *)
-    set allOpenedWindows to id of every window
-
-    repeat with windowID in allOpenedWindows
-
-        (* Close the additional windows that were opened in order
-           to add the custom theme to the list of terminal themes. *)
-        if initialOpenedWindows does not contain windowID then
-            close (every window whose id is windowID)
-
-        (* Change the theme for the initial opened terminal windows
-           to remove the need to close them in order for the custom
-           theme to be applied. *)
-        else
-            set current settings of tabs of (every window whose id is windowID) to settings set themeName
-        end if
-
-    end repeat
-
-end tell
-
-EOD
-
     # Enable “focus follows mouse” for Terminal.app and all X11 apps
     # i.e. hover over a window and start typing in it without clicking first
     #defaults write com.apple.terminal FocusFollowsMouse -bool true
@@ -1067,9 +1020,6 @@ install_frontend_packages() {
 
     #xcode-select --install
     xcode-select -s /Applications/Xcode.app/Contents/Developer
-
-    #npm install -g ionic@3.17.0 cordova@7.1.0 typescript@2.3.4 ios-sim ios-deploy @ionic/cli-plugin-proxy@1.5.5
-    npm i -g cordova@8.1.2 ionic typescript ios-sim ios-deploy @ionic/cli-plugin-proxy
 
     gem install xcodeproj bundle
     bundle update

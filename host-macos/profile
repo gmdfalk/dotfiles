@@ -1,3 +1,4 @@
+
 #!/usr/bin/env sh
 
 BASH_DIR="$HOME/.bash"
@@ -16,5 +17,5 @@ ZSH_SCRIPTS="common keys navigation"
 [ -s "$HOME/.nvm/bash_completion" ] && . "$HOME/.nvm/bash_completion"  # This loads nvm bash_completion
 [ -n "$JAVA_HOME" ] || export JAVA_HOME="$(/usr/libexec/java_home)"
 
-#proxy_on
-
+# Load any customizations like secrets that we don't want to commit
+[ -f "$HOME/.profile.local" ] && . "$HOME/.profile.local"
