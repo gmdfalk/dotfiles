@@ -1,4 +1,3 @@
-
 #!/usr/bin/env sh
 
 BASH_DIR="$HOME/.bash"
