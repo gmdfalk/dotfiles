@@ -27,8 +27,8 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'docker' \
   'fasd' \
-  'contrib-clipboard' \
-  'contrib-kubernetes' \
+  'clipboard' \
+  'kubernetes' \
   'syntax-highlighting' \
   'history-substring-search' \
   'autosuggestions' \
